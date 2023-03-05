@@ -1,14 +1,19 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    [SerializeField] private KeyCode sceneLoadKey;
+    [SerializeField] private KeyCode sceneLoadThemeFirstKey;
+    [SerializeField] private KeyCode sceneLoadThemeSecondey;
+    [SerializeField] private KeyCode sceneLoadThemeThirdKey;
 
     private void Start()
     {
-        sceneLoadKey = KeyCode.Space;
+        sceneLoadThemeFirstKey = KeyCode.F1;
+        sceneLoadThemeSecondey = KeyCode.F2;
+        sceneLoadThemeThirdKey = KeyCode.F3;
     }
 
     private void Update()
@@ -18,9 +23,17 @@ public class Test : MonoBehaviour
 
     private void SceneLoadTest()
     {
-        if (Input.GetKeyDown(sceneLoadKey))
+        if (Input.GetKeyDown(sceneLoadThemeFirstKey))
         {
-            SceneController.GetInstace.LoadSceneAsync("ThemeOne").Forget();
+            SceneController.GetInstance.LoadScene("ThemeFirst");
+        }
+        else if (Input.GetKeyDown(sceneLoadThemeSecondey))
+        {
+            SceneController.GetInstance.LoadScene("ThemeSecond");
+        }
+        else if (Input.GetKeyDown(sceneLoadThemeThirdKey))
+        {
+            SceneController.GetInstance.LoadScene("ThemeThird");
         }
     }
 }

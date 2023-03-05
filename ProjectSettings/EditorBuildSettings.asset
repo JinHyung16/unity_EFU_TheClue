@@ -12,6 +12,15 @@ EditorBuildSettings:
     path: Assets/Scenes/LoadingScene.unity
     guid: b98715c420f0e3a48bb39de67f4d4580
   - enabled: 1
-    path: Assets/Scenes/ThemeOne.unity
+    path: Assets/Scenes/ThemeFirst.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/ThemeSecond.unity
+    guid: 6f7cadeb7faa42e4680cd6ca0274ca41
+  - enabled: 1
+    path: Assets/Scenes/ThemeThird.unity
+    guid: 1482ac5b1d2a9be4eb898e58aa78fda8
+  - enabled: 1
+    path: Assets/Scenes/ScenarioScene.unity
+    guid: 43d6e75af3f940c42924c355bcfdf338
   m_configObjects: {}

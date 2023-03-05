@@ -1,47 +1,66 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class PlayerInputController : MonoBehaviour
 {
-    [SerializeField] private Transform playerTransform;
-    public Transform cameraViewTrans { private get; set; }
+    private PlayerMovementController playerMovementController;
 
-    private PlayerMovementController playerMovement;
+    [Header("Player Transform")]
+    [SerializeField] private Transform playerTransform;
+
+    public Transform cameraView { private get; set; }
+
     private void Start()
     {
-        playerMovement = GetComponent<PlayerMovementController>();
+        playerMovementController = GetComponentInChildren<PlayerMovementController>();
     }
 
     private void Update()
     {
-        InputMove();
-        InputMouse();
-    }
-
-    private void InputMove()
-    {
-        Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-        bool isMove = moveInput.magnitude != 0;
-        //animator.SetBool("IsMove", isMove);
-
-        if (isMove)
+        if (!GameManager.GetInstance.IsGamePause)
         {
-            //캐릭터 움직일 때 카메라가 바라보는 방향을 바라보게 수정
-            Vector3 lookForward = new Vector3(cameraViewTrans.forward.x, 0.0f, cameraViewTrans.forward.z).normalized;
-            Vector3 lookRight = new Vector3(cameraViewTrans.right.x, 0.0f, cameraViewTrans.right.z).normalized;
-            Vector3 moveDir = (lookForward * moveInput.y) + (lookRight * moveInput.x);
-
-            playerTransform.forward = lookForward; //player가 바라보는 방향과 카메라가 바라보는 방향 동일하게 설정
-            playerMovement.MoveDirection(moveDir);
+            InputMovementControl();
+            InputJumpControl();
+            InputMouseViewControl();
         }
     }
 
-    private void InputMouse()
+    private void InputMovementControl()
+    {
+        Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        
+        bool isMove = moveInput.magnitude != 0;
+        //animator.SetBool("IsMove", isMove);
+        if (isMove)
+        {
+            //Character -> Player & Camera (둘이 대등한) 구조이면 사용하기
+            /*
+            //캐릭터 움직일 때 카메라가 바라보는 방향을 바라보게 수정
+            Vector3 lookForward = new Vector3(cameraView.forward.x, 0.0f, cameraView.forward.z).normalized;
+            Vector3 lookRight = new Vector3(cameraView.right.x, 0.0f, cameraView.right.z).normalized;
+            Vector3 moveDir = (lookForward * moveInput.y) + (lookRight * moveInput.x);
+
+            playerTransform.forward = lookForward; //player가 바라보는 방향과 카메라가 바라보는 방향 동일하게 설정
+            */
+            playerMovementController.MoveDirection(moveInput);
+        }
+        
+    }
+
+    private void InputJumpControl()
+    {
+        if (Input.GetButtonDown("Jump"))
+        {
+            playerMovementController.JumpDirection(Vector3.up);
+        }
+    }
+
+
+    private void InputMouseViewControl()
     {
         Vector2 mousePos = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-        Vector3 cameraAngle = cameraViewTrans.rotation.eulerAngles;
+        Vector3 cameraAngle = cameraView.rotation.eulerAngles;
 
         //카메라가 수직으로 너무 회전하면 뒤집히는 문제 해결
         float rotateX = cameraAngle.x - mousePos.y;
@@ -59,6 +78,6 @@ public class PlayerInputController : MonoBehaviour
         }
         //마우스 좌우 움직임으로 카메라 좌우 움직임 제어, 마우스 상하 움직임으로 카메라 상하 움직임 제어
         //camera.x rotate하면 위 아래로 회전하고, camera.y rotate하면 좌우로 회전한다
-        cameraViewTrans.rotation = Quaternion.Euler(rotateX, cameraAngle.y + mousePos.x, cameraAngle.z);
+        cameraView.rotation = Quaternion.Euler(rotateX, cameraAngle.y + mousePos.x, cameraAngle.z);
     }
 }

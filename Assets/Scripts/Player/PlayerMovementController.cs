@@ -7,23 +7,40 @@ public class PlayerMovementController : MonoBehaviour
     [SerializeField] private GameSetUpData gameSetUpData;
 
     private Rigidbody playerRigidbody;
-
+    
     private Vector3 moveDirection;
+    private Vector3 jumpDirection;
+
     private float moveSpeed;
-    private float jumpSpeed;
+    private float jumpPower;
+
+    private bool isGround = false;
 
     private void Start()
     {
-        playerRigidbody = GetComponentInChildren<Rigidbody>();
+        if (gameSetUpData == null)
+        {
+            gameSetUpData = Resources.Load("Data/GameSetUpData") as GameSetUpData;
+        }
+        playerRigidbody = GetComponent<Rigidbody>();
 
         //bind player movement data
         this.moveSpeed = gameSetUpData.moveSpeed;
-        this.jumpSpeed = gameSetUpData.jumpPower;
+        this.jumpPower = gameSetUpData.jumpPower;
     }
 
     private void FixedUpdate()
     {
         Movement();
+        Jump();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Floor"))
+        {
+            isGround = true;
+        }
     }
 
     public void MoveDirection(Vector3 direction)
@@ -31,8 +48,22 @@ public class PlayerMovementController : MonoBehaviour
         moveDirection = direction;
     }
 
+    public void JumpDirection(Vector3 direction)
+    {
+        jumpDirection = direction;
+    }
+
     private void Movement()
     {
         playerRigidbody.velocity = moveDirection * moveSpeed;
+    }
+
+    private void Jump()
+    {
+        if (isGround)
+        {
+            playerRigidbody.AddForce(jumpDirection * jumpPower, ForceMode.Impulse);
+            isGround = false;
+        }
     }
 }

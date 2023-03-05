@@ -7,7 +7,7 @@ namespace HughGenerics
     public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         private static T instance;
-        public static T GetInstace
+        public static T GetInstance
         {
             get
             {

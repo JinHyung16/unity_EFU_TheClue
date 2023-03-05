@@ -2,69 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using HughGenerics;
 using Cysharp.Threading.Tasks;
+using HughGenerics;
 
 public class SceneController : Singleton<SceneController>
 {
-    [SerializeField] private Canvas loadingCanvas;
+    public string CurSceneName { get; private set; } //현재 내가 머물고있는 Scene이름
+    public string LoadSceneName { get; private set; } //내가 이동할 Scene이름
 
-
-    //scene 전환 비동기 연산을 위한 제공되는 코루틴
-    private AsyncOperation loadSceneAsync;
-
-    //실제 로딩 시간
-    [SerializeField] private float realLoadTime = 4.0f;
-
-    //로딩 시간 중 최솟값을 담을 변수
-    private float minLoadRatio;
-
-    //가짜 로딩시간과 비율
-    private float fakeLoadTime;
-    private float fakeLoadRatio;
-
-    private void Start()
+    /// <summary>
+    /// Loading Scene을 제외한 모든 Scene의 있는 Manager에서 호출한다.
+    /// 현재 내가 있는 Scene의 이름을 받아놓는다.
+    /// </summary>
+    public void SetCurScene()
     {
-        loadingCanvas.enabled = false;
+        CurSceneName = SceneManager.GetActiveScene().name;
     }
 
-    public async UniTaskVoid LoadSceneAsync(string sceneName)
+    #region 비동기 Scene 이동 처리 Functions
+    /// <summary>
+    /// 기본적으로 호출하는 함수
+    /// 이동할 Scene의 이름을 받아 저장해두고 LoadingScene으로 이동한 뒤, 미리 받아놓은 Scene으로 이동시킨다.
+    /// </summary>
+    /// <param name="loadSceneName"> 이동할 씬 이름을 받는다 </param>
+    public void LoadScene(string loadSceneName)
     {
-        loadingCanvas.enabled = true;
+        GameManager.GetInstance.DespawnPlayer();
 
-        //먼저 아무것도 없는 Scene을 올리고,
-        loadSceneAsync = SceneManager.LoadSceneAsync("LoadingScene");
-        if (loadSceneAsync.isDone)
-        {
-            loadSceneAsync.allowSceneActivation = true;
-            loadSceneAsync = null;
-        }
-        
-        loadSceneAsync = SceneManager.LoadSceneAsync(sceneName);
-        loadSceneAsync.allowSceneActivation = false;
+        this.CurSceneName = "LoadingScene";
+        this.LoadSceneName = loadSceneName;
 
-        while (!loadSceneAsync.isDone)
-        {
-            //fake 로딩 시간 계산하기
-            fakeLoadTime += Time.deltaTime;
-            fakeLoadRatio = fakeLoadTime / realLoadTime;
-
-            //실제 로딩 시간과 fake 로딩 시간 중 최솟값으로 로딩률 지정하기
-            minLoadRatio = Mathf.Min(loadSceneAsync.progress + 0.1f, fakeLoadRatio);
-
-            //Loading UI의 text Update하기
-            //loadingGaugeTxt.text = (minLoadRatio * 100).ToString("F0") + "%";
-
-            if (minLoadRatio >= 1.0f)
-            {
-                //loadingCanvasGroup.DOFade(1, 1.0f);
-                loadingCanvas.enabled = false;
-                break;
-            }
-
-            await UniTask.Yield();
-        }
-
-        loadSceneAsync.allowSceneActivation = true;
+        SceneManager.LoadScene("LoadingScene");
     }
+
+    public async UniTask LoadScenario()
+    {
+        AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync("ScenarioScene");
+        await loadSceneAsync;
+    }
+    #endregion
 }
