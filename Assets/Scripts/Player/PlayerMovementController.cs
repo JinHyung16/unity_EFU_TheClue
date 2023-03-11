@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovementController : MonoBehaviour
 {
+    [Header("GameSetUpData")]
     [SerializeField] private GameSetUpData gameSetUpData;
 
     private Rigidbody playerRigidbody;
@@ -45,7 +46,7 @@ public class PlayerMovementController : MonoBehaviour
 
     public void MoveDirection(Vector3 direction)
     {
-        moveDirection = direction;
+        moveDirection = new Vector3(direction.x, 0, direction.z);
     }
 
     public void JumpDirection(Vector3 direction)

@@ -1,72 +1,77 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using HughCanvas;
-using HughUIType;
 using HughGenerics;
+using UnityEngine.EventSystems;
 
 public class UIManager : Singleton<UIManager>
 {
     /// <summary>
-    /// Canvas들은 CanvasManager를 상속받아 UIManager에게 본인의 CanvasType과 본인을 넣어준다.
-    /// 그리고 UIManager에서 Control을 진행한다
+    /// Scene이 바뀔때마다, 해당 Scene에서 사용할 Panel들을 넣어준다.
+    /// Panel이름, 해당 Panel GameObject 형식으로 저장해둔다.
     /// </summary>
-    private Dictionary<CanvasType, CanvasManager> canvasDictionary = new Dictionary<CanvasType, CanvasManager>();
-    private Queue<CanvasManager> canvasQueue = new Queue<CanvasManager>();
+    private Dictionary<string, GameObject> panelDictionary = new Dictionary<string, GameObject>();
+    private Queue<GameObject> panelQueue = new Queue<GameObject>();
 
-    public void AddCanvasInDictionary(CanvasType canvasType, CanvasManager canvasManager)
+    public void AddPanelInDictionary(string panelName, GameObject panel)
     {
-        canvasDictionary.Add(canvasType, canvasManager);
-        if (canvasType != CanvasType.FixedCanvas)
-        {
-            canvasManager.HideCanvas();
-        }
+        panelDictionary.Add(panelName, panel);
+        panel.SetActive(false);
     }
 
-    public void ShowCanvas<T>(CanvasType canvasType) where T : CanvasManager
+    /// <summary>
+    /// Panel을 열 때 호출
+    /// 해당 panel을 stack에 넣어 관리한다.
+    /// </summary>
+    /// <param name="panelName">열고싶은 Panel 이름</param>
+    public void ShowPanel(string panelName)
     {
-        canvasDictionary[canvasType].ShowCanvas();
-
-        if (canvasType == CanvasType.FixedCanvas)
+        if (panelDictionary.TryGetValue(panelName, out GameObject obj))
         {
-            if (canvasQueue.Count > 0)
+            if (panelQueue.Contains(obj))
             {
-                foreach (var panel in canvasQueue)
-                {
-                    panel.gameObject.SetActive(false);
-                }
-                canvasQueue.Clear();
-            }
-        }
-
-        if (canvasDictionary.TryGetValue(canvasType, out CanvasManager obj) && canvasType != CanvasType.FixedCanvas)
-        {
-            if (canvasQueue.Contains(obj))
-            {
-                obj.HideCanvas();
-                canvasQueue.Clear();
+                var removeObj = panelQueue.Peek();
+                obj.SetActive(false);
+                panelQueue.Clear();
             }
             else
             {
-                if (canvasQueue.Count > 0)
+                if (panelQueue.Count > 0)
                 {
-                    var removeObj = canvasQueue.Peek();
-                    removeObj.HideCanvas();
-                    canvasQueue.Dequeue();
+                    var removeObj = panelQueue.Peek();
+                    removeObj.SetActive(false);
+                    panelQueue.Dequeue();
                 }
 
-                canvasQueue.Enqueue(obj);
-                obj.ShowCanvas();
+                panelQueue.Enqueue(obj);
+                obj.SetActive(true);
             }
         }
+    }
+
+    /// <summary>
+    /// Panel을 닫을 때 호출된다.
+    /// 해당 panel이 존재하는 stack까지 그 위에 쌓인것들도 다 닫아준다.
+    /// </summary>
+    /// <param name="panelName"> 닫을 panel의 이름 </param>
+    public void HidePanel()
+    {
+        if (panelQueue.Count > 0)
+        {
+            foreach (var panel in panelQueue)
+            {
+                panel.SetActive(false);
+            }
+        }
+        panelQueue.Clear();
     }
 
     /// <summary>
     /// CanvasManager를 상속받은 각 Canvas에서 OnDestroy()시 호출한다.
     /// </summary>
-    public void ClearAllCanvas()
+    public void ClearAll()
     {
-        canvasDictionary.Clear();
-        canvasQueue.Clear();
+        panelDictionary.Clear();
+        panelQueue.Clear();
     }
 }

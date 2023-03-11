@@ -7,38 +7,62 @@ using HughGenerics;
 
 public class SceneController : Singleton<SceneController>
 {
-    public string CurSceneName { get; private set; } //ÇöÀç ³»°¡ ¸Ó¹°°íÀÖ´Â SceneÀÌ¸§
-    public string LoadSceneName { get; private set; } //³»°¡ ÀÌµ¿ÇÒ SceneÀÌ¸§
+    public string CurSceneName { get; set; } //í˜„ì¬ ë‚´ê°€ ë¨¸ë¬¼ê³ ìˆëŠ” Sceneì´ë¦„
+    public string LoadSceneName { get; private set; } //ë‚´ê°€ ì´ë™í•  Sceneì´ë¦„
+
+    //ì‹¤ì œ ë¡œë”© ì‹œê°„
+    [SerializeField] private float realLoadTime = 4.0f;
+
+    //ë¡œë”© ì‹œê°„ ì¤‘ ìµœì†Ÿê°’ì„ ë‹´ì„ ë³€ìˆ˜
+    private float minLoadRatio;
+
+    //ê°€ì§œ ë¡œë”©ì‹œê°„ê³¼ ë¹„ìœ¨
+    private float fakeLoadTime;
+    private float fakeLoadRatio;
 
     /// <summary>
-    /// Loading SceneÀ» Á¦¿ÜÇÑ ¸ğµç SceneÀÇ ÀÖ´Â Manager¿¡¼­ È£ÃâÇÑ´Ù.
-    /// ÇöÀç ³»°¡ ÀÖ´Â SceneÀÇ ÀÌ¸§À» ¹Ş¾Æ³õ´Â´Ù.
+    /// ê¸°ë³¸ì ìœ¼ë¡œ í˜¸ì¶œí•˜ëŠ” í•¨ìˆ˜
+    /// ì´ë™í•  Sceneì˜ ì´ë¦„ì„ ë°›ì•„ ì €ì¥í•´ë‘ê³  LoadingSceneìœ¼ë¡œ ì´ë™í•œ ë’¤, ë¯¸ë¦¬ ë°›ì•„ë†“ì€ Sceneìœ¼ë¡œ ì´ë™ì‹œí‚¨ë‹¤.
     /// </summary>
-    public void SetCurScene()
-    {
-        CurSceneName = SceneManager.GetActiveScene().name;
-    }
-
-    #region ºñµ¿±â Scene ÀÌµ¿ Ã³¸® Functions
-    /// <summary>
-    /// ±âº»ÀûÀ¸·Î È£ÃâÇÏ´Â ÇÔ¼ö
-    /// ÀÌµ¿ÇÒ SceneÀÇ ÀÌ¸§À» ¹Ş¾Æ ÀúÀåÇØµÎ°í LoadingSceneÀ¸·Î ÀÌµ¿ÇÑ µÚ, ¹Ì¸® ¹Ş¾Æ³õÀº SceneÀ¸·Î ÀÌµ¿½ÃÅ²´Ù.
-    /// </summary>
-    /// <param name="loadSceneName"> ÀÌµ¿ÇÒ ¾À ÀÌ¸§À» ¹Ş´Â´Ù </param>
+    /// <param name="loadSceneName"> ì´ë™í•  ì”¬ ì´ë¦„ì„ ë°›ëŠ”ë‹¤ </param>
     public void LoadScene(string loadSceneName)
     {
         GameManager.GetInstance.DespawnPlayer();
 
-        this.CurSceneName = "LoadingScene";
+        this.CurSceneName = "Loading";
         this.LoadSceneName = loadSceneName;
 
-        SceneManager.LoadScene("LoadingScene");
+        SceneManager.LoadScene("Loading");
     }
 
-    public async UniTask LoadScenario()
+    /// <summary>
+    /// Loading Sceneì—ì„œë§Œ í˜¸ì¶œí•˜ëŠ” í•¨ìˆ˜
+    /// í•­ìƒ LoadingSceneìœ¼ë¡œ ì´ë™í•œ ë’¤, LoadingSceneì—ì„œ ìµœì¢… ì´ë™í•  ì”¬ì„ ë¶ˆëŸ¬ ì”¬ ì „í™˜ì˜ ìµœì í™”ë¥¼ ì§„í–‰í•œë‹¤.
+    /// </summary>
+    /// <returns>ë¹„ë™ê¸° ì²˜ë¦¬</returns>
+    public async UniTaskVoid LoadThemeScene()
     {
-        AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync("ScenarioScene");
-        await loadSceneAsync;
+        AsyncOperation loadSceneAsync = SceneManager.LoadSceneAsync(this.LoadSceneName);
+        loadSceneAsync.allowSceneActivation = false;
+        while (!loadSceneAsync.isDone)
+        {
+            //fake ë¡œë”© ì‹œê°„ ê³„ì‚°í•˜ê¸°
+            fakeLoadTime += Time.deltaTime;
+            fakeLoadRatio = fakeLoadTime / realLoadTime;
+
+            //ì‹¤ì œ ë¡œë”© ì‹œê°„ê³¼ fake ë¡œë”© ì‹œê°„ ì¤‘ ìµœì†Ÿê°’ìœ¼ë¡œ ë¡œë”©ë¥  ì§€ì •í•˜ê¸°
+            minLoadRatio = Mathf.Min(loadSceneAsync.progress + 0.1f, fakeLoadRatio);
+
+            //Scene ë¡œë“œ ê²Œì´ì§€ UIê´€ë ¨
+            //loadingGaugeTxt.text = (minLoadRatio * 100).ToString("F0") + "%";
+
+            if (minLoadRatio >= 1.0f)
+            {
+                break;
+            }
+
+            await UniTask.Yield();
+        }
+        loadSceneAsync.allowSceneActivation = true;
     }
-    #endregion
 }

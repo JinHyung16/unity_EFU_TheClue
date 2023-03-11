@@ -13,12 +13,12 @@ public class GameManager : Singleton<GameManager>, IDisposable
     [Header("Player Prefab")]
     [SerializeField] private GameObject playerPrefab;
     private GameObject player;
+    private PlayerManager playerManager;
 
     [Header("Game Option Canvas")]
     [SerializeField] private Canvas gameOptionCanvas;
     [SerializeField] private Button gameExitBtn;
 
-    private KeyCode optionKeyCode = KeyCode.Escape;
     private bool isOptionKeyDown;
 
     public bool IsGamePause { get; private set; }
@@ -27,21 +27,19 @@ public class GameManager : Singleton<GameManager>, IDisposable
     private void Start()
     {
         gameOptionCanvas.enabled = false;
-        optionKeyCode = KeyCode.Escape;
         isOptionKeyDown = false;
         IsGamePause = false;
 
-        gameExitBtn.onClick.AddListener(ExitGameAndSaveDataAsync);
+        gameExitBtn.onClick.AddListener(QuitGameAndSaveData);
     }
 
-    private void Update()
+    /// <summary>
+    /// Playerê°€ escë²„íŠ¼ì„ ëˆ„ë¥´ë©´ OptionCanvasë¥¼ ì—°ë‹¤
+    /// </summary>
+    /// <param name="isOption"> escë²„íŠ¼ ëˆŒë €ëŠ”ì§€ ì•ˆëˆŒë €ëŠ”ì§€ </param>
+    public void OptionCanvasOpen(bool isOption)
     {
-        OptionCanvasOpen();
-    }
-
-    private void OptionCanvasOpen()
-    {
-        if (Input.GetKeyDown(optionKeyCode))
+        if (isOption)
         {
             if (!isOptionKeyDown)
             {
@@ -58,37 +56,54 @@ public class GameManager : Singleton<GameManager>, IDisposable
 
                 gameOptionCanvas.enabled = false;
                 isOptionKeyDown = false;
+
+                //playerManager.PlayerCameraAdjustment();
             }
         }
     }
 
     /// <summary>
-    /// °ÔÀÓÀ» ÁøÇàÇÏ´Ù ±×¸¸ÇÏ·Á°í ³ª°¡°íÀÚ Exit ButtonÀ» ´©¸£¸é È£Ãâ
-    /// ÀÚµ¿À¸·Î °ÔÀÓ ÁøÇà»óÈ²À» ÀúÀåÇØÁØ´Ù.
+    /// ê²Œì„ì„ ì§„í–‰í•˜ë‹¤ ê·¸ë§Œí•˜ë ¤ê³  ë‚˜ê°€ê³ ì Exit Buttonì„ ëˆ„ë¥´ë©´ í˜¸ì¶œ
+    /// ìë™ìœ¼ë¡œ ê²Œì„ ì§„í–‰ìƒí™©ì„ ì €ì¥í•´ì¤€ë‹¤.
     /// </summary>
-    private void ExitGameAndSaveDataAsync()
+    private void QuitGameAndSaveData()
     {
+        int saveIndex = 0;
+        switch (SceneController.GetInstance.CurSceneName)
+        {
+            case "ThemeFrist":
+                saveIndex = 1;
+                break;
+            case "ThemeSecond":
+                saveIndex = 2;
+                break;
+            case "ThemeThird":
+                saveIndex = 3;
+                break;
+        }
+        DataManager.GetInstance.SaveData(saveIndex, SceneController.GetInstance.CurSceneName);
+
+        gameOptionCanvas.enabled = false;
         Dispose();
-        DataManager.GetInstance.SaveData(SceneController.GetInstance.CurSceneName);
         SceneController.GetInstance.LoadScene("Main");
     }
 
     /// <summary>
-    /// ThemeFirstÀÇ ÁøÀÔÇÏ¸é Player¸¦ »ı¼º½ÃÅ²´Ù.
-    /// ÃÖÃÊ 1È¸¸¸ »ı¼º½ÃÅ²´Ù.
+    /// ThemeFirstì˜ ì§„ì…í•˜ë©´ Playerë¥¼ ìƒì„±ì‹œí‚¨ë‹¤.
+    /// ìµœì´ˆ 1íšŒë§Œ ìƒì„±ì‹œí‚¨ë‹¤.
     /// </summary>
     public void SpawnPlayer()
     {
         if (player == null)
         {
             player = Instantiate(playerPrefab, this.transform);
+            playerManager = player.GetComponent<PlayerManager>();
         }
         player.SetActive(true);
-        player.GetComponent<PlayerManager>().PlayerSetUp();
     }
 
     /// <summary>
-    /// Theme¸¦ ÀÌµ¿ÇÒ¶§¸¶´Ù È£ÃâÇÑ´Ù.
+    /// Themeë¥¼ ì´ë™í• ë•Œë§ˆë‹¤ í˜¸ì¶œí•œë‹¤.
     /// </summary>
     public void DespawnPlayer()
     {
@@ -99,8 +114,8 @@ public class GameManager : Singleton<GameManager>, IDisposable
     }
 
     /// <summary>
-    /// Å×¸¶¸¦ ÁøÇàÇÏ´Ù °ÔÀÓÀ» ²ø ¶§ È£Ãâ
-    /// Å×¸¶¸¦ ´Ù Å¬¸®¾îÇßÀ»¶§ È£ÃâÇÑ´Ù.
+    /// í…Œë§ˆë¥¼ ì§„í–‰í•˜ë‹¤ ê²Œì„ì„ ëŒ ë•Œ í˜¸ì¶œ
+    /// í…Œë§ˆë¥¼ ë‹¤ í´ë¦¬ì–´í–ˆì„ë•Œ í˜¸ì¶œí•œë‹¤.
     /// </summary>
     public void Dispose()
     {
@@ -108,32 +123,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
         GC.SuppressFinalize(player);
     }
 
-    #region Game ÁøÇà ÇÃ·Î¿ì °ü·Ã ÇÔ¼ö
-    /// <summary>
-    /// Main Scene¿¡¼­ °ÔÀÓÀ» ´Ù½Ã ½ÃÀÛÇÒ °æ¿ì ºÒ·¯¿Â´Ù.
-    /// </summary>
-    public void StartNewGame()
-    {
-        if (!DataManager.GetInstance.GetUserLoginRecord())
-        {
-            //ÀÌÀü¿¡ °ÔÀÓÇÑ ±â·ÏÀÌ ¾ø´Ù¸é ±â·Ï ÇØÁÖ±â
-            DataManager.GetInstance.SetUserLoginRecord();
-        }
-        SceneController.GetInstance.LoadScenario().Forget();
-    }
-
-    /// <summary>
-    /// ÀÌÀüÀÇ ±â·ÏµÈ °ÔÀÓÀ» ºÒ·¯¿Í ½ÃÀÛÇÑ¤§.
-    /// </summary>
-    public void StartSavedGame()
-    {
-        var loadScene = DataManager.GetInstance.LoadData();
-        SceneController.GetInstance.LoadScene(loadScene);
-    }
-
-    /// <summary>
-    /// °ÔÀÓÀ» ClearÇÏÁö ¸øÇßÀ» °æ¿ì, ÇöÀç ¾ÀÀ» ´Ù½Ã ºÒ·¯¿Í Ã³À½ºÎÅÍ ½ÃÀÛÇÑ´Ù.
-    /// </summary>
+    #region Game ì§„í–‰ í”Œë¡œìš° ê´€ë ¨ í•¨ìˆ˜
     public void FailedGameAndRestart()
     {
         DespawnPlayer();
@@ -141,10 +131,10 @@ public class GameManager : Singleton<GameManager>, IDisposable
     }
 
     /// <summary>
-    /// SceneÀ» ClearÇÏ¸é ´ÙÀ½ ¾ÀÀ¸·Î º¸³½´Ù.
-    /// ÀÌ¶§, ¸¶Áö¸· SceneÀÌ¸é MainÀ¸·Î °£´Ù.
+    /// Sceneì„ Clearí•˜ë©´ ë‹¤ìŒ ì”¬ìœ¼ë¡œ ë³´ë‚¸ë‹¤.
+    /// ì´ë•Œ, ë§ˆì§€ë§‰ Sceneì´ë©´ Mainìœ¼ë¡œ ê°„ë‹¤.
     /// </summary>
-    /// <param name="nextScene">ÀÌµ¿ÇÒ ´ÙÀ½ Scene ÀÌ¸§</param>
+    /// <param name="nextScene">ì´ë™í•  ë‹¤ìŒ Scene ì´ë¦„</param>
     public void CelarGame()
     {
         if (IsEndTheme)

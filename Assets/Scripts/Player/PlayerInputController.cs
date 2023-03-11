@@ -1,19 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerInputController : MonoBehaviour
 {
     private PlayerMovementController playerMovementController;
 
+    [Header("Player Camera")]
+    [SerializeField] private Camera playerCamera;
+
+    [Header("GameSetUpData")]
+    [SerializeField] private GameSetUpData gameSetUpData;
+
     [Header("Player Transform")]
     [SerializeField] private Transform playerTransform;
+    
+    [Header("Player Camera Transform")]
+    [SerializeField] private Transform cameraView;
+    private float cameraRotateSpeed;
 
-    public Transform cameraView { private get; set; }
+    private KeyCode optionKey;
+    private KeyCode inventoryKey;
 
     private void Start()
     {
-        playerMovementController = GetComponentInChildren<PlayerMovementController>();
+        if (gameSetUpData == null)
+        {
+            gameSetUpData = Resources.Load("Data/GameSetUpData") as GameSetUpData;
+        }
+        playerMovementController = GetComponent<PlayerMovementController>();
+
+        cameraRotateSpeed = gameSetUpData.cameraRotateSpeed;
+        optionKey = gameSetUpData.optionKey;
+        inventoryKey = gameSetUpData.inventoryKey;
     }
 
     private void Update()
@@ -24,30 +44,35 @@ public class PlayerInputController : MonoBehaviour
             InputJumpControl();
             InputMouseViewControl();
         }
+
+        InputOpenOption();
+        InputMouseLeftClick();
     }
 
+    /// <summary>
+    /// ìƒí•˜ì¢Œìš° ì›€ì§ì„ ì…ë ¥
+    /// </summary>
     private void InputMovementControl()
     {
-        Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        
-        bool isMove = moveInput.magnitude != 0;
-        //animator.SetBool("IsMove", isMove);
-        if (isMove)
-        {
-            //Character -> Player & Camera (µÑÀÌ ´ëµîÇÑ) ±¸Á¶ÀÌ¸é »ç¿ëÇÏ±â
-            /*
-            //Ä³¸¯ÅÍ ¿òÁ÷ÀÏ ¶§ Ä«¸Ş¶ó°¡ ¹Ù¶óº¸´Â ¹æÇâÀ» ¹Ù¶óº¸°Ô ¼öÁ¤
-            Vector3 lookForward = new Vector3(cameraView.forward.x, 0.0f, cameraView.forward.z).normalized;
-            Vector3 lookRight = new Vector3(cameraView.right.x, 0.0f, cameraView.right.z).normalized;
-            Vector3 moveDir = (lookForward * moveInput.y) + (lookRight * moveInput.x);
+        Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal") * cameraRotateSpeed,
+            Input.GetAxis("Vertical") * cameraRotateSpeed); //cameraê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ìœ¼ë¡œ ì›€ì§ì´ê¸°
 
-            playerTransform.forward = lookForward; //player°¡ ¹Ù¶óº¸´Â ¹æÇâ°ú Ä«¸Ş¶ó°¡ ¹Ù¶óº¸´Â ¹æÇâ µ¿ÀÏÇÏ°Ô ¼³Á¤
-            */
-            playerMovementController.MoveDirection(moveInput);
-        }
-        
+        //bool isMove = moveInput.magnitude != 0.0f;
+        //animator.SetBool("IsMove", isMove);
+
+        //ìºë¦­í„° ì›€ì§ì¼ ë•Œ ì¹´ë©”ë¼ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ì„ ë°”ë¼ë³´ê²Œ ìˆ˜ì •
+        Vector3 lookForward = new Vector3(cameraView.forward.x, 0.0f, cameraView.forward.z).normalized;
+        Vector3 lookRight = new Vector3(cameraView.right.x, 0.0f, cameraView.right.z).normalized;
+        Vector3 moveDir = (lookForward * moveInput.y) + (lookRight * moveInput.x);
+
+        playerTransform.forward = lookForward; //playerê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ê³¼ ì¹´ë©”ë¼ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ ë™ì¼í•˜ê²Œ ì„¤ì •
+        playerMovementController.MoveDirection(moveDir); //moveDirë°©í–¥ìœ¼ë¡œ ì›€ì§ì´ê³ , ë§Œì•½ 1ì¸ì¹­ ì‹œì ìœ¼ë¡œ ë°”ë€Œë©´ moveInput ë„£ëŠ”ë‹¤.
+
     }
 
+    /// <summary>
+    /// player ì í”„ ì…ë ¥
+    /// </summary>
     private void InputJumpControl()
     {
         if (Input.GetButtonDown("Jump"))
@@ -56,28 +81,67 @@ public class PlayerInputController : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// ë§ˆìš°ìŠ¤ ì¢Œìš° ì›€ì§ì´ë©´ ì¹´ë©”ë¼ íšŒì „
+    /// </summary>
     private void InputMouseViewControl()
     {
         Vector2 mousePos = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         Vector3 cameraAngle = cameraView.rotation.eulerAngles;
 
-        //Ä«¸Ş¶ó°¡ ¼öÁ÷À¸·Î ³Ê¹« È¸ÀüÇÏ¸é µÚÁıÈ÷´Â ¹®Á¦ ÇØ°á
+        //ì¹´ë©”ë¼ê°€ ìˆ˜ì§ìœ¼ë¡œ ë„ˆë¬´ íšŒì „í•˜ë©´ ë’¤ì§‘íˆëŠ” ë¬¸ì œ í•´ê²°
         float rotateX = cameraAngle.x - mousePos.y;
         if (rotateX < 180.0f)
         {
-            //-1.0f°¡ ÃÖ¼Ò¿©¾ß Ä«¸Ş¶ó°¡ ¼öÆò¸é ¾Æ·¡·Î ³»·Á°£´Ù.
+            //-1.0fê°€ ìµœì†Œì—¬ì•¼ ì¹´ë©”ë¼ê°€ ìˆ˜í‰ë©´ ì•„ë˜ë¡œ ë‚´ë ¤ê°„ë‹¤.
             rotateX = Mathf.Clamp(rotateX, -1.0f, 70.0f);
         }
         else
         {
-            //25µµ °¢µµ Á¦ÇÑÇÏ±â À§ÇØ 360.0f - 25.0fÇÑ °ªÀ¸·Î ³Ö°í
-            //361.0f°¡ ÃÖ´ë¿©¾ß Ä«¸Ş¶ó°¡ ¼öÆò¸é À§·Î Àß ¿Ã¶ó°£´Ù.
-            //-1.0f°¡ ÃÖÀú¿©¾ß Ä«¸Ş¶ó°¡ ¼öÆò¸é ¾Æ·¡·Î ³»·Á°£´Ù.
+            //25ë„ ê°ë„ ì œí•œí•˜ê¸° ìœ„í•´ 360.0f - 25.0fí•œ ê°’ìœ¼ë¡œ ë„£ê³ 
+            //361.0fê°€ ìµœëŒ€ì—¬ì•¼ ì¹´ë©”ë¼ê°€ ìˆ˜í‰ë©´ ìœ„ë¡œ ì˜ ì˜¬ë¼ê°„ë‹¤.
+            //-1.0fê°€ ìµœì €ì—¬ì•¼ ì¹´ë©”ë¼ê°€ ìˆ˜í‰ë©´ ì•„ë˜ë¡œ ë‚´ë ¤ê°„ë‹¤.
             rotateX = Mathf.Clamp(rotateX, 335.0f, 361.0f);
         }
-        //¸¶¿ì½º ÁÂ¿ì ¿òÁ÷ÀÓÀ¸·Î Ä«¸Ş¶ó ÁÂ¿ì ¿òÁ÷ÀÓ Á¦¾î, ¸¶¿ì½º »óÇÏ ¿òÁ÷ÀÓÀ¸·Î Ä«¸Ş¶ó »óÇÏ ¿òÁ÷ÀÓ Á¦¾î
-        //camera.x rotateÇÏ¸é À§ ¾Æ·¡·Î È¸ÀüÇÏ°í, camera.y rotateÇÏ¸é ÁÂ¿ì·Î È¸ÀüÇÑ´Ù
+        //ë§ˆìš°ìŠ¤ ì¢Œìš° ì›€ì§ì„ìœ¼ë¡œ ì¹´ë©”ë¼ ì¢Œìš° ì›€ì§ì„ ì œì–´, ë§ˆìš°ìŠ¤ ìƒí•˜ ì›€ì§ì„ìœ¼ë¡œ ì¹´ë©”ë¼ ìƒí•˜ ì›€ì§ì„ ì œì–´
+        //camera.x rotateí•˜ë©´ ìœ„ ì•„ë˜ë¡œ íšŒì „í•˜ê³ , camera.y rotateí•˜ë©´ ì¢Œìš°ë¡œ íšŒì „í•œë‹¤
         cameraView.rotation = Quaternion.Euler(rotateX, cameraAngle.y + mousePos.x, cameraAngle.z);
     }
+
+    /// <summary>
+    /// ë§ˆìš°ìŠ¤ ì¢Œí´ë¦­
+    /// </summary>
+    private void InputMouseLeftClick()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                Debug.Log("PlayerInputControllerì—ì„œ í˜¸ì¶œ ì¤‘" + hit.transform.gameObject.name);
+            }
+            else if (EventSystem.current.IsPointerOverGameObject())
+            {
+                //UIë¥¼ í´ë¦­í–ˆì„ ê²½ìš°
+                Debug.Log(EventSystem.current.currentSelectedGameObject.name);
+                return;
+            }
+        }
+    }
+
+    private void InputOpenOption()
+    {
+        if (Input.GetKeyDown(optionKey))
+        {
+            GameManager.GetInstance.OptionCanvasOpen(true);
+        }
+    }
+
+    private void InputOpenInventory()
+    {
+        if (Input.GetKeyDown(inventoryKey))
+        {
+        }
+    }
+
 }

@@ -2,31 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using HughGenerics;
-using System;
 
 public class PlayerManager : MonoBehaviour
 {
-    [SerializeField] private GameSetUpData gameSetUpData; //game setup data
+    [Header("GameSetUpData")]
+    [SerializeField] private GameSetUpData gameSetUpData;
 
     [Header("Player Transform")]
-    [SerializeField] private Transform playerTransform; //¿òÁ÷ÀÌ´Â playerÀÇ TransformÀ» ´ãÀ» º¯¼ö
+    [SerializeField] private Transform playerTransform; //ì›€ì§ì´ëŠ” playerì˜ Transformì„ ë‹´ì„ ë³€ìˆ˜
 
-    [Header("Player Camera")]
-    [SerializeField] private GameObject playerCamera = null; //scene¿¡¼­ Ã£Àº main camera¸¦ ´ãÀ» º¯¼ö
-
-    private PlayerInputController playerInputController;
+    [Header("Player Camera View")]
+    [SerializeField] private Transform cameraViewTrans; //player cameraì˜ ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ì¸ CameraView
     
-    private void OnEnable()
+    [Header("Player Camera")]
+    [SerializeField] private Transform playerCameraTrans; //player camera ê·¸ ìì²´
+
+    private void Start()
     {
-        playerInputController = GetComponent<PlayerInputController>();
-        playerInputController.cameraView = playerCamera.transform;
+        if (gameSetUpData == null)
+        {
+            gameSetUpData = Resources.Load("Data/GameSetUpData") as GameSetUpData;
+        }
     }
 
-    public void PlayerSetUp()
+    private void OnEnable()
     {
         playerTransform.position = gameSetUpData.characterTransform;
+        playerCameraTrans.position = new Vector3(0, 0, gameSetUpData.cameraPosZ);
+        cameraViewTrans.position = new Vector3(0, gameSetUpData.cameraViewPosY, 0);
+    }
 
-        playerCamera.transform.position = gameSetUpData.cameraPosition;
-        playerCamera.transform.rotation = Quaternion.Euler(gameSetUpData.cameraRotation);
+    /// <summary>
+    /// Player ì¹´ë©”ë¼ì˜ ê°ë„ë¥¼ ë§ì¶°ì¤€ë‹¤.
+    /// </summary>
+    public void PlayerCameraAdjustment()
+    {
+        cameraViewTrans.rotation = Quaternion.Euler(0, 0, 0);
     }
 }

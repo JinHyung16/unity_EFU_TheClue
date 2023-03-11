@@ -2,91 +2,100 @@ using HughGenerics;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class DataManager : Singleton<DataManager>
 {
+    //Json Data ê´€ë ¨
     private string GameDataFileName = "GameProgressData.json";
     private string filePath = "/Resources/Data";
-    private GameProgressData gameProgressData;
-
-    #region PlayerPrefab Control
-    private string userSession = "EFU.UserSession";
+    public bool IsDataLoad { get; private set; } = false;
     
-    /// <summary>
-    /// À¯Àú°¡ »õ°ÔÀÓÀ» ÃÖÃÊ 1È¸ ½ÃÀÛÇÏ¸é value·Î 1 ÀúÀå
-    /// </summary>
-    public void SetUserLoginRecord()
-    {
-        PlayerPrefs.SetInt(userSession, 1);
-    }
+    public GameProgressData[] GameProgressDataArray { get; private set; } //Loadí•´ì˜¨ GameProgressDataë¥¼ ë‹´ê³  ìˆëŠ”ë‹¤.
+    //Game Session ê´€ë ¨
+    private string userSession = "EFU_login";
 
     /// <summary>
-    /// ÀÌÀüÀÇ User°¡ ÃÖÃÊ 1È¸ °ÔÀÓÀ» ½ÃÀÛÇÑÀû ÀÖ´ÂÁö ºÒ·¯¿Â´Ù.
+    /// í˜„ì¬ ê²Œì„ì˜ ì§„í–‰ ìƒí™©ì„ Josnìœ¼ë¡œ ì €ì¥í•©ë‹ˆë‹¤.
+    /// í…Œë§ˆ ë‹¨ìœ„ë¡œ ì €ì¥í•©ë‹ˆë‹¤.
     /// </summary>
-    /// <returns> ÇØ´ç °ªÀÌ 1ÀÌ¸é true, ¾ø°Å³ª 0ÀÌ¸é false return </returns>
-    public bool GetUserLoginRecord()
+    public void SaveData(int themeIndex, string theme)
     {
-        var isSession = PlayerPrefs.GetInt(userSession);
-        if (isSession == 1)
-        {
-            return true;
-        }
-        return false;
-    }
-    #endregion
+        string checkPath = Path.Combine(Application.dataPath + filePath, GameDataFileName);
 
-    #region Json Data Control
-    /// <summary>
-    /// ÇöÀç °ÔÀÓÀÇ ÁøÇà »óÈ²À» JosnÀ¸·Î ÀúÀåÇÕ´Ï´Ù.
-    /// Å×¸¶ ´ÜÀ§·Î ÀúÀåÇÕ´Ï´Ù.
-    /// </summary>
-    public void SaveData(string theme)
-    {
-        LoadDataInJson();
-        if (gameProgressData == null)
+        GameProgressData[] jsonDataArray = new GameProgressData[themeIndex];
+        for (int i = 0; i < themeIndex; i++)
         {
-            gameProgressData = new GameProgressData
+            jsonDataArray[i] = new GameProgressData();
+            jsonDataArray[i].themeName = theme;
+            if (File.Exists(checkPath))
             {
-                ThemeName = theme
-            };
 
-            string jsonData = JsonUtility.ToJson(gameProgressData);
-            string path = Path.Combine(Application.dataPath + filePath, GameDataFileName);
-            File.WriteAllText(path, jsonData);
+                string jsonData = JsonUtility.ToJson(jsonDataArray[i]);
+                string path = Path.Combine(Application.dataPath + filePath, GameDataFileName);
+                File.WriteAllText(path, jsonData);
+            }
+            else
+            {
+                string jsonData = JsonUtility.ToJson(jsonDataArray[i]);
+                JsonUtility.FromJsonOverwrite(jsonData, jsonDataArray[i]);
+            }
         }
-        else
-        {
-            string jsonData = JsonUtility.ToJson(gameProgressData);
-            JsonUtility.FromJsonOverwrite(jsonData, gameProgressData);
-        }
-
-#if UNITY_EDITOR
-        Debug.Log("DataManager: °ÔÀÓ µ¥ÀÌÅÍ ÀúÀå ¿Ï·á");
-#endif
-    }
-
-    public string LoadData()
-    {
-        LoadDataInJson();
-        return gameProgressData.ThemeName;
     }
 
     /// <summary>
-    /// JsonÀ¸·Î ÀúÀåµÈ °ÔÀÓ ÁøÇà »óÈ² µ¥ÀÌÅÍ¸¦ ÀĞ¾î¿É´Ï´Ù.
-    /// ÇØ´ç Å×¸¶ÀÇ Ã¹ ¹øÂ°ºÎÅÍ ½ÃÀÛÇÕ´Ï´Ù.
+    /// Jsonìœ¼ë¡œ ì €ì¥ëœ ê²Œì„ ì§„í–‰ ìƒí™© ë°ì´í„°ë¥¼ ì½ì–´ì˜µë‹ˆë‹¤.
+    /// í•´ë‹¹ í…Œë§ˆì˜ ì²« ë²ˆì§¸ë¶€í„° ì‹œì‘í•©ë‹ˆë‹¤.
     /// </summary>
-    private void LoadDataInJson()
+    public void LoadData()
     {
         string path = Path.Combine(Application.dataPath + filePath, GameDataFileName);
         if (File.Exists(path))
         {
             string jsonData = File.ReadAllText(path);
-            gameProgressData = JsonUtility.FromJson<GameProgressData>(jsonData);
+            for (int i = 0; i < jsonData.Length; i++)
+            {
+                GameProgressDataArray[i] = JsonUtility.FromJson<GameProgressData>(jsonData);
+            }
+            IsDataLoad = true;
 #if UNITY_EDITOR
-            Debug.Log("DataManager: ÀúÀåµÈ °ÔÀÓ µ¥ÀÌÅÍ ºÒ·¯¿À±â ¿Ï·á");
+            Debug.Log("DataManager: ì €ì¥ëœ ê²Œì„ ë°ì´í„° ë¶ˆëŸ¬ì˜¤ê¸° ì™„ë£Œ");
 #endif
         }
+        else
+        {
+            IsDataLoad = false;
+#if UNITY_EDITOR
+            Debug.Log("DataManager: ì €ì¥ëœ ê²Œì„ ë°ì´í„° ì¡´ì¬í•˜ì§€ ì•Šì•„ ë¶ˆëŸ¬ì˜¤ê¸° ì‹¤íŒ¨");
+#endif
+            return;
+        }
     }
-    #endregion
+
+
+    /// <summary>
+    /// ìœ ì €ê°€ ê²Œì„ì„ ì§„í–‰í•˜ê³  ê²Œì„ì„ ë„ë©´, í”Œë ˆì´ í–ˆë‹¤ëŠ” ë‚´ìš©ì„ ê¸°ë¡í•œë‹¤.
+    /// </summary>
+    public void SaveUserSession()
+    {
+        if (!PlayerPrefs.HasKey(userSession))
+        {
+            PlayerPrefs.SetInt(userSession, 1);
+        }
+    }
+
+    /// <summary>
+    /// ì´ì „ì˜ ìœ ì €ê°€ ê²Œì„ì„ ì§„í–‰í•œì ì´ ìˆëŠ”ì§€ ì²´í¬í•œë‹¤.
+    /// </summary>
+    /// <returns></returns>
+    public bool GetUserSession()
+    {
+        var session = PlayerPrefs.GetInt(userSession);
+        if (session == 1)
+        {
+            return true;
+        }
+        return false;
+    }
 }

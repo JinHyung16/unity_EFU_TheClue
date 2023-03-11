@@ -7,14 +7,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameSetUpData", menuName = "ScriptableObjects/GameSetUpData", order = 1)]
 public class GameSetUpData : ScriptableObject
 {
-    //Main Camera À§Ä¡ ¼¼ÆÃ
-    public Vector3 cameraPosition;
-    public Vector3 cameraRotation;
+    //Player Camera ìœ„ì¹˜ ì„¸íŒ…
+    [Header("Player Camera  Z position Setting Data")]
+    public float cameraPosZ;
 
-    //Character ÇÏÀ§¿¡ ÀÖ´Â Player¿Í CameraView À§Ä¡ ¼¼ÆÃ
+    //Player Cameraë¥¼ ê°–ê³ ìˆëŠ” Camera Viewì˜ ì„¸íŒ…
+    [Header("Camera View Y position Setting Data")]
+    public float cameraViewPosY;
+
+    //Character í•˜ìœ„ì— ìˆëŠ” Playerì™€ CameraView ìœ„ì¹˜ ì„¸íŒ…
+    [Header("CameraView Setting into Character Object")]
     public Vector3 characterTransform;
 
-    //PlayerMovementÀÇ »ç¿ëµÇ´Â µ¥ÀÌÅÍ
+    //PlayerMovementì˜ ì‚¬ìš©ë˜ëŠ” ë°ì´í„°
+    [Header("Player Movement Data")]
     public float moveSpeed;
     public float jumpPower;
+    public float cameraRotateSpeed;
+
+    [Header("Player Input Keyboard")]
+    public KeyCode optionKey = KeyCode.Escape;
+    public KeyCode inventoryKey = KeyCode.E;
 }

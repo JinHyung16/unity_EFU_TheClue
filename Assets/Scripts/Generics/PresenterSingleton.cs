@@ -4,8 +4,12 @@ using UnityEngine;
 
 namespace HughGenerics
 {
-    public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+    public class PresenterSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
+        /// <summary>
+        /// 각 Scene의 있는 Presenter들이 사용할 Template이다.
+        /// Scene이 바뀌면 해당 Presenter는 사라져야 하므로, DontDestroyOnLoad 사용하지 않는다.
+        /// </summary>
         private static T instance;
         public static T GetInstance
         {
@@ -13,7 +17,6 @@ namespace HughGenerics
             {
                 if (instance == null)
                 {
-                    Debug.LogError("Singleton Generic을 상속받은 오브젝트가 없습니다");
                     return null;
                 }
                 return instance;
@@ -26,17 +29,11 @@ namespace HughGenerics
             {
                 instance = this as T;
             }
+            OnAwake();
+        }
 
-            //T type이 중복되어 있을 경우 1개만 남기고 삭제시켜준다.
-            var T_typeObjects = FindObjectsOfType<T>();
-            if (T_typeObjects.Length == 1)
-            {
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+        protected virtual void OnAwake()
+        {
         }
     }
 }
