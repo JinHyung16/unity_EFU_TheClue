@@ -11,5 +11,5 @@ public class GameProgressData
     /// 추후 미션 진행 게이지 등등 추가될 것을 고려해 json형태로 저장가능하게 사용중
     /// </summary>
 
-    public string themeName;
+    public int themeClearIndex;
 }

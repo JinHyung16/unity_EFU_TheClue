@@ -26,7 +26,7 @@ public class MainSceneViewer : MonoBehaviour
     }
     private void OnDisable()
     {
-        UIManager.GetInstance.ClearAll();
+        UIManager.GetInstance.ClearAllPanel();
     }
     
     /// <summary>

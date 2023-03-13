@@ -19,16 +19,24 @@ public class GameManager : Singleton<GameManager>, IDisposable
     [SerializeField] private Canvas gameOptionCanvas;
     [SerializeField] private Button gameExitBtn;
 
+    [Header("Interactive Canvas")]
+    [SerializeField] private Canvas interactiveCanvs;
+    [SerializeField] private RectTransform interactiveTransform;
+
     private bool isOptionKeyDown;
 
-    public bool IsGamePause { get; private set; }
+    public bool IsUIOpen { get; set; }
+    public bool IsPlayerInputStop { get; set; } = false;
     public bool IsEndTheme { private get; set; }
+    public bool IsInteractive { get; private set; } = false;
 
     private void Start()
     {
         gameOptionCanvas.enabled = false;
+        interactiveCanvs.enabled = false;
+
         isOptionKeyDown = false;
-        IsGamePause = false;
+        IsPlayerInputStop = false;
 
         gameExitBtn.onClick.AddListener(QuitGameAndSaveData);
     }
@@ -44,20 +52,18 @@ public class GameManager : Singleton<GameManager>, IDisposable
             if (!isOptionKeyDown)
             {
                 Time.timeScale = 0;
-                IsGamePause = true;
-
                 gameOptionCanvas.enabled = true;
                 isOptionKeyDown = true;
+
+                IsPlayerInputStop = true;
             }
             else
             {
                 Time.timeScale = 1;
-                IsGamePause = false;
-
                 gameOptionCanvas.enabled = false;
                 isOptionKeyDown = false;
 
-                //playerManager.PlayerCameraAdjustment();
+                IsPlayerInputStop = false;
             }
         }
     }
@@ -68,10 +74,15 @@ public class GameManager : Singleton<GameManager>, IDisposable
     /// </summary>
     private void QuitGameAndSaveData()
     {
+        gameOptionCanvas.enabled = false;
+        interactiveCanvs.enabled = false;
+        isOptionKeyDown = false;
+        IsPlayerInputStop = false;
+
         int saveIndex = 0;
         switch (SceneController.GetInstance.CurSceneName)
         {
-            case "ThemeFrist":
+            case "ThemeFirst":
                 saveIndex = 1;
                 break;
             case "ThemeSecond":
@@ -81,7 +92,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
                 saveIndex = 3;
                 break;
         }
-        DataManager.GetInstance.SaveData(saveIndex, SceneController.GetInstance.CurSceneName);
+        DataManager.GetInstance.SaveData(saveIndex);
 
         gameOptionCanvas.enabled = false;
         Dispose();
@@ -122,6 +133,21 @@ public class GameManager : Singleton<GameManager>, IDisposable
         Destroy(player);
         GC.SuppressFinalize(player);
     }
+
+    #region Interactive Canvas Control
+    public void VisibleInteractiveUI(Transform target, Camera camera, Vector3 offset)
+    {
+        interactiveTransform.position = camera.WorldToScreenPoint(target.position + offset);
+        IsInteractive = true;
+        interactiveCanvs.enabled = true;
+    }
+
+    public void InvisibleInteractiveUI()
+    {
+        IsInteractive = false;
+        interactiveCanvs.enabled = false;
+    }
+    #endregion
 
     #region Game 진행 플로우 관련 함수
     public void FailedGameAndRestart()

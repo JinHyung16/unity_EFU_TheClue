@@ -10,6 +10,6 @@ public class ThemeSecondViewer : MonoBehaviour
 
     private void OnDestroy()
     {
-        UIManager.GetInstance.ClearAll();
+        UIManager.GetInstance.ClearAllPanel();
     }
 }

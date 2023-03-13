@@ -15,7 +15,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Transform cameraViewTrans; //player camera의 부모 오브젝트인 CameraView
     
     [Header("Player Camera")]
-    [SerializeField] private Transform playerCameraTrans; //player camera 그 자체
+    [SerializeField] private Transform playerCameraTrans; //player mainCamera 그 자체
 
     private void Start()
     {

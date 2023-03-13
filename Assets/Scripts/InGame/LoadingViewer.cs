@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class LoadingViewer : MonoBehaviour
 {
-
     private void Start()
     {
         SceneController.GetInstance.LoadThemeScene().Forget();

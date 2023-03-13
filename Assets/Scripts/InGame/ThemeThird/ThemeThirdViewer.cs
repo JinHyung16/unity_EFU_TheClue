@@ -11,6 +11,6 @@ public class ThemeThirdViewer : MonoBehaviour
 
     private void OnDestroy()
     {
-        UIManager.GetInstance.ClearAll();
+        UIManager.GetInstance.ClearAllPanel();
     }
 }

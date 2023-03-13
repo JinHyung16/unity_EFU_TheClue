@@ -6,9 +6,11 @@ using UnityEngine.EventSystems;
 
 public class UIManager : Singleton<UIManager>
 {
+
+    #region UI Panel Control
     /// <summary>
-    /// SceneÀÌ ¹Ù²ğ¶§¸¶´Ù, ÇØ´ç Scene¿¡¼­ »ç¿ëÇÒ PanelµéÀ» ³Ö¾îÁØ´Ù.
-    /// PanelÀÌ¸§, ÇØ´ç Panel GameObject Çü½ÄÀ¸·Î ÀúÀåÇØµĞ´Ù.
+    /// Sceneì´ ë°”ë€”ë•Œë§ˆë‹¤, í•´ë‹¹ Sceneì—ì„œ ì‚¬ìš©í•  Panelë“¤ì„ ë„£ì–´ì¤€ë‹¤.
+    /// Panelì´ë¦„, í•´ë‹¹ Panel GameObject í˜•ì‹ìœ¼ë¡œ ì €ì¥í•´ë‘”ë‹¤.
     /// </summary>
     private Dictionary<string, GameObject> panelDictionary = new Dictionary<string, GameObject>();
     private Queue<GameObject> panelQueue = new Queue<GameObject>();
@@ -19,11 +21,6 @@ public class UIManager : Singleton<UIManager>
         panel.SetActive(false);
     }
 
-    /// <summary>
-    /// PanelÀ» ¿­ ¶§ È£Ãâ
-    /// ÇØ´ç panelÀ» stack¿¡ ³Ö¾î °ü¸®ÇÑ´Ù.
-    /// </summary>
-    /// <param name="panelName">¿­°í½ÍÀº Panel ÀÌ¸§</param>
     public void ShowPanel(string panelName)
     {
         if (panelDictionary.TryGetValue(panelName, out GameObject obj))
@@ -49,11 +46,6 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    /// <summary>
-    /// PanelÀ» ´İÀ» ¶§ È£ÃâµÈ´Ù.
-    /// ÇØ´ç panelÀÌ Á¸ÀçÇÏ´Â stack±îÁö ±× À§¿¡ ½×ÀÎ°Íµéµµ ´Ù ´İ¾ÆÁØ´Ù.
-    /// </summary>
-    /// <param name="panelName"> ´İÀ» panelÀÇ ÀÌ¸§ </param>
     public void HidePanel()
     {
         if (panelQueue.Count > 0)
@@ -67,11 +59,70 @@ public class UIManager : Singleton<UIManager>
     }
 
     /// <summary>
-    /// CanvasManager¸¦ »ó¼Ó¹ŞÀº °¢ Canvas¿¡¼­ OnDestroy()½Ã È£ÃâÇÑ´Ù.
+    /// ê° Viewerì—ì„œ ì”¬ ì „í™˜ì „ì˜ í˜¸ì¶œí•œë‹¤.
     /// </summary>
-    public void ClearAll()
+    public void ClearAllPanel()
     {
         panelDictionary.Clear();
         panelQueue.Clear();
     }
+    #endregion
+
+    #region UI Canvas Control
+    /// <summary>
+    /// Sceneì´ ë°”ë€”ë•Œë§ˆë‹¤, í•´ë‹¹ Sceneì—ì„œ ì‚¬ìš©í•  Canvasë“¤ì„ ë„£ì–´ì¤€ë‹¤.
+    /// Canvasì´ë¦„, í•´ë‹¹ Canvas í˜•ì‹ìœ¼ë¡œ ì €ì¥í•´ë‘”ë‹¤.
+    /// </summary>
+    private Dictionary<string, Canvas> canvasDictionary = new Dictionary<string, Canvas>();
+    private Queue<Canvas> canvasQueue = new Queue<Canvas>();
+
+    public void AddCanvasInDictionary(string canvasName, Canvas canvas)
+    {
+        canvasDictionary.Add(canvasName, canvas);
+        canvas.enabled = false;
+    }
+
+    public void ShowCanvas(string canvasName)
+    {
+        if (canvasDictionary.TryGetValue(canvasName, out Canvas canvas))
+        {
+            if (canvasQueue.Contains(canvas))
+            {
+                var removeObj = canvasQueue.Peek();
+                canvas.enabled = false;
+                canvasQueue.Clear();
+            }
+            else
+            {
+                if (canvasQueue.Count > 0)
+                {
+                    var removeObj = canvasQueue.Peek();
+                    canvas.enabled = false;
+                    canvasQueue.Dequeue();
+                }
+
+                canvasQueue.Enqueue(canvas);
+                canvas.enabled = true;
+            }
+        }
+    }
+
+    public void HideCanvas()
+    {
+        if (canvasQueue.Count > 0)
+        {
+            foreach (var canvas in canvasQueue)
+            {
+                canvas.enabled = false;
+            }
+        }
+        canvasQueue.Clear();
+    }
+
+    public void ClearAllCanvas()
+    {
+        canvasDictionary.Clear();
+        canvasQueue.Clear();
+    }
+    #endregion
 }

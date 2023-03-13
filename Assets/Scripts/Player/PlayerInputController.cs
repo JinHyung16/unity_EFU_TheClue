@@ -18,10 +18,11 @@ public class PlayerInputController : MonoBehaviour
     
     [Header("Player Camera Transform")]
     [SerializeField] private Transform cameraView;
-    private float cameraRotateSpeed;
 
+    private float cameraRotateSpeed;
     private KeyCode optionKey;
     private KeyCode inventoryKey;
+    private KeyCode interactiveKey;
 
     private void Start()
     {
@@ -31,22 +32,29 @@ public class PlayerInputController : MonoBehaviour
         }
         playerMovementController = GetComponent<PlayerMovementController>();
 
+        Cursor.visible = true;
+
         cameraRotateSpeed = gameSetUpData.cameraRotateSpeed;
-        optionKey = gameSetUpData.optionKey;
-        inventoryKey = gameSetUpData.inventoryKey;
+        this.optionKey = gameSetUpData.optionKey;
+        this.inventoryKey = gameSetUpData.inventoryKey;
+        this.interactiveKey = gameSetUpData.interactiveKey;
     }
 
     private void Update()
     {
-        if (!GameManager.GetInstance.IsGamePause)
-        {
-            InputMovementControl();
-            InputJumpControl();
-            InputMouseViewControl();
-        }
-
         InputOpenOption();
-        InputMouseLeftClick();
+
+        //Option 창이 열림 또는 UI가 열려있는 상태면 나머지 아래 동작들은 작동시키지 못하게 한다.
+        if (GameManager.GetInstance.IsPlayerInputStop || GameManager.GetInstance.IsUIOpen)
+        {
+            return;
+        }
+        InputMovementControl();
+        InputJumpControl();
+        InputMouseViewControl();
+        InputOpenInventory();
+        InputInteractive();
+        //InputMouseLeftClick();
     }
 
     /// <summary>
@@ -104,7 +112,7 @@ public class PlayerInputController : MonoBehaviour
             rotateX = Mathf.Clamp(rotateX, 335.0f, 361.0f);
         }
         //마우스 좌우 움직임으로 카메라 좌우 움직임 제어, 마우스 상하 움직임으로 카메라 상하 움직임 제어
-        //camera.x rotate하면 위 아래로 회전하고, camera.y rotate하면 좌우로 회전한다
+        //mainCamera.x rotate하면 위 아래로 회전하고, mainCamera.y rotate하면 좌우로 회전한다
         cameraView.rotation = Quaternion.Euler(rotateX, cameraAngle.y + mousePos.x, cameraAngle.z);
     }
 
@@ -118,12 +126,9 @@ public class PlayerInputController : MonoBehaviour
             Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                Debug.Log("PlayerInputController에서 호출 중" + hit.transform.gameObject.name);
             }
             else if (EventSystem.current.IsPointerOverGameObject())
             {
-                //UI를 클릭했을 경우
-                Debug.Log(EventSystem.current.currentSelectedGameObject.name);
                 return;
             }
         }
@@ -141,6 +146,20 @@ public class PlayerInputController : MonoBehaviour
     {
         if (Input.GetKeyDown(inventoryKey))
         {
+        }
+    }
+
+    private void InputInteractive()
+    {
+        if (Input.GetKeyDown(interactiveKey))
+        {
+            if (ThemeFirstPresenter.GetInstance != null)
+            {
+                if (GameManager.GetInstance.IsInteractive)
+                {
+                    ThemeFirstPresenter.GetInstance.OpenDoorLockUI();
+                }
+            }
         }
     }
 

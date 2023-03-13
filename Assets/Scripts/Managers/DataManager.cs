@@ -1,18 +1,17 @@
-using HughGenerics;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor.Build;
 using UnityEngine;
+using HughUtility;
+using HughGenerics;
 
 public class DataManager : Singleton<DataManager>
 {
     //Json Data 관련
     private string GameDataFileName = "GameProgressData.json";
     private string filePath = "/Resources/Data";
-    public bool IsDataLoad { get; private set; } = false;
-    
-    public GameProgressData[] GameProgressDataArray { get; private set; } //Load해온 GameProgressData를 담고 있는다.
+
     //Game Session 관련
     private string userSession = "EFU_login";
 
@@ -20,27 +19,24 @@ public class DataManager : Singleton<DataManager>
     /// 현재 게임의 진행 상황을 Josn으로 저장합니다.
     /// 테마 단위로 저장합니다.
     /// </summary>
-    public void SaveData(int themeIndex, string theme)
+    public void SaveData(int clearIndex)
     {
         string checkPath = Path.Combine(Application.dataPath + filePath, GameDataFileName);
-
-        GameProgressData[] jsonDataArray = new GameProgressData[themeIndex];
-        for (int i = 0; i < themeIndex; i++)
+        GameProgressData data = new GameProgressData
         {
-            jsonDataArray[i] = new GameProgressData();
-            jsonDataArray[i].themeName = theme;
-            if (File.Exists(checkPath))
-            {
+            themeClearIndex = clearIndex,
+        };
 
-                string jsonData = JsonUtility.ToJson(jsonDataArray[i]);
-                string path = Path.Combine(Application.dataPath + filePath, GameDataFileName);
-                File.WriteAllText(path, jsonData);
-            }
-            else
-            {
-                string jsonData = JsonUtility.ToJson(jsonDataArray[i]);
-                JsonUtility.FromJsonOverwrite(jsonData, jsonDataArray[i]);
-            }
+        if (!File.Exists(checkPath))
+        {
+            string jsonData = JsonUtility.ToJson(data);
+            string path = Path.Combine(Application.dataPath + filePath, GameDataFileName);
+            File.WriteAllText(path, jsonData);
+        }
+        else
+        {
+            string jsonData = JsonUtility.ToJson(data);
+            JsonUtility.FromJsonOverwrite(jsonData, data);
         }
     }
 
@@ -48,28 +44,26 @@ public class DataManager : Singleton<DataManager>
     /// Json으로 저장된 게임 진행 상황 데이터를 읽어옵니다.
     /// 해당 테마의 첫 번째부터 시작합니다.
     /// </summary>
-    public void LoadData()
+    public GameProgressData LoadData()
     {
         string path = Path.Combine(Application.dataPath + filePath, GameDataFileName);
+        GameProgressData data = new GameProgressData();
+
         if (File.Exists(path))
         {
             string jsonData = File.ReadAllText(path);
-            for (int i = 0; i < jsonData.Length; i++)
-            {
-                GameProgressDataArray[i] = JsonUtility.FromJson<GameProgressData>(jsonData);
-            }
-            IsDataLoad = true;
+            data = JsonUtility.FromJson<GameProgressData>(jsonData);
 #if UNITY_EDITOR
             Debug.Log("DataManager: 저장된 게임 데이터 불러오기 완료");
 #endif
+            return data;
         }
         else
         {
-            IsDataLoad = false;
 #if UNITY_EDITOR
             Debug.Log("DataManager: 저장된 게임 데이터 존재하지 않아 불러오기 실패");
 #endif
-            return;
+            return null;
         }
     }
 
