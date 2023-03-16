@@ -3,17 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using HughGenerics;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
+    //Panel 단위로 UI를 컨트롤 할 때 담을 Dictionary와 Queue
+    private Dictionary<string, GameObject> panelDictionary = new Dictionary<string, GameObject>();
+    private Queue<GameObject> panelQueue = new Queue<GameObject>();
 
-    #region UI Panel Control
+    //Canvas 단위로 UI를 컨트롤 할 때 담을 Dictionary와 Queue
+    private Dictionary<string, Canvas> canvasDictionary = new Dictionary<string, Canvas>();
+    private Queue<Canvas> canvasQueue = new Queue<Canvas>();
+
+
+    #region UI Panel단위로 Control
     /// <summary>
     /// Scene이 바뀔때마다, 해당 Scene에서 사용할 Panel들을 넣어준다.
     /// Panel이름, 해당 Panel GameObject 형식으로 저장해둔다.
     /// </summary>
-    private Dictionary<string, GameObject> panelDictionary = new Dictionary<string, GameObject>();
-    private Queue<GameObject> panelQueue = new Queue<GameObject>();
 
     public void AddPanelInDictionary(string panelName, GameObject panel)
     {
@@ -68,13 +75,11 @@ public class UIManager : Singleton<UIManager>
     }
     #endregion
 
-    #region UI Canvas Control
+    #region UI Canvas단위로 Control
     /// <summary>
     /// Scene이 바뀔때마다, 해당 Scene에서 사용할 Canvas들을 넣어준다.
     /// Canvas이름, 해당 Canvas 형식으로 저장해둔다.
     /// </summary>
-    private Dictionary<string, Canvas> canvasDictionary = new Dictionary<string, Canvas>();
-    private Queue<Canvas> canvasQueue = new Queue<Canvas>();
 
     public void AddCanvasInDictionary(string canvasName, Canvas canvas)
     {

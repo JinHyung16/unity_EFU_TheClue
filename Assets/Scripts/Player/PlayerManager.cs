@@ -5,16 +5,19 @@ using HughGenerics;
 
 public class PlayerManager : MonoBehaviour
 {
+    [Header("Player Camera")]
+    [SerializeField] private Camera playerCamera;
+
     [Header("GameSetUpData")]
     [SerializeField] private GameSetUpData gameSetUpData;
 
     [Header("Player Transform")]
     [SerializeField] private Transform playerTransform; //움직이는 player의 Transform을 담을 변수
 
-    [Header("Player Camera View")]
+    [Header("Player Camera ViewTransform")]
     [SerializeField] private Transform cameraViewTrans; //player camera의 부모 오브젝트인 CameraView
     
-    [Header("Player Camera")]
+    [Header("Player Camera Transform")]
     [SerializeField] private Transform playerCameraTrans; //player mainCamera 그 자체
 
     private void Start()
@@ -32,11 +35,8 @@ public class PlayerManager : MonoBehaviour
         cameraViewTrans.position = new Vector3(0, gameSetUpData.cameraViewPosY, 0);
     }
 
-    /// <summary>
-    /// Player 카메라의 각도를 맞춰준다.
-    /// </summary>
-    public void PlayerCameraAdjustment()
+    public Camera PlayerCamera()
     {
-        cameraViewTrans.rotation = Quaternion.Euler(0, 0, 0);
+        return this.playerCamera;
     }
 }

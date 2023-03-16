@@ -96,7 +96,6 @@ public class PlayerInputController : MonoBehaviour
     {
         Vector2 mousePos = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         Vector3 cameraAngle = cameraView.rotation.eulerAngles;
-
         //카메라가 수직으로 너무 회전하면 뒤집히는 문제 해결
         float rotateX = cameraAngle.x - mousePos.y;
         if (rotateX < 180.0f)
@@ -153,12 +152,9 @@ public class PlayerInputController : MonoBehaviour
     {
         if (Input.GetKeyDown(interactiveKey))
         {
-            if (ThemeFirstPresenter.GetInstance != null)
+            if (GameManager.GetInstance.IsInteractive)
             {
-                if (GameManager.GetInstance.IsInteractive)
-                {
-                    ThemeFirstPresenter.GetInstance.OpenDoorLockUI();
-                }
+                InteractiveManager.GetInstance.Interactive();
             }
         }
     }

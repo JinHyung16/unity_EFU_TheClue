@@ -97,7 +97,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 23
+    m_Bits: 2147483647
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -215,6 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4589ca534c7f81e45950195b57b77168, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCamera: {fileID: 1807678415012082924}
   gameSetUpData: {fileID: 11400000, guid: ab4cdb4e405b1894aaf753816e8dcc21, type: 2}
   playerTransform: {fileID: 90225379634863111}
   cameraViewTrans: {fileID: 8550649683622906504}

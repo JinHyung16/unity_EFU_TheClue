@@ -19,7 +19,6 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     protected override void OnAwake()
     {
         //mainCamera.enabled = false;
-        mainCamera.cullingMask = 5;
     }
 
     private void Start()
@@ -27,16 +26,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         SceneController.GetInstance.CurSceneName = themeName;
 
         GameManager.GetInstance.SpawnPlayer();
-    }
-
-    public void VisibleInteractiveUI(Transform target, Vector3 offset)
-    {
-        GameManager.GetInstance.VisibleInteractiveUI(target, mainCamera, offset);
-    }
-
-    public void InvisibleInteractiveUI()
-    {
-        GameManager.GetInstance.InvisibleInteractiveUI();
+        GameManager.GetInstance.themeCamera = this.mainCamera;
     }
 
 
@@ -54,5 +44,10 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     public void ClearDoorLockKeyPad()
     {
         doorLockKeyPad = "";
+    }
+
+    public void DicePutInInveotry(Transform diceTrans)
+    {
+        var dicePos = mainCamera.WorldToScreenPoint(diceTrans.position);
     }
 }
