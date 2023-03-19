@@ -6,8 +6,13 @@ using HughEnumData;
 public class Dice : InteractiveObject
 {
     [SerializeField] private Transform diceTransform;
+    [SerializeField] private Sprite dicePatternSprite;
+    [SerializeField] private Color dicePatternColor;
 
     private Vector3 offset = Vector3.zero;
+
+    public Sprite GetDicePatternSprite { get { return this.dicePatternSprite; } }
+    public Color GetDicePatternColor { get { return this.dicePatternColor; } }
     private void Start()
     {
         offset = new Vector3(0, 0.8f, 0);
@@ -36,11 +41,12 @@ public class Dice : InteractiveObject
         if (interactive)
         {
             InteractiveManager.GetInstance.SetInteractiveObject(this, true);
-            InteractiveManager.GetInstance.SetInteractivePosition(this.diceTransform);
+            InteractiveManager.GetInstance.SetInventoryObject(this.gameObject, true);
         }
         else
         {
             InteractiveManager.GetInstance.SetInteractiveObject(this, false);
+            InteractiveManager.GetInstance.SetInventoryObject(this.gameObject, false); ;
         }
     }
 

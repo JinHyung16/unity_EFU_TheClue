@@ -69,6 +69,10 @@ public class ThemeFirstViewer : MonoBehaviour
         GameManager.GetInstance.IsUIOpen = false;
     }
 
+    public void SetInventory(Transform transform)
+    {
+
+    }
     /// <summary>
     /// ThemeFirst Scene에서 Canvas들에게 붙어있는 Close버튼을 누르면 사용하는 공용함수
     /// </summary>

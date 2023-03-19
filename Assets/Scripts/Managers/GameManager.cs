@@ -69,6 +69,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
 
         isOptionKeyDown = false;
         IsPlayerInputStop = false;
+        IsUIOpen = false;
 
         Dispose();
         SceneController.GetInstance.LoadScene("Main");

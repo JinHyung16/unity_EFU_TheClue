@@ -234,6 +234,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diceTransform: {fileID: 195337965}
+  dicePatternSprite: {fileID: -1961501990, guid: 8c09e618edf80ab4fb2ff4d455d5a799, type: 3}
+  dicePatternColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1 &268896225
 GameObject:
   m_ObjectHideFlags: 0
@@ -984,6 +986,7 @@ GameObject:
   - component: {fileID: 521138514}
   - component: {fileID: 521138516}
   - component: {fileID: 521138515}
+  - component: {fileID: 521138517}
   m_Layer: 5
   m_Name: InventoryThird
   m_TagString: Untagged
@@ -1049,6 +1052,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 521138513}
   m_CullTransparentMesh: 1
+--- !u!114 &521138517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521138513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be2bf47722469474dbfa8ce63b391fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiImage: {fileID: 521138515}
+  priority: 3
 --- !u!1 &574724799
 GameObject:
   m_ObjectHideFlags: 0
@@ -1432,6 +1449,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diceTransform: {fileID: 668775063}
+  dicePatternSprite: {fileID: -1961501990, guid: 8c09e618edf80ab4fb2ff4d455d5a799, type: 3}
+  dicePatternColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!1 &707052507
 GameObject:
   m_ObjectHideFlags: 0
@@ -2954,6 +2973,7 @@ GameObject:
   - component: {fileID: 1122112095}
   - component: {fileID: 1122112094}
   - component: {fileID: 1122112093}
+  - component: {fileID: 1122112096}
   m_Layer: 5
   m_Name: Inventory Canvas
   m_TagString: Untagged
@@ -3011,12 +3031,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -3039,10 +3059,26 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &1122112096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122112091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42f24c1ddad086343956ec798aaed367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryObjects:
+  - {fileID: 1494787395}
+  - {fileID: 1865153019}
+  - {fileID: 521138517}
 --- !u!1 &1146178949
 GameObject:
   m_ObjectHideFlags: 0
@@ -4251,6 +4287,7 @@ GameObject:
   - component: {fileID: 1494787392}
   - component: {fileID: 1494787394}
   - component: {fileID: 1494787393}
+  - component: {fileID: 1494787395}
   m_Layer: 5
   m_Name: Inventory First
   m_TagString: Untagged
@@ -4316,6 +4353,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1494787391}
   m_CullTransparentMesh: 1
+--- !u!114 &1494787395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494787391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be2bf47722469474dbfa8ce63b391fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiImage: {fileID: 1494787393}
+  priority: 1
 --- !u!1 &1496645563
 GameObject:
   m_ObjectHideFlags: 0
@@ -5316,6 +5367,7 @@ GameObject:
   - component: {fileID: 1865153016}
   - component: {fileID: 1865153018}
   - component: {fileID: 1865153017}
+  - component: {fileID: 1865153019}
   m_Layer: 5
   m_Name: Inventory Second
   m_TagString: Untagged
@@ -5381,6 +5433,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1865153015}
   m_CullTransparentMesh: 1
+--- !u!114 &1865153019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865153015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be2bf47722469474dbfa8ce63b391fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiImage: {fileID: 1865153017}
+  priority: 2
 --- !u!1 &1877707213
 GameObject:
   m_ObjectHideFlags: 0
@@ -5571,6 +5637,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diceTransform: {fileID: 1960143785}
+  dicePatternSprite: {fileID: -1961501990, guid: 8c09e618edf80ab4fb2ff4d455d5a799, type: 3}
+  dicePatternColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1962505408
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,8 +8,7 @@ public class InteractiveManager : Singleton<InteractiveManager>
 {
     private List<InteractiveObject> interactiveObjects;
     private InteractiveType curInteractiveType;
-    private Transform interactiveTrans;
-
+    private GameObject inventoryObj;
 
     private void Start()
     {
@@ -42,9 +41,16 @@ public class InteractiveManager : Singleton<InteractiveManager>
         }
     }
 
-    public void SetInteractivePosition(Transform transform)
+    public void SetInventoryObject(GameObject obj, bool isInventory)
     {
-        this.interactiveTrans = transform;
+        if (isInventory)
+        {
+            this.inventoryObj = obj;
+        }
+        else
+        {
+            this.inventoryObj = null;
+        }
     }
 
     private void Notify(InteractiveType type)
@@ -57,7 +63,7 @@ public class InteractiveManager : Singleton<InteractiveManager>
                 ThemeFirstPresenter.GetInstance.OpenDoorLockUI();
                 break;
             case InteractiveType.ThemeFirst_Dice:
-                ThemeFirstPresenter.GetInstance.DicePutInInveotry(this.interactiveTrans);
+                ThemeFirstPresenter.GetInstance.DicePutInInveotry(inventoryObj);
                 break;
             default:
                 break;

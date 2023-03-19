@@ -46,8 +46,9 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         doorLockKeyPad = "";
     }
 
-    public void DicePutInInveotry(Transform diceTrans)
+    public void DicePutInInveotry(GameObject obj)
     {
-        var dicePos = mainCamera.WorldToScreenPoint(diceTrans.position);
+        var dice = obj.GetComponent<Dice>();
+        InventoryManager.GetInstance.PutInInventory(dice.GetDicePatternSprite, dice.GetDicePatternColor);
     }
 }
