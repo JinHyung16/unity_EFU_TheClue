@@ -21,9 +21,13 @@ public class PlayerInputController : MonoBehaviour
 
     private float cameraRotateSpeed;
     private KeyCode optionKey;
-    private KeyCode inventoryKey;
     private KeyCode interactiveKey;
 
+    private List<KeyCode> invenSelectKeyList;
+    private KeyCode firstInvenSelect;
+    private KeyCode secondInvenSelect;
+    private KeyCode thirdInvenSelect;
+    
     private void Start()
     {
         if (gameSetUpData == null)
@@ -36,25 +40,30 @@ public class PlayerInputController : MonoBehaviour
 
         cameraRotateSpeed = gameSetUpData.cameraRotateSpeed;
         this.optionKey = gameSetUpData.optionKey;
-        this.inventoryKey = gameSetUpData.inventoryKey;
         this.interactiveKey = gameSetUpData.interactiveKey;
+
+        invenSelectKeyList = new List<KeyCode>
+        {
+            gameSetUpData.firstInvenSelectKey,
+            gameSetUpData.secondInvenSelectKey,
+            gameSetUpData.thirdInvenSelectKey
+        };
     }
 
     private void Update()
     {
         InputOpenOption();
-
+        InputSelectInventory();
         //Option 창이 열림 또는 UI가 열려있는 상태면 나머지 아래 동작들은 작동시키지 못하게 한다.
-        if (GameManager.GetInstance.IsPlayerInputStop || GameManager.GetInstance.IsUIOpen)
+        if (GameManager.GetInstance.IsInputStop || GameManager.GetInstance.IsUIOpen)
         {
             return;
         }
+
         InputMovementControl();
         InputJumpControl();
         InputMouseViewControl();
-        InputOpenInventory();
         InputInteractive();
-        //InputMouseLeftClick();
     }
 
     /// <summary>
@@ -141,10 +150,22 @@ public class PlayerInputController : MonoBehaviour
         }
     }
 
-    private void InputOpenInventory()
+    private void InputSelectInventory()
     {
-        if (Input.GetKeyDown(inventoryKey))
+        int inputNum = 0;
+        if (Input.anyKeyDown)
         {
+            foreach (var key in invenSelectKeyList)
+            {
+                if (Input.GetKeyDown(key))
+                {
+                    inputNum = (int.Parse(key.ToString().Substring(key.ToString().Length - 1))) - 1;
+                    if (InventoryManager.GetInstance != null)
+                    {
+                        InventoryManager.GetInstance.SelectInventory(inputNum);
+                    }
+                }
+            }
         }
     }
 

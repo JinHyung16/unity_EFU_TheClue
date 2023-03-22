@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using HughGenerics;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("Player Camera ViewTransform")]
     [SerializeField] private Transform cameraViewTrans; //player camera의 부모 오브젝트인 CameraView
-    
+
     [Header("Player Camera Transform")]
     [SerializeField] private Transform playerCameraTrans; //player mainCamera 그 자체
 

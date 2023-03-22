@@ -15,5 +15,6 @@ namespace HughEnumData
         ThemeFirst_DoorLock,
         ThemeFirst_Dice,
         ThemeFirst_Switch,
+        ThemeFirst_PatternTile,
     }
 }

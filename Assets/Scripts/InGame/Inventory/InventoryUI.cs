@@ -10,6 +10,7 @@ public class InventoryUI : MonoBehaviour
 
     public int priority = 0;
     public bool IsSetObject { get; set; } = false;
+    public GameObject InventoryObject { get; private set; } = null;
 
     private void Start()
     {
@@ -17,9 +18,12 @@ public class InventoryUI : MonoBehaviour
         uiImage.color = Color.white;
     }
 
-    public void SetObject(Sprite objSprite, Color objColor)
+    public void SetObject(GameObject obj, Sprite objSprite, Color objColor)
     {
         IsSetObject = true;
+
+        InventoryObject = obj;
+        InventoryObject.name = obj.name;
         uiImage.sprite = objSprite;
         uiImage.color = objColor;
     }
@@ -28,6 +32,6 @@ public class InventoryUI : MonoBehaviour
     {
         IsSetObject = false;
         uiImage.sprite = null;
-        uiImage.material = null;
+        uiImage.color = Color.white;
     }
 }

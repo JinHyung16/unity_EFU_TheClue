@@ -1,12 +1,7 @@
 using HughGenerics;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using UnityEngine.UI;
 using System;
-using System.Threading.Tasks;
-using Cysharp.Threading.Tasks;
 
 public class GameManager : Singleton<GameManager>, IDisposable
 {
@@ -25,7 +20,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
 
     private bool isOptionKeyDown;
     public bool IsUIOpen { get; set; }
-    public bool IsPlayerInputStop { get; set; } = false;
+    public bool IsInputStop { get; set; } = false;
     public bool IsInteractive { get; private set; } = false;
     public bool IsEndTheme { private get; set; } = false;
 
@@ -37,7 +32,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
         interactiveCanvs.enabled = false;
 
         isOptionKeyDown = false;
-        IsPlayerInputStop = false;
+        IsInputStop = false;
 
         gameExitBtn.onClick.AddListener(QuitGameAndSaveData);
     }
@@ -68,7 +63,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
         interactiveCanvs.enabled = false;
 
         isOptionKeyDown = false;
-        IsPlayerInputStop = false;
+        IsInputStop = false;
         IsUIOpen = false;
 
         Dispose();
@@ -123,7 +118,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
             {
                 gameOptionCanvas.enabled = true;
                 isOptionKeyDown = true;
-                IsPlayerInputStop = true;
+                IsInputStop = true;
 
                 Time.timeScale = 0;
             }
@@ -131,7 +126,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
             {
                 gameOptionCanvas.enabled = false;
                 isOptionKeyDown = false;
-                IsPlayerInputStop = false;
+                IsInputStop = false;
 
                 Time.timeScale = 1;
             }
@@ -170,11 +165,10 @@ public class GameManager : Singleton<GameManager>, IDisposable
     }
 
     /// <summary>
-    /// Scene을 Clear하면 다음 씬으로 보낸다.
-    /// 이때, 마지막 Scene이면 Main으로 간다.
+    /// 게임 클리어 후 메인화면으로 갈 떄 호출
     /// </summary>
     /// <param name="nextScene">이동할 다음 Scene 이름</param>
-    public void CelarGame()
+    public void GameClear()
     {
         if (IsEndTheme)
         {

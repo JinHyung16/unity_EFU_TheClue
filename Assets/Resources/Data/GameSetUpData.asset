@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c555dbaeb65153b4986ebe03c08a637e, type: 3}
   m_Name: GameSetUpData
   m_EditorClassIdentifier: 
-  cameraPosZ: -2.5
-  cameraViewPosY: 3
-  characterTransform: {x: 0, y: -1.5, z: 0}
+  cameraPosZ: -3
+  cameraViewPosY: 5
+  characterTransform: {x: 0, y: 0, z: 0}
   moveSpeed: 1
   jumpPower: 10
   cameraRotateSpeed: 1.5
   optionKey: 27
-  inventoryKey: 101
   interactiveKey: 103
+  firstInvenSelectKey: 49
+  secondInvenSelectKey: 50
+  thirdInvenSelectKey: 51

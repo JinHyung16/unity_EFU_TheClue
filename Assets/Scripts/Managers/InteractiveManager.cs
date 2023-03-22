@@ -41,16 +41,22 @@ public class InteractiveManager : Singleton<InteractiveManager>
         }
     }
 
-    public void SetInventoryObject(GameObject obj, bool isInventory)
+    public void ThrowOutTheInventory()
     {
-        if (isInventory)
-        {
-            this.inventoryObj = obj;
-        }
-        else
-        {
-            this.inventoryObj = null;
-        }
+        if (inventoryObj == null) { return; }
+
+        inventoryObj.SetActive(false);
+        inventoryObj = null;
+    }
+
+    public void SetInventoryObject(GameObject obj)
+    {
+        this.inventoryObj = obj;
+    }
+
+    public void SetTilePatternObject(GameObject obj)
+    {
+        this.inventoryObj = obj;
     }
 
     private void Notify(InteractiveType type)
@@ -64,6 +70,12 @@ public class InteractiveManager : Singleton<InteractiveManager>
                 break;
             case InteractiveType.ThemeFirst_Dice:
                 ThemeFirstPresenter.GetInstance.DicePutInInveotry(inventoryObj);
+                break;
+            case InteractiveType.ThemeFirst_Switch:
+                ThemeFirstPresenter.GetInstance.SwitchOffAndAutoOn();
+                break;
+            case InteractiveType.ThemeFirst_PatternTile:
+                ThemeFirstPresenter.GetInstance.TilePatternOpen(inventoryObj);
                 break;
             default:
                 break;

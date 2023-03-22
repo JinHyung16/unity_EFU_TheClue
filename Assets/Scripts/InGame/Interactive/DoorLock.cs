@@ -11,7 +11,11 @@ public class DoorLock : InteractiveObject
     {
         offset = new Vector3(0, 0.8f, 0);
     }
-    
+    private void OnDestroy()
+    {
+        GameManager.GetInstance.InvisibleInteractiveCanvas();
+        InteracitveOrNot(false);
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))

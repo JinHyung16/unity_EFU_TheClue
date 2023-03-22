@@ -14,6 +14,8 @@ public class ThemeFirstViewer : MonoBehaviour
     [SerializeField] private List<Button> keypadButtonList = new List<Button>();
 
     [SerializeField] private TMP_Text doorLockInputText;
+
+    //[SerializeField] private Canvas gameResultCanvas;
     private void Awake()
     {
         foreach (var canvas in canvasList)
@@ -69,10 +71,23 @@ public class ThemeFirstViewer : MonoBehaviour
         GameManager.GetInstance.IsUIOpen = false;
     }
 
-    public void SetInventory(Transform transform)
+    /// <summary>
+    /// 바닥에 타일을 배치하려 할 때 해당 문양이 맞는지 확인하는 UI가 뜬다.
+    /// </summary>
+    public void TilePatternCanvasOpen(GameObject diceObj, GameObject patternObj)
     {
-
+        GameManager.GetInstance.IsUIOpen = true;
+        UIManager.GetInstance.ShowCanvas("TilePattern Canvas");
+        TilePatternManager.GetInstance.VisibleTilePattern(patternObj);
+        TilePatternManager.GetInstance.SetDiceOnTileCanvas(diceObj);
     }
+
+    public void OpenResultCanvas(bool isClear)
+    {
+        GameManager.GetInstance.IsUIOpen = true;
+        UIManager.GetInstance.ShowCanvas("GameResult Canvas");
+    }
+
     /// <summary>
     /// ThemeFirst Scene에서 Canvas들에게 붙어있는 Close버튼을 누르면 사용하는 공용함수
     /// </summary>
