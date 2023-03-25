@@ -74,10 +74,10 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        if (TilePatternManager.GetInstance != null)
+        if (TileManager.GetInstance != null)
         {
             //TilePatternManager가 있으면 테마1의 주사위 데이터 로드
-            TilePatternManager.GetInstance.SetDiceSync();
+            TileManager.GetInstance.SetDiceSync();
         }
     }
 

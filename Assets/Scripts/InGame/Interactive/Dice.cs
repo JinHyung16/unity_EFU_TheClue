@@ -8,18 +8,21 @@ public class Dice : InteractiveObject
     [Header("Dice의 원래 위치")]
     [SerializeField] private Transform diceTransform;
 
-    [Header("Dice의 pattern sprites")]
-    [SerializeField] private Sprite[] dicePatternSprites;
+    [Header("DiceData ScriptableObject")]
+    [SerializeField] private DiceData diceData;
+
     [Header("Dice의 색깔")]
     [SerializeField] private Color dicePatternColor;
 
     [Header("Dice UI sprite")]
     [SerializeField] private Sprite dicePatternSprite;
 
-    public string DicePatternName { get; set; }
-
     private Vector3 offset = Vector3.zero;
+    private Sprite[] dicePatternSpriteArray;
+    private string[] dicePatternNameArray;
 
+
+    public string DicePatternName { get; private set; }
     public Sprite GetDicePatternUISprite { get { return this.dicePatternSprite; } }
     public Color GetDicePatternColor { get { return this.dicePatternColor; } }
 
@@ -36,6 +39,8 @@ public class Dice : InteractiveObject
     private void Start()
     {
         offset = new Vector3(0, 0.8f, 0);
+        dicePatternSpriteArray = diceData.patternSpriteArray;
+        dicePatternNameArray = diceData.patternNameArray;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -76,8 +81,23 @@ public class Dice : InteractiveObject
         return this.myInteractiveType;
     }
 
+    /// <summary>
+    /// Tile Pattern Canvas에서 현재 위로 올라온 주사위 문양
+    /// </summary>
+    /// <param name="index"> 현재 맨 위로 올라온 index </param>
+    /// <returns> 주사위 문양 전달 </returns>
     public Sprite GetDicePattern(int index)
     {
-        return this.dicePatternSprites[index];
+        return this.dicePatternSpriteArray[index];
+    }
+
+    /// <summary>
+    /// Tile Pattern Canvas에서 현재 위로 올라온 주사위 문양의 이름
+    /// </summary>
+    /// <param name="index"> 현재 맨 위로 올라온 index</param>
+
+    public void SetCurDicePatternName(int index)
+    {
+        DicePatternName = this.dicePatternNameArray[index];
     }
 }
