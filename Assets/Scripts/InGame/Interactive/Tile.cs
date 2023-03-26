@@ -10,7 +10,7 @@ public class Tile : InteractiveObject
 
     private Vector3 offset = Vector3.zero;
 
-    [SerializeField] private Renderer tileRender;
+    [SerializeField] private MeshRenderer tileRender;
 
     [Header("Tile의 Sprite")]
     [SerializeField] Sprite tileSprte; //본인의 타일 문양
@@ -19,7 +19,7 @@ public class Tile : InteractiveObject
     private Color tileColor = Color.white; //본인의 타일 색깔, 기본은 흰색
 
     public bool IsEscapeKey { get; set; } = false; //본인이 탈출 열쇠인지 아닌지
-    public bool IsDone { get; set; } = false; //완벽하게 주사위가 배치된 타일인지
+    public bool IsSetDice { get; set; } = false; //완벽하게 주사위가 배치된 타일인지
 
     public int IsColorChangeNum { get; set; } = 1;
 
@@ -29,7 +29,6 @@ public class Tile : InteractiveObject
 
     private void Start()
     {
-        tileRender = GetComponentInChildren<Renderer>();
         offset = new Vector3(0, 0.7f, 0);
     }
     private void OnDestroy()
@@ -89,24 +88,31 @@ public class Tile : InteractiveObject
     }
     public void InitialTileSetting(Transform transform, Color color)
     {
-        tilePatternTransform = transform;
-        tileColor = color;
+        this.tilePatternTransform = transform;
+        this.tileColor = color;
     }
 
+    /// <summary>
+    /// EscapeKey가 아닌 tile의 경우 실행된다.
+    /// </summary>
+    /// <param name="transform"> 변경할 위치를 받는다 </param>
     public void ChangeTilePosition(Transform transform)
     {
-        if (IsDone)
+        if (!IsEscapeKey)
         {
-            return;
+            this.tilePatternTransform = transform;
         }
     }
 
     public void ChangeEmissionColor(Color color)
     {
-        if (IsEscapeKey && tileColor == color)
+        if (!IsEscapeKey)
         {
-            return;
+            tileRender.material.SetColor("_EmissionColor", color * Mathf.LinearToGammaSpace(2.0f));
         }
-        tileRender.material.SetColor("_EmissionColor", color);
+        else if (IsEscapeKey && this.tileColor != color)
+        {
+            tileRender.material.SetColor("_EmissionColor", color * Mathf.LinearToGammaSpace(2.0f));
+        }
     }
 }

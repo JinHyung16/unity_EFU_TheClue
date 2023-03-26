@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 1328471753070212814}
   - component: {fileID: 1328471753070212813}
   m_Layer: 5
-  m_Name: GameResult Panel
+  m_Name: Timer Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -359,4 +359,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerText: {fileID: 1328471752131902168}
-  isTimerStart: 0

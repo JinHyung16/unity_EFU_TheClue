@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class PlayerInputController : MonoBehaviour
 {
     private PlayerMovementController playerMovementController;
+    private Animator playerAnimator;
 
     [Header("Player Camera")]
     [SerializeField] private Camera playerCamera;
@@ -18,6 +20,7 @@ public class PlayerInputController : MonoBehaviour
     
     [Header("Player Camera Transform")]
     [SerializeField] private Transform cameraView;
+
 
     private float cameraRotateSpeed;
     private KeyCode optionKey;
@@ -34,7 +37,9 @@ public class PlayerInputController : MonoBehaviour
         {
             gameSetUpData = Resources.Load("Data/GameSetUpData") as GameSetUpData;
         }
+
         playerMovementController = GetComponent<PlayerMovementController>();
+        playerAnimator = GetComponentInChildren<Animator>();
 
         Cursor.visible = true;
 
@@ -59,7 +64,15 @@ public class PlayerInputController : MonoBehaviour
         {
             return;
         }
-
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            int random = UnityEngine.Random.Range(0, 3);
+            if (random == 3)
+            {
+                return;
+            }
+            Debug.Log(random);
+        }
         InputMovementControl();
         InputJumpControl();
         InputMouseViewControl();
@@ -71,9 +84,13 @@ public class PlayerInputController : MonoBehaviour
     /// </summary>
     private void InputMovementControl()
     {
-        Vector2 moveInput = new Vector2(Input.GetAxis("Horizontal") * cameraRotateSpeed,
-            Input.GetAxis("Vertical") * cameraRotateSpeed); //camera가 바라보는 방향으로 움직이기
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
 
+        Vector2 moveInput = new Vector2(horizontal * cameraRotateSpeed, vertical * cameraRotateSpeed);
+
+        playerAnimator.SetFloat("Horizontal", horizontal);
+        playerAnimator.SetFloat("Vertical", vertical);
         //bool isMove = moveInput.magnitude != 0.0f;
         //animator.SetBool("IsMove", isMove);
 

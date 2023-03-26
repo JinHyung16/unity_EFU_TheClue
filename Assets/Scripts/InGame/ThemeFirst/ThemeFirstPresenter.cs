@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -21,14 +22,15 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     [SerializeField] private List<UnityEngine.Color> colorList;
 
     [Header("서로 다른 6가지 문양의 Tile")]
-    [SerializeField] private List<Tile> tilePatternList;
+    [SerializeField] private TileData tileData;
+    [SerializeField] private List<GameObject> tileObjectList; //생성한 9개 타일 오브젝트 담아두기.
 
     [Header("타일 배치할 위치 9곳 list")]
     [SerializeField] private List<Transform> tileSpawnPosList;
-    List<int> notEscapeTilePosList = new List<int>(); //탈출 키인 3가지 타일 배치한 위치를 제외한 나머지 구역
+    [SerializeField] List<int> remainTileSpawnList; //탈출 키인 3가지 타일 배치한 위치를 제외한 나머지 구역
 
     private string doorLockKeyPad;
-    private int switchOnCount; //switch와 상호작용 한 횟수 저장
+    private int switchOnCount = 1; //switch와 상호작용 한 횟수 저장
 
     //Game Clear 또는 Fail이 되는 조건을 저장한 변수
     private int numOfTileAttemptsCnt = 0; //타일 퍼즐 풀기 시도 횟수
@@ -58,11 +60,6 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         GameManager.GetInstance.themeCamera = this.mainCamera;
 
         switchOnCount = 1;
-        foreach (var tile in tilePatternList)
-        {
-            tile.SetActiveTile(false);
-        }
-
 
         SetTileRandom();
     }
@@ -122,16 +119,16 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     {
         //5초 뒤 빛 켜지게 (R -> G -> B 순서로)
         await UniTask.Delay(TimeSpan.FromSeconds(5.0f), cancellationToken: tokenSource.Token);
-        AutoTileColorChange(colorList[switchOnCount]);
         switchSpotLight.color = colorList[switchOnCount];
-        switchOnCount++;
         switchSpotLight.enabled = true;
+        AutoTileColorChange(colorList[switchOnCount]);
+        switchOnCount++;
         await UniTask.Delay(TimeSpan.FromSeconds(7.0f), cancellationToken: tokenSource.Token);
         switchSpotLight.enabled = false;
+        AutoTilePosChange();
         switchSpotLight.color = colorList[0];
         AutoTileColorChange(colorList[0]);
-        AutoTilePosChange();
-        await UniTask.Delay(TimeSpan.FromSeconds(2.0f), cancellationToken: tokenSource.Token);
+        await UniTask.Delay(TimeSpan.FromSeconds(1.0f), cancellationToken: tokenSource.Token);
         switchSpotLight.enabled = true;
         tokenSource.Cancel();
     }
@@ -143,103 +140,128 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     /// </summary>
     private void SetTileRandom()
     {
-        List<int> tileRandomList = new List<int>(); //탈출 키가 될 3가지 타일 선택하여 담을 리스트
-        List<int> tileRandomPos = new List<int>(); //탈출 키인 3가지 타일의 위치를 선택하여 담을 리스트
-        for (int t = 0; t < 9; t++)
+        remainTileSpawnList = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+        tileObjectList = new List<GameObject>();
+        
+        List<int> tileRandomList = new List<int>() { 0, 1, 2, 3, 4, 5 };
+        List<int> tileRandomPos = new List<int>();
+
+        //타일 랜덤으로 3개 선택
+        for (int i = 0; i < 3; i++)
         {
-            notEscapeTilePosList.Add(t);
+            int random = UnityEngine.Random.Range(0, tileRandomList.Count);
+            var tile = Instantiate(tileData.tileObjArray[random]);
+            tile.name = tileData.tileObjArray[tileRandomList[random]].name;
+            tile.GetComponent<Tile>().IsEscapeKey = true;
+            tile.SetActive(false);
+            tileObjectList.Add(tile);
+            tileRandomList.RemoveAt(random);
         }
 
-        //탈출 키인 3가지 타일 랜덤 뽑기
-        while (true)
+        //EscapeKey인 타일을 고정적으로 배열할 위치찾기
+        //추가로 remainTileSpawnList에서 남은값들의 위치에는 계속 타일들이 바뀌어 위치된다.
+        for (int i = 0; i < 3; i++)
         {
-            int tileRandomSelect = UnityEngine.Random.Range(0, 5);
-            if (!tileRandomList.Contains(tileRandomSelect))
-            {
-                tilePatternList[tileRandomSelect].IsEscapeKey = true;
-                tileRandomList.Add(tileRandomSelect);
-            }
-            if (tileRandomList.Count == 3)
-            {
-                break;
-            }
+            int randomPos = UnityEngine.Random.Range(0, remainTileSpawnList.Count);
+            tileRandomPos.Add(remainTileSpawnList[randomPos]);
+            remainTileSpawnList.RemoveAt(randomPos);
         }
 
-        //탈출 키인 3가지 타일 위치 배정 -> 뽑은 값은 제거하면서
-        while (true)
+        foreach (var list in remainTileSpawnList)
         {
-            int randomPos = UnityEngine.Random.Range(0, 8);
-            if (!tileRandomPos.Contains(randomPos))
-            {
-                tileRandomPos.Add(randomPos);
-                notEscapeTilePosList.RemoveAt(randomPos);
-            }
-            if (tileRandomPos.Count == 3)
-            {
-                break;
-            }
+            Debug.Log("남은 위치: " + list);
         }
 
-        int i = 0;
-        int j = 0;
-        foreach (var tile in tilePatternList)
+        //나머지 escape key가 아닌 tile도 tileObjectList에 추가한다.
+        for (int i = 0; i < 3; i++)
         {
-            if (tile.IsEscapeKey)
+            var tile = Instantiate(tileData.tileObjArray[tileRandomList[i]]);
+            tile.SetActive(false);
+            tile.name = tileData.tileObjArray[tileRandomList[i]].name;
+            tileObjectList.Add(tile);
+        }
+
+        //9개 타일중 6개가 선택됐으니, 나머지 3개에 대해서 랜덤으로 만든다.
+        for (int i = 0; i < 3; i++)
+        {
+            int random = UnityEngine.Random.Range(0, 5);
+            var tile = Instantiate(tileData.tileObjArray[random]);
+            tile.name = tileData.tileObjArray[random].name + i.ToString();
+            tile.SetActive(false);
+            tile.GetComponent<Tile>().IsEscapeKey = false;
+            tileObjectList.Add(tile);
+        }
+
+        int index1 = 0;
+        int index2 = 0;
+        foreach (var tile in tileObjectList)
+        {
+            if (tile.GetComponent<Tile>().IsEscapeKey)
             {
-                tile.InitialTileSetting(tileSpawnPosList[tileRandomPos[i]].transform, colorList[(i + 1)]);
-                tile.transform.position = tileSpawnPosList[tileRandomPos[i]].transform.position;
-                tile.SetActiveTile(true);
-                i++;
+                tile.GetComponent<Tile>().InitialTileSetting(tileSpawnPosList[tileRandomPos[index1]].transform, colorList[(index1 + 1)]);
+                tile.transform.position = tileSpawnPosList[tileRandomPos[index1]].position;
+                tile.SetActive(true);
+                index1++;
             }
             else
             {
-                tile.InitialTileSetting(tileSpawnPosList[notEscapeTilePosList[j]].transform, colorList[0]);
-                tile.transform.position = tileSpawnPosList[notEscapeTilePosList[j]].transform.position ;
-                tile.SetActiveTile(true);
-                j++;
+                tile.GetComponent<Tile>().InitialTileSetting(tileSpawnPosList[remainTileSpawnList[index2]].transform, UnityEngine.Color.black);
+                tile.transform.position = tileSpawnPosList[remainTileSpawnList[index2]].position;
+                tile.SetActive(true);
+                index2++;
             }
+
         }
     }
 
     private void AutoTileColorChange(UnityEngine.Color color)
     {
-        foreach (var tile in tilePatternList)
+        foreach (var tile in tileObjectList)
         {
-            tile.ChangeEmissionColor(color);
+            if (color == UnityEngine.Color.white)
+            {
+                tile.GetComponent<Tile>().ChangeEmissionColor(UnityEngine.Color.black);
+            }
+            else
+            {
+                tile.GetComponent<Tile>().ChangeEmissionColor(color);
+            }
         }
     }
     private void AutoTilePosChange()
     {
-        foreach (var tile in tilePatternList)
-        {
-            if (!tile.IsEscapeKey)
-            {
-                tile.SetActiveTile(false);
-            }
-        }
-
+        List<int> suffleList = remainTileSpawnList;
         //기존에 탈출용 타일을 배치한 곳을 제외한 위치를 저장한 리스트를 셔플한다.
-        int rand1, rand2;
+        int rand;
         int temp;
-        for (int i = 0; i < notEscapeTilePosList.Count; i++)
+        for (int i = 0; i < remainTileSpawnList.Count - 1; i++)
         {
-            rand1 = UnityEngine.Random.Range(0, notEscapeTilePosList.Count);
-            rand2 = UnityEngine.Random.Range(0, notEscapeTilePosList.Count);
-            temp = notEscapeTilePosList[rand1];
-            notEscapeTilePosList[rand1] = notEscapeTilePosList[rand2];
-            notEscapeTilePosList[rand2] = temp;
+            rand = UnityEngine.Random.Range(0, i + 1);
+            temp = suffleList[rand];
+            suffleList[i] = suffleList[rand];
+            suffleList[rand] = temp;
+        }
+        remainTileSpawnList = suffleList;
 
+        foreach (var tile in tileObjectList)
+        {
+            tile.SetActive(false);
         }
 
         int j = 0;
-        foreach (var tile in tilePatternList)
+        foreach (var tile in tileObjectList)
         {
-            if (!tile.IsEscapeKey)
+            if (!tile.GetComponent<Tile>().IsEscapeKey)
             {
-                tile.SetActiveTile(false);
-                tile.ChangeTilePosition(tileSpawnPosList[notEscapeTilePosList[j]]);
+                tile.GetComponent<Tile>().ChangeTilePosition(tileSpawnPosList[remainTileSpawnList[j]]);
+                tile.transform.position = tileSpawnPosList[remainTileSpawnList[j]].position;
                 j++;
             }
+        }
+
+        foreach (var tile in tileObjectList)
+        {
+            tile.SetActive(true);
         }
     }
 

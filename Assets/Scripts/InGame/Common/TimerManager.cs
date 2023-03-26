@@ -22,6 +22,7 @@ public class TimerManager : MonoBehaviour
     private int minTime = 0;
     private float secTime = 0.0f;
 
+    public string CurTime { get; private set; }
     public bool IsTimerStart { get; set; } = false;
     public bool IsTimerDone { get; private set; } = false; //10분이 되었을 때 true로 변환
 
@@ -54,5 +55,6 @@ public class TimerManager : MonoBehaviour
             IsTimerDone = true;
         }
         timerText.text = minTime.ToString("D0") + ":" + secTime.ToString("F0");
+        CurTime = minTime.ToString("D0") + ":" + secTime.ToString("F0");
     }
 }

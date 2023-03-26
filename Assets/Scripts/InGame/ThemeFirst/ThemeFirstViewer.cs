@@ -14,6 +14,7 @@ public class ThemeFirstViewer : MonoBehaviour
     [SerializeField] private List<Button> keypadButtonList = new List<Button>();
 
     [SerializeField] private TMP_Text doorLockInputText;
+    [SerializeField] private TMP_Text resultTimerText;
 
     //[SerializeField] private Canvas gameResultCanvas;
     private void Awake()
@@ -105,6 +106,7 @@ public class ThemeFirstViewer : MonoBehaviour
         GameManager.GetInstance.IsUIOpen = true;
         if (isClear)
         {
+            resultTimerText.text = TimerManager.GetInstance.CurTime.ToString();
             UIManager.GetInstance.ShowCanvas("GameClearResult Canvas");
         }
         else

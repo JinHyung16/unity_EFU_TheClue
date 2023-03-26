@@ -93,7 +93,7 @@ public class TileManager : MonoBehaviour
             {
                 if (curPattern.TilePatternName == curTilePatternName)
                 {
-                    curPattern.IsDone = true;
+                    curPattern.IsSetDice = true;
                 }
             }
             diceObject.SetActive(true);
