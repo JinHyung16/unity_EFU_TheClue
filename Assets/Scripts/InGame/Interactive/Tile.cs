@@ -29,7 +29,7 @@ public class Tile : InteractiveObject
 
     private void Start()
     {
-        offset = new Vector3(0, 0.7f, 0);
+        offset = new Vector3(0, 1.3f, 0);
     }
     private void OnDestroy()
     {
@@ -113,6 +113,10 @@ public class Tile : InteractiveObject
         else if (IsEscapeKey && this.tileColor != color)
         {
             tileRender.material.SetColor("_EmissionColor", color * Mathf.LinearToGammaSpace(2.0f));
+        }
+        else
+        {
+            tileRender.material.SetColor("_EmissionColor", Color.black);
         }
     }
 }

@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PatternBasic
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 2
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 94c5f72d066fbf248bdbd64adc13b1e9, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 2027849341, guid: 9dbb7330b8247594c865f2f176e4f77c, type: 3}
+  - {fileID: -272595405, guid: 91c7eaf132108ed408bf31e9e4b8a883, type: 3}
+  - {fileID: -2000866785, guid: a0a7313205f792844af2d84fc09e7c93, type: 3}
+  - {fileID: -1784903287, guid: d55270a5a83da9f4d86f738c87c7c9d2, type: 3}
+  - {fileID: -594215595, guid: 8584626c00e27b34fb83d78465da6d16, type: 3}
+  - {fileID: -2027418096, guid: 99012aecf100ad94cb69c547ea1e101a, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - pattern02_basic_0
+  - pattern03_basic_0
+  - pattern05_basic_0
+  - pattern06_basic_0
+  - pattern01_basic_0
+  - pattern04_basic_0
+  m_RenderDataMap: {}
+  m_Tag: PatternBasic
+  m_IsVariant: 0

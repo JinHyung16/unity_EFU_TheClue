@@ -85,6 +85,9 @@ public class InteractiveManager : MonoBehaviour
             case InteractiveType.ThemeFirst_PatternTile:
                 ThemeFirstPresenter.GetInstance.TileInteractiveOpen(inventoryObj);
                 break;
+            case InteractiveType.ThemeFirst_Cube:
+                ThemeFirstPresenter.GetInstance.CubePutInInveotry(inventoryObj);
+                break;
             default:
                 break;
         }

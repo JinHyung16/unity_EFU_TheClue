@@ -5,8 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Floor
-  - PatternFloor
   - Door
+  - Dice
+  - Cube
   layers:
   - Default
   - TransparentFX

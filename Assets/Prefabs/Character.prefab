@@ -159,13 +159,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7020807601976230722}
-  - component: {fileID: 222766950307456094}
+  - component: {fileID: 4215925599602958131}
   - component: {fileID: 7020807601976230723}
   - component: {fileID: 7020807601976230732}
   - component: {fileID: 8797660367505333316}
   m_Layer: 0
   m_Name: Character
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -187,7 +187,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &222766950307456094
+--- !u!54 &4215925599602958131
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -202,7 +202,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 116
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &7020807601976230723
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,7 +351,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2f8bac9522e3731419425a3c09cf70d0, type: 3}
   m_PrefabInstance: {fileID: 627955644078392815}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &3999069448099881318
+--- !u!136 &5272249004880669785
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

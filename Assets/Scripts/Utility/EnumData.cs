@@ -16,5 +16,6 @@ namespace HughEnumData
         ThemeFirst_Dice,
         ThemeFirst_Switch,
         ThemeFirst_PatternTile,
+        ThemeFirst_Cube,
     }
 }

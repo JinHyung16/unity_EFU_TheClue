@@ -62,7 +62,7 @@ MonoBehaviour:
   diceTransform: {fileID: 6210331609368018727}
   diceData: {fileID: 11400000, guid: 1a6f9462d8f0992468c2de7cd1d69210, type: 2}
   dicePatternColor: {r: 0, g: 0, b: 1, a: 1}
-  dicePatternSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  dicePatternSprite: {fileID: 1524484508, guid: 1b033e5d57b491740b0b814f72374b01, type: 3}
 --- !u!1001 &6210331608533722585
 PrefabInstance:
   m_ObjectHideFlags: 0

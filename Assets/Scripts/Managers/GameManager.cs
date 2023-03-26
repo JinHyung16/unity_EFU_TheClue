@@ -2,6 +2,7 @@ using HughGenerics;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using DG.Tweening;
 
 public class GameManager : Singleton<GameManager>, IDisposable
 {
@@ -19,6 +20,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
     private PlayerManager playerManager;
 
     private bool isOptionKeyDown;
+
     public bool IsUIOpen { get; set; }
     public bool IsInputStop { get; set; } = false;
     public bool IsInteractive { get; private set; } = false;
@@ -146,8 +148,8 @@ public class GameManager : Singleton<GameManager>, IDisposable
         interactiveCanvs.enabled = true;
 
         interactiveTrans.position = target.position + offset;
-        interactiveTrans.LookAt(interactiveTrans.position + playerManager.PlayerCamera().transform.rotation * Vector3.back
-            , playerManager.PlayerCamera().transform.rotation * Vector3.up);
+        //interactiveTrans.LookAt(interactiveTrans.position + playerManager.PlayerCamera().transform.rotation * Vector3.back, playerManager.PlayerCamera().transform.rotation * Vector3.up);
+        interactiveTrans.LookAt(themeCamera.transform);
     }
 
     public void InvisibleInteractiveCanvas()

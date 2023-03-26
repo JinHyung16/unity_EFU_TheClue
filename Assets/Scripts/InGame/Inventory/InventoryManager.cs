@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Tilemaps;
+using Cysharp.Threading.Tasks;
+using System.Threading;
+using System;
+using DG.Tweening;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -17,27 +20,41 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private List<InventoryUI> inventoryUIList = new List<InventoryUI>();
     private InventoryUI emptyInventory;
 
+    [SerializeField] private GameObject invenIsFullImage;
+
     public int selectInvenIndex = 0;
+
+    //UniTask 관련
+    private CancellationTokenSource tokenSource;
+
     private void Start()
     {
         foreach (var obj in inventoryUIList)
         {
             obj.IsSetObject = false;
         }
+
+        if (tokenSource != null)
+        {
+            tokenSource.Dispose();
+        }
+        tokenSource = new CancellationTokenSource();
+        invenIsFullImage.SetActive(false);
     }
+
 
     private void InventoryCheck()
     {
         int minPriority = 987654321;
 
-        foreach (var obj in inventoryUIList)
+        for(int i =0; i < inventoryUIList.Count; i++)
         {
-            if (!obj.IsSetObject)
+            if (!inventoryUIList[i].IsSetObject)
             {
-                if (obj.priority < minPriority)
+                if (inventoryUIList[i].priority < minPriority)
                 {
-                    minPriority = obj.priority;
-                    emptyInventory = obj;
+                    minPriority = inventoryUIList[i].priority;
+                    emptyInventory = inventoryUIList[i];
                 }
             }
         }
@@ -46,9 +63,33 @@ public class InventoryManager : MonoBehaviour
     public void PutInInventory(GameObject obj, Sprite sprite, Color color)
     {
         InventoryCheck();
-        emptyInventory.SetObject(obj, sprite, color);
-        emptyInventory = null;
-        obj.SetActive(false);
+        if (emptyInventory != null)
+        {
+            emptyInventory.SetObject(obj, sprite, color);
+            emptyInventory = null;
+            obj.SetActive(false);
+        }
+        else
+        {
+            InventoryIsPullUI();
+        }
+    }
+    private void InventoryIsPullUI()
+    {
+        if (tokenSource != null)
+        {
+            tokenSource.Cancel();
+        }
+        invenIsFullImage.SetActive(true);
+        WaningInventoryIsPull().Forget();
+    }
+
+    private async UniTaskVoid WaningInventoryIsPull()
+    {
+        invenIsFullImage.transform.DOShakePosition(1.0f, 0.3f);
+        await UniTask.Delay(TimeSpan.FromSeconds(1.0f), cancellationToken: tokenSource.Token);
+        invenIsFullImage.SetActive(false);
+        tokenSource.Cancel();
     }
 
     /// <summary>
@@ -77,7 +118,7 @@ public class InventoryManager : MonoBehaviour
         if (TileManager.GetInstance != null)
         {
             //TilePatternManager가 있으면 테마1의 주사위 데이터 로드
-            TileManager.GetInstance.SetDiceSync();
+            TileManager.GetInstance.SetInventorySync();
         }
     }
 
@@ -99,9 +140,9 @@ public class InventoryManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 주사위를 Tile에 최종적으로 배치 완료할 때 호출하는 함수
+    /// 테마1에서 inven의 object를 Tile에 최종적으로 배치 완료할 때 호출하는 함수
     /// </summary>
-    public void DicePutOnTile()
+    public void InvenObjectPutOnTile()
     {
         emptyInventory.GetObject();
         emptyInventory = null;

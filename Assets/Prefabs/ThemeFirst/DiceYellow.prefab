@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4240862391917485025}
   m_Layer: 0
   m_Name: DiceYellow
-  m_TagString: Untagged
+  m_TagString: Dice
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -62,7 +62,7 @@ MonoBehaviour:
   diceTransform: {fileID: 4240862391917485026}
   diceData: {fileID: 11400000, guid: 1a6f9462d8f0992468c2de7cd1d69210, type: 2}
   dicePatternColor: {r: 1, g: 1, b: 0, a: 1}
-  dicePatternSprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  dicePatternSprite: {fileID: -367574959, guid: 1b033e5d57b491740b0b814f72374b01, type: 3}
 --- !u!1001 &4240862391335205447
 PrefabInstance:
   m_ObjectHideFlags: 0

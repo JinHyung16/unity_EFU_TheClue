@@ -64,15 +64,6 @@ public class PlayerInputController : MonoBehaviour
         {
             return;
         }
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            int random = UnityEngine.Random.Range(0, 3);
-            if (random == 3)
-            {
-                return;
-            }
-            Debug.Log(random);
-        }
         InputMovementControl();
         InputJumpControl();
         InputMouseViewControl();

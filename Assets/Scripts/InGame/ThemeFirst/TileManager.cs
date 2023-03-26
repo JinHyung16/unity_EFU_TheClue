@@ -17,8 +17,8 @@ public class TileManager : MonoBehaviour
 
     [Header("Tile Pattern Image")]
     [SerializeField] private Image tilePatternImg;
-    [Header("Dice Pattern Image")]
-    [SerializeField] private Image dicePatternImg;
+    [Header("인벤에 있는 아이템의 Pattern Image")]
+    [SerializeField] private Image objPatternImage;
 
     [Header("Tile Pattern들을 담을 리스트")]
     [SerializeField] private List<Tile> tilePatterns = new List<Tile>();
@@ -26,10 +26,11 @@ public class TileManager : MonoBehaviour
     private Color curTileColor;
     private string curTilePatternName;
     private bool curTileIsEscapeKey = false;
-    private GameObject diceObject = null; //layer가 OverUI인 object 받을 변수
-    private GameObject patternObject = null;
+    private GameObject invenObj = null;
+    private GameObject patternObject = null; //해당 pattern의 object
 
     private Dice diceScript = null;
+    private Cube cubeScript = null;
 
     private int curDicePatternIndex = 0; //현재 dice의 패턴을 보여줄 순서
 
@@ -53,17 +54,32 @@ public class TileManager : MonoBehaviour
     {
         if (obj == null) { return; }
 
-        if (diceObject != null)
+        if (invenObj != null)
         {
-            diceObject.SetActive(false);
-            diceObject = null;
+            invenObj.SetActive(false);
+            invenObj = null;
             diceScript = null;
         }
-        diceObject = obj;
-        diceObject.SetActive(false);
-        diceScript = diceObject.GetComponent<Dice>();
+        invenObj = obj;
+        invenObj.SetActive(false);
         curDicePatternIndex = 0;
-        dicePatternImg.sprite = diceScript.GetDicePattern(curDicePatternIndex);
+        switch (invenObj.tag)
+        {
+            case "Dice":
+                diceScript = invenObj.GetComponent<Dice>();
+                objPatternImage.sprite = diceScript.GetDicePattern(curDicePatternIndex);
+                cubeScript = null;
+                break;
+            case "Cube":
+                cubeScript = invenObj.GetComponent<Cube>();
+                objPatternImage.sprite = cubeScript.GetCubeSprite(curDicePatternIndex);
+                diceScript = null;
+                break;
+            default:
+                diceScript = null;
+                cubeScript = null;
+                break;
+        }
     }
 
     /// <summary>
@@ -73,10 +89,10 @@ public class TileManager : MonoBehaviour
     /// Tile Canvas가 오픈되어 있을 때, 플레이어가 인벤을 클릭하여 가져온
     /// 해당 오브젝트로 변경시킨다.
     /// </summary>
-    public void SetDiceSync()
+    public void SetInventorySync()
     {
-        GameObject dice = InventoryManager.GetInstance.GetObjectInventory();
-        SetDiceOnTileCanvas(dice);
+        GameObject invenObj = InventoryManager.GetInstance.GetObjectInventory();
+        SetDiceOnTileCanvas(invenObj);
     }
 
     /// <summary>
@@ -84,7 +100,7 @@ public class TileManager : MonoBehaviour
     /// </summary>
     public void SelectDiceInTilePattern()
     {
-        if (diceObject == null) { return; }
+        if (invenObj == null) { return; }
 
         if (curTileIsEscapeKey && (curTilePatternName == diceScript.DicePatternName) && 
             (curTileColor == diceScript.GetDicePatternColor))
@@ -96,15 +112,15 @@ public class TileManager : MonoBehaviour
                     curPattern.IsSetDice = true;
                 }
             }
-            diceObject.SetActive(true);
-            //dice object를 tile위에 올려두기
-            diceObject.transform.position = patternObject.transform.position + new Vector3(0, 0.8f, 0);
+            invenObj.SetActive(true);
+            //invenObj object를 tile위에 올려두기
+            invenObj.transform.position = patternObject.transform.position + new Vector3(0, 0.8f, 0);
             ThemeFirstPresenter.GetInstance.DicePutOnTileCheck(true);
-            InventoryManager.GetInstance.DicePutOnTile();
-            diceObject = null;
+            InventoryManager.GetInstance.InvenObjectPutOnTile();
+            invenObj = null;
             patternObject = null;
             diceScript = null;
-            dicePatternImg.sprite = null;
+            objPatternImage.sprite = null;
             themeFirstViewer.CloseCanvas();
         }
         else
@@ -120,14 +136,20 @@ public class TileManager : MonoBehaviour
     /// </summary>
     public void RotationDice()
     {
-        if(diceScript == null) { return; }
-
-        dicePatternImg.sprite = diceScript.GetDicePattern(curDicePatternIndex);
-        diceScript.SetCurDicePatternName(curDicePatternIndex);
         curDicePatternIndex++;
         if (5 < curDicePatternIndex)
         {
             curDicePatternIndex = 0;
+        }
+
+        if (diceScript != null)
+        {
+            objPatternImage.sprite = diceScript.GetDicePattern(curDicePatternIndex);
+            diceScript.SetCurDicePatternName(curDicePatternIndex);
+        }
+        else if (cubeScript != null)
+        {
+            objPatternImage.sprite = cubeScript.GetCubeSprite(curDicePatternIndex);
         }
     }
 }

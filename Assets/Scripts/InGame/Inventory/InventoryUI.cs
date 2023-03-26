@@ -20,12 +20,14 @@ public class InventoryUI : MonoBehaviour
 
     public void SetObject(GameObject obj, Sprite objSprite, Color objColor)
     {
-        IsSetObject = true;
-
-        InventoryObject = obj;
-        InventoryObject.name = obj.name;
-        uiImage.sprite = objSprite;
-        uiImage.color = objColor;
+        if (!IsSetObject)
+        {
+            IsSetObject = true;
+            InventoryObject = obj;
+            InventoryObject.name = obj.name;
+            uiImage.sprite = objSprite;
+            uiImage.color = objColor;
+        }
     }
 
     public void GetObject()
