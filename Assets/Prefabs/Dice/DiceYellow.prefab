@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8105845121767516030
+--- !u!1 &4240862391917485030
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,67 +8,67 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8105845121767516018}
-  - component: {fileID: 8105845121767516016}
-  - component: {fileID: 8105845121767516017}
+  - component: {fileID: 4240862391917485026}
+  - component: {fileID: 4240862391917485024}
+  - component: {fileID: 4240862391917485025}
   m_Layer: 0
-  m_Name: DiceRed
-  m_TagString: Dice
+  m_Name: DiceYellow
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!4 &8105845121767516018
+--- !u!4 &4240862391917485026
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8105845121767516030}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_GameObject: {fileID: 4240862391917485030}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8644384934426496343}
+  - {fileID: 4418075890406415788}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8105845121767516016
+--- !u!65 &4240862391917485024
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8105845121767516030}
+  m_GameObject: {fileID: 4240862391917485030}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.2, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8105845121767516017
+--- !u!114 &4240862391917485025
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8105845121767516030}
+  m_GameObject: {fileID: 4240862391917485030}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 130334209988e4944b8be9776181acec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diceTransform: {fileID: 8105845121767516018}
+  diceTransform: {fileID: 4240862391917485026}
   diceData: {fileID: 11400000, guid: 1a6f9462d8f0992468c2de7cd1d69210, type: 2}
-  dicePatternColor: {r: 1, g: 0, b: 0, a: 1}
-  dicePatternSprite: {fileID: -1401859783, guid: 1b033e5d57b491740b0b814f72374b01, type: 3}
---- !u!1001 &8105845122459478716
+  dicePatternColor: {r: 1, g: 1, b: 0, a: 1}
+  dicePatternSprite: {fileID: -367574959, guid: 1b033e5d57b491740b0b814f72374b01, type: 3}
+--- !u!1001 &4240862391335205447
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 8105845121767516018}
+    m_TransformParent: {fileID: 4240862391917485026}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
       propertyPath: m_RootOrder
@@ -117,7 +117,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: e68bc591bda2f1b4cbf3c418b43a0571, type: 2}
+      objectReference: {fileID: 2100000, guid: bddc1a1455def4549a3e9f2db13c285d, type: 2}
     - target: {fileID: 919132149155446097, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
       propertyPath: m_Name
       value: Theme01_Dice
@@ -128,8 +128,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
---- !u!4 &8644384934426496343 stripped
+--- !u!4 &4418075890406415788 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
-  m_PrefabInstance: {fileID: 8105845122459478716}
+  m_PrefabInstance: {fileID: 4240862391335205447}
   m_PrefabAsset: {fileID: 0}

@@ -18,9 +18,10 @@ public class InventoryManager : MonoBehaviour
     #endregion
 
     [SerializeField] private List<InventoryUI> inventoryUIList = new List<InventoryUI>();
-    private InventoryUI emptyInventory;
-
     [SerializeField] private GameObject invenIsFullImage;
+
+    private InventoryUI emptyInventory;
+    private GameObject invenObj;
 
     public int selectInvenIndex = 0;
 
@@ -47,7 +48,7 @@ public class InventoryManager : MonoBehaviour
     {
         int minPriority = 987654321;
 
-        for(int i =0; i < inventoryUIList.Count; i++)
+        for (int i = 0; i < inventoryUIList.Count; i++)
         {
             if (!inventoryUIList[i].IsSetObject)
             {
@@ -79,17 +80,20 @@ public class InventoryManager : MonoBehaviour
         if (tokenSource != null)
         {
             tokenSource.Cancel();
+            tokenSource.Dispose();
         }
-        invenIsFullImage.SetActive(true);
+        tokenSource = new CancellationTokenSource();
+
         WaningInventoryIsPull().Forget();
     }
 
     private async UniTaskVoid WaningInventoryIsPull()
     {
-        invenIsFullImage.transform.DOShakePosition(1.0f, 0.3f);
+        invenIsFullImage.SetActive(true);
+        invenIsFullImage.transform.DOShakePosition(1.0f, 2.0f);
         await UniTask.Delay(TimeSpan.FromSeconds(1.0f), cancellationToken: tokenSource.Token);
         invenIsFullImage.SetActive(false);
-        tokenSource.Cancel();
+        await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: tokenSource.Token);
     }
 
     /// <summary>
@@ -99,43 +103,33 @@ public class InventoryManager : MonoBehaviour
     public void SelectInventory(int selectIdx)
     {
         selectInvenIndex = selectIdx;
-        if (emptyInventory != null)
-        {
-            emptyInventory = null;
-        }
-
         emptyInventory = inventoryUIList[selectInvenIndex];
         if (emptyInventory.InventoryObject != null)
         {
-            var invenObjName = emptyInventory.InventoryObject.name.Substring(0, 4);
-            if (invenObjName != "Dice")
+            string invenObjName = emptyInventory.InventoryObject.name.Substring(0, 4);
+            if (invenObjName == "Cube")
             {
                 Debug.Log("InventoryManager: " + invenObjName);
                 //상호작용 UI오픈
             }
-        }
 
-        if (TileManager.GetInstance != null)
-        {
-            //TilePatternManager가 있으면 테마1의 주사위 데이터 로드
-            TileManager.GetInstance.SetInventorySync();
+            if (TileManager.GetInstance != null)
+            {
+                //TilePatternManager가 있으면 테마1의 주사위 데이터 로드
+                TileManager.GetInstance.SetInventorySync();
+            }
         }
     }
 
     public GameObject GetObjectInventory()
     {
-        if (emptyInventory == null)
-        {
-            return null;
-        }
+        if (emptyInventory == null) { return null; }
 
         emptyInventory = inventoryUIList[selectInvenIndex];
-        if (!emptyInventory.IsSetObject)
+        if (emptyInventory.IsSetObject)
         {
-            return null;
+            invenObj = emptyInventory.InventoryObject;
         }
-
-        GameObject invenObj = emptyInventory.InventoryObject;
         return invenObj;
     }
 

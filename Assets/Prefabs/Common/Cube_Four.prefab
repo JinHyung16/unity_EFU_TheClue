@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 3143690522620642753}
   - component: {fileID: 3143690522620642752}
   m_Layer: 0
-  m_Name: ThemeFirst_Cube_Four
-  m_TagString: Cube
+  m_Name: Cube_Four
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cubeTransform: {fileID: 3143690522620642754}
   diceData: {fileID: 11400000, guid: 1a6f9462d8f0992468c2de7cd1d69210, type: 2}
-  cubeUISprite: {fileID: -1951516413, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
+  cubeUISprite: {fileID: -1832836144, guid: 19c6e9f0653a91a46b15c29b0bbe90cd, type: 3}
 --- !u!1001 &3143690522775757184
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -133,6 +133,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0d37f32c88f9da74492ef191d9eb804e, type: 3}
       propertyPath: m_Name
       value: Theme01_Cube_Four
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0d37f32c88f9da74492ef191d9eb804e, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0d37f32c88f9da74492ef191d9eb804e, type: 3}
       propertyPath: m_StaticEditorFlags

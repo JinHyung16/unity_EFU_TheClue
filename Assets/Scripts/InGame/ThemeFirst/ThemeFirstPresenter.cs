@@ -13,7 +13,6 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     public Camera GetMainCamera { get { return mainCamera; } }
 
     [SerializeField] private ThemeFirstViewer themeFirstViewer;
-    [SerializeField] private Switch lightSwitch;
 
     [Header("Switch SpotLight")]
     [SerializeField] private Light switchSpotLight;
@@ -27,12 +26,13 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     [SerializeField] private List<Transform> tileSpawnPosList;
     [SerializeField] List<int> remainTileSpawnList; //탈출 키인 3가지 타일 배치한 위치를 제외한 나머지 구역
 
-    private string doorLockKeyPad;
-    private int switchOnCnt = 1; //switch와 상호작용 한 횟수 저장
+    private string doorLockKeyPad; //doorlock의 입력한 값
+    private int switchOnCnt; //switch와 상호작용 한 횟수 저장
+    private int switchLightIndex; //switch의 불빛을 가져올 배열의 index값
 
     //Game Clear 또는 Fail이 되는 조건을 저장한 변수
-    private int numOfTileAttemptsCnt = 0; //타일 퍼즐 풀기 시도 횟수
-    private int numOfDoorLockAttempsCnt = 0; //도어락 퍼즐 풀기 시도 횟수
+    private int numOfTileAttemptsCnt; //타일 퍼즐 풀기 시도 횟수
+    private int numOfDoorLockAttempsCnt; //도어락 퍼즐 풀기 시도 횟수
 
     //Game끝낼 때 GameProgress에 넘겨줄 현재 테마 이름 정보로 각 ThemePresenter들이 이 정보를 갖고 있는다.
     private string themeName = "ThemeFirst";
@@ -54,13 +54,20 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
     private void Start()
     {
+        themeName = "ThemeFirst";
         SceneController.GetInstance.CurSceneName = themeName;
 
         GameManager.GetInstance.SpawnPlayer();
         GameManager.GetInstance.themeCamera = this.mainCamera;
 
-        switchOnCnt = 1;
+        GameManager.GetInstance.IsUIOpen = false;
+        GameManager.GetInstance.IsInputStop = false;
 
+        TimerManager.GetInstance.ThemeTime = 600.0f;
+
+        switchOnCnt = 1;
+        switchLightIndex = 1;
+        numOfTileAttemptsCnt = 0;
         SetTileRandom();
     }
 
@@ -92,8 +99,8 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         numOfDoorLockAttempsCnt++;
         if (3 <= numOfDoorLockAttempsCnt)
         {
-            themeFirstViewer.OpenResultCanvas(false);
             numOfDoorLockAttempsCnt = 0;
+            GameClear(false);
         }
     }
     #endregion
@@ -103,6 +110,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     {
         if (tokenSource != null)
         {
+            tokenSource.Cancel();
             tokenSource.Dispose();
         }
         tokenSource = new CancellationTokenSource();
@@ -115,7 +123,8 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         }
         else
         {
-            tokenSource.Cancel();
+            AutoTileColorChange(UnityEngine.Color.black);
+            switchSpotLight.color = colorList[0];
             switchSpotLight.enabled = true;
             IsSwitchOn = true;
         }
@@ -123,21 +132,21 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
     private async UniTaskVoid AutoSwitchChange()
     {
-        while (switchOnCnt <= colorList.Count)
+        while (true)
         {
-            if (colorList.Count <= switchOnCnt)
+            if (colorList.Count <= switchLightIndex)
             {
-                switchOnCnt = 1;
+                switchLightIndex = 1;
             }
             switchSpotLight.color = colorList[switchOnCnt];
             switchSpotLight.enabled = true;
             AutoTileColorChange(colorList[switchOnCnt]);
-            switchOnCnt++;
+            switchLightIndex++;
             //5초 뒤 빛 R -> Y -> B 순서로
             await UniTask.Delay(TimeSpan.FromSeconds(5.0f), cancellationToken: tokenSource.Token);
             AutoTilePosChange();
             switchSpotLight.enabled = false;
-            await UniTask.Delay(TimeSpan.FromSeconds(1.0f), cancellationToken: tokenSource.Token);
+            await UniTask.Delay(TimeSpan.FromSeconds(2.0f), cancellationToken: tokenSource.Token);
         }
     }
     #endregion
@@ -301,15 +310,13 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
             numOfTileAttemptsCnt--;
         }
 
-        switch (numOfTileAttemptsCnt)
+        if (numOfTileAttemptsCnt == 3)
         {
-            case 3:
-                //UI창 나옴
-                themeFirstViewer.OpenResultCanvas(true);
-                break;
-            case -3:
-                themeFirstViewer.OpenResultCanvas(false);
-                break;
+            GameClear(true);
+        }
+        else if (numOfTileAttemptsCnt == -3)
+        {
+            GameClear(false);
         }
     }
     #endregion
@@ -318,5 +325,18 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     {
         var cube = obj.GetComponent<Cube>();
         InventoryManager.GetInstance.PutInInventory(obj, cube.GetCubeUISprite, UnityEngine.Color.black); ;
+    }
+
+    public void GameClear(bool isClear)
+    {
+        if (isClear)
+        {
+            themeFirstViewer.OpenResultCanvas(true);
+        }
+        else
+        {
+            Debug.Log("ThemeFirstPresenter: Game Clear 실패");
+            themeFirstViewer.OpenResultCanvas(false);
+        }
     }
 }

@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: DiceData
   m_EditorClassIdentifier: 
   patternSpriteArray:
-  - {fileID: -1935699572, guid: 423335df763fbca44b300219658fe6fd, type: 3}
-  - {fileID: -1425415506, guid: 69ad11a36d6362540b5bbd141fe76750, type: 3}
-  - {fileID: 1966327016, guid: 176ead1a41764fa43aeeda64f815ba80, type: 3}
-  - {fileID: -524033611, guid: c4a828f40e505ad4ab973b6095c6f80d, type: 3}
-  - {fileID: -801118034, guid: 4cfc5b7be355a124ab9645f0ef47e309, type: 3}
-  - {fileID: -848400348, guid: 0278028f1aaa2034c9377dc5d69c2166, type: 3}
+  - {fileID: -1951516413, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
+  - {fileID: 484303426, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
+  - {fileID: -1907747521, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
+  - {fileID: -278365558, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
+  - {fileID: -992467185, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
+  - {fileID: -63440455, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
   patternNameArray:
   - pattern01
   - pattern02

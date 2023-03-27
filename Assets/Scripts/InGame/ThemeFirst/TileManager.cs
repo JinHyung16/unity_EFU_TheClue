@@ -52,33 +52,32 @@ public class TileManager : MonoBehaviour
     /// <param name="obj"></param>
     public void SetDiceOnTileCanvas(GameObject obj)
     {
-        if (obj == null) { return; }
+        if (obj != null)
+        {
+            if (invenObj != null)
+            {
+                cubeScript = null;
+                diceScript = null;
+                invenObj.SetActive(false);
+                invenObj = null;
+            }
 
-        if (invenObj != null)
-        {
+            invenObj = obj;
             invenObj.SetActive(false);
-            invenObj = null;
-            diceScript = null;
-        }
-        invenObj = obj;
-        invenObj.SetActive(false);
-        curDicePatternIndex = 0;
-        switch (invenObj.tag)
-        {
-            case "Dice":
+            curDicePatternIndex = 0;
+            var name = invenObj.name.Substring(0, 4);
+            if (name == "Dice")
+            {
                 diceScript = invenObj.GetComponent<Dice>();
                 objPatternImage.sprite = diceScript.GetDicePattern(curDicePatternIndex);
                 cubeScript = null;
-                break;
-            case "Cube":
+            }
+            if (name == "Cube")
+            {
                 cubeScript = invenObj.GetComponent<Cube>();
                 objPatternImage.sprite = cubeScript.GetCubeSprite(curDicePatternIndex);
                 diceScript = null;
-                break;
-            default:
-                diceScript = null;
-                cubeScript = null;
-                break;
+            }
         }
     }
 
@@ -102,7 +101,7 @@ public class TileManager : MonoBehaviour
     {
         if (invenObj == null) { return; }
 
-        if (curTileIsEscapeKey && (curTilePatternName == diceScript.DicePatternName) && 
+        if (diceScript != null && curTileIsEscapeKey && (curTilePatternName == diceScript.DicePatternName) && 
             (curTileColor == diceScript.GetDicePatternColor))
         {
             foreach (var curPattern in tilePatterns)
@@ -125,8 +124,8 @@ public class TileManager : MonoBehaviour
         }
         else
         {
-            ThemeFirstPresenter.GetInstance.DicePutOnTileCheck(false);
             themeFirstViewer.CloseCanvas();
+            ThemeFirstPresenter.GetInstance.DicePutOnTileCheck(false);
         }
     }
 

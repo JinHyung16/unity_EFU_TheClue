@@ -60,14 +60,13 @@ public class PlayerInputController : MonoBehaviour
         InputOpenOption();
         InputSelectInventory();
         //Option 창이 열림 또는 UI가 열려있는 상태면 나머지 아래 동작들은 작동시키지 못하게 한다.
-        if (GameManager.GetInstance.IsInputStop || GameManager.GetInstance.IsUIOpen)
+        if (!GameManager.GetInstance.IsInputStop && !GameManager.GetInstance.IsUIOpen)
         {
-            return;
+            InputMovementControl();
+            InputJumpControl();
+            InputMouseViewControl();
+            InputInteractive();
         }
-        InputMovementControl();
-        InputJumpControl();
-        InputMouseViewControl();
-        InputInteractive();
     }
 
     /// <summary>

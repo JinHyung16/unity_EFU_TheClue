@@ -33,7 +33,6 @@ public class Dice : InteractiveObject
     private void OnDisable()
     {
         this.gameObject.transform.position = Vector3.zero;
-        GameManager.GetInstance.InvisibleInteractiveCanvas();
         InteracitveOrNot(false);
     }
     private void Start()

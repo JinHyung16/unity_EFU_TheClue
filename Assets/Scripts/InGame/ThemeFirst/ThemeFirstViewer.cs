@@ -106,14 +106,39 @@ public class ThemeFirstViewer : MonoBehaviour
         GameManager.GetInstance.IsUIOpen = true;
         if (isClear)
         {
-            resultTimerText.text = TimerManager.GetInstance.CurTime.ToString();
+            resultTimerText.text = TimerManager.GetInstance.CurTimeString.ToString();
             UIManager.GetInstance.ShowCanvas("GameClearResult Canvas");
         }
         else
         {
-            UIManager.GetInstance.ShowCanvas("GameFaileResult Canvas");
+            UIManager.GetInstance.ShowCanvas("GameFailedResult Canvas");
         }
     }
+
+
+    #region Game Result Canvas하위 Button 기능
+    public void GoToMain()
+    {
+        SceneController.GetInstance.LoadScene("Main");
+        GameManager.GetInstance.GameClear();
+    }
+
+    public void NextStage()
+    {
+        SceneController.GetInstance.LoadScene("ThemeSecond");
+        GameManager.GetInstance.GameClear();
+    }
+    public void RetryGame()
+    {
+        SceneController.GetInstance.LoadScene("ThemeFirst");
+        GameManager.GetInstance.GameClear();
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+    #endregion
 
     /// <summary>
     /// ThemeFirst Scene에서 Canvas들에게 붙어있는 Close버튼을 누르면 사용하는 공용함수

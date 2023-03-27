@@ -33,7 +33,6 @@ public class Tile : InteractiveObject
     }
     private void OnDestroy()
     {
-        GameManager.GetInstance.InvisibleInteractiveCanvas();
         InteracitveOrNot(false);
     }
 

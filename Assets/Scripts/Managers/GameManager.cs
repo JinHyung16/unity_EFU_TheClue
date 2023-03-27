@@ -148,8 +148,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
         interactiveCanvs.enabled = true;
 
         interactiveTrans.position = target.position + offset;
-        //interactiveTrans.LookAt(interactiveTrans.position + playerManager.PlayerCamera().transform.rotation * Vector3.back, playerManager.PlayerCamera().transform.rotation * Vector3.up);
-        interactiveTrans.LookAt(themeCamera.transform);
+        //interactiveTrans.LookAt((interactiveTrans.position + playerManager.PlayerCamera().transform.rotation * Vector3.back), (playerManager.PlayerCamera().transform.rotation * Vector3.up));
     }
 
     public void InvisibleInteractiveCanvas()
@@ -159,28 +158,29 @@ public class GameManager : Singleton<GameManager>, IDisposable
     }
     #endregion
 
-    #region Game 진행 플로우 관련 함수
-    public void FailedGameAndRestart()
-    {
-        DespawnPlayer();
-        SceneController.GetInstance.LoadScene(SceneController.GetInstance.CurSceneName);
-    }
-
     /// <summary>
     /// 게임 클리어 후 메인화면으로 갈 떄 호출
     /// </summary>
-    /// <param name="nextScene">이동할 다음 Scene 이름</param>
     public void GameClear()
     {
-        if (IsEndTheme)
-        {
-            Dispose();
-        }
-        else
-        {
-            DespawnPlayer();
-        }
-        SceneController.GetInstance.LoadScene("Main");
+        Dispose();
     }
-    #endregion
+
+    public void OnApplicationQuit()
+    {
+        int saveIndex = 0;
+        switch (SceneController.GetInstance.CurSceneName)
+        {
+            case "ThemeFirst":
+                saveIndex = 1;
+                break;
+            case "ThemeSecond":
+                saveIndex = 2;
+                break;
+            case "ThemeThird":
+                saveIndex = 3;
+                break;
+        }
+        DataManager.GetInstance.SaveData(saveIndex);
+    }
 }

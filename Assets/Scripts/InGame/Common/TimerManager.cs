@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class TimerManager : MonoBehaviour
 {
@@ -17,44 +18,77 @@ public class TimerManager : MonoBehaviour
     [SerializeField] private TMP_Text timerText;
 
     private float curTime = 0.0f;
-    private float startTime = 0.0f;
 
-    private int minTime = 0;
+    private float minTime = 0;
     private float secTime = 0.0f;
 
-    public string CurTime { get; private set; }
+    private float themeFirstClearTime; //minTime과 비교
+
+    public bool IsTimeDone { get; private set; } = false;
+
+    public float ThemeTime 
+    {
+        get
+        {
+            return this.minTime;
+        }
+        set
+        { 
+            this.curTime = value; 
+        } 
+    }
+    public string CurTimeString { get; private set; }
     public bool IsTimerStart { get; set; } = false;
-    public bool IsTimerDone { get; private set; } = false; //10분이 되었을 때 true로 변환
 
     private void Start()
     {
-        startTime = Time.time;
+        themeFirstClearTime = 10.0f;
+
+        Debug.Log("TimerManager - startTime: ");
+        minTime = 0.0f;
+        secTime = 0.0f;
+        curTime = 0.0f;
+        IsTimeDone = false;
         IsTimerStart = true;
     }
 
     private void Update()
     {
-        if (IsTimerStart)
+        if (IsTimerStart && !IsTimeDone)
         {
-            TimerStart();
+            if (curTime > 0.0f)
+            {
+                curTime -= Time.deltaTime;
+                UpdateTimer(curTime);
+            }
+            else
+            {
+                if (curTime != 0.0f)
+                {
+                    curTime = 0.0f;
+                    UpdateTimer(curTime);
+                }
+            }
         }
     }
 
-    public void TimerStart()
+    public void UpdateTimer(float time)
     {
-        curTime += (startTime - Time.deltaTime);
-        secTime = curTime / 60.0f;
-        if (60.0f <= secTime)
-        {
-            curTime = 0.0f;
-            minTime += 1;
-        }
+        minTime = Mathf.FloorToInt(time / 60);
+        secTime = Mathf.FloorToInt(time % 60);
 
-        if (10 <= minTime)
+        timerText.text = minTime.ToString("F0") + ":" + secTime.ToString("F0");
+        CurTimeString = minTime.ToString("F0") + ":" + secTime.ToString("F0");
+
+        ThemeClearInTime();
+    }
+
+    private void ThemeClearInTime()
+    {
+        if (themeFirstClearTime <= minTime && ThemeFirstPresenter.GetInstance != null)
         {
-            IsTimerDone = true;
+            IsTimeDone = true;
+            ThemeFirstPresenter.GetInstance.GameClear(false);
         }
-        timerText.text = minTime.ToString("D0") + ":" + secTime.ToString("F0");
-        CurTime = minTime.ToString("D0") + ":" + secTime.ToString("F0");
     }
 }

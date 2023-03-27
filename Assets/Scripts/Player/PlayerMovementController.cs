@@ -32,8 +32,11 @@ public class PlayerMovementController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Movement();
-        Jump();
+        if (!GameManager.GetInstance.IsInputStop && !GameManager.GetInstance.IsUIOpen)
+        {
+            Movement();
+            Jump();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)

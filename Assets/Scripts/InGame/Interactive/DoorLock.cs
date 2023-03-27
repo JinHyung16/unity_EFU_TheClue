@@ -13,7 +13,6 @@ public class DoorLock : InteractiveObject
     }
     private void OnDestroy()
     {
-        GameManager.GetInstance.InvisibleInteractiveCanvas();
         InteracitveOrNot(false);
     }
     private void OnTriggerEnter(Collider other)

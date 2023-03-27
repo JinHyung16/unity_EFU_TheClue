@@ -13,9 +13,6 @@ namespace HughGenerics
             {
                 if (instance == null)
                 {
-#if UNITY_EDITOR
-                    Debug.Log("<color=red>Singleton Generic을 상속받은 오브젝트가 없습니다.</color>");
-#endif
                     return null;
                 }
                 return instance;
