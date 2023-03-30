@@ -14,62 +14,64 @@ public class Cube : InteractiveObject
     [Header("Cube의 UI sprite")]
     [SerializeField] private Sprite cubeUISprite;
 
-    private Vector3 offset = Vector3.zero;
-
     public Sprite GetCubeUISprite { get { return this.cubeUISprite; } }
     private Sprite[] cubeSpriteArray;
+
+    private Vector3 offset;
+
+    #region InteractiveObject Override
+    protected override void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            InteractiveManager.GetInstance.IsInteractive = true;
+            this.Interacitve();
+        }
+    }
+
+    protected override void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            InteractiveManager.GetInstance.IsInteractive = false;
+            this.NotInteractvie();
+        }
+    }
+
+    protected override void Interacitve()
+    {
+        GameManager.GetInstance.VisibleInteractiveCanvas(cubeTransform, offset);
+        InteractiveManager.GetInstance.SetInteractiving(this);
+        InteractiveManager.GetInstance.SetInteractvieObjToInventory(this.gameObject);
+    }
+
+    protected override void NotInteractvie()
+    {
+        GameManager.GetInstance.InvisibleInteractiveCanvas();
+        InteractiveManager.GetInstance.SetInteractvieObjToInventory(null);
+    }
+
+    public override InteractiveType GetInteractiveType()
+    {
+        return InteractiveType.ThemeFirst_Cube;
+    }
+
+    #endregion
 
     private void OnEnable()
     {
         this.gameObject.transform.position = cubeTransform.position;
     }
+
     private void OnDisable()
     {
-        this.gameObject.transform.position = Vector3.zero;
-        InteracitveOrNot(false);
+        NotInteractvie();
+        this.gameObject.transform.position = cubeTransform.position;
     }
     private void Start()
     {
-        offset = new Vector3(0, 0.8f, 0);
         cubeSpriteArray = diceData.patternSpriteArray;
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            GameManager.GetInstance.VisibleInteractiveCanvas(cubeTransform, offset);
-            InteracitveOrNot(true);
-        }
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            GameManager.GetInstance.InvisibleInteractiveCanvas();
-            InteracitveOrNot(false);
-        }
-    }
-
-    public override void InteracitveOrNot(bool interactive)
-    {
-        if (interactive)
-        {
-            InteractiveManager.GetInstance.SetInteractiveObject(this, true);
-            InteractiveManager.GetInstance.SetInventoryObject(this.gameObject);
-        }
-        else
-        {
-            InteractiveManager.GetInstance.SetInteractiveObject(this, false);
-            InteractiveManager.GetInstance.SetInventoryObject(null);
-        }
-    }
-
-    public override InteractiveType GetInteractiveType()
-    {
-        this.myInteractiveType = InteractiveType.ThemeFirst_Cube;
-        return this.myInteractiveType;
+        offset = new Vector3(0, 0.8f, 0);
     }
 
     public Sprite GetCubeSprite(int index)

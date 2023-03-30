@@ -38,13 +38,13 @@ public class TimerManager : MonoBehaviour
         } 
     }
     public string CurTimeString { get; private set; }
+    public int CurMinTime { get; private set; }
     public bool IsTimerStart { get; set; } = false;
 
     private void Start()
     {
         themeFirstClearTime = 10.0f;
 
-        Debug.Log("TimerManager - startTime: ");
         minTime = 0.0f;
         secTime = 0.0f;
         curTime = 0.0f;
@@ -76,6 +76,8 @@ public class TimerManager : MonoBehaviour
     {
         minTime = Mathf.FloorToInt(time / 60);
         secTime = Mathf.FloorToInt(time % 60);
+
+        CurMinTime = Mathf.CeilToInt(minTime);
 
         timerText.text = minTime.ToString("F0") + ":" + secTime.ToString("F0");
         CurTimeString = minTime.ToString("F0") + ":" + secTime.ToString("F0");

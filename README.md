@@ -1,4 +1,4 @@
-# unity_EFU_CSI
+# unity_EFU_TheClue
 - 파란학기 Escape From University팀의 3D 방탈출 게임입니다.
 
 ## Version

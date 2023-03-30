@@ -8,8 +8,8 @@ public class ThemeSecondViewer : MonoBehaviour
     {
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        UIManager.GetInstance.ClearAllPanel();
+        UIManager.GetInstance.ClearAllCanvas();
     }
 }

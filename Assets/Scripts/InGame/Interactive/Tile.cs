@@ -2,13 +2,10 @@ using HughEnumData;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Tile : InteractiveObject
 {
     [SerializeField] private Transform tilePatternTransform;
-
-    private Vector3 offset = Vector3.zero;
 
     [SerializeField] private MeshRenderer tileRender;
 
@@ -26,65 +23,50 @@ public class Tile : InteractiveObject
     public Sprite TilePatternSprite { get { return this.tileSprte; } }
     public Color TileColor { get { return this.tileColor; } }
     public string TilePatternName { get { return this.tilePatternName; } }
+    private Vector3 offset;
 
-    private void Start()
-    {
-        offset = new Vector3(0, 1.3f, 0);
-    }
-    private void OnDestroy()
-    {
-        InteracitveOrNot(false);
-    }
-
-    private void OnTriggerEnter(Collider other)
+    #region InteractiveObject Override
+    protected override void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.GetInstance.VisibleInteractiveCanvas(tilePatternTransform, offset);
-            InteracitveOrNot(true);
+            InteractiveManager.GetInstance.IsInteractive = true;
+            this.Interacitve();
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    protected override void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.GetInstance.InvisibleInteractiveCanvas();
-            InteracitveOrNot(false);
+            InteractiveManager.GetInstance.IsInteractive = false;
+            this.NotInteractvie();
         }
     }
 
-    public override void InteracitveOrNot(bool interactive)
+    protected override void Interacitve()
     {
-        if (interactive)
-        {
-            InteractiveManager.GetInstance.SetInteractiveObject(this, true);
-            InteractiveManager.GetInstance.SetTilePatternObject(this.gameObject);
-        }
-        else
-        {
-            InteractiveManager.GetInstance.SetInteractiveObject(this, false);
-            InteractiveManager.GetInstance.SetTilePatternObject(null);
-        }
+        GameManager.GetInstance.VisibleInteractiveCanvas(tilePatternTransform, offset);
+        InteractiveManager.GetInstance.SetPuzzleInteractive(this, this.gameObject);
+    }
+
+    protected override void NotInteractvie()
+    {
+        GameManager.GetInstance.InvisibleInteractiveCanvas();
+        InteractiveManager.GetInstance.SetPuzzleInteractive(null, null);
     }
 
     public override InteractiveType GetInteractiveType()
     {
-        this.myInteractiveType = InteractiveType.ThemeFirst_PatternTile;
-        return this.myInteractiveType;
+        return InteractiveType.ThemeFirst_Tile_Pattern;
     }
 
-    public void SetActiveTile(bool active)
+    #endregion
+    private void Start()
     {
-        if (active)
-        {
-            this.gameObject.SetActive(true);
-        }
-        else
-        {
-            this.gameObject.SetActive(false);
-        }
+        offset = new Vector3(0, 0.8f, 0);
     }
+
     public void InitialTileSetting(Transform transform, Color color)
     {
         this.tilePatternTransform = transform;
@@ -103,19 +85,36 @@ public class Tile : InteractiveObject
         }
     }
 
+    /// <summary>
+    /// 1) 탈출키가 아닌 타일의 경우
+    /// 2) 탈출키인데 현재 불빛의 색이 내 색과 다른경우
+    /// 2가지 경우에 대해서 ThemeFristPresneter에서 호출한다.
+    /// </summary>
+    /// <param name="color"></param>
     public void ChangeEmissionColor(Color color)
     {
-        if (!IsEscapeKey)
+        if (!IsSetDice)
         {
-            tileRender.material.SetColor("_EmissionColor", color * Mathf.LinearToGammaSpace(2.0f));
+            if (!IsEscapeKey)
+            {
+                tileRender.material.SetColor("_EmissionColor", color * Mathf.LinearToGammaSpace(2.0f));
+            }
+            else if (IsEscapeKey && this.tileColor != color)
+            {
+                tileRender.material.SetColor("_EmissionColor", color * Mathf.LinearToGammaSpace(2.0f));
+            }
+            else
+            {
+                tileRender.material.SetColor("_EmissionColor", Color.black);
+            }
         }
-        else if (IsEscapeKey && this.tileColor != color)
-        {
-            tileRender.material.SetColor("_EmissionColor", color * Mathf.LinearToGammaSpace(2.0f));
-        }
-        else
-        {
-            tileRender.material.SetColor("_EmissionColor", Color.black);
-        }
+    }
+
+    /// <summary>
+    /// 탈출키인 타일 위에 최종적으로 주사위를 올려 놨을 때 TileManager에서 호출
+    /// </summary>
+    public void SetDiceDone()
+    {
+        tileRender.material.SetColor("_EmissionColor", Color.green * Mathf.LinearToGammaSpace(2.0f));
     }
 }

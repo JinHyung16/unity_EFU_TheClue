@@ -9,11 +9,12 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private Image uiImage;
 
     public int priority = 0;
-    public bool IsSetObject { get; set; } = false;
+    public bool IsSetObject { get; private set; } = false;
     public GameObject InventoryObject { get; private set; } = null;
 
     private void Start()
     {
+        IsSetObject = false;
         uiImage.sprite = null;
         uiImage.color = Color.white;
     }

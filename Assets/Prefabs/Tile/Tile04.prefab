@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3843161461545120406}
-  - component: {fileID: 8790106960017390750}
   - component: {fileID: 2692838623747075597}
+  - component: {fileID: 8790106960017390750}
   m_Layer: 0
   m_Name: Tile04
   m_TagString: Untagged
@@ -34,6 +34,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2692838623747075597
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5667095688298658869}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.1999996, y: 0.07604165, z: 3.1999998}
+  m_Center: {x: 0.00000047683716, y: 0.009203055, z: 0}
 --- !u!114 &8790106960017390750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,19 +63,6 @@ MonoBehaviour:
   tileRender: {fileID: 8417498268877629324}
   tileSprte: {fileID: -2027418096, guid: 99012aecf100ad94cb69c547ea1e101a, type: 3}
   tilePatternName: pattern04
---- !u!65 &2692838623747075597
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5667095688298658869}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3.1999996, y: 0.07604165, z: 3.1999998}
-  m_Center: {x: 0.00000047683716, y: 0.009203055, z: 0}
 --- !u!1001 &7138596501441755912
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using HughGenerics;
 using HughEnumData;
 
 public class InteractiveManager : MonoBehaviour
@@ -14,55 +13,54 @@ public class InteractiveManager : MonoBehaviour
     }
     #endregion
 
-    private List<InteractiveObject> interactiveObjects;
-    private InteractiveType curInteractiveType;
+    private List<InteractiveObject> interactiveObjects = new List<InteractiveObject>();
     private GameObject inventoryObj;
 
-    private void Start()
-    {
-        interactiveObjects = new List<InteractiveObject>();
-    }
+    private GameObject puzzleObj;
 
+    public bool IsInteractive { get; set; } = false; //상호작용 가능하다는 문구가 나온경우 true
+
+    /// <summary>
+    /// Player가 G키를 누르면 호출된다.
+    /// </summary>
     public void Interactive()
     {
-        if (interactiveObjects.Count <= 0)
+        if (0 < interactiveObjects.Count)
         {
-            return;
+            Notify(interactiveObjects[0].GetInteractiveType());
         }
-
-        curInteractiveType = interactiveObjects[0].GetInteractiveType();
-        Notify(curInteractiveType);
     }
-
-    public void SetInteractiveObject(InteractiveObject obj, bool isCall)
+    /// <summary>
+    /// 테마별 미션을 확인할 때 호출
+    /// </summary>
+    public void MissionOpen()
     {
-        if (isCall)
+        if (ThemeFirstPresenter.GetInstance != null)
         {
-            interactiveObjects.Add(obj);
-        }
-        else
-        {
-            if (interactiveObjects.Contains(obj))
-            {
-                interactiveObjects.Remove(obj);
-            }
         }
     }
 
-    public void ThrowOutTheInventory()
+    
+    public void SetInteractiving(InteractiveObject obj)
     {
-        if (inventoryObj == null) { return; }
-
-        inventoryObj.SetActive(false);
-        inventoryObj = null;
+        if (0 < interactiveObjects.Count)
+        {
+            interactiveObjects.Clear();
+        }
+        interactiveObjects.Add(obj);
     }
 
-    public void SetInventoryObject(GameObject obj)
+    public void SetPuzzleInteractive(InteractiveObject itvObj, GameObject obj)
     {
-        this.inventoryObj = obj;
+        if (0 < interactiveObjects.Count)
+        {
+            interactiveObjects.Clear();
+        }
+        interactiveObjects.Add(itvObj);
+        this.puzzleObj = obj;
     }
 
-    public void SetTilePatternObject(GameObject obj)
+    public void SetInteractvieObjToInventory(GameObject obj)
     {
         this.inventoryObj = obj;
     }
@@ -81,12 +79,16 @@ public class InteractiveManager : MonoBehaviour
                 break;
             case InteractiveType.ThemeFirst_Switch:
                 ThemeFirstPresenter.GetInstance.SwitchOffAndAutoOn();
+                inventoryObj.GetComponent<Switch>().SwitchButtonRotate();
                 break;
-            case InteractiveType.ThemeFirst_PatternTile:
-                ThemeFirstPresenter.GetInstance.TileInteractiveOpen(inventoryObj);
+            case InteractiveType.ThemeFirst_Tile_Pattern:
+                ThemeFirstPresenter.GetInstance.TileInteractiveOpen(puzzleObj);
                 break;
             case InteractiveType.ThemeFirst_Cube:
                 ThemeFirstPresenter.GetInstance.CubePutInInveotry(inventoryObj);
+                break;
+            case InteractiveType.Door:
+                inventoryObj.GetComponent<Door>().DoorUseToKey();
                 break;
             default:
                 break;

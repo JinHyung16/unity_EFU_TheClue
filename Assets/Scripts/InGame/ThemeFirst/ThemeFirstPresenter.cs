@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 {
@@ -20,15 +20,15 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
     [Header("서로 다른 6가지 문양의 Tile")]
     [SerializeField] private TileData tileData;
-    [SerializeField] private List<GameObject> tileObjectList; //생성한 9개 타일 오브젝트 담아두기.
+    private List<GameObject> tileObjectList; //생성한 9개 타일 오브젝트 담아두기.
 
     [Header("타일 배치할 위치 9곳 list")]
     [SerializeField] private List<Transform> tileSpawnPosList;
-    [SerializeField] List<int> remainTileSpawnList; //탈출 키인 3가지 타일 배치한 위치를 제외한 나머지 구역
+    List<int> remainTileSpawnList; //탈출 키인 3가지 타일 배치한 위치를 제외한 나머지 구역
 
-    private string doorLockKeyPad; //doorlock의 입력한 값
-    private int switchOnCnt; //switch와 상호작용 한 횟수 저장
+
     private int switchLightIndex; //switch의 불빛을 가져올 배열의 index값
+
 
     //Game Clear 또는 Fail이 되는 조건을 저장한 변수
     private int numOfTileAttemptsCnt; //타일 퍼즐 풀기 시도 횟수
@@ -65,7 +65,6 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
         TimerManager.GetInstance.ThemeTime = 600.0f;
 
-        switchOnCnt = 1;
         switchLightIndex = 1;
         numOfTileAttemptsCnt = 0;
         SetTileRandom();
@@ -75,23 +74,15 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     {
         tokenSource.Cancel();
         tokenSource.Dispose();
+
+        tileObjectList.Clear();
+        remainTileSpawnList.Clear();
     }
 
     #region DoorLock
     public void OpenDoorLockUI()
     {
         themeFirstViewer.OpenDoorLock();
-    }
-
-    public void InputDoorLockKeyPad(string key)
-    {
-        doorLockKeyPad += key;
-        themeFirstViewer.UpdateDoorLockInput(doorLockKeyPad);
-    }
-
-    public void ClearDoorLockKeyPad()
-    {
-        doorLockKeyPad = "";
     }
 
     public void DoneDoorLock()
@@ -110,43 +101,49 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     {
         if (tokenSource != null)
         {
-            tokenSource.Cancel();
             tokenSource.Dispose();
         }
         tokenSource = new CancellationTokenSource();
 
-        if (switchSpotLight.enabled)
+        if (!IsSwitchOn)
         {
+            if (colorList.Count <= switchLightIndex)
+            {
+                switchLightIndex = 1;
+            }
             switchSpotLight.enabled = false;
-            IsSwitchOn = false;
             AutoSwitchChange().Forget();
         }
         else
         {
             AutoTileColorChange(UnityEngine.Color.black);
             switchSpotLight.color = colorList[0];
+
             switchSpotLight.enabled = true;
-            IsSwitchOn = true;
+            IsSwitchOn = false;
         }
     }
 
     private async UniTaskVoid AutoSwitchChange()
     {
+        IsSwitchOn = true;
         while (true)
         {
-            if (colorList.Count <= switchLightIndex)
-            {
-                switchLightIndex = 1;
-            }
-            switchSpotLight.color = colorList[switchOnCnt];
+            switchSpotLight.color = colorList[switchLightIndex];
             switchSpotLight.enabled = true;
-            AutoTileColorChange(colorList[switchOnCnt]);
+            AutoTileColorChange(colorList[switchLightIndex]);
             switchLightIndex++;
             //5초 뒤 빛 R -> Y -> B 순서로
             await UniTask.Delay(TimeSpan.FromSeconds(5.0f), cancellationToken: tokenSource.Token);
             AutoTilePosChange();
             switchSpotLight.enabled = false;
+            AutoTileColorChange(UnityEngine.Color.black);
             await UniTask.Delay(TimeSpan.FromSeconds(2.0f), cancellationToken: tokenSource.Token);
+            if (colorList.Count == switchLightIndex)
+            {
+                tokenSource.Cancel();
+                break; 
+            }
         }
     }
     #endregion
@@ -291,8 +288,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
     public void TileInteractiveOpen(GameObject tile)
     {
-        GameObject dice = InventoryManager.GetInstance.GetObjectInventory();
-        themeFirstViewer.TilePatternCanvasOpen(dice, tile);
+        themeFirstViewer.TilePatternCanvasOpen(tile);
     }
     /// <summary>
     /// Tile위 같은 문양 찾기를 진행하여
@@ -303,18 +299,18 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     {
         if (isDone)
         {
-            numOfTileAttemptsCnt++;
+            numOfTileAttemptsCnt += 1;
         }
         else
         {
-            numOfTileAttemptsCnt--;
+            numOfTileAttemptsCnt -= 1;
         }
 
-        if (numOfTileAttemptsCnt == 3)
+        if (3 <= numOfTileAttemptsCnt)
         {
             GameClear(true);
         }
-        else if (numOfTileAttemptsCnt == -3)
+        else if (numOfTileAttemptsCnt <= -3)
         {
             GameClear(false);
         }
@@ -329,14 +325,21 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
     public void GameClear(bool isClear)
     {
+        themeFirstViewer.CloseCanvas();
+
         if (isClear)
         {
-            themeFirstViewer.OpenResultCanvas(true);
+            GameManager.GetInstance.IsGameClear = true;
         }
         else
         {
-            Debug.Log("ThemeFirstPresenter: Game Clear 실패");
-            themeFirstViewer.OpenResultCanvas(false);
+            GameManager.GetInstance.IsGameClear = false;
+            GameResultOpen(false);
         }
+    }
+
+    public void GameResultOpen(bool isClear)
+    {
+        themeFirstViewer.OpenResultCanvas(isClear);
     }
 }

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using System.Threading;
@@ -17,6 +16,10 @@ public class InventoryManager : MonoBehaviour
     }
     #endregion
 
+    [SerializeField] private List<Transform> selectInvenTransforms = new List<Transform>();
+    [SerializeField] private GameObject selectMarkerObj;
+
+    [Header("InventoryUI를 갖는 UI List")]
     [SerializeField] private List<InventoryUI> inventoryUIList = new List<InventoryUI>();
     [SerializeField] private GameObject invenIsFullImage;
 
@@ -30,11 +33,6 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        foreach (var obj in inventoryUIList)
-        {
-            obj.IsSetObject = false;
-        }
-
         if (tokenSource != null)
         {
             tokenSource.Dispose();
@@ -104,15 +102,10 @@ public class InventoryManager : MonoBehaviour
     {
         selectInvenIndex = selectIdx;
         emptyInventory = inventoryUIList[selectInvenIndex];
+        selectMarkerObj.transform.position = selectInvenTransforms[selectIdx].transform.position;
+
         if (emptyInventory.InventoryObject != null)
         {
-            string invenObjName = emptyInventory.InventoryObject.name.Substring(0, 4);
-            if (invenObjName == "Cube")
-            {
-                Debug.Log("InventoryManager: " + invenObjName);
-                //상호작용 UI오픈
-            }
-
             if (TileManager.GetInstance != null)
             {
                 //TilePatternManager가 있으면 테마1의 주사위 데이터 로드
@@ -123,14 +116,16 @@ public class InventoryManager : MonoBehaviour
 
     public GameObject GetObjectInventory()
     {
-        if (emptyInventory == null) { return null; }
-
-        emptyInventory = inventoryUIList[selectInvenIndex];
-        if (emptyInventory.IsSetObject)
+        if (emptyInventory != null)
         {
-            invenObj = emptyInventory.InventoryObject;
+            emptyInventory = inventoryUIList[selectInvenIndex];
+            if (emptyInventory.IsSetObject)
+            {
+                invenObj = emptyInventory.InventoryObject;
+            }
+            return invenObj;
         }
-        return invenObj;
+        return null;
     }
 
     /// <summary>

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,12 +21,10 @@ public class TileManager : MonoBehaviour
     [Header("인벤에 있는 아이템의 Pattern Image")]
     [SerializeField] private Image objPatternImage;
 
-    [Header("Tile Pattern들을 담을 리스트")]
-    [SerializeField] private List<Tile> tilePatterns = new List<Tile>();
-
     private Color curTileColor;
-    private string curTilePatternName;
     private bool curTileIsEscapeKey = false;
+    private bool curTileIsSetDice = false;
+
     private GameObject invenObj = null;
     private GameObject patternObject = null; //해당 pattern의 object
 
@@ -38,11 +37,12 @@ public class TileManager : MonoBehaviour
     {
         patternObject = obj;
 
-        var tilepattern = obj.GetComponent<Tile>();
-        tilePatternImg.sprite = tilepattern.TilePatternSprite;
-        curTilePatternName = tilepattern.TilePatternName;
-        curTileIsEscapeKey = tilepattern.IsEscapeKey;
-        curTileColor = tilepattern.TileColor;
+        var tile = patternObject.GetComponent<Tile>();
+        tilePatternImg.sprite = tile.TilePatternSprite;
+        curTileIsEscapeKey = tile.IsEscapeKey;
+        curTileIsSetDice = tile.IsSetDice;
+
+        curTileColor = tile.TileColor;
     }
 
     /// <summary>
@@ -101,31 +101,35 @@ public class TileManager : MonoBehaviour
     {
         if (invenObj == null) { return; }
 
-        if (diceScript != null && curTileIsEscapeKey && (curTilePatternName == diceScript.DicePatternName) && 
-            (curTileColor == diceScript.GetDicePatternColor))
+        if ((diceScript != null) && (!curTileIsSetDice))
         {
-            foreach (var curPattern in tilePatterns)
+            if (curTileIsEscapeKey && (curTileColor == diceScript.GetDicePatternColor))
             {
-                if (curPattern.TilePatternName == curTilePatternName)
-                {
-                    curPattern.IsSetDice = true;
-                }
+                patternObject.GetComponent<Tile>().IsSetDice = true;
+                patternObject.GetComponent<Tile>().SetDiceDone();
+                InventoryManager.GetInstance.InvenObjectPutOnTile();
+                ThemeFirstPresenter.GetInstance.DicePutOnTileCheck(true);
+
+                invenObj = null;
+                patternObject = null;
+                diceScript = null;
+                objPatternImage.sprite = null;
+                themeFirstViewer.CloseCanvas();
             }
-            invenObj.SetActive(true);
-            //invenObj object를 tile위에 올려두기
-            invenObj.transform.position = patternObject.transform.position + new Vector3(0, 0.8f, 0);
-            ThemeFirstPresenter.GetInstance.DicePutOnTileCheck(true);
-            InventoryManager.GetInstance.InvenObjectPutOnTile();
-            invenObj = null;
-            patternObject = null;
-            diceScript = null;
-            objPatternImage.sprite = null;
+            else
+            {
+                ThemeFirstPresenter.GetInstance.DicePutOnTileCheck(false);
+                themeFirstViewer.CloseCanvas();
+            }
+        }
+        else if (cubeScript != null)
+        {
+            ThemeFirstPresenter.GetInstance.DicePutOnTileCheck(false);
             themeFirstViewer.CloseCanvas();
         }
         else
         {
             themeFirstViewer.CloseCanvas();
-            ThemeFirstPresenter.GetInstance.DicePutOnTileCheck(false);
         }
     }
 

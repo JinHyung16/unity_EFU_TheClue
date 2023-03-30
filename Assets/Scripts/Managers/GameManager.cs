@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using DG.Tweening;
+using UnityEngine.Rendering.Universal;
 
 public class GameManager : Singleton<GameManager>, IDisposable
 {
@@ -21,13 +22,12 @@ public class GameManager : Singleton<GameManager>, IDisposable
 
     private bool isOptionKeyDown;
 
-    public bool IsUIOpen { get; set; }
-    public bool IsInputStop { get; set; } = false;
-    public bool IsInteractive { get; private set; } = false;
-    public bool IsEndTheme { private get; set; } = false;
+    public bool IsUIOpen { get; set; } //게임에서 퍼즐을 풀기위한 UI가 열려있을 경우 true
+    public bool IsInputStop { get; set; } = false; //게임중 esc키를 눌러 option을 누를경우 true
+    public bool IsEndTheme { private get; set; } = false; //현재 테마가 마지막 테마이면 true
+    public bool IsGameClear { get; set; } = false; //테마별로 현재 테마를 클리어했으면 true
 
     public Camera themeCamera { get; set; } = null;
-
     private void Start()
     {
         gameOptionCanvas.enabled = false;
@@ -47,6 +47,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
     private void QuitGameAndSaveData()
     {
         int saveIndex = 0;
+        Debug.Log("SceneController.GetInstance.CurSceneName");
         switch (SceneController.GetInstance.CurSceneName)
         {
             case "ThemeFirst":
@@ -59,6 +60,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
                 saveIndex = 3;
                 break;
         }
+        Debug.Log("saveIndex: " + saveIndex);
         DataManager.GetInstance.SaveData(saveIndex);
 
         gameOptionCanvas.enabled = false;
@@ -143,8 +145,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
         {
             interactiveCanvs.worldCamera = themeCamera;
         }
-        
-        IsInteractive = true;
+
         interactiveCanvs.enabled = true;
 
         interactiveTrans.position = target.position + offset;
@@ -153,7 +154,6 @@ public class GameManager : Singleton<GameManager>, IDisposable
 
     public void InvisibleInteractiveCanvas()
     {
-        IsInteractive = false;
         interactiveCanvs.enabled = false;
     }
     #endregion

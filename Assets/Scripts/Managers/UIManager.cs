@@ -4,6 +4,7 @@ using UnityEngine;
 using HughGenerics;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using JetBrains.Annotations;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -15,7 +16,6 @@ public class UIManager : Singleton<UIManager>
     private Dictionary<string, Canvas> canvasDictionary = new Dictionary<string, Canvas>();
     private Queue<Canvas> canvasQueue = new Queue<Canvas>();
 
-
     #region UI Panel단위로 Control
     /// <summary>
     /// Scene이 바뀔때마다, 해당 Scene에서 사용할 Panel들을 넣어준다.
@@ -24,8 +24,16 @@ public class UIManager : Singleton<UIManager>
 
     public void AddPanelInDictionary(string panelName, GameObject panel)
     {
-        panelDictionary.Add(panelName, panel);
-        panel.SetActive(false);
+        if (panelDictionary.TryGetValue(panelName, out GameObject temp))
+        {
+            panelQueue.Clear();
+            return;
+        }
+        else
+        {
+            panelDictionary.Add(panelName, panel);
+            panel.SetActive(false);
+        }
     }
 
     public void ShowPanel(string panelName)
@@ -35,7 +43,7 @@ public class UIManager : Singleton<UIManager>
             if (panelQueue.Contains(obj))
             {
                 var removeObj = panelQueue.Peek();
-                obj.SetActive(false);
+                removeObj.SetActive(false);
                 panelQueue.Clear();
             }
             else
@@ -83,6 +91,14 @@ public class UIManager : Singleton<UIManager>
 
     public void AddCanvasInDictionary(string canvasName, Canvas canvas)
     {
+        if (canvasDictionary == null)
+        {
+            canvasDictionary = new Dictionary<string, Canvas>();
+        }
+        if (canvasQueue != null)
+        {
+            canvasQueue = new Queue<Canvas>();
+        }
         canvasDictionary.Add(canvasName, canvas);
         canvas.enabled = false;
     }
@@ -90,22 +106,20 @@ public class UIManager : Singleton<UIManager>
     public void ShowCanvas(string canvasName)
     {
         if (canvasDictionary.TryGetValue(canvasName, out Canvas canvas))
-        {
+        { 
             if (canvasQueue.Contains(canvas))
             {
-                var removeObj = canvasQueue.Peek();
                 canvas.enabled = false;
                 canvasQueue.Clear();
             }
             else
             {
-                if (canvasQueue.Count > 0)
+                if (0 < canvasQueue.Count)
                 {
                     var removeObj = canvasQueue.Peek();
-                    canvas.enabled = false;
+                    removeObj.enabled = false;
                     canvasQueue.Dequeue();
                 }
-
                 canvasQueue.Enqueue(canvas);
                 canvas.enabled = true;
             }

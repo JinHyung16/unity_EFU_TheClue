@@ -1,7 +1,4 @@
 using HughEnumData;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 
 public class Switch : InteractiveObject
@@ -11,49 +8,49 @@ public class Switch : InteractiveObject
 
     private Vector3 offset;
 
-    private void Start()
-    {
-        offset = new Vector3(0, 0.8f, -1.0f);
-        switchBtnTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-    }
-    private void OnDestroy()
-    {
-        InteracitveOrNot(false);
-    }
-    private void OnTriggerEnter(Collider other)
+    #region InteractiveObject Override
+    protected override void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.GetInstance.VisibleInteractiveCanvas(this.switchTransform, offset);
-            InteracitveOrNot(true);
+            InteractiveManager.GetInstance.IsInteractive = true;
+            this.Interacitve();
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    protected override void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.GetInstance.InvisibleInteractiveCanvas();
-            InteracitveOrNot(false);
+            InteractiveManager.GetInstance.IsInteractive = false;
+            this.NotInteractvie();
         }
     }
 
-    public override void InteracitveOrNot(bool interactive)
+    protected override void Interacitve()
     {
-        if (interactive)
-        {
-            InteractiveManager.GetInstance.SetInteractiveObject(this, true);
-        }
-        else
-        {
-            InteractiveManager.GetInstance.SetInteractiveObject(this, false);
-        }
+        GameManager.GetInstance.VisibleInteractiveCanvas(switchTransform, offset);
+        InteractiveManager.GetInstance.SetInteractiving(this);
+        InteractiveManager.GetInstance.SetInteractvieObjToInventory(this.gameObject);
+    }
+
+    protected override void NotInteractvie()
+    {
+        GameManager.GetInstance.InvisibleInteractiveCanvas();
+        InteractiveManager.GetInstance.SetInteractvieObjToInventory(null);
     }
 
     public override InteractiveType GetInteractiveType()
     {
-        this.myInteractiveType = InteractiveType.ThemeFirst_Switch;
-        return this.myInteractiveType;
+        return InteractiveType.ThemeFirst_Switch;
+    }
+
+    #endregion
+
+    private void Start()
+    {
+        switchBtnTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        offset = new Vector3(0, 1.0f, -0.3f);
     }
 
     public void SwitchButtonRotate()

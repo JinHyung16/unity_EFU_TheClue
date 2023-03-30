@@ -40,4 +40,9 @@ public class PlayerManager : MonoBehaviour
     {
         return this.playerCamera;
     }
+
+    public Transform GiveBackPlayerCameraPos()
+    {
+        return this.cameraViewTrans;
+    }
 }

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06527b62ff2c6a142b7aa6f08e8adbc1, type: 3}
+  m_Name: DiceData
+  m_EditorClassIdentifier: 
+  patternSpriteArray:
+  - {fileID: -594215595, guid: 8584626c00e27b34fb83d78465da6d16, type: 3}
+  - {fileID: 2027849341, guid: 9dbb7330b8247594c865f2f176e4f77c, type: 3}
+  - {fileID: -272595405, guid: 91c7eaf132108ed408bf31e9e4b8a883, type: 3}
+  - {fileID: -2027418096, guid: 99012aecf100ad94cb69c547ea1e101a, type: 3}
+  - {fileID: -2000866785, guid: a0a7313205f792844af2d84fc09e7c93, type: 3}
+  - {fileID: -1784903287, guid: d55270a5a83da9f4d86f738c87c7c9d2, type: 3}
+  patternNameArray:
+  - pattern01
+  - pattern02
+  - pattern03
+  - pattern04
+  - pattern05
+  - pattern06

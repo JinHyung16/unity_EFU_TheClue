@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -22,15 +21,10 @@ public class PlayerInputController : MonoBehaviour
     [SerializeField] private Transform cameraView;
 
 
+    //private Vector3 screenCenter;
     private float cameraRotateSpeed;
-    private KeyCode optionKey;
-    private KeyCode interactiveKey;
-
     private List<KeyCode> invenSelectKeyList;
-    private KeyCode firstInvenSelect;
-    private KeyCode secondInvenSelect;
-    private KeyCode thirdInvenSelect;
-    
+
     private void Start()
     {
         if (gameSetUpData == null)
@@ -44,8 +38,6 @@ public class PlayerInputController : MonoBehaviour
         Cursor.visible = true;
 
         cameraRotateSpeed = gameSetUpData.cameraRotateSpeed;
-        this.optionKey = gameSetUpData.optionKey;
-        this.interactiveKey = gameSetUpData.interactiveKey;
 
         invenSelectKeyList = new List<KeyCode>
         {
@@ -53,19 +45,22 @@ public class PlayerInputController : MonoBehaviour
             gameSetUpData.secondInvenSelectKey,
             gameSetUpData.thirdInvenSelectKey
         };
+
+        //screenCenter = new Vector3(playerCamera.pixelWidth / 2, playerCamera.pixelHeight / 2);
     }
 
     private void Update()
     {
         InputOpenOption();
         InputSelectInventory();
+        //InputMouseRay();
         //Option 창이 열림 또는 UI가 열려있는 상태면 나머지 아래 동작들은 작동시키지 못하게 한다.
         if (!GameManager.GetInstance.IsInputStop && !GameManager.GetInstance.IsUIOpen)
         {
             InputMovementControl();
             InputJumpControl();
             InputMouseViewControl();
-            InputInteractive();
+            InputKeyCode();
         }
     }
 
@@ -74,8 +69,8 @@ public class PlayerInputController : MonoBehaviour
     /// </summary>
     private void InputMovementControl()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float horizontal = UnityEngine.Input.GetAxis("Horizontal");
+        float vertical = UnityEngine.Input.GetAxis("Vertical");
 
         Vector2 moveInput = new Vector2(horizontal * cameraRotateSpeed, vertical * cameraRotateSpeed);
 
@@ -131,27 +126,37 @@ public class PlayerInputController : MonoBehaviour
         cameraView.rotation = Quaternion.Euler(rotateX, cameraAngle.y + mousePos.x, cameraAngle.z);
     }
 
-    /// <summary>
-    /// 마우스 좌클릭
-    /// </summary>
-    private void InputMouseLeftClick()
+    /*
+    private void InputMouseRay()
     {
-        if (Input.GetMouseButtonDown(0))
+        Ray ray = playerCamera.ScreenPointToRay(screenCenter);
+        if(Mathf.Abs(ray.direction.x) <= 2.0f || Mathf.Abs(ray.direction.z) <= 2.0f)
+        { 
+            Debug.DrawRay(screenCenter, transform.forward * 20.0f, Color.green);
+        }
+
+        //Physics.Raycast(screenCenter, transform.forward, out RaycastHit hit, 3.0f);
+
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (hit.collider.CompareTag("Interactive"))
             {
             }
-            else if (EventSystem.current.IsPointerOverGameObject())
+            else
             {
-                return;
+                GameManager.GetInstance.InvisibleInteractiveCanvas();
             }
         }
+        else if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
     }
+    */
 
     private void InputOpenOption()
     {
-        if (Input.GetKeyDown(optionKey))
+        if (Input.GetKeyDown(gameSetUpData.optionKey))
         {
             GameManager.GetInstance.OptionCanvasOpen(true);
         }
@@ -176,14 +181,19 @@ public class PlayerInputController : MonoBehaviour
         }
     }
 
-    private void InputInteractive()
+    private void InputKeyCode()
     {
-        if (Input.GetKeyDown(interactiveKey))
+        if (Input.GetKeyDown(gameSetUpData.interactiveKey))
         {
-            if (GameManager.GetInstance.IsInteractive)
+            if (InteractiveManager.GetInstance.IsInteractive)
             {
                 InteractiveManager.GetInstance.Interactive();
             }
+        }
+
+        if (Input.GetKeyDown(gameSetUpData.missionKey))
+        {
+            InteractiveManager.GetInstance.MissionOpen();
         }
     }
 
