@@ -1,13 +1,28 @@
 using HughEnumData;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Switch : InteractiveObject
+public class Note : InteractiveObject
 {
-    [SerializeField] private Transform switchTransform;
-    [SerializeField] private Transform switchBtnTransform;
+    [SerializeField] private Transform noteTransform;
+
+    [Header("DoorKey UI sprite")]
+    [SerializeField] private Sprite noteImage;
 
     private Vector3 offset;
+    public Sprite GetNoteUISprite { get { return this.noteImage; } }
 
+    private void Start()
+    {
+        offset = new Vector3(0, 0.8f, 0);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.GetInstance.InvisibleInteractiveCanvas();
+        this.gameObject.transform.position = noteTransform.position;
+    }
     #region InteractiveObject Override
     protected override void OnTriggerEnter(Collider other)
     {
@@ -29,7 +44,7 @@ public class Switch : InteractiveObject
 
     protected override void Interacitve()
     {
-        GameManager.GetInstance.VisibleInteractiveCanvas(switchTransform, offset);
+        GameManager.GetInstance.VisibleInteractiveCanvas(noteTransform, offset);
         InteractiveManager.GetInstance.SetInteractiving(this);
         InteractiveManager.GetInstance.SetInteractvieObjToInventory(this.gameObject);
     }
@@ -42,26 +57,8 @@ public class Switch : InteractiveObject
 
     public override InteractiveType GetInteractiveType()
     {
-        return InteractiveType.Switch;
+        return InteractiveType.ThemeSecond_Note;
     }
 
     #endregion
-
-    private void Start()
-    {
-        switchBtnTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-        offset = new Vector3(0, 1.0f, -0.3f);
-    }
-
-    public void SwitchButtonRotate()
-    {
-        if (switchBtnTransform.rotation.x <= 0)
-        {
-            switchBtnTransform.Rotate(20.0f, 0, 0);
-        }
-        else
-        {
-            switchBtnTransform.Rotate(-20.0f, 0, 0);
-        }
-    }
 }

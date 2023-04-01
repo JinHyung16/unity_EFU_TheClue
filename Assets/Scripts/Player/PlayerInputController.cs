@@ -45,7 +45,6 @@ public class PlayerInputController : MonoBehaviour
             gameSetUpData.secondInvenSelectKey,
             gameSetUpData.thirdInvenSelectKey
         };
-
         //screenCenter = new Vector3(playerCamera.pixelWidth / 2, playerCamera.pixelHeight / 2);
     }
 
@@ -53,14 +52,16 @@ public class PlayerInputController : MonoBehaviour
     {
         InputOpenOption();
         InputSelectInventory();
-        //InputMouseRay();
+        InputCancelInteractiveKey();
+        InputMouseRay();
         //Option 창이 열림 또는 UI가 열려있는 상태면 나머지 아래 동작들은 작동시키지 못하게 한다.
         if (!GameManager.GetInstance.IsInputStop && !GameManager.GetInstance.IsUIOpen)
         {
             InputMovementControl();
             InputJumpControl();
             InputMouseViewControl();
-            InputKeyCode();
+            InputInteractiveKey();
+            InputMissionKey();
         }
     }
 
@@ -126,34 +127,23 @@ public class PlayerInputController : MonoBehaviour
         cameraView.rotation = Quaternion.Euler(rotateX, cameraAngle.y + mousePos.x, cameraAngle.z);
     }
 
-    /*
+    
     private void InputMouseRay()
     {
-        Ray ray = playerCamera.ScreenPointToRay(screenCenter);
-        if(Mathf.Abs(ray.direction.x) <= 2.0f || Mathf.Abs(ray.direction.z) <= 2.0f)
-        { 
-            Debug.DrawRay(screenCenter, transform.forward * 20.0f, Color.green);
-        }
 
-        //Physics.Raycast(screenCenter, transform.forward, out RaycastHit hit, 3.0f);
-
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (Input.GetMouseButton(0))
         {
-            if (hit.collider.CompareTag("Interactive"))
+            if (GameManager.GetInstance.CameraInteractive != null)
             {
+                GameObject obj = InventoryManager.GetInstance.GetInvenObject();
+                if (obj != null)
+                {
+                    obj.transform.Rotate(0.0f, -Input.GetAxis("Mouse X") * gameSetUpData.mouseDragSpeed, 0.0f, Space.World);
+                    obj.transform.Rotate(-Input.GetAxis("Mouse Y") * gameSetUpData.mouseDragSpeed, 0.0f, 0.0f);
+                }
             }
-            else
-            {
-                GameManager.GetInstance.InvisibleInteractiveCanvas();
-            }
-        }
-        else if (EventSystem.current.IsPointerOverGameObject())
-        {
-            return;
         }
     }
-    */
-
     private void InputOpenOption()
     {
         if (Input.GetKeyDown(gameSetUpData.optionKey))
@@ -181,7 +171,7 @@ public class PlayerInputController : MonoBehaviour
         }
     }
 
-    private void InputKeyCode()
+    private void InputInteractiveKey()
     {
         if (Input.GetKeyDown(gameSetUpData.interactiveKey))
         {
@@ -190,11 +180,41 @@ public class PlayerInputController : MonoBehaviour
                 InteractiveManager.GetInstance.Interactive();
             }
         }
+    }
 
+    private void InputCancelInteractiveKey()
+    {
+        if (Input.GetKeyDown(gameSetUpData.notInteractiveKey))
+        {
+            if (ThemeSecondPresenter.GetInstance != null)
+            {
+                ThemeSecondPresenter.GetInstance.DoorInteractive(false);
+            }
+        }
+    }
+
+    private void InputMissionKey()
+    {
         if (Input.GetKeyDown(gameSetUpData.missionKey))
         {
             InteractiveManager.GetInstance.MissionOpen();
         }
     }
+
+
+/*
+private void InputRay()
+{
+    Ray ray = GameManager.GetInstance.CameraInteractive.ScreenPointToRay(Input.mousePosition);
+    if (Physics.Raycast(ray, out RaycastHit hit))
+    {
+        if (hit.collider.CompareTag("Interactive"))
+        {
+            hit.transform.Rotate(0.0f, -Input.GetAxis("Mouse X") * gameSetUpData.mouseDragSpeed, 0.0f, Space.World);
+            hit.transform.Rotate(-Input.GetAxis("Mouse Y") * gameSetUpData.mouseDragSpeed, 0.0f, 0.0f);
+        }
+    }
+}
+*/
 
 }

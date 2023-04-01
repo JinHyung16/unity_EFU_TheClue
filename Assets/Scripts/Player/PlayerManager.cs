@@ -32,8 +32,8 @@ public class PlayerManager : MonoBehaviour
     private void OnEnable()
     {
         playerTransform.position = gameSetUpData.characterTransform;
-        playerCameraTrans.position = new Vector3(0, 0, gameSetUpData.cameraPosZ);
-        cameraViewTrans.position = new Vector3(0, gameSetUpData.cameraViewPosY, 0);
+        playerCameraTrans.position = new Vector3(playerTransform.position.x, 0, gameSetUpData.cameraPosZ);
+        cameraViewTrans.position = new Vector3(playerTransform.position.x, gameSetUpData.cameraViewPosY, 0);
     }
 
     public Camera PlayerCamera()

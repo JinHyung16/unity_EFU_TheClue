@@ -2722,7 +2722,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 707052507}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -2767,12 +2767,12 @@ MonoBehaviour:
   - {fileID: 1104544240}
   - {fileID: 1848653166}
   doorLockImageList:
-  - {fileID: -1951516413, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
-  - {fileID: 484303426, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
-  - {fileID: -1907747521, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
-  - {fileID: -278365558, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
-  - {fileID: -992467185, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
-  - {fileID: -63440455, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
+  - {fileID: -594215595, guid: 8584626c00e27b34fb83d78465da6d16, type: 3}
+  - {fileID: 2027849341, guid: 9dbb7330b8247594c865f2f176e4f77c, type: 3}
+  - {fileID: -272595405, guid: 91c7eaf132108ed408bf31e9e4b8a883, type: 3}
+  - {fileID: -2027418096, guid: 99012aecf100ad94cb69c547ea1e101a, type: 3}
+  - {fileID: -2000866785, guid: a0a7313205f792844af2d84fc09e7c93, type: 3}
+  - {fileID: -1784903287, guid: d55270a5a83da9f4d86f738c87c7c9d2, type: 3}
 --- !u!1001 &720414484
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3619,7 +3619,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 32
+    m_Bits: 0
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -3860,7 +3860,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -63440455, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
+  m_Sprite: {fileID: -1784903287, guid: d55270a5a83da9f4d86f738c87c7c9d2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4454,7 +4454,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -278365558, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
+  m_Sprite: {fileID: -2027418096, guid: 99012aecf100ad94cb69c547ea1e101a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4928,7 +4928,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1951516413, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
+  m_Sprite: {fileID: -594215595, guid: 8584626c00e27b34fb83d78465da6d16, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5920,6 +5920,14 @@ PrefabInstance:
       propertyPath: m_LightProbeUsage
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: bfcb557ce0d073a459da816feae8368b, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d2021440d0706f6489b7ef30da7bc835, type: 2}
+    - target: {fileID: -7511558181221131132, guid: bfcb557ce0d073a459da816feae8368b, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9272afcad377f434a8aa2e2f58043628, type: 2}
     - target: {fileID: 919132149155446097, guid: bfcb557ce0d073a459da816feae8368b, type: 3}
       propertyPath: m_Name
       value: WallandFloor
@@ -6034,7 +6042,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 484303426, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
+  m_Sprite: {fileID: 2027849341, guid: 9dbb7330b8247594c865f2f176e4f77c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7080,7 +7088,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1907747521, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
+  m_Sprite: {fileID: -272595405, guid: 91c7eaf132108ed408bf31e9e4b8a883, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8769,7 +8777,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -992467185, guid: c141e808ae4ce804095628aa45bf222c, type: 3}
+  m_Sprite: {fileID: -2000866785, guid: a0a7313205f792844af2d84fc09e7c93, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

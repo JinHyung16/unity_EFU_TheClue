@@ -14,10 +14,11 @@ namespace HughEnumData
         None = 0,
         ThemeFirst_DoorLock,
         ThemeFirst_Dice,
-        ThemeFirst_Switch,
         ThemeFirst_Tile_Pattern,
         ThemeFirst_Cube,
-
+        ThemeSecond_Key,
+        ThemeSecond_Note,
+        Switch,
         Door,
     }
 }

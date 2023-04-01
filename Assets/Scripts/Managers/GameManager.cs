@@ -27,7 +27,8 @@ public class GameManager : Singleton<GameManager>, IDisposable
     public bool IsEndTheme { private get; set; } = false; //현재 테마가 마지막 테마이면 true
     public bool IsGameClear { get; set; } = false; //테마별로 현재 테마를 클리어했으면 true
 
-    public Camera themeCamera { get; set; } = null;
+    public Camera CameraTheme { get; set; } = null; //테마별 카메라
+    public Camera CameraInteractive { get; set; } = null; 
     private void Start()
     {
         gameOptionCanvas.enabled = false;
@@ -47,7 +48,6 @@ public class GameManager : Singleton<GameManager>, IDisposable
     private void QuitGameAndSaveData()
     {
         int saveIndex = 0;
-        Debug.Log("SceneController.GetInstance.CurSceneName");
         switch (SceneController.GetInstance.CurSceneName)
         {
             case "ThemeFirst":
@@ -60,6 +60,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
                 saveIndex = 3;
                 break;
         }
+        Debug.Log("SceneController.GetInstance.CurSceneName: " + SceneController.GetInstance.CurSceneName);
         Debug.Log("saveIndex: " + saveIndex);
         DataManager.GetInstance.SaveData(saveIndex);
 
@@ -109,6 +110,16 @@ public class GameManager : Singleton<GameManager>, IDisposable
         GC.SuppressFinalize(player);
     }
 
+    public void PlayerCameraStacking(Camera cam)
+    {
+        var cameraData = playerManager.PlayerCamera().GetUniversalAdditionalCameraData();
+        cameraData.cameraStack.Add(cam);
+    }
+
+    public void PlayerCameraControl(bool active)
+    {
+        playerManager.PlayerCamera().enabled = active;
+    }
     #region Option Canvas and Interactive Canvas Control
     /// <summary>
     /// Player가 esc버튼을 누르면 OptionCanvas를 연다
@@ -143,7 +154,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
         interactiveCanvs.renderMode = RenderMode.WorldSpace;
         if (interactiveCanvs.worldCamera == null)
         {
-            interactiveCanvs.worldCamera = themeCamera;
+            interactiveCanvs.worldCamera = CameraTheme;
         }
 
         interactiveCanvs.enabled = true;

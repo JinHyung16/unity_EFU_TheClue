@@ -90,7 +90,7 @@ public class TileManager : MonoBehaviour
     /// </summary>
     public void SetInventorySync()
     {
-        GameObject invenObj = InventoryManager.GetInstance.GetObjectInventory();
+        GameObject invenObj = InventoryManager.GetInstance.GetInvenObject();
         SetDiceOnTileCanvas(invenObj);
     }
 

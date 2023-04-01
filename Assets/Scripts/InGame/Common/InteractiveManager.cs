@@ -14,10 +14,9 @@ public class InteractiveManager : MonoBehaviour
     #endregion
 
     private List<InteractiveObject> interactiveObjects = new List<InteractiveObject>();
-    private GameObject inventoryObj;
+    private GameObject inventoryObj; //inventory에 들어갈 object
 
-    private GameObject puzzleObj;
-
+    private GameObject puzzleObj; //퍼즐같이 상호작용하는 object
     public bool IsInteractive { get; set; } = false; //상호작용 가능하다는 문구가 나온경우 true
 
     /// <summary>
@@ -40,7 +39,10 @@ public class InteractiveManager : MonoBehaviour
         }
     }
 
-    
+    /// <summary>
+    /// 상호작용을 할 InteractiveObject를 상속하는 것을 받는다.
+    /// </summary>
+    /// <param name="obj">InteractiveObject를 상속하고 있는 obj</param>
     public void SetInteractiving(InteractiveObject obj)
     {
         if (0 < interactiveObjects.Count)
@@ -50,6 +52,13 @@ public class InteractiveManager : MonoBehaviour
         interactiveObjects.Add(obj);
     }
 
+    /// <summary>
+    /// 테마1에서 tile 오브젝트를 받는다.
+    /// 상호작용할 오브젝트로 G를 눌러 퍼즐 공간을 열고
+    /// 실제로 데이터는 tile object를 TileManager에게 보낸다.
+    /// </summary>
+    /// <param name="itvObj">상호작용할 오브젝트</param>
+    /// <param name="obj">실제 타일 오브젝트</param>
     public void SetPuzzleInteractive(InteractiveObject itvObj, GameObject obj)
     {
         if (0 < interactiveObjects.Count)
@@ -60,6 +69,10 @@ public class InteractiveManager : MonoBehaviour
         this.puzzleObj = obj;
     }
 
+    /// <summary>
+    /// Invenotry에 들어갈 게임 오브젝트를 받는다.
+    /// </summary>
+    /// <param name="obj">인벤토리에 들어갈 실제 게임오브젝트</param>
     public void SetInteractvieObjToInventory(GameObject obj)
     {
         this.inventoryObj = obj;
@@ -77,9 +90,16 @@ public class InteractiveManager : MonoBehaviour
             case InteractiveType.ThemeFirst_Dice:
                 ThemeFirstPresenter.GetInstance.DicePutInInveotry(inventoryObj);
                 break;
-            case InteractiveType.ThemeFirst_Switch:
-                ThemeFirstPresenter.GetInstance.SwitchOffAndAutoOn();
-                inventoryObj.GetComponent<Switch>().SwitchButtonRotate();
+            case InteractiveType.Switch:
+                if (ThemeFirstPresenter.GetInstance != null)
+                {
+                    ThemeFirstPresenter.GetInstance.SwitchOffAndAutoOn();
+                    inventoryObj.GetComponent<Switch>().SwitchButtonRotate();
+                }
+                else if (ThemeSecondPresenter.GetInstance != null)
+                {
+                    ThemeSecondPresenter.GetInstance.SwitchOnOff();
+                }
                 break;
             case InteractiveType.ThemeFirst_Tile_Pattern:
                 ThemeFirstPresenter.GetInstance.TileInteractiveOpen(puzzleObj);
@@ -88,7 +108,20 @@ public class InteractiveManager : MonoBehaviour
                 ThemeFirstPresenter.GetInstance.CubePutInInveotry(inventoryObj);
                 break;
             case InteractiveType.Door:
-                inventoryObj.GetComponent<Door>().DoorUseToKey();
+                if (ThemeFirstPresenter.GetInstance != null)
+                {
+                    inventoryObj.GetComponent<Door>().DoorOpenToEscape();
+                }
+                if (ThemeSecondPresenter.GetInstance != null)
+                {
+                    ThemeSecondPresenter.GetInstance.DoorInteractive(true);
+                }
+                break;
+            case InteractiveType.ThemeSecond_Key:
+                ThemeSecondPresenter.GetInstance.DoorKeyInventory(inventoryObj);
+                break;
+            case InteractiveType.ThemeSecond_Note:
+                ThemeSecondPresenter.GetInstance.NoteInventory(inventoryObj);
                 break;
             default:
                 break;

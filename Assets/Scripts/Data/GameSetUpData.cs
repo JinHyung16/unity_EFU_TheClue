@@ -20,15 +20,16 @@ public class GameSetUpData : ScriptableObject
     public Vector3 characterTransform;
 
     //PlayerMovement의 사용되는 데이터
-    [Header("Player Movement Data")]
+    [Header("Player Movement And Input Data")]
     public float moveSpeed;
     public float jumpPower;
     public float cameraRotateSpeed;
+    public float mouseDragSpeed;
 
     [Header("Player Input Keyboard")]
     public KeyCode optionKey = KeyCode.Escape;
     public KeyCode interactiveKey = KeyCode.G;
-    public KeyCode puzzleKey = KeyCode.F;
+    public KeyCode notInteractiveKey = KeyCode.F;
     public KeyCode missionKey = KeyCode.M;
 
     [Header("Input To Select Inventory")]

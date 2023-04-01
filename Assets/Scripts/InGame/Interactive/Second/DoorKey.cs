@@ -1,12 +1,28 @@
 using HughEnumData;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
-public class Switch : InteractiveObject
+public class DoorKey : InteractiveObject
 {
-    [SerializeField] private Transform switchTransform;
-    [SerializeField] private Transform switchBtnTransform;
+    [SerializeField] private Transform doorKeyTransform;
+
+    [Header("DoorKey UI sprite")]
+    [SerializeField] private Sprite doorKeyImage;
 
     private Vector3 offset;
+    public Sprite GetDoorKeyUISprite { get { return this.doorKeyImage; } }
+
+    private void Start()
+    {
+        offset = new Vector3(0, 0.8f, 0);
+    }
+    private void OnDisable()
+    {
+        GameManager.GetInstance.InvisibleInteractiveCanvas();
+        this.gameObject.transform.position = doorKeyTransform.position;
+    }
 
     #region InteractiveObject Override
     protected override void OnTriggerEnter(Collider other)
@@ -29,7 +45,7 @@ public class Switch : InteractiveObject
 
     protected override void Interacitve()
     {
-        GameManager.GetInstance.VisibleInteractiveCanvas(switchTransform, offset);
+        GameManager.GetInstance.VisibleInteractiveCanvas(doorKeyTransform, offset);
         InteractiveManager.GetInstance.SetInteractiving(this);
         InteractiveManager.GetInstance.SetInteractvieObjToInventory(this.gameObject);
     }
@@ -42,26 +58,8 @@ public class Switch : InteractiveObject
 
     public override InteractiveType GetInteractiveType()
     {
-        return InteractiveType.Switch;
+        return InteractiveType.ThemeSecond_Key;
     }
 
     #endregion
-
-    private void Start()
-    {
-        switchBtnTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-        offset = new Vector3(0, 1.0f, -0.3f);
-    }
-
-    public void SwitchButtonRotate()
-    {
-        if (switchBtnTransform.rotation.x <= 0)
-        {
-            switchBtnTransform.Rotate(20.0f, 0, 0);
-        }
-        else
-        {
-            switchBtnTransform.Rotate(-20.0f, 0, 0);
-        }
-    }
 }

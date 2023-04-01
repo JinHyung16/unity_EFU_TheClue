@@ -12,7 +12,6 @@ public class Door : InteractiveObject
 
     private Vector3 offset;
 
-    private Vector3 cameraOffset;
     //UniTask 토큰
     private CancellationTokenSource tokenSource;
 
@@ -64,16 +63,10 @@ public class Door : InteractiveObject
 
         doorCanvas.enabled = false;
         offset = new Vector3(0, 1.0f, -0.3f);
-        cameraOffset = new Vector3(this.doorTransform.position.x, this.doorTransform.position.y, this.doorTransform.position.z - 1.5f);
     }
-
-    public void DoorUseToKey()
-    {
-        if (ThemeSecondPresenter.GetInstance != null)
-        {
-        }
-    }
-
+    /// <summary>
+    /// 테마1에서 문과 상호작용시 사용할 함수
+    /// </summary>
     public void DoorOpenToEscape()
     {
         if (tokenSource != null)

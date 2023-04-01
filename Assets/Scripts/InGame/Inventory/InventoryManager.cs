@@ -56,6 +56,10 @@ public class InventoryManager : MonoBehaviour
                     emptyInventory = inventoryUIList[i];
                 }
             }
+            else
+            {
+                emptyInventory = null;
+            }
         }
     }
 
@@ -114,7 +118,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public GameObject GetObjectInventory()
+    public GameObject GetInvenObject()
     {
         if (emptyInventory != null)
         {
@@ -132,6 +136,15 @@ public class InventoryManager : MonoBehaviour
     /// 테마1에서 inven의 object를 Tile에 최종적으로 배치 완료할 때 호출하는 함수
     /// </summary>
     public void InvenObjectPutOnTile()
+    {
+        emptyInventory.GetObject();
+        emptyInventory = null;
+    }
+
+    /// <summary>
+    /// 테마2에서 열쇠를 최종적으로 문에 넣을때 호출하는 함수
+    /// </summary>
+    public void InvenObjectPutInDoor()
     {
         emptyInventory.GetObject();
         emptyInventory = null;

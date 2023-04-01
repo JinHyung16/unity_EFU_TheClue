@@ -64,14 +64,13 @@ public class DoorLockManager : MonoBehaviour
             displayIndex = 0;
         }
 
-        int temp = 0;
         if (index < 7)
         {
-            displayImageList[displayIndex].sprite = doorLockImageList[index - 1];
+            displayImageList[displayIndex].sprite = doorLockImageList[(index - 1)];
         }
         else
         {
-            temp = index - 7;
+            int temp = index - 7;
             displayImageList[displayIndex].sprite = doorLockImageList[doorLockRandomIndex[temp]];
         }
         displayIndex += 1;

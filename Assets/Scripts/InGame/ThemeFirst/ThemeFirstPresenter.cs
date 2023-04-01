@@ -40,7 +40,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     //UniTask 관련
     private CancellationTokenSource tokenSource;
 
-    public bool IsSwitchOn { get; private set; } = false;
+    private bool IsSwitchOn = false;
 
     protected override void OnAwake()
     {
@@ -58,7 +58,8 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         SceneController.GetInstance.CurSceneName = themeName;
 
         GameManager.GetInstance.SpawnPlayer();
-        GameManager.GetInstance.themeCamera = this.mainCamera;
+        GameManager.GetInstance.CameraTheme = this.mainCamera;
+        this.mainCamera.cullingMask = 0; //noting으로 설정
 
         GameManager.GetInstance.IsUIOpen = false;
         GameManager.GetInstance.IsInputStop = false;
@@ -320,7 +321,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     public void CubePutInInveotry(GameObject obj)
     {
         var cube = obj.GetComponent<Cube>();
-        InventoryManager.GetInstance.PutInInventory(obj, cube.GetCubeUISprite, UnityEngine.Color.black); ;
+        InventoryManager.GetInstance.PutInInventory(obj, cube.GetCubeUISprite, UnityEngine.Color.white); ;
     }
 
     public void GameClear(bool isClear)
