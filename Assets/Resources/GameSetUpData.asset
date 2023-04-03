@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraPosZ: -2
   cameraViewPosY: 4.5
-  characterTransform: {x: 2, y: 0, z: 0}
+  characterTransform: {x: 0, y: 0, z: -2}
   moveSpeed: 3
   jumpPower: 20
   cameraRotateSpeed: 1.5
   mouseDragSpeed: 4
   optionKey: 27
-  interactiveKey: 103
+  interactiveKey: 101
   notInteractiveKey: 102
+  throwOutInvenKey: 103
   missionKey: 109
   firstInvenSelectKey: 49
   secondInvenSelectKey: 50

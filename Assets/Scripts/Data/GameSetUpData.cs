@@ -28,8 +28,9 @@ public class GameSetUpData : ScriptableObject
 
     [Header("Player Input Keyboard")]
     public KeyCode optionKey = KeyCode.Escape;
-    public KeyCode interactiveKey = KeyCode.G;
+    public KeyCode interactiveKey = KeyCode.E;
     public KeyCode notInteractiveKey = KeyCode.F;
+    public KeyCode throwOutInvenKey = KeyCode.G;
     public KeyCode missionKey = KeyCode.M;
 
     [Header("Input To Select Inventory")]

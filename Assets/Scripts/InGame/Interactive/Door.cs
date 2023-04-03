@@ -10,8 +10,11 @@ public class Door : InteractiveObject
     [SerializeField] private Transform doorTransform;
     [SerializeField] private Canvas doorCanvas;
 
+    [SerializeField] private MeshRenderer doorRenderer;
+
     private Vector3 offset;
 
+    private bool isColorChange = false;
     //UniTask 토큰
     private CancellationTokenSource tokenSource;
 
@@ -62,8 +65,29 @@ public class Door : InteractiveObject
         tokenSource = new CancellationTokenSource();
 
         doorCanvas.enabled = false;
-        offset = new Vector3(0, 1.0f, -0.3f);
+        offset = new Vector3(1.0f, 1.5f, -0.3f);
+
+        if (ThemeSecondPresenter.GetInstance != null)
+        {
+            DoorColorChange();
+        }
     }
+
+    public void DoorColorChange()
+    {
+        if (ThemeSecondPresenter.GetInstance != null && !isColorChange)
+        {
+            if (TimerManager.GetInstance.CurMinTime <= 10)
+            {
+                //doorRenderer.material.SetColor("_EmissionColor", Color.blue * Mathf.LinearToGammaSpace(2.0f));
+            }
+            else
+            {
+                //doorRenderer.material.SetColor("_EmissionColor", Color.red * Mathf.LinearToGammaSpace(2.0f));
+            }
+        }
+    }
+
     /// <summary>
     /// 테마1에서 문과 상호작용시 사용할 함수
     /// </summary>

@@ -28,7 +28,9 @@ public class GameManager : Singleton<GameManager>, IDisposable
     public bool IsGameClear { get; set; } = false; //테마별로 현재 테마를 클리어했으면 true
 
     public Camera CameraTheme { get; set; } = null; //테마별 카메라
-    public Camera CameraInteractive { get; set; } = null; 
+    public Camera CameraInteractive { get; set; } = null; //interactive 전용 카메라
+
+    public GameObject Player { get { return this.player; } }
     private void Start()
     {
         gameOptionCanvas.enabled = false;
@@ -149,7 +151,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
     }
 
 
-    public void VisibleInteractiveCanvas(Transform target, Vector3 offset)
+    public void VisibleInteractiveCanvas(Transform target, Vector3 offset, bool isGround = false)
     {
         interactiveCanvs.renderMode = RenderMode.WorldSpace;
         if (interactiveCanvs.worldCamera == null)
@@ -160,7 +162,16 @@ public class GameManager : Singleton<GameManager>, IDisposable
         interactiveCanvs.enabled = true;
 
         interactiveTrans.position = target.position + offset;
-        //interactiveTrans.LookAt((interactiveTrans.position + playerManager.PlayerCamera().transform.rotation * Vector3.back), (playerManager.PlayerCamera().transform.rotation * Vector3.up));
+        if (!isGround)
+        {
+            interactiveTrans.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else
+        {
+            interactiveTrans.rotation = Quaternion.Euler(90, 0, 0);
+        }
+
+        //interactiveTrans.LookAt(playerManager.PlayerCamera().transform.rotation * Vector3.back);
     }
 
     public void InvisibleInteractiveCanvas()

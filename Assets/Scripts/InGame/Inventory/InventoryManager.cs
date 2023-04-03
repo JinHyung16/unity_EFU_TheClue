@@ -115,6 +115,27 @@ public class InventoryManager : MonoBehaviour
                 //TilePatternManager가 있으면 테마1의 주사위 데이터 로드
                 TileManager.GetInstance.SetInventorySync();
             }
+            if (ThemeSecondPresenter.GetInstance != null && ThemeSecondPresenter.GetInstance.IsInteractiveNum == 1)
+            {
+                ThemeSecondPresenter.GetInstance.ObjectSyncToDoorKeyHole();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Invetory의 아이템을 버릴때 호출할 함수
+    /// </summary>
+    /// <param name="selectIdx"> 버릴 인벤토리 번호 </param>
+    public void ThrowOutInventoryObject(int selectIdx)
+    {
+        selectInvenIndex = selectIdx;
+        emptyInventory = inventoryUIList[selectInvenIndex];
+        selectMarkerObj.transform.position = selectInvenTransforms[selectIdx].transform.position;
+        if (emptyInventory.InventoryObject != null)
+        {
+            emptyInventory.InventoryObject.SetActive(true);
+            emptyInventory.GetObject();
+            emptyInventory = null;
         }
     }
 

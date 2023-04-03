@@ -19,7 +19,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private Transform cameraViewTrans; //player camera의 부모 오브젝트인 CameraView
 
     [Header("Player Camera Transform")]
-    [SerializeField] private Transform playerCameraTrans; //player mainCamera 그 자체
+    [SerializeField] private Transform playerCameraTrans; //player cameraMain 그 자체
 
     private void Start()
     {
@@ -32,8 +32,8 @@ public class PlayerManager : MonoBehaviour
     private void OnEnable()
     {
         playerTransform.position = gameSetUpData.characterTransform;
-        playerCameraTrans.position = new Vector3(playerTransform.position.x, 0, gameSetUpData.cameraPosZ);
-        cameraViewTrans.position = new Vector3(playerTransform.position.x, gameSetUpData.cameraViewPosY, 0);
+        playerCameraTrans.position = playerTransform.position + new Vector3(0, 0, gameSetUpData.cameraPosZ);
+        cameraViewTrans.position = playerTransform.position + new Vector3(0, gameSetUpData.cameraViewPosY, 0);
     }
 
     public Camera PlayerCamera()

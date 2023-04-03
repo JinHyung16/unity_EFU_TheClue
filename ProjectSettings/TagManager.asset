@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Floor
   - Door
-  - Interactive
+  - WristWatch
   layers:
   - Default
   - TransparentFX

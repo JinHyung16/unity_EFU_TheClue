@@ -25,6 +25,8 @@ public class PlayerInputController : MonoBehaviour
     private float cameraRotateSpeed;
     private List<KeyCode> invenSelectKeyList;
 
+    private GameObject hitObject;
+    private int inputNum = 0;
     private void Start()
     {
         if (gameSetUpData == null)
@@ -123,17 +125,43 @@ public class PlayerInputController : MonoBehaviour
             rotateX = Mathf.Clamp(rotateX, 335.0f, 361.0f);
         }
         //마우스 좌우 움직임으로 카메라 좌우 움직임 제어, 마우스 상하 움직임으로 카메라 상하 움직임 제어
-        //mainCamera.x rotate하면 위 아래로 회전하고, mainCamera.y rotate하면 좌우로 회전한다
+        //cameraMain.x rotate하면 위 아래로 회전하고, cameraMain.y rotate하면 좌우로 회전한다
         cameraView.rotation = Quaternion.Euler(rotateX, cameraAngle.y + mousePos.x, cameraAngle.z);
     }
 
     
     private void InputMouseRay()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (GameManager.GetInstance.CameraInteractive != null)
+            {
+                Ray ray = GameManager.GetInstance.CameraInteractive.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit hit))
+                {
+                    if (hit.collider.gameObject != null)
+                    {
+                        if (hit.collider.gameObject.CompareTag("WristWatch"))
+                        {
+                            if (hitObject != null)
+                            {
+                                hitObject.GetComponent<WristWatch>().PutDownWristWatch();
+                                hitObject = null;
+                            }
+                            else
+                            {
+                                hitObject = hit.collider.gameObject;
+                                hit.collider.gameObject.transform.position = GameManager.GetInstance.CameraInteractive.transform.position + new Vector3(0, -1.0f, 0);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         if (Input.GetMouseButton(0))
         {
-            if (GameManager.GetInstance.CameraInteractive != null)
+            if (GameManager.GetInstance.CameraInteractive != null && ThemeSecondPresenter.GetInstance.IsInteractiveNum == 1)
             {
                 GameObject obj = InventoryManager.GetInstance.GetInvenObject();
                 if (obj != null)
@@ -154,7 +182,6 @@ public class PlayerInputController : MonoBehaviour
 
     private void InputSelectInventory()
     {
-        int inputNum = 0;
         if (Input.anyKeyDown)
         {
             foreach (var key in invenSelectKeyList)
@@ -167,6 +194,14 @@ public class PlayerInputController : MonoBehaviour
                         InventoryManager.GetInstance.SelectInventory(inputNum);
                     }
                 }
+            }
+        }
+
+        if (Input.GetKeyDown(gameSetUpData.throwOutInvenKey))
+        {
+            if (InventoryManager.GetInstance != null)
+            {
+                InventoryManager.GetInstance.ThrowOutInventoryObject(inputNum);
             }
         }
     }
@@ -188,7 +223,14 @@ public class PlayerInputController : MonoBehaviour
         {
             if (ThemeSecondPresenter.GetInstance != null)
             {
-                ThemeSecondPresenter.GetInstance.DoorInteractive(false);
+                if (ThemeSecondPresenter.GetInstance.IsInteractiveNum == 1)
+                {
+                    ThemeSecondPresenter.GetInstance.DoorKeyHoleInteractive(false);
+                }
+                if (ThemeSecondPresenter.GetInstance.IsInteractiveNum == 2)
+                {
+                    ThemeSecondPresenter.GetInstance.ShowCaseInteractive(false);
+                }
             }
         }
     }

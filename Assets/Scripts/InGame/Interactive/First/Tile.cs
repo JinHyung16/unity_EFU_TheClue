@@ -46,7 +46,7 @@ public class Tile : InteractiveObject
 
     protected override void Interacitve()
     {
-        GameManager.GetInstance.VisibleInteractiveCanvas(tilePatternTransform, offset);
+        GameManager.GetInstance.VisibleInteractiveCanvas(tilePatternTransform, offset, true);
         InteractiveManager.GetInstance.SetPuzzleInteractive(this, this.gameObject);
     }
 
@@ -64,7 +64,7 @@ public class Tile : InteractiveObject
     #endregion
     private void Start()
     {
-        offset = new Vector3(0, 0.8f, 0);
+        offset = new Vector3(0.5f, 1.0f, 0);
     }
 
     public void InitialTileSetting(Transform transform, Color color)

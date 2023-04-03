@@ -71,6 +71,7 @@ public class InteractiveManager : MonoBehaviour
 
     /// <summary>
     /// Invenotry에 들어갈 게임 오브젝트를 받는다.
+    /// 또는 개별적으로 해당 오브젝트를 불러올 경우도 사용한다.
     /// </summary>
     /// <param name="obj">인벤토리에 들어갈 실제 게임오브젝트</param>
     public void SetInteractvieObjToInventory(GameObject obj)
@@ -88,7 +89,10 @@ public class InteractiveManager : MonoBehaviour
                 ThemeFirstPresenter.GetInstance.OpenDoorLockUI();
                 break;
             case InteractiveType.ThemeFirst_Dice:
-                ThemeFirstPresenter.GetInstance.DicePutInInveotry(inventoryObj);
+                if (inventoryObj != null)
+                {
+                    ThemeFirstPresenter.GetInstance.DicePutInInveotry(inventoryObj);
+                }
                 break;
             case InteractiveType.Switch:
                 if (ThemeFirstPresenter.GetInstance != null)
@@ -105,7 +109,10 @@ public class InteractiveManager : MonoBehaviour
                 ThemeFirstPresenter.GetInstance.TileInteractiveOpen(puzzleObj);
                 break;
             case InteractiveType.ThemeFirst_Cube:
-                ThemeFirstPresenter.GetInstance.CubePutInInveotry(inventoryObj);
+                if (inventoryObj != null)
+                {
+                    ThemeFirstPresenter.GetInstance.CubePutInInveotry(inventoryObj);
+                }
                 break;
             case InteractiveType.Door:
                 if (ThemeFirstPresenter.GetInstance != null)
@@ -114,14 +121,24 @@ public class InteractiveManager : MonoBehaviour
                 }
                 if (ThemeSecondPresenter.GetInstance != null)
                 {
-                    ThemeSecondPresenter.GetInstance.DoorInteractive(true);
+                    ThemeSecondPresenter.GetInstance.DoorKeyHoleInteractive(true);
+                    inventoryObj.GetComponent<Door>().DoorColorChange();
                 }
                 break;
             case InteractiveType.ThemeSecond_Key:
-                ThemeSecondPresenter.GetInstance.DoorKeyInventory(inventoryObj);
+                if (inventoryObj != null)
+                {
+                    ThemeSecondPresenter.GetInstance.DoorKeyInventory(inventoryObj);
+                }
                 break;
             case InteractiveType.ThemeSecond_Note:
-                ThemeSecondPresenter.GetInstance.NoteInventory(inventoryObj);
+                if (inventoryObj != null)
+                {
+                    ThemeSecondPresenter.GetInstance.NoteInventory(inventoryObj);
+                }
+                break;
+            case InteractiveType.ThemeSecond_ShowCase:
+                ThemeSecondPresenter.GetInstance.ShowCaseInteractive(true);
                 break;
             default:
                 break;

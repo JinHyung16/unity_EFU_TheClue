@@ -21,6 +21,7 @@ public class Note : InteractiveObject
     private void OnDisable()
     {
         GameManager.GetInstance.InvisibleInteractiveCanvas();
+        NotInteractvie();
         this.gameObject.transform.position = noteTransform.position;
     }
     #region InteractiveObject Override

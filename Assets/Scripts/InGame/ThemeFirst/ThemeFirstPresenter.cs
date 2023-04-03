@@ -9,8 +9,8 @@ using UnityEngine.UI;
 public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 {
     [Header("Theme Frist의 있는 카메라")]
-    [SerializeField] private Camera mainCamera;
-    public Camera GetMainCamera { get { return mainCamera; } }
+    [SerializeField] private Camera cameraMain;
+    public Camera GetMainCamera { get { return cameraMain; } }
 
     [SerializeField] private ThemeFirstViewer themeFirstViewer;
 
@@ -58,8 +58,8 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         SceneController.GetInstance.CurSceneName = themeName;
 
         GameManager.GetInstance.SpawnPlayer();
-        GameManager.GetInstance.CameraTheme = this.mainCamera;
-        this.mainCamera.cullingMask = 0; //noting으로 설정
+        GameManager.GetInstance.CameraTheme = this.cameraMain;
+        this.cameraMain.cullingMask = 0; //noting으로 설정
 
         GameManager.GetInstance.IsUIOpen = false;
         GameManager.GetInstance.IsInputStop = false;

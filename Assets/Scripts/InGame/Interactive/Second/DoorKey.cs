@@ -11,7 +11,9 @@ public class DoorKey : InteractiveObject
     [Header("DoorKey UI sprite")]
     [SerializeField] private Sprite doorKeyImage;
 
+
     private Vector3 offset;
+
     public Sprite GetDoorKeyUISprite { get { return this.doorKeyImage; } }
 
     private void Start()
@@ -21,6 +23,7 @@ public class DoorKey : InteractiveObject
     private void OnDisable()
     {
         GameManager.GetInstance.InvisibleInteractiveCanvas();
+        NotInteractvie();
         this.gameObject.transform.position = doorKeyTransform.position;
     }
 
@@ -29,8 +32,11 @@ public class DoorKey : InteractiveObject
     {
         if (other.CompareTag("Player"))
         {
-            InteractiveManager.GetInstance.IsInteractive = true;
-            this.Interacitve();
+            if (ThemeSecondPresenter.GetInstance != null && ThemeSecondPresenter.GetInstance.IsInteractiveNum != 1)
+            {
+                InteractiveManager.GetInstance.IsInteractive = true;
+                this.Interacitve();
+            }
         }
     }
 

@@ -71,7 +71,7 @@ public class Cube : InteractiveObject
     private void Start()
     {
         cubeSpriteArray = diceData.patternSpriteArray;
-        offset = new Vector3(0, 0.8f, 0);
+        offset = new Vector3(0, 1.0f, 0);
     }
 
     public Sprite GetCubeSprite(int index)

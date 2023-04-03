@@ -61,7 +61,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cubeTransform: {fileID: 8435581218349166935}
   diceData: {fileID: 11400000, guid: 1a6f9462d8f0992468c2de7cd1d69210, type: 2}
-  cubeUISprite: {fileID: -2024837537, guid: 19c6e9f0653a91a46b15c29b0bbe90cd, type: 3}
+  cubeUISprite: {fileID: 1530296861, guid: b5ddfb051edffaa468d7d053bcae1a7a, type: 3}
 --- !u!1001 &8435581218071704915
 PrefabInstance:
   m_ObjectHideFlags: 0

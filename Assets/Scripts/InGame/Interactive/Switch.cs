@@ -50,7 +50,7 @@ public class Switch : InteractiveObject
     private void Start()
     {
         switchBtnTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-        offset = new Vector3(0, 1.0f, -0.3f);
+        offset = new Vector3(0, 1.5f, -0.3f);
     }
 
     public void SwitchButtonRotate()

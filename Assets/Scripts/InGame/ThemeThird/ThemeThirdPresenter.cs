@@ -10,7 +10,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     private string themeName = "ThemeThird";
     protected override void OnAwake()
     {
-        //mainCamera.enabled = false;
+        //cameraMain.enabled = false;
         mainCamera.cullingMask = 5;
     }
 

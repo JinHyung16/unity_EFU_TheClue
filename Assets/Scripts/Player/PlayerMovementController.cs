@@ -32,11 +32,8 @@ public class PlayerMovementController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!GameManager.GetInstance.IsInputStop && !GameManager.GetInstance.IsUIOpen)
-        {
-            Movement();
-            Jump();
-        }
+        Movement();
+        Jump();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -59,6 +56,10 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Movement()
     {
+        if (GameManager.GetInstance.IsInputStop || GameManager.GetInstance.IsUIOpen)
+        {
+            moveDirection *= 0;
+        }
         playerRigidbody.velocity = moveDirection * moveSpeed;
     }
 
