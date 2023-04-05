@@ -53,11 +53,15 @@ public class ThemeFirstViewer : MonoBehaviour
         }
         else
         {
-            Debug.Log("여기");
             UIManager.GetInstance.ShowCanvas("GameFailedResult Canvas");
         }
     }
 
+    public void NPCMissionCanvasOpen()
+    {
+        GameManager.GetInstance.IsUIOpen = true;
+        UIManager.GetInstance.ShowCanvas("NPCMission Canvas");
+    }
 
     #region Game Result Canvas하위 Button 기능
     public void GoToMain()

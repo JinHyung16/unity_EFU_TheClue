@@ -61,7 +61,6 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         GameManager.GetInstance.IsUIOpen = false;
         GameManager.GetInstance.IsInputStop = false;
 
-
         GameManager.GetInstance.SpawnPlayer();
         GameManager.GetInstance.CameraTheme = this.cameraMain;
         this.cameraMain.cullingMask = 0; //noting으로 설정
@@ -78,6 +77,9 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
         tileObjectList.Clear();
         remainTileSpawnList.Clear();
+
+        GameManager.GetInstance.IsUIOpen = false;
+        GameManager.GetInstance.IsInputStop = false;
     }
 
     #region DoorLock
@@ -318,10 +320,20 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     }
     #endregion
 
+
     public void CubePutInInveotry(GameObject obj)
     {
         var cube = obj.GetComponent<Cube>();
         InventoryManager.GetInstance.PutInInventory(obj, cube.GetCubeUISprite, UnityEngine.Color.white); ;
+    }
+
+    /// <summary>
+    /// NPC와 상호작용시 현재 미션을 볼 수 있다.
+    /// </summary>
+    public void NPCInteractiveShowMission()
+    {
+        GameManager.GetInstance.IsUIOpen = false;
+        themeFirstViewer.NPCMissionCanvasOpen();
     }
 
     public void GameClear(bool isClear)

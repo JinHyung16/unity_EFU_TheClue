@@ -27,6 +27,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     //NPC와 대화한게 처음인지 아닌지
     public bool IsNPCFirstTalk { get; set; } = false;
 
+    private int numOfDoorLockAttempsCnt = 0;
     private string themeName = "ThemeSecond";
     protected override void OnAwake()
     {
@@ -50,13 +51,25 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         GameManager.GetInstance.IsInputStop = false;
 
         TimerManager.GetInstance.ThemeTime = 900.0f;
+
+        numOfDoorLockAttempsCnt = 0;
     }
 
-    private void OnDisable()
+    public void OpenDoorLockUI()
     {
-        
+        themeSecondViewer.DoorLockCanvasOpen();
     }
 
+    public void DoneDoorLock()
+    {
+        numOfDoorLockAttempsCnt++;
+        if (3 <= numOfDoorLockAttempsCnt)
+        {
+            numOfDoorLockAttempsCnt = 0;
+            GameClear(false);
+        }
+    }
+    #region Interactive Camera Functions
     private void CmaInteractiveSet(Transform transform, bool isActive)
     {
         cameraInteractive.transform.position = transform.position;
@@ -74,11 +87,6 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             cameraInteractive.depth = 0;
             GameManager.GetInstance.PlayerCameraControl(true);
         }
-    }
-
-    public void OpenDoorLockUI()
-    {
-        themeSecondViewer.DoorLockCanvasOpen();
     }
 
     /// <summary>
@@ -123,7 +131,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
                 obj.transform.LookAt(cameraInteractive.transform);
                 obj.SetActive(true);
             }
-            themeSecondViewer.DoorCanvasOpen();
+            themeSecondViewer.InteractiveCanvasOpen();
         }
         else
         {
@@ -145,12 +153,14 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             GameManager.GetInstance.IsUIOpen = true;
             IsInteractiveNum = 2;
             CmaInteractiveSet(interactiveCamMovePosList[1], true);
+            themeSecondViewer.InteractiveCanvasOpen();
         }
         else
         {
             GameManager.GetInstance.IsUIOpen = false;
             IsInteractiveNum = 0;
             CmaInteractiveSet(interactiveCamMovePosList[1], false);
+            themeSecondViewer.CloseCanvas();
         }
     }
 
@@ -178,13 +188,15 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             themeSecondViewer.CloseCanvas();
         }
     }
+    #endregion
 
     /// <summary>
     /// NPC와 상호작용시 현재 미션을 볼 수 있다.
     /// </summary>
     public void NPCInteractiveShowMission()
     {
-        //미션창 닫기
+        GameManager.GetInstance.IsUIOpen = false;
+        themeSecondViewer.NPCMissionCanvasOpen();
     }
 
     public void NoteSelectInInven(GameObject obj)
@@ -192,13 +204,29 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         var note = obj.GetComponent<Note>();
         themeSecondViewer.NoteCanvasOpen(note.noteIndex);
     }
-
-
-    #region Inventory에 들어갈 object 함수
     public void DoorKeyInventory(GameObject obj)
     {
         var doorKey = obj.GetComponent<DoorKey>();
         InventoryManager.GetInstance.PutInInventory(obj, doorKey.GetDoorKeyUISprite, UnityEngine.Color.white); ;
     }
-    #endregion
+
+    public void GameClear(bool isClear)
+    {
+        themeSecondViewer.CloseCanvas();
+
+        if (isClear)
+        {
+            GameManager.GetInstance.IsGameClear = true;
+        }
+        else
+        {
+            GameManager.GetInstance.IsGameClear = false;
+            GameResultOpen(false);
+        }
+    }
+
+    public void GameResultOpen(bool isClear)
+    {
+        themeSecondViewer.OpenResultCanvas(isClear);
+    }
 }

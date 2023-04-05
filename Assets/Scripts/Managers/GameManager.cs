@@ -83,23 +83,14 @@ public class GameManager : Singleton<GameManager>, IDisposable
     /// </summary>
     public void SpawnPlayer()
     {
-        if (player == null)
-        {
-            player = Instantiate(playerPrefab, this.transform);
-            playerManager = player.GetComponent<PlayerManager>();
-        }
-        player.SetActive(true);
-    }
-
-    /// <summary>
-    /// Theme를 이동할때마다 호출한다.
-    /// </summary>
-    public void DespawnPlayer()
-    {
         if (player != null)
         {
-            player.SetActive(false);
+            Dispose();
         }
+
+        player = Instantiate(playerPrefab);
+        playerManager = player.GetComponent<PlayerManager>();
+        player.SetActive(true);
     }
 
     /// <summary>

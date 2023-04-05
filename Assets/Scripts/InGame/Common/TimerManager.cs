@@ -38,20 +38,14 @@ public class TimerManager : MonoBehaviour
     public int CurMinTime { get; private set; }
     public bool IsTimerStart { get; set; } = false;
 
-    private void OnDisable()
+    private void Start()
     {
         IsTimeDone = false;
         IsTimerStart = true;
-    }
 
-    private void Start()
-    {
         minTime = 0.0f;
         secTime = 0.0f;
         curTime = 0.0f;
-
-        IsTimeDone = false;
-        IsTimerStart = true;
     }
     private void Update()
     {

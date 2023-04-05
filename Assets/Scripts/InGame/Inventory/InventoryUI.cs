@@ -36,5 +36,7 @@ public class InventoryUI : MonoBehaviour
         IsSetObject = false;
         uiImage.sprite = null;
         uiImage.color = Color.white;
+        InventoryObject = null;
+        InventoryObject.name = null;
     }
 }

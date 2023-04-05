@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ThemeSecondViewer : MonoBehaviour
@@ -8,6 +9,9 @@ public class ThemeSecondViewer : MonoBehaviour
 
     [Header("NoteCanvas의 Panel")]
     [SerializeField] private List<GameObject> notePanelList = new List<GameObject>();
+
+    [Header("Timer Text")]
+    [SerializeField] private TMP_Text resultTimerText;
     private void Start()
     {
         for (int i = 0; i < canvasList.Count; i++)
@@ -22,13 +26,25 @@ public class ThemeSecondViewer : MonoBehaviour
         UIManager.GetInstance.ShowCanvas("DoorLock Canvas");
     }
 
+    public void InteractiveCanvasOpen()
+    {
+        GameManager.GetInstance.IsUIOpen = true;
+        UIManager.GetInstance.ShowCanvas("Interactive Canvas");
+    }
+
     /// <summary>
     /// NPC와 첫 대화시 Note를 선택하는 Canvas를 연다
     /// </summary>
     public void NPCSelectNoteCanvasOpen()
     {
         GameManager.GetInstance.IsUIOpen = true;
-        UIManager.GetInstance.ShowCanvas("NoteSelect Canvas");
+        UIManager.GetInstance.ShowCanvas("NPCNoteSelect Canvas");
+    }
+
+    public void NPCMissionCanvasOpen()
+    {
+        GameManager.GetInstance.IsUIOpen = true;
+        UIManager.GetInstance.ShowCanvas("NPCMission Canvas");
     }
 
     public void NoteCanvasOpen(int index)
@@ -38,11 +54,44 @@ public class ThemeSecondViewer : MonoBehaviour
         //notePanelList[index].SetActive(true);
     }
 
-    public void DoorCanvasOpen()
+
+    public void OpenResultCanvas(bool isClear)
     {
         GameManager.GetInstance.IsUIOpen = true;
-        UIManager.GetInstance.ShowCanvas("Door Canvas");
+        if (isClear)
+        {
+            resultTimerText.text = TimerManager.GetInstance.CurTimeString.ToString();
+            UIManager.GetInstance.ShowCanvas("GameClearResult Canvas");
+        }
+        else
+        {
+            UIManager.GetInstance.ShowCanvas("GameFailedResult Canvas");
+        }
     }
+
+    #region Game Result Canvas하위 Button 기능
+    public void GoToMain()
+    {
+        SceneController.GetInstance.LoadScene("Main");
+        GameManager.GetInstance.GameClear();
+    }
+
+    public void NextStage()
+    {
+        SceneController.GetInstance.LoadScene("ThemeThird");
+        GameManager.GetInstance.GameClear();
+    }
+    public void RetryGame()
+    {
+        SceneController.GetInstance.LoadScene("ThemeSecond");
+        GameManager.GetInstance.GameClear();
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+    #endregion
 
     /// <summary>
     /// ThemeFirst Scene에서 Canvas들에게 붙어있는 Close버튼을 누르면 사용하는 공용함수

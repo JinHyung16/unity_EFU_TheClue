@@ -144,7 +144,7 @@ public class InteractiveManager : MonoBehaviour
             case InteractiveType.ThemeSecond_NPC:
                 if (ThemeFirstPresenter.GetInstance != null)
                 {
-
+                    ThemeFirstPresenter.GetInstance.NPCInteractiveShowMission();
                 }
                 if (ThemeSecondPresenter.GetInstance != null)
                 {
@@ -154,6 +154,7 @@ public class InteractiveManager : MonoBehaviour
                     }
                     else
                     {
+                        ThemeSecondPresenter.GetInstance.NPCInteractiveShowMission();
                     }
                 }
                 break;

@@ -31,7 +31,7 @@ public class DoorLockManagerThemeFirst : MonoBehaviour
 
         for (int i = 0; i < buttonList.Count; i++)
         {
-            buttonList[i].onClick.AddListener(PressDoorLockKeyPad);
+            buttonList[i].onClick.AddListener(InputDoorLockKeyPad);
         }
 
         for (int i = 0; i < displayImageList.Count; i++)
@@ -51,7 +51,7 @@ public class DoorLockManagerThemeFirst : MonoBehaviour
     /// <summary>
     /// 도어락에 있는 버튼 누를때 호출되는 함수
     /// </summary>
-    private void PressDoorLockKeyPad()
+    private void InputDoorLockKeyPad()
     {
         int index = int.Parse(EventSystem.current.currentSelectedGameObject.name);
         UpdateDoorLockDisplay(index);

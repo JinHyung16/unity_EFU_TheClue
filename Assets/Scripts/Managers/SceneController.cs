@@ -27,8 +27,6 @@ public class SceneController : Singleton<SceneController>
     /// <param name="loadSceneName"> 이동할 씬 이름을 받는다 </param>
     public void LoadScene(string loadSceneName)
     {
-        GameManager.GetInstance.DespawnPlayer();
-
         this.CurSceneName = "Loading";
         this.LoadSceneName = loadSceneName;
 

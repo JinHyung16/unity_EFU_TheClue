@@ -142,8 +142,8 @@ public class InventoryManager : MonoBehaviour
         {
             if (!emptyInventory.InventoryObject.CompareTag("Note"))
             {
-                emptyInventory.InventoryObject.SetActive(true);
                 emptyInventory.GetObject();
+                emptyInventory.InventoryObject.SetActive(true);
                 emptyInventory = null;
             }
         }
