@@ -42,7 +42,7 @@ public class DoorLock : InteractiveObject
 
     public override InteractiveType GetInteractiveType()
     {
-        return InteractiveType.ThemeFirst_DoorLock;
+        return InteractiveType.DoorLock;
     }
 
     #endregion

@@ -21,9 +21,6 @@ public class TimerManager : MonoBehaviour
 
     private float minTime = 0;
     private float secTime = 0.0f;
-
-    private float themeFirstClearTime; //minTime과 비교
-
     public bool IsTimeDone { get; private set; } = false;
 
     public float ThemeTime 
@@ -41,17 +38,21 @@ public class TimerManager : MonoBehaviour
     public int CurMinTime { get; private set; }
     public bool IsTimerStart { get; set; } = false;
 
-    private void Start()
+    private void OnDisable()
     {
-        themeFirstClearTime = 10.0f;
-
-        minTime = 0.0f;
-        secTime = 0.0f;
-        curTime = 0.0f;
         IsTimeDone = false;
         IsTimerStart = true;
     }
 
+    private void Start()
+    {
+        minTime = 0.0f;
+        secTime = 0.0f;
+        curTime = 0.0f;
+
+        IsTimeDone = false;
+        IsTimerStart = true;
+    }
     private void Update()
     {
         if (IsTimerStart && !IsTimeDone)
@@ -87,7 +88,7 @@ public class TimerManager : MonoBehaviour
 
     private void ThemeClearInTime()
     {
-        if (themeFirstClearTime <= minTime && ThemeFirstPresenter.GetInstance != null)
+        if (minTime < 0 && ThemeFirstPresenter.GetInstance != null)
         {
             IsTimeDone = true;
             ThemeFirstPresenter.GetInstance.GameClear(false);

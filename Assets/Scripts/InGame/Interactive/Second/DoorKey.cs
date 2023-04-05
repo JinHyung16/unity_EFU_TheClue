@@ -8,6 +8,9 @@ public class DoorKey : InteractiveObject
 {
     [SerializeField] private Transform doorKeyTransform;
 
+    [Header("책상위 위치")]
+    [SerializeField] private Transform originPosition;
+
     [Header("DoorKey UI sprite")]
     [SerializeField] private Sprite doorKeyImage;
 
@@ -24,7 +27,7 @@ public class DoorKey : InteractiveObject
     {
         GameManager.GetInstance.InvisibleInteractiveCanvas();
         NotInteractvie();
-        this.gameObject.transform.position = doorKeyTransform.position;
+        this.gameObject.transform.position = originPosition.position;
     }
 
     #region InteractiveObject Override

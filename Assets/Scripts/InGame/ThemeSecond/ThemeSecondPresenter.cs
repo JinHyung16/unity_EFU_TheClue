@@ -12,16 +12,20 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
 
     [Header("Camera와 Interactive Transfomr들 관련")]
     [SerializeField] private Camera cameraInteractive;
-    [SerializeField] private Transform noteTransform;
-    [SerializeField] private Transform keyHoleTransform;
-    [SerializeField] private Transform showcaseTransform;
+
+    [Header("Interactive Camera가 움직일 위치 List")]
+    //0==doorkey, 1==showcanse, 2==npc(빈 벽)
+    [SerializeField] private List<Transform> interactiveCamMovePosList = new List<Transform>();
 
     [Header("Switch SpotLight")]
     [SerializeField] private Light switchSpotLight;
 
 
-    //0==상호작용 X, 1==문과 상호작용, 2==showcase와 상호작용
+    //0==상호작용 X, 1==문과 상호작용, 2==showcase와 상호작용, 3==npc와 상호작용해서 노트 획득
     public int IsInteractiveNum { get; private set; } = 0;
+
+    //NPC와 대화한게 처음인지 아닌지
+    public bool IsNPCFirstTalk { get; set; } = false;
 
     private string themeName = "ThemeSecond";
     protected override void OnAwake()
@@ -72,6 +76,11 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         }
     }
 
+    public void OpenDoorLockUI()
+    {
+        themeSecondViewer.DoorLockCanvasOpen();
+    }
+
     /// <summary>
     /// Switch On or Off를 통해 불빛 켜고 끄기
     /// </summary>
@@ -87,9 +96,22 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         }
     }
 
+
+    public void ObjectSyncToDoorKeyHole()
+    {
+        GameObject obj = InventoryManager.GetInstance.GetInvenObject();
+        if (obj != null)
+        {
+            obj.transform.position = cameraInteractive.transform.position + new Vector3(0, 0, 1.0f);
+            obj.transform.LookAt(cameraInteractive.transform);
+            obj.SetActive(true);
+        }
+    }
+
+
     public void DoorKeyHoleInteractive(bool active)
     {
-        CmaInteractiveSet(keyHoleTransform, true);
+        CmaInteractiveSet(interactiveCamMovePosList[0], true);
         GameObject obj = InventoryManager.GetInstance.GetInvenObject();
         if (active)
         {
@@ -110,24 +132,9 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             {
                 obj.SetActive(false);
             }
-            CmaInteractiveSet(keyHoleTransform, false);
+            CmaInteractiveSet(interactiveCamMovePosList[0], false);
             themeSecondViewer.CloseCanvas();
         }
-    }
-
-    public void ObjectSyncToDoorKeyHole()
-    {
-        GameObject obj = InventoryManager.GetInstance.GetInvenObject();
-        if (obj != null)
-        {
-            obj.transform.position = cameraInteractive.transform.position + new Vector3(0, 0, 1.0f);
-            obj.transform.LookAt(cameraInteractive.transform);
-            obj.SetActive(true);
-        }
-    }
-
-    public void NoteInteractive(bool active)
-    {
     }
 
     public void ShowCaseInteractive(bool active)
@@ -137,27 +144,61 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             GameManager.GetInstance.Player.transform.position += new Vector3(-1.0f, 0, 0);
             GameManager.GetInstance.IsUIOpen = true;
             IsInteractiveNum = 2;
-            CmaInteractiveSet(showcaseTransform, true);
+            CmaInteractiveSet(interactiveCamMovePosList[1], true);
         }
         else
         {
             GameManager.GetInstance.IsUIOpen = false;
             IsInteractiveNum = 0;
-            CmaInteractiveSet(showcaseTransform, false);
+            CmaInteractiveSet(interactiveCamMovePosList[1], false);
         }
     }
+
+    /// <summary>
+    /// NPC와 첫 대화시 active가 true로 호출된다.
+    /// </summary>
+    /// <param name="active">호출 상태를 받는다</param>
+    public void NPCInteractiveSelectNote(bool active)
+    {
+        if (active)
+        {
+            GameManager.GetInstance.Player.transform.position += new Vector3(0, 0, -1.0f);
+            GameManager.GetInstance.IsUIOpen = true;
+            IsInteractiveNum = 3;
+            CmaInteractiveSet(interactiveCamMovePosList[2], true);
+            NoteManager.GetInstance.NoteVisibleToSelect();
+            themeSecondViewer.NPCSelectNoteCanvasOpen();
+        }
+        else
+        {
+            GameManager.GetInstance.IsUIOpen = false;
+            IsInteractiveNum = 0;
+            CmaInteractiveSet(interactiveCamMovePosList[2], false);
+            NoteManager.GetInstance.NoteInvisible();
+            themeSecondViewer.CloseCanvas();
+        }
+    }
+
+    /// <summary>
+    /// NPC와 상호작용시 현재 미션을 볼 수 있다.
+    /// </summary>
+    public void NPCInteractiveShowMission()
+    {
+        //미션창 닫기
+    }
+
+    public void NoteSelectInInven(GameObject obj)
+    {
+        var note = obj.GetComponent<Note>();
+        themeSecondViewer.NoteCanvasOpen(note.noteIndex);
+    }
+
 
     #region Inventory에 들어갈 object 함수
     public void DoorKeyInventory(GameObject obj)
     {
         var doorKey = obj.GetComponent<DoorKey>();
         InventoryManager.GetInstance.PutInInventory(obj, doorKey.GetDoorKeyUISprite, UnityEngine.Color.white); ;
-    }
-
-    public void NoteInventory(GameObject obj)
-    {
-        var note = obj.GetComponent<Note>();
-        InventoryManager.GetInstance.PutInInventory(obj, note.GetNoteUISprite, UnityEngine.Color.white); ;
     }
     #endregion
 }

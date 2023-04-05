@@ -12,17 +12,20 @@ namespace HughEnumData
     public enum InteractiveType
     {
         None = 0,
-        ThemeFirst_DoorLock,
+
+        //테마1, 2 사용
+        DoorLock,
+        Switch,
+        Door,
+
         ThemeFirst_Dice,
         ThemeFirst_Tile_Pattern,
         ThemeFirst_Cube,
+
         ThemeSecond_Key,
-        ThemeSecond_Note,
+        ThemeSecond_NPC,
         ThemeSecond_ShowCase,
         ThemeSecond_WristWatch, //손목시계
         ThemeSecond_WallClock, //벽걸이 시계
-
-        Switch,
-        Door,
     }
 }

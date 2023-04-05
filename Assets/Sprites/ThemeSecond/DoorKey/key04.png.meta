@@ -129,7 +129,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: key2_0
+      name: key04_0
       rect:
         serializedVersion: 2
         x: 200
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c68b48549e2bc61479d9b33cc35c9d4e
-      internalID: 1396276722
+      spriteID: 75d95bda7888a9c4a96150daa32f8fa1
+      internalID: 733203092
       vertices: []
       indices: 
       edges: []
@@ -160,7 +160,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      key2_0: 1396276722
+      key04_0: 733203092
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

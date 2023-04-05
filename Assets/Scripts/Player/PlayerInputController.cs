@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngineInternal;
 
 public class PlayerInputController : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class PlayerInputController : MonoBehaviour
     private float cameraRotateSpeed;
     private List<KeyCode> invenSelectKeyList;
 
-    private GameObject hitObject;
+    private GameObject hitObj;
     private int inputNum = 0;
     private void Start()
     {
@@ -63,7 +64,6 @@ public class PlayerInputController : MonoBehaviour
             InputJumpControl();
             InputMouseViewControl();
             InputInteractiveKey();
-            InputMissionKey();
         }
     }
 
@@ -143,16 +143,22 @@ public class PlayerInputController : MonoBehaviour
                     {
                         if (hit.collider.gameObject.CompareTag("WristWatch"))
                         {
-                            if (hitObject != null)
+                            if (hitObj != null)
                             {
-                                hitObject.GetComponent<WristWatch>().PutDownWristWatch();
-                                hitObject = null;
+                                hitObj.GetComponent<WristWatch>().PutDownWristWatch();
+                                hitObj = null;
                             }
                             else
                             {
-                                hitObject = hit.collider.gameObject;
+                                hitObj = hit.collider.gameObject;
                                 hit.collider.gameObject.transform.position = GameManager.GetInstance.CameraInteractive.transform.position + new Vector3(0, -1.0f, 0);
                             }
+                        }
+                        if (hit.collider.gameObject.CompareTag("Note"))
+                        {
+                            var note = hit.collider.gameObject.GetComponent<Note>();
+                            note.SelectNote();
+                            InventoryManager.GetInstance.PutInInventory(hit.collider.gameObject, note.GetNoteUISprite, Color.white);
                         }
                     }
                 }
@@ -231,18 +237,13 @@ public class PlayerInputController : MonoBehaviour
                 {
                     ThemeSecondPresenter.GetInstance.ShowCaseInteractive(false);
                 }
+                if (ThemeSecondPresenter.GetInstance.IsInteractiveNum == 3)
+                {
+                    ThemeSecondPresenter.GetInstance.NPCInteractiveSelectNote(false);
+                }
             }
         }
     }
-
-    private void InputMissionKey()
-    {
-        if (Input.GetKeyDown(gameSetUpData.missionKey))
-        {
-            InteractiveManager.GetInstance.MissionOpen();
-        }
-    }
-
 
 /*
 private void InputRay()

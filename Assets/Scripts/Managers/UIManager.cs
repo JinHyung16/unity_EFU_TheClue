@@ -5,6 +5,7 @@ using HughGenerics;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using JetBrains.Annotations;
+using static UnityEngine.Rendering.DebugUI;
 
 public class UIManager : Singleton<UIManager>
 {
@@ -26,6 +27,7 @@ public class UIManager : Singleton<UIManager>
     {
         if (panelDictionary.TryGetValue(panelName, out GameObject temp))
         {
+            panelDictionary.Clear();
             panelQueue.Clear();
             return;
         }
@@ -95,12 +97,17 @@ public class UIManager : Singleton<UIManager>
         {
             canvasDictionary = new Dictionary<string, Canvas>();
         }
-        if (canvasQueue != null)
+        canvasQueue.Clear();
+        if (canvasDictionary.TryGetValue(canvasName, out Canvas obj))
         {
-            canvasQueue = new Queue<Canvas>();
+            canvasDictionary.Clear();
+            return;
         }
-        canvasDictionary.Add(canvasName, canvas);
-        canvas.enabled = false;
+        else
+        {
+            canvasDictionary.Add(canvasName, canvas);
+            canvas.enabled = false;
+        }
     }
 
     public void ShowCanvas(string canvasName)

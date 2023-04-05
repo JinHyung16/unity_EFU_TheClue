@@ -5,60 +5,44 @@ using UnityEngine;
 
 public class Note : InteractiveObject
 {
-    [SerializeField] private Transform noteTransform;
-
     [Header("DoorKey UI sprite")]
     [SerializeField] private Sprite noteImage;
 
-    private Vector3 offset;
     public Sprite GetNoteUISprite { get { return this.noteImage; } }
 
-    private void Start()
+    //NoteCanvas에서 Note Panel을 열 때 index로 사용, Blue = 0, Pink = 1, Yellow = 2;
+    public int noteIndex;
+
+    public void SelectNote()
     {
-        offset = new Vector3(0, 0.8f, 0);
+        ThemeSecondPresenter.GetInstance.IsNPCFirstTalk = true;
+        ThemeSecondPresenter.GetInstance.NPCInteractiveSelectNote(false);
     }
 
-    private void OnDisable()
-    {
-        GameManager.GetInstance.InvisibleInteractiveCanvas();
-        NotInteractvie();
-        this.gameObject.transform.position = noteTransform.position;
-    }
     #region InteractiveObject Override
     protected override void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            InteractiveManager.GetInstance.IsInteractive = true;
-            this.Interacitve();
-        }
     }
 
     protected override void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            InteractiveManager.GetInstance.IsInteractive = false;
-            this.NotInteractvie();
-        }
     }
 
     protected override void Interacitve()
     {
-        GameManager.GetInstance.VisibleInteractiveCanvas(noteTransform, offset);
-        InteractiveManager.GetInstance.SetInteractiving(this);
-        InteractiveManager.GetInstance.SetInteractvieObjToInventory(this.gameObject);
+        //InteractiveManager.GetInstance.SetInteractiving(this);
+        //InteractiveManager.GetInstance.SetInteractvieObjToInventory(this.gameObject);
     }
 
     protected override void NotInteractvie()
     {
-        GameManager.GetInstance.InvisibleInteractiveCanvas();
-        InteractiveManager.GetInstance.SetInteractvieObjToInventory(null);
+        //GameManager.GetInstance.InvisibleInteractiveCanvas();
+        //InteractiveManager.GetInstance.SetInteractvieObjToInventory(null);
     }
 
     public override InteractiveType GetInteractiveType()
     {
-        return InteractiveType.ThemeSecond_Note;
+        return InteractiveType.ThemeSecond_NPC;
     }
 
     #endregion

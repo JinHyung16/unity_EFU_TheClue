@@ -85,13 +85,14 @@ public class InteractiveManager : MonoBehaviour
         {
             case InteractiveType.None:
                 break;
-            case InteractiveType.ThemeFirst_DoorLock:
-                ThemeFirstPresenter.GetInstance.OpenDoorLockUI();
-                break;
-            case InteractiveType.ThemeFirst_Dice:
-                if (inventoryObj != null)
+            case InteractiveType.DoorLock:
+                if (ThemeFirstPresenter.GetInstance != null)
                 {
-                    ThemeFirstPresenter.GetInstance.DicePutInInveotry(inventoryObj);
+                    ThemeFirstPresenter.GetInstance.OpenDoorLockUI();
+                }
+                if (ThemeSecondPresenter.GetInstance != null)
+                {
+                    ThemeSecondPresenter.GetInstance.OpenDoorLockUI();
                 }
                 break;
             case InteractiveType.Switch:
@@ -105,15 +106,6 @@ public class InteractiveManager : MonoBehaviour
                     ThemeSecondPresenter.GetInstance.SwitchOnOff();
                 }
                 break;
-            case InteractiveType.ThemeFirst_Tile_Pattern:
-                ThemeFirstPresenter.GetInstance.TileInteractiveOpen(puzzleObj);
-                break;
-            case InteractiveType.ThemeFirst_Cube:
-                if (inventoryObj != null)
-                {
-                    ThemeFirstPresenter.GetInstance.CubePutInInveotry(inventoryObj);
-                }
-                break;
             case InteractiveType.Door:
                 if (ThemeFirstPresenter.GetInstance != null)
                 {
@@ -125,20 +117,45 @@ public class InteractiveManager : MonoBehaviour
                     inventoryObj.GetComponent<Door>().DoorColorChange();
                 }
                 break;
+            case InteractiveType.ThemeFirst_Dice:
+                if (inventoryObj != null)
+                {
+                    ThemeFirstPresenter.GetInstance.DicePutInInveotry(inventoryObj);
+                }
+                break;
+            case InteractiveType.ThemeFirst_Tile_Pattern:
+                ThemeFirstPresenter.GetInstance.TileInteractiveOpen(puzzleObj);
+                break;
+            case InteractiveType.ThemeFirst_Cube:
+                if (inventoryObj != null)
+                {
+                    ThemeFirstPresenter.GetInstance.CubePutInInveotry(inventoryObj);
+                }
+                break;
             case InteractiveType.ThemeSecond_Key:
                 if (inventoryObj != null)
                 {
                     ThemeSecondPresenter.GetInstance.DoorKeyInventory(inventoryObj);
                 }
                 break;
-            case InteractiveType.ThemeSecond_Note:
-                if (inventoryObj != null)
-                {
-                    ThemeSecondPresenter.GetInstance.NoteInventory(inventoryObj);
-                }
-                break;
             case InteractiveType.ThemeSecond_ShowCase:
                 ThemeSecondPresenter.GetInstance.ShowCaseInteractive(true);
+                break;
+            case InteractiveType.ThemeSecond_NPC:
+                if (ThemeFirstPresenter.GetInstance != null)
+                {
+
+                }
+                if (ThemeSecondPresenter.GetInstance != null)
+                {
+                    if (!ThemeSecondPresenter.GetInstance.IsNPCFirstTalk)
+                    {
+                        ThemeSecondPresenter.GetInstance.NPCInteractiveSelectNote(true);
+                    }
+                    else
+                    {
+                    }
+                }
                 break;
             default:
                 break;

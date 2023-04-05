@@ -57,21 +57,21 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         themeName = "ThemeFirst";
         SceneController.GetInstance.CurSceneName = themeName;
 
-        GameManager.GetInstance.SpawnPlayer();
-        GameManager.GetInstance.CameraTheme = this.cameraMain;
-        this.cameraMain.cullingMask = 0; //noting으로 설정
-
+        TimerManager.GetInstance.ThemeTime = 600.0f;
         GameManager.GetInstance.IsUIOpen = false;
         GameManager.GetInstance.IsInputStop = false;
 
-        TimerManager.GetInstance.ThemeTime = 600.0f;
+
+        GameManager.GetInstance.SpawnPlayer();
+        GameManager.GetInstance.CameraTheme = this.cameraMain;
+        this.cameraMain.cullingMask = 0; //noting으로 설정
 
         switchLightIndex = 1;
         numOfTileAttemptsCnt = 0;
         SetTileRandom();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         tokenSource.Cancel();
         tokenSource.Dispose();

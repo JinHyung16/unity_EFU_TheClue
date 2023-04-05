@@ -31,7 +31,6 @@ public class GameSetUpData : ScriptableObject
     public KeyCode interactiveKey = KeyCode.E;
     public KeyCode notInteractiveKey = KeyCode.F;
     public KeyCode throwOutInvenKey = KeyCode.G;
-    public KeyCode missionKey = KeyCode.M;
 
     [Header("Input To Select Inventory")]
     public KeyCode firstInvenSelectKey = KeyCode.Alpha1;

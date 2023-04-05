@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class DoorLockManager : MonoBehaviour
+public class DoorLockManagerThemeFirst : MonoBehaviour
 {
     #region static
-    public static DoorLockManager GetInstance;
+    public static DoorLockManagerThemeFirst GetInstance;
     private void Awake()
     {
         GetInstance = this;

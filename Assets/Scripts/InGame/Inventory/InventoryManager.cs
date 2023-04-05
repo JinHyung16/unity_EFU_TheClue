@@ -107,7 +107,6 @@ public class InventoryManager : MonoBehaviour
         selectInvenIndex = selectIdx;
         emptyInventory = inventoryUIList[selectInvenIndex];
         selectMarkerObj.transform.position = selectInvenTransforms[selectIdx].transform.position;
-
         if (emptyInventory.InventoryObject != null)
         {
             if (TileManager.GetInstance != null)
@@ -115,9 +114,17 @@ public class InventoryManager : MonoBehaviour
                 //TilePatternManager가 있으면 테마1의 주사위 데이터 로드
                 TileManager.GetInstance.SetInventorySync();
             }
-            if (ThemeSecondPresenter.GetInstance != null && ThemeSecondPresenter.GetInstance.IsInteractiveNum == 1)
+            if (ThemeSecondPresenter.GetInstance != null)
             {
-                ThemeSecondPresenter.GetInstance.ObjectSyncToDoorKeyHole();
+                if (ThemeSecondPresenter.GetInstance.IsInteractiveNum == 1)
+                {
+                    ThemeSecondPresenter.GetInstance.ObjectSyncToDoorKeyHole();
+                }
+                if (emptyInventory.InventoryObject.GetComponent<Note>() != null 
+                    && ThemeSecondPresenter.GetInstance.IsInteractiveNum == 0)
+                {
+                    ThemeSecondPresenter.GetInstance.NoteSelectInInven(emptyInventory.InventoryObject);
+                }
             }
         }
     }
@@ -133,9 +140,12 @@ public class InventoryManager : MonoBehaviour
         selectMarkerObj.transform.position = selectInvenTransforms[selectIdx].transform.position;
         if (emptyInventory.InventoryObject != null)
         {
-            emptyInventory.InventoryObject.SetActive(true);
-            emptyInventory.GetObject();
-            emptyInventory = null;
+            if (!emptyInventory.InventoryObject.CompareTag("Note"))
+            {
+                emptyInventory.InventoryObject.SetActive(true);
+                emptyInventory.GetObject();
+                emptyInventory = null;
+            }
         }
     }
 
