@@ -54,14 +54,14 @@ public class TileManager : MonoBehaviour
     {
         if (obj != null)
         {
+            
             if (invenObj != null)
             {
                 cubeScript = null;
                 diceScript = null;
-                invenObj.SetActive(false);
                 invenObj = null;
             }
-
+            
             invenObj = obj;
             invenObj.SetActive(false);
             curDicePatternIndex = 0;

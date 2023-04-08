@@ -26,6 +26,19 @@ public class Dice : InteractiveObject
     public Sprite GetDicePatternUISprite { get { return this.dicePatternSprite; } }
     public Color GetDicePatternColor { get { return this.dicePatternColor; } }
 
+
+    private void OnDisable()
+    {
+        GameManager.GetInstance.InvisibleInteractiveCanvas();
+        NotInteractvie();
+        this.gameObject.transform.position = diceTransform.position;
+    }
+    private void Start()
+    {
+        dicePatternSpriteArray = diceData.patternSpriteArray;
+        dicePatternNameArray = diceData.patternNameArray;
+        offset = new Vector3(0, 0.8f, 0);
+    }
     #region InteractiveObject Override
     protected override void OnTriggerEnter(Collider other)
     {
@@ -64,23 +77,6 @@ public class Dice : InteractiveObject
     }
 
     #endregion
-
-    private void OnEnable()
-    {
-        this.gameObject.transform.position = diceTransform.position;
-    }
-    private void OnDisable()
-    {
-        NotInteractvie();
-        this.gameObject.transform.position = diceTransform.position;
-    }
-    private void Start()
-    {
-        dicePatternSpriteArray = diceData.patternSpriteArray;
-        dicePatternNameArray = diceData.patternNameArray;
-        offset = new Vector3(0, 0.8f, 0);
-    }
-
     /// <summary>
     /// Tile Pattern Canvas에서 현재 위로 올라온 주사위 문양
     /// </summary>

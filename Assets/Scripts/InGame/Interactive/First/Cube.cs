@@ -19,6 +19,18 @@ public class Cube : InteractiveObject
 
     private Vector3 offset;
 
+    private void OnDisable()
+    {
+        GameManager.GetInstance.InvisibleInteractiveCanvas();
+        NotInteractvie();
+        this.gameObject.transform.position = cubeTransform.position;
+    }
+    private void Start()
+    {
+        cubeSpriteArray = diceData.patternSpriteArray;
+        offset = new Vector3(0, 1.0f, 0);
+    }
+
     #region InteractiveObject Override
     protected override void OnTriggerEnter(Collider other)
     {
@@ -57,22 +69,6 @@ public class Cube : InteractiveObject
     }
 
     #endregion
-
-    private void OnEnable()
-    {
-        this.gameObject.transform.position = cubeTransform.position;
-    }
-
-    private void OnDisable()
-    {
-        NotInteractvie();
-        this.gameObject.transform.position = cubeTransform.position;
-    }
-    private void Start()
-    {
-        cubeSpriteArray = diceData.patternSpriteArray;
-        offset = new Vector3(0, 1.0f, 0);
-    }
 
     public Sprite GetCubeSprite(int index)
     {

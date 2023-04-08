@@ -44,7 +44,7 @@ public class InventoryManager : MonoBehaviour
 
     private void InventoryCheck()
     {
-        int minPriority = 987654321;
+        int minPriority = 98765;
 
         for (int i = 0; i < inventoryUIList.Count; i++)
         {
@@ -138,12 +138,12 @@ public class InventoryManager : MonoBehaviour
         selectInvenIndex = selectIdx;
         emptyInventory = inventoryUIList[selectInvenIndex];
         selectMarkerObj.transform.position = selectInvenTransforms[selectIdx].transform.position;
-        if (emptyInventory.InventoryObject != null)
+        if (emptyInventory != null && emptyInventory.InventoryObject != null)
         {
             if (!emptyInventory.InventoryObject.CompareTag("Note"))
             {
-                emptyInventory.GetObject();
                 emptyInventory.InventoryObject.SetActive(true);
+                emptyInventory.GetObject();
                 emptyInventory = null;
             }
         }

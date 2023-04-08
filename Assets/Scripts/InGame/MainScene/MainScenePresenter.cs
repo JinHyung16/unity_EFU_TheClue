@@ -7,20 +7,17 @@ using UnityEngine.UI;
 public class MainScenePresenter : PresenterSingleton<MainScenePresenter>
 {
     [SerializeField] private MainSceneViewer mainSceneViewer;
-
-    private int savedThemeCnt = 1; //기본적으로 테마1은 열려있어야 하므로
-    
+    private string themeName = "Main";
+    public int ThemeSelectIndex { get; private set; } = 1;
     private void Start()
     {
+        SceneController.GetInstance.CurSceneName = themeName;
+
         var gameProgressData = DataManager.GetInstance.LoadData();
         if (gameProgressData != null)
         {
-            savedThemeCnt = gameProgressData.themeClearIndex;
-            mainSceneViewer.EnableThemeSelectBtns(savedThemeCnt);
-        }
-        else
-        {
-            mainSceneViewer.EnableThemeSelectBtns(savedThemeCnt);
+            Debug.Log("MainScenePresenter: " + gameProgressData.themeClearIndex);
+            ThemeSelectIndex = gameProgressData.themeClearIndex;
         }
     }
 

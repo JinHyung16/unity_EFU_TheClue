@@ -86,6 +86,7 @@ public class InteractiveManager : MonoBehaviour
             case InteractiveType.None:
                 break;
             case InteractiveType.DoorLock:
+                PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_EnterCode);
                 if (ThemeFirstPresenter.GetInstance != null)
                 {
                     ThemeFirstPresenter.GetInstance.OpenDoorLockUI();
@@ -107,6 +108,7 @@ public class InteractiveManager : MonoBehaviour
                 }
                 break;
             case InteractiveType.Door:
+                PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_OpenDoor);
                 if (ThemeFirstPresenter.GetInstance != null)
                 {
                     inventoryObj.GetComponent<Door>().DoorOpenToEscape();
@@ -118,6 +120,7 @@ public class InteractiveManager : MonoBehaviour
                 }
                 break;
             case InteractiveType.ThemeFirst_Dice:
+                PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_PickUp);
                 if (inventoryObj != null)
                 {
                     ThemeFirstPresenter.GetInstance.DicePutInInveotry(inventoryObj);
@@ -127,12 +130,14 @@ public class InteractiveManager : MonoBehaviour
                 ThemeFirstPresenter.GetInstance.TileInteractiveOpen(puzzleObj);
                 break;
             case InteractiveType.ThemeFirst_Cube:
+                PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_PickUp);
                 if (inventoryObj != null)
                 {
                     ThemeFirstPresenter.GetInstance.CubePutInInveotry(inventoryObj);
                 }
                 break;
             case InteractiveType.ThemeSecond_Key:
+                PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_PickUp);
                 if (inventoryObj != null)
                 {
                     ThemeSecondPresenter.GetInstance.DoorKeyInventory(inventoryObj);

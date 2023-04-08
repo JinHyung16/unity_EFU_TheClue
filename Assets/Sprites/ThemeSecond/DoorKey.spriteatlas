@@ -15,7 +15,7 @@ SpriteAtlas:
       compressionQuality: 50
       maxTextureSize: 2048
       textureCompression: 0
-      filterMode: 1
+      filterMode: 0
       generateMipMaps: 0
       readable: 0
       crunchedCompression: 0
@@ -39,23 +39,38 @@ SpriteAtlas:
       blockOffset: 1
       allowAlphaSplitting: 0
       enableRotation: 1
-      enableTightPacking: 1
+      enableTightPacking: 0
       enableAlphaDilation: 0
     secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
-    - {fileID: 2800000, guid: 1d8a2556f3d0a1d42bc1dcd5286c3671, type: 3}
-    - {fileID: 2800000, guid: a64d70acf346f6546b8a1b96bb7c6bf5, type: 3}
+    - {fileID: 102900000, guid: b594af8a6733270408b34c7f9248cda8, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: -423081650, guid: 1d8a2556f3d0a1d42bc1dcd5286c3671, type: 3}
-  - {fileID: 733203092, guid: a64d70acf346f6546b8a1b96bb7c6bf5, type: 3}
+  - {fileID: 1272679935, guid: 4ca482401b1c9fb4cad64eca97ab5ada, type: 3}
+  - {fileID: -411009781, guid: c6d02ea15842a444a95870426456c75e, type: 3}
+  - {fileID: 411622749, guid: 58a41de139c8819418253dcfd4f7ee4b, type: 3}
+  - {fileID: -1064595687, guid: 0907e9531c2243d4ea6b28965efd0f24, type: 3}
+  - {fileID: 879517006, guid: 8e3b0a9346ed06d4fadf236c84332687, type: 3}
+  - {fileID: -1905778651, guid: ddc079a328056ce4888db41d78289535, type: 3}
+  - {fileID: -1043070615, guid: baabf8c58bef24c4a8606dc62aec3b4d, type: 3}
+  - {fileID: 299648420, guid: 611d91cb909529f4f881816375b6cec2, type: 3}
+  - {fileID: 154799361, guid: d6bd919c78761994a8a1de04f9c21be1, type: 3}
+  - {fileID: -1983154685, guid: 19e502ae50a32f84087caaf9212f9f34, type: 3}
   m_PackedSpriteNamesToIndex:
-  - key03_0
-  - key04_0
+  - key3_0
+  - key5_0
+  - key7_0
+  - key10_0
+  - key8_0
+  - key1_0
+  - key6_0
+  - key2_0
+  - key9_0
+  - key4_0
   m_RenderDataMap: {}
   m_Tag: DoorKey
   m_IsVariant: 0

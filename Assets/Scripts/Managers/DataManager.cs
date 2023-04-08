@@ -7,9 +7,10 @@ using HughGenerics;
 
 public class DataManager : Singleton<DataManager>
 {
+    [SerializeField] private TextAsset GameProgressJsonData;
     //Json Data 관련
     private string GameDataFileName = "GameProgressData.json";
-    private string filePath = "/Resources/Data";
+    private string jsonFilePath = "/Resources/Data/";
 
     //Game Session 관련
     private string userSession = "EFU_login";
@@ -20,7 +21,16 @@ public class DataManager : Singleton<DataManager>
     /// </summary>
     public void SaveData(int clearIndex)
     {
-        string checkPath = Path.Combine(Application.dataPath + filePath, GameDataFileName);
+        string path = Path.Combine(Application.dataPath + jsonFilePath, GameDataFileName);
+        GameProgressData data = new GameProgressData
+        {
+            themeClearIndex = clearIndex,
+        };
+        string saveData = JsonUtility.ToJson(data);
+        File.WriteAllText(path, saveData);
+
+        /*
+        string checkPath = Path.Combine(Application.dataPath + jsonFilePath, GameDataFileName);
         GameProgressData data = new GameProgressData
         {
             themeClearIndex = clearIndex,
@@ -29,7 +39,7 @@ public class DataManager : Singleton<DataManager>
         if (!File.Exists(checkPath))
         {
             string jsonData = JsonUtility.ToJson(data);
-            string path = Path.Combine(Application.dataPath + filePath, GameDataFileName);
+            string path = Path.Combine(Application.dataPath + jsonFilePath, GameDataFileName);
             File.WriteAllText(path, jsonData);
         }
         else
@@ -37,6 +47,7 @@ public class DataManager : Singleton<DataManager>
             string jsonData = JsonUtility.ToJson(data);
             JsonUtility.FromJsonOverwrite(jsonData, data);
         }
+        */
     }
 
     /// <summary>
@@ -45,9 +56,13 @@ public class DataManager : Singleton<DataManager>
     /// </summary>
     public GameProgressData LoadData()
     {
-        string path = Path.Combine(Application.dataPath + filePath, GameDataFileName);
         GameProgressData data = new GameProgressData();
-
+        string json = GameProgressJsonData.ToString();
+        data = JsonUtility.FromJson<GameProgressData>(json);
+        return data;
+        /*
+        string path = Path.Combine(Application.dataPath + jsonFilePath, GameDataFileName);
+        GameProgressData data = new GameProgressData();
         if (File.Exists(path))
         {
             string jsonData = File.ReadAllText(path);
@@ -64,6 +79,7 @@ public class DataManager : Singleton<DataManager>
 #endif
             return null;
         }
+        */
     }
 
 

@@ -32,7 +32,7 @@ public class DoorLockManagerThemeSecond : MonoBehaviour
 
     private void UpdateDoorLockDisplay(string idx)
     {
-        displayText.text = idx;
+        displayText.text += idx;
     }
 
     public void ClearDisplay()
@@ -45,7 +45,7 @@ public class DoorLockManagerThemeSecond : MonoBehaviour
     {
         if (!string.IsNullOrEmpty(displayText.text))
         {
-            ThemeSecondPresenter.GetInstance.DoneDoorLock();
+            ThemeSecondPresenter.GetInstance.DoneDoorLock(displayText.text);
         }
     }
 }

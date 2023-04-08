@@ -19,26 +19,22 @@ public class MainSceneViewer : MonoBehaviour
             UIManager.GetInstance.AddPanelInDictionary(panel.name, panel);
         }
 
-        foreach (var button in themeSelectBtnList)
+        for (int i = 0; i < themeSelectBtnList.Count; i++)
         {
-            button.interactable = false;
+            themeSelectBtnList[i].interactable = false;
+        }
+    }
+
+    private void Start()
+    {
+        for (int i = 0; i < MainScenePresenter.GetInstance.ThemeSelectIndex; i++)
+        {
+            themeSelectBtnList[i].interactable = true;
         }
     }
     private void OnDisable()
     {
         UIManager.GetInstance.ClearAllPanel();
-    }
-    
-    /// <summary>
-    /// GameProgressData를 토대로 클리어한 Theme까지는 선택해서 들어갈 수 있도록 버튼 활성화
-    /// </summary>
-    /// <param name="enableIndex"></param>
-    public void EnableThemeSelectBtns(int enableIndex)
-    {
-        for (int i = 0; i < enableIndex; i++)
-        {
-            themeSelectBtnList[i].interactable = true;
-        }
     }
     
     /// <summary>

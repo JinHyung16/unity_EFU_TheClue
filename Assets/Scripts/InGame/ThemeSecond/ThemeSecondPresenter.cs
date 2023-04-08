@@ -28,6 +28,9 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     public bool IsNPCFirstTalk { get; set; } = false;
 
     private int numOfDoorLockAttempsCnt = 0;
+
+    private string doorLockSuccessCode = "8282";
+
     private string themeName = "ThemeSecond";
     protected override void OnAwake()
     {
@@ -60,13 +63,20 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         themeSecondViewer.DoorLockCanvasOpen();
     }
 
-    public void DoneDoorLock()
+    public void DoneDoorLock(string code)
     {
-        numOfDoorLockAttempsCnt++;
-        if (3 <= numOfDoorLockAttempsCnt)
+        if (code == doorLockSuccessCode)
         {
-            numOfDoorLockAttempsCnt = 0;
-            GameClear(false);
+            GameClear(true);
+        }
+        else
+        {
+            numOfDoorLockAttempsCnt++;
+            if (3 <= numOfDoorLockAttempsCnt)
+            {
+                numOfDoorLockAttempsCnt = 0;
+                GameClear(false);
+            }
         }
     }
     #region Interactive Camera Functions

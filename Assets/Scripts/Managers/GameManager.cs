@@ -193,7 +193,15 @@ public class GameManager : Singleton<GameManager>, IDisposable
             case "ThemeThird":
                 saveIndex = 3;
                 break;
+            default:
+                saveIndex = 0;
+                break;
         }
-        DataManager.GetInstance.SaveData(saveIndex);
+
+        if (saveIndex != 0)
+        {
+            DataManager.GetInstance.SaveData(3);
+            Application.Quit();
+        }
     }
 }

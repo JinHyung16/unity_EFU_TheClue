@@ -14,7 +14,6 @@ public class DoorKey : InteractiveObject
     [Header("DoorKey UI sprite")]
     [SerializeField] private Sprite doorKeyImage;
 
-
     private Vector3 offset;
 
     public Sprite GetDoorKeyUISprite { get { return this.doorKeyImage; } }

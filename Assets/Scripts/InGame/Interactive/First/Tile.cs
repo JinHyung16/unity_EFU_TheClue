@@ -25,6 +25,17 @@ public class Tile : InteractiveObject
     public string TilePatternName { get { return this.tilePatternName; } }
     private Vector3 offset;
 
+    private void Start()
+    {
+        offset = new Vector3(0.5f, 1.0f, 0);
+    }
+
+    public void InitialTileSetting(Transform transform, Color color)
+    {
+        this.tilePatternTransform = transform;
+        this.tileColor = color;
+    }
+
     #region InteractiveObject Override
     protected override void OnTriggerEnter(Collider other)
     {
@@ -62,16 +73,6 @@ public class Tile : InteractiveObject
     }
 
     #endregion
-    private void Start()
-    {
-        offset = new Vector3(0.5f, 1.0f, 0);
-    }
-
-    public void InitialTileSetting(Transform transform, Color color)
-    {
-        this.tilePatternTransform = transform;
-        this.tileColor = color;
-    }
 
     /// <summary>
     /// EscapeKey가 아닌 tile의 경우 실행된다.
@@ -95,13 +96,14 @@ public class Tile : InteractiveObject
     {
         if (!IsSetDice)
         {
+            Color finalColor = color * Mathf.LinearToGammaSpace(0.8f);
             if (!IsEscapeKey)
             {
-                tileRender.material.SetColor("_EmissionColor", color * Mathf.LinearToGammaSpace(2.0f));
+                tileRender.material.SetColor("_EmissionColor", finalColor);
             }
-            else if (IsEscapeKey && this.tileColor != color)
+            else if (IsEscapeKey && this.tileColor != finalColor)
             {
-                tileRender.material.SetColor("_EmissionColor", color * Mathf.LinearToGammaSpace(2.0f));
+                tileRender.material.SetColor("_EmissionColor", finalColor);
             }
             else
             {
@@ -115,6 +117,6 @@ public class Tile : InteractiveObject
     /// </summary>
     public void SetDiceDone()
     {
-        tileRender.material.SetColor("_EmissionColor", Color.green * Mathf.LinearToGammaSpace(2.0f));
+        tileRender.material.SetColor("_EmissionColor", Color.green);
     }
 }

@@ -30,11 +30,6 @@ public class PlayerInputController : MonoBehaviour
     private int inputNum = 0;
     private void Start()
     {
-        if (gameSetUpData == null)
-        {
-            gameSetUpData = Resources.Load("Data/GameSetUpData") as GameSetUpData;
-        }
-
         playerMovementController = GetComponent<PlayerMovementController>();
         playerAnimator = GetComponentInChildren<Animator>();
 

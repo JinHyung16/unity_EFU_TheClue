@@ -19,10 +19,6 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Start()
     {
-        if (gameSetUpData == null)
-        {
-            gameSetUpData = Resources.Load("Data/GameSetUpData") as GameSetUpData;
-        }
         playerRigidbody = GetComponent<Rigidbody>();
 
         //bind player movement data
