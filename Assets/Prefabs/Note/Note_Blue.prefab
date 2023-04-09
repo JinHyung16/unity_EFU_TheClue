@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noteImage: {fileID: 361054447, guid: bdf8b830ee6395441a2722980305049a, type: 3}
-  noteIndex: 0
+  noteIndex: 2
 --- !u!1001 &4904998874497061787
 PrefabInstance:
   m_ObjectHideFlags: 0

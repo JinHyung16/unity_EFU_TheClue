@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class NoteManager : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> noteList = new List<GameObject>();
-    [SerializeField] private List<Transform> noteTransformList = new List<Transform>();
-
     #region Static
     public static NoteManager GetInstance;
     private void Awake()
@@ -15,30 +12,27 @@ public class NoteManager : MonoBehaviour
     }
     #endregion
 
+    [Header("NoteCanvas의 Panel")]
+    [SerializeField] private List<GameObject> notePanelList = new List<GameObject>();
+
     private void Start()
     {
-        for (int i = 0; i < noteList.Count; i++)
+        for (int i = 0; i < notePanelList.Count; i++)
         {
-            noteList[i].SetActive(false);
+            notePanelList[i].SetActive(false);
         }
     }
-
-    public void NoteVisibleToSelect()
+    public void NotePanelOpen(int index)
     {
-        for (int i = 0; i < noteList.Count; i++)
-        {
-            noteList[i].transform.position = noteTransformList[i].transform.position;
-            noteList[i].transform.rotation = noteTransformList[i].transform.rotation;
-            noteList[i].SetActive(true);
-        }
+        notePanelList[index].SetActive(true);
     }
 
-    public void NoteInvisible()
+    public void NotePanelClose()
     {
-        for (int i = 0; i < noteList.Count; i++)
+        for (int i = 0; i < notePanelList.Count; i++)
         {
-            noteList[i].transform.position = new Vector3(0, 0, 0);
-            noteList[i].SetActive(false);
+            notePanelList[i].SetActive(false);
         }
+        GameManager.GetInstance.IsUIOpen = false;
     }
 }

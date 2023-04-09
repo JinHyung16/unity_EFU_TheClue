@@ -202,7 +202,17 @@ public class PlayerInputController : MonoBehaviour
         {
             if (InventoryManager.GetInstance != null)
             {
-                InventoryManager.GetInstance.ThrowOutInventoryObject(inputNum);
+                if (GameManager.GetInstance.IsUIOpen)
+                {
+                    if (ThemeSecondPresenter.GetInstance != null && ThemeSecondPresenter.GetInstance.IsInteractiveNum == 1)
+                    {
+                        ThemeSecondPresenter.GetInstance.PutInTheDoor(InventoryManager.GetInstance.GetInvenObject());
+                    }
+                }
+                else
+                {
+                    InventoryManager.GetInstance.ThrowOutInventoryObject(inputNum);
+                }
             }
         }
     }
@@ -224,17 +234,22 @@ public class PlayerInputController : MonoBehaviour
         {
             if (ThemeSecondPresenter.GetInstance != null)
             {
-                if (ThemeSecondPresenter.GetInstance.IsInteractiveNum == 1)
+                switch (ThemeSecondPresenter.GetInstance.IsInteractiveNum)
                 {
-                    ThemeSecondPresenter.GetInstance.DoorKeyHoleInteractive(false);
-                }
-                if (ThemeSecondPresenter.GetInstance.IsInteractiveNum == 2)
-                {
-                    ThemeSecondPresenter.GetInstance.ShowCaseInteractive(false);
-                }
-                if (ThemeSecondPresenter.GetInstance.IsInteractiveNum == 3)
-                {
-                    ThemeSecondPresenter.GetInstance.NPCInteractiveSelectNote(false);
+                    case 1:
+                        ThemeSecondPresenter.GetInstance.DoorKeyHoleInteractive(false);
+                        break;
+                    case 2:
+                        ThemeSecondPresenter.GetInstance.ShowCaseInteractive(false);
+                        break;
+                    case 3:
+                        ThemeSecondPresenter.GetInstance.NPCInteractiveSelectNote(false);
+                        break;
+                    case 4:
+                        ThemeSecondPresenter.GetInstance.NoteSelectInInven(null, false);
+                        break;
+                    default:
+                        break;
                 }
             }
         }

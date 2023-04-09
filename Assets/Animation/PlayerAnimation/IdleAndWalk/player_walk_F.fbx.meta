@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d7b7896421cf47245b73c468e111309f
+guid: 6457cc0f367039146b1fd41192076175
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -15,7 +15,7 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     removeConstantScaleCurves: 1
-    motionNodeName: <Root Transform>
+    motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
@@ -37,7 +37,7 @@ ModelImporter:
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 36
+      lastFrame: 31
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

@@ -63,7 +63,8 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
         GameManager.GetInstance.SpawnPlayer();
         GameManager.GetInstance.CameraTheme = this.cameraMain;
-        this.cameraMain.cullingMask = 0; //noting으로 설정
+        //this.cameraMain.cullingMask = 0; //noting으로 설정
+        GameManager.GetInstance.PlayerCameraStack(this.cameraMain);
 
         switchLightIndex = 1;
         numOfTileAttemptsCnt = 0;

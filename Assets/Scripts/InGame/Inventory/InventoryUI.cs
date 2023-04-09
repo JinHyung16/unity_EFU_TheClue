@@ -9,33 +9,36 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private Image uiImage;
 
     public int priority = 0;
-    public bool IsSetObject { get; private set; } = false;
-    public GameObject InventoryObject { get; private set; } = null;
+
+    private GameObject invenObj = null;
+    private bool isSetObj = false;
+    public bool IsSetObject { get { return this.isSetObj; } }
+    public GameObject InventoryObject { get { return this.invenObj; } }
 
     private void Start()
     {
-        IsSetObject = false;
-        uiImage.sprite = null;
-        uiImage.color = Color.white;
+        this.isSetObj = false;
+        this.uiImage.sprite = null;
+        this.uiImage.color = Color.white;
     }
 
     public void SetObject(GameObject obj, Sprite objSprite, Color objColor)
     {
         if (!IsSetObject)
         {
-            IsSetObject = true;
-            InventoryObject = obj;
-            InventoryObject.name = obj.name;
-            uiImage.sprite = objSprite;
-            uiImage.color = objColor;
+            this.isSetObj = true;
+            this.invenObj = obj;
+            this.InventoryObject.name = obj.name;
+            this.uiImage.sprite = objSprite;
+            this.uiImage.color = objColor;
         }
     }
 
     public void GetObject()
     {
-        IsSetObject = false;
-        InventoryObject = null;
-        uiImage.sprite = null;
-        uiImage.color = Color.white;
+        this.isSetObj = false;
+        this.invenObj = null;
+        this.uiImage.sprite = null;
+        this.uiImage.color = Color.white;
     }
 }

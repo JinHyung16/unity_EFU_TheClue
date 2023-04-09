@@ -16,20 +16,20 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     [Header("Interactive Camera가 움직일 위치 List")]
     //0==doorkey, 1==showcanse, 2==npc(빈 벽)
     [SerializeField] private List<Transform> interactiveCamMovePosList = new List<Transform>();
+    [SerializeField] private Transform doorKeyPutInDoorCamPos;
 
     [Header("Switch SpotLight")]
     [SerializeField] private Light switchSpotLight;
 
 
-    //0==상호작용 X, 1==문과 상호작용, 2==showcase와 상호작용, 3==npc와 상호작용해서 노트 획득
+    //0==상호작용 X, 1==문과 상호작용, 2==showcase와 상호작용, 3==npc와 상호작용해서 노트 획득, 4==note 오픈중
     public int IsInteractiveNum { get; private set; } = 0;
 
     //NPC와 대화한게 처음인지 아닌지
     public bool IsNPCFirstTalk { get; set; } = false;
 
-    private int numOfDoorLockAttempsCnt = 0;
-
-    private string doorLockSuccessCode = "8282";
+    private int numOfDoorLockAttempsCnt = 0; //도어락 시도횟수
+    private string doorLockSuccessCode = "8282"; //도어락 히든 비번
 
     private string themeName = "ThemeSecond";
     protected override void OnAwake()
@@ -46,8 +46,8 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         GameManager.GetInstance.SpawnPlayer();
         GameManager.GetInstance.CameraTheme = this.cameraMain;
         GameManager.GetInstance.CameraInteractive = this.cameraInteractive;
-
-        this.cameraMain.cullingMask = 0;
+        GameManager.GetInstance.PlayerCameraStack(this.cameraMain);
+        //this.cameraMain.cullingMask = 0;
         this.cameraInteractive.cullingMask = 0;
 
         GameManager.GetInstance.IsUIOpen = false;
@@ -79,6 +79,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             }
         }
     }
+
     #region Interactive Camera Functions
     private void CmaInteractiveSet(Transform transform, bool isActive)
     {
@@ -117,12 +118,26 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
 
     public void ObjectSyncToDoorKeyHole()
     {
-        GameObject obj = InventoryManager.GetInstance.GetInvenObject();
+        var obj = InventoryManager.GetInstance.GetInvenObject();
         if (obj != null)
         {
             obj.transform.position = cameraInteractive.transform.position + new Vector3(0, 0, 1.0f);
             obj.transform.LookAt(cameraInteractive.transform);
             obj.SetActive(true);
+        }
+    }
+
+    /// <summary>
+    /// 문과 상호작용 중, 최종적으로 오브젝트를 문에 넣을때 호출하는 함수
+    /// </summary>
+    /// <param name="obj"> 문에 꽂으려는 오브젝트 </param>
+    public void PutInTheDoor(GameObject obj)
+    {
+        if (obj.CompareTag("DoorKey"))
+        {
+            CmaInteractiveSet(doorKeyPutInDoorCamPos, true);
+            obj.transform.position = cameraInteractive.transform.position + new Vector3(-2.0f, 0, 0);
+            obj.transform.DOMoveZ(10.0f, 0.7f, false).SetEase(Ease.Linear);
         }
     }
 
@@ -141,7 +156,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
                 obj.transform.LookAt(cameraInteractive.transform);
                 obj.SetActive(true);
             }
-            themeSecondViewer.InteractiveCanvasOpen();
+            themeSecondViewer.InteractiveDoorCanvas();
         }
         else
         {
@@ -163,7 +178,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             GameManager.GetInstance.IsUIOpen = true;
             IsInteractiveNum = 2;
             CmaInteractiveSet(interactiveCamMovePosList[1], true);
-            themeSecondViewer.InteractiveCanvasOpen();
+            themeSecondViewer.InteractiveShowcanseCanvasOpen();
         }
         else
         {
@@ -186,7 +201,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             GameManager.GetInstance.IsUIOpen = true;
             IsInteractiveNum = 3;
             CmaInteractiveSet(interactiveCamMovePosList[2], true);
-            NoteManager.GetInstance.NoteVisibleToSelect();
+            NPCNoteSelectManager.GetInstance.NoteVisibleToSelect();
             themeSecondViewer.NPCSelectNoteCanvasOpen();
         }
         else
@@ -194,7 +209,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             GameManager.GetInstance.IsUIOpen = false;
             IsInteractiveNum = 0;
             CmaInteractiveSet(interactiveCamMovePosList[2], false);
-            NoteManager.GetInstance.NoteInvisible();
+            NPCNoteSelectManager.GetInstance.NoteInvisible();
             themeSecondViewer.CloseCanvas();
         }
     }
@@ -209,10 +224,21 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         themeSecondViewer.NPCMissionCanvasOpen();
     }
 
-    public void NoteSelectInInven(GameObject obj)
+    public void NoteSelectInInven(GameObject obj, bool isOpen)
     {
-        var note = obj.GetComponent<Note>();
-        themeSecondViewer.NoteCanvasOpen(note.noteIndex);
+        if (isOpen)
+        {
+            var note = obj.GetComponent<Note>();
+            themeSecondViewer.NoteCanvaseOpen();
+            NoteManager.GetInstance.NotePanelOpen(note.noteIndex);
+            IsInteractiveNum = 4;
+        }
+        else
+        {
+            NoteManager.GetInstance.NotePanelClose();
+            IsInteractiveNum = 0;
+            themeSecondViewer.CloseCanvas();
+        }
     }
     public void DoorKeyInventory(GameObject obj)
     {

@@ -39,8 +39,14 @@ public class PlayerManager : MonoBehaviour
         return this.playerCamera;
     }
 
-    public Transform GiveBackPlayerCameraPos()
+    public void SetParentCamera(Transform trans)
     {
-        return this.cameraViewTrans;
+        Debug.Log(trans.position.x + " " + trans.position.y + " " + trans.position.z);
+        trans.SetParent(cameraViewTrans);
+        Debug.Log(trans.position.x + " " + trans.position.y + " " + trans.position.z);
+        trans.position = playerTransform.position + new Vector3(0, 0, gameSetUpData.cameraPosZ);
+        trans.rotation = playerCamera.transform.rotation;
+        Debug.Log(trans.position.x + " " + trans.position.y + " " + trans.position.z);
     }
+
 }

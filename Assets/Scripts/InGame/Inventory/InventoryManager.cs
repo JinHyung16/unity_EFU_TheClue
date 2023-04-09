@@ -23,6 +23,8 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private List<InventoryUI> inventoryUIList = new List<InventoryUI>();
     [SerializeField] private GameObject invenIsFullImage;
 
+    private bool isFullInven = false;
+
     private InventoryUI emptyInventory;
     private GameObject invenObj;
 
@@ -56,21 +58,35 @@ public class InventoryManager : MonoBehaviour
                     emptyInventory = inventoryUIList[i];
                 }
             }
-            else
-            {
-                emptyInventory = null;
-            }
         }
     }
 
     public void PutInInventory(GameObject obj, Sprite sprite, Color color)
     {
-        InventoryCheck();
+        int minPriority = 98765;
+
+        for (int i = 0; i < inventoryUIList.Count; i++)
+        {
+            if (!inventoryUIList[i].IsSetObject)
+            {
+                if (inventoryUIList[i].priority < minPriority)
+                {
+                    minPriority = inventoryUIList[i].priority;
+                    inventoryUIList[i].SetObject(obj, sprite, color);
+                    emptyInventory = inventoryUIList[i];
+                    obj.SetActive(false);
+                    break;
+                }
+            }
+            else
+            {
+                emptyInventory = null;
+            }
+        }
+
         if (emptyInventory != null)
         {
-            emptyInventory.SetObject(obj, sprite, color);
-            emptyInventory = null;
-            obj.SetActive(false);
+            return;
         }
         else
         {
@@ -120,10 +136,10 @@ public class InventoryManager : MonoBehaviour
                 {
                     ThemeSecondPresenter.GetInstance.ObjectSyncToDoorKeyHole();
                 }
-                if (emptyInventory.InventoryObject.GetComponent<Note>() != null 
+                if (emptyInventory.InventoryObject.GetComponent<Note>() != null
                     && ThemeSecondPresenter.GetInstance.IsInteractiveNum == 0)
                 {
-                    ThemeSecondPresenter.GetInstance.NoteSelectInInven(emptyInventory.InventoryObject);
+                    ThemeSecondPresenter.GetInstance.NoteSelectInInven(emptyInventory.InventoryObject, true);
                 }
             }
         }
@@ -138,14 +154,11 @@ public class InventoryManager : MonoBehaviour
         selectInvenIndex = selectIdx;
         emptyInventory = inventoryUIList[selectInvenIndex];
         selectMarkerObj.transform.position = selectInvenTransforms[selectIdx].transform.position;
-        if (emptyInventory != null && emptyInventory.InventoryObject != null)
+        if (emptyInventory.InventoryObject != null && !emptyInventory.InventoryObject.CompareTag("Note"))
         {
-            if (!emptyInventory.InventoryObject.CompareTag("Note"))
-            {
-                emptyInventory.InventoryObject.SetActive(true);
-                emptyInventory.GetObject();
-                emptyInventory = null;
-            }
+            emptyInventory.InventoryObject.SetActive(true);
+            emptyInventory.GetObject();
+            emptyInventory = null;
         }
     }
 
@@ -167,15 +180,6 @@ public class InventoryManager : MonoBehaviour
     /// 테마1에서 inven의 object를 Tile에 최종적으로 배치 완료할 때 호출하는 함수
     /// </summary>
     public void InvenObjectPutOnTile()
-    {
-        emptyInventory.GetObject();
-        emptyInventory = null;
-    }
-
-    /// <summary>
-    /// 테마2에서 열쇠를 최종적으로 문에 넣을때 호출하는 함수
-    /// </summary>
-    public void InvenObjectPutInDoor()
     {
         emptyInventory.GetObject();
         emptyInventory = null;

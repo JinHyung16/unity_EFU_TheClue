@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1701352a0bcf2474ea600c4a34a2eb65
+guid: 67c7ff849b4a2554fa42f1715e365b19
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -129,13 +129,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: remark_0
+      name: timer_white_0
       rect:
         serializedVersion: 2
-        x: 222
-        y: 69
-        width: 61
-        height: 372
+        x: 136
+        y: 59
+        width: 248
+        height: 401
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 21870e0cb00ec0f449cad368dbaff22a
-      internalID: -1683057640
+      spriteID: 205202df27358c848bc908067b26072a
+      internalID: 1883850375
       vertices: []
       indices: 
       edges: []
@@ -152,7 +152,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: a34dcd0800ee9724aadaa24bf5f53249
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +160,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      remark_1: 562040901
-      remark_0: -1683057640
+      timer_white_0: 1883850375
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

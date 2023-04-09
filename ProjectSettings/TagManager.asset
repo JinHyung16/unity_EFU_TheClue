@@ -8,6 +8,7 @@ TagManager:
   - Door
   - WristWatch
   - Note
+  - DoorKey
   layers:
   - Default
   - TransparentFX

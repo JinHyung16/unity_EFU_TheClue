@@ -103,10 +103,10 @@ public class GameManager : Singleton<GameManager>, IDisposable
         GC.SuppressFinalize(player);
     }
 
-    public void PlayerCameraStacking(Camera cam)
+    public void PlayerCameraStack(Camera cam)
     {
-        var cameraData = playerManager.PlayerCamera().GetUniversalAdditionalCameraData();
-        cameraData.cameraStack.Add(cam);
+        playerManager.SetParentCamera(cam.transform);
+        playerManager.PlayerCamera().GetUniversalAdditionalCameraData().cameraStack.Add(cam);
     }
 
     public void PlayerCameraControl(bool active)
@@ -162,7 +162,9 @@ public class GameManager : Singleton<GameManager>, IDisposable
             interactiveTrans.rotation = Quaternion.Euler(90, 0, 0);
         }
 
-        //interactiveTrans.LookAt(playerManager.PlayerCamera().transform.rotation * Vector3.back);
+        //interactiveTrans.LookAt(interactiveTrans.position + playerManager.PlayerCamera().transform.rotation * Vector3.back, playerManager.PlayerCamera().transform.rotation * Vector3.up);
+
+        interactiveTrans.LookAt(interactiveTrans.position + playerManager.PlayerCamera().transform.rotation * Vector3.forward, playerManager.PlayerCamera().transform.rotation * Vector3.up);
     }
 
     public void InvisibleInteractiveCanvas()

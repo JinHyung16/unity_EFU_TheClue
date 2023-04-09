@@ -7,9 +7,6 @@ public class ThemeSecondViewer : MonoBehaviour
 {
     [SerializeField] private List<Canvas> canvasList = new List<Canvas>();
 
-    [Header("NoteCanvas의 Panel")]
-    [SerializeField] private List<GameObject> notePanelList = new List<GameObject>();
-
     [Header("Timer Text")]
     [SerializeField] private TMP_Text resultTimerText;
     private void Start()
@@ -26,10 +23,21 @@ public class ThemeSecondViewer : MonoBehaviour
         UIManager.GetInstance.ShowCanvas("DoorLock Canvas");
     }
 
-    public void InteractiveCanvasOpen()
+    public void InteractiveDoorCanvas()
     {
         GameManager.GetInstance.IsUIOpen = true;
-        UIManager.GetInstance.ShowCanvas("Interactive Canvas");
+        UIManager.GetInstance.ShowCanvas("IDoor Canvas");
+    }
+    public void InteractiveShowcanseCanvasOpen()
+    {
+        GameManager.GetInstance.IsUIOpen = true;
+        UIManager.GetInstance.ShowCanvas("IShowcase Canvas");
+    }
+
+    public void NoteCanvaseOpen()
+    {
+        GameManager.GetInstance.IsUIOpen = true;
+        UIManager.GetInstance.ShowCanvas("Note Canvas");
     }
 
     /// <summary>
@@ -45,13 +53,6 @@ public class ThemeSecondViewer : MonoBehaviour
     {
         GameManager.GetInstance.IsUIOpen = true;
         UIManager.GetInstance.ShowCanvas("NPCMission Canvas");
-    }
-
-    public void NoteCanvasOpen(int index)
-    {
-        GameManager.GetInstance.IsUIOpen = true;
-        UIManager.GetInstance.ShowCanvas("Note Canvas");
-        //notePanelList[index].SetActive(true);
     }
 
 

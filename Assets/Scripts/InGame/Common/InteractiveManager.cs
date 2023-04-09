@@ -20,22 +20,13 @@ public class InteractiveManager : MonoBehaviour
     public bool IsInteractive { get; set; } = false; //상호작용 가능하다는 문구가 나온경우 true
 
     /// <summary>
-    /// Player가 G키를 누르면 호출된다.
+    /// Player가 E키를 누르면 호출된다.
     /// </summary>
     public void Interactive()
     {
         if (0 < interactiveObjects.Count)
         {
             Notify(interactiveObjects[0].GetInteractiveType());
-        }
-    }
-    /// <summary>
-    /// 테마별 미션을 확인할 때 호출
-    /// </summary>
-    public void MissionOpen()
-    {
-        if (ThemeFirstPresenter.GetInstance != null)
-        {
         }
     }
 
