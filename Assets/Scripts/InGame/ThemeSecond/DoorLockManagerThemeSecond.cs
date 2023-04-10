@@ -19,6 +19,7 @@ public class DoorLockManagerThemeSecond : MonoBehaviour
             buttonList[i].onClick.AddListener(InputButton);
         }
 
+        displayText.text = null;
         input = null;
     }
     /// <summary>
@@ -32,6 +33,10 @@ public class DoorLockManagerThemeSecond : MonoBehaviour
 
     private void UpdateDoorLockDisplay(string idx)
     {
+        if (4 < displayText.text.Length)
+        {
+            return;
+        }
         displayText.text += idx;
     }
 

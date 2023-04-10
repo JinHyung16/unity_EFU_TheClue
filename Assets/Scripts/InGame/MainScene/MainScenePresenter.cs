@@ -16,7 +16,6 @@ public class MainScenePresenter : PresenterSingleton<MainScenePresenter>
         var gameProgressData = DataManager.GetInstance.LoadData();
         if (gameProgressData != null)
         {
-            Debug.Log("MainScenePresenter: " + gameProgressData.themeClearIndex);
             ThemeSelectIndex = gameProgressData.themeClearIndex;
         }
     }

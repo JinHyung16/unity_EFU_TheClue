@@ -21,6 +21,8 @@ public class PlayerManager : MonoBehaviour
     [Header("Player Camera Transform")]
     [SerializeField] private Transform playerCameraTrans; //player cameraMain 그 자체
 
+    private Transform themeCameraTransform;
+
     private void Start()
     {
         playerTransform.position = gameSetUpData.characterTransform;
@@ -34,6 +36,12 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        themeCameraTransform.SetParent(null);
+        themeCameraTransform = null;
+    }
+
     public Camera PlayerCamera()
     {
         return this.playerCamera;
@@ -41,12 +49,10 @@ public class PlayerManager : MonoBehaviour
 
     public void SetParentCamera(Transform trans)
     {
-        Debug.Log(trans.position.x + " " + trans.position.y + " " + trans.position.z);
+        themeCameraTransform = trans;
         trans.SetParent(cameraViewTrans);
-        Debug.Log(trans.position.x + " " + trans.position.y + " " + trans.position.z);
         trans.position = playerTransform.position + new Vector3(0, 0, gameSetUpData.cameraPosZ);
         trans.rotation = playerCamera.transform.rotation;
-        Debug.Log(trans.position.x + " " + trans.position.y + " " + trans.position.z);
     }
 
 }

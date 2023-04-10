@@ -61,10 +61,15 @@ public class GameManager : Singleton<GameManager>, IDisposable
             case "ThemeThird":
                 saveIndex = 3;
                 break;
+            default:
+                saveIndex = 0;
+                break;
         }
+
         Debug.Log("SceneController.GetInstance.CurSceneName: " + SceneController.GetInstance.CurSceneName);
-        Debug.Log("saveIndex: " + saveIndex);
-        DataManager.GetInstance.SaveData(saveIndex);
+
+        //테스트 버전에선 무조건 3개다 열어두기
+        DataManager.GetInstance.SaveData(3);
 
         gameOptionCanvas.enabled = false;
         interactiveCanvs.enabled = false;
@@ -183,27 +188,8 @@ public class GameManager : Singleton<GameManager>, IDisposable
 
     public void OnApplicationQuit()
     {
-        int saveIndex = 0;
-        switch (SceneController.GetInstance.CurSceneName)
-        {
-            case "ThemeFirst":
-                saveIndex = 1;
-                break;
-            case "ThemeSecond":
-                saveIndex = 2;
-                break;
-            case "ThemeThird":
-                saveIndex = 3;
-                break;
-            default:
-                saveIndex = 0;
-                break;
-        }
-
-        if (saveIndex != 0)
-        {
-            DataManager.GetInstance.SaveData(3);
-            Application.Quit();
-        }
+        //테스트 버전에선 무조건 3개다 열어두기
+        DataManager.GetInstance.SaveData(3);
+        Application.Quit();
     }
 }

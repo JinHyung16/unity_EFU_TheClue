@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class ShowCase : InteractiveObject
 {
-    [SerializeField] private Transform showCaseTransform;
-
+    [SerializeField] private Transform showcaseTransform;
+    [SerializeField] private Transform showcaseTopTransform;
     private Vector3 offset;
 
     private void Start()
     {
         offset = new Vector3(0, 1.2f, 0.0f);
+        showcaseTopTransform.position = showcaseTransform.position + new Vector3(0, 1.6f, 0);
     }
     #region InteractiveObject Override
     protected override void OnTriggerEnter(Collider other)
@@ -34,7 +35,7 @@ public class ShowCase : InteractiveObject
 
     protected override void Interacitve()
     {
-        GameManager.GetInstance.VisibleInteractiveCanvas(showCaseTransform, offset);
+        GameManager.GetInstance.VisibleInteractiveCanvas(showcaseTransform, offset);
         InteractiveManager.GetInstance.SetInteractiving(this);
     }
 

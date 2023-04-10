@@ -82,10 +82,18 @@ public class TimerManager : MonoBehaviour
 
     private void ThemeClearInTime()
     {
-        if (minTime < 0 && ThemeFirstPresenter.GetInstance != null)
+        if (minTime < 0)
         {
-            IsTimeDone = true;
-            ThemeFirstPresenter.GetInstance.GameClear(false);
+            if (ThemeFirstPresenter.GetInstance != null)
+            {
+                IsTimeDone = true;
+                ThemeFirstPresenter.GetInstance.GameClear(false);
+            }
+            if (ThemeSecondPresenter.GetInstance != null)
+            {
+                IsTimeDone = true;
+                ThemeSecondPresenter.GetInstance.GameClear(false);
+            }
         }
     }
 }

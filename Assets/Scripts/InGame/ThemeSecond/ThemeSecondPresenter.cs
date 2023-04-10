@@ -1,7 +1,11 @@
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using HughGenerics;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
@@ -21,6 +25,8 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     [Header("Switch SpotLight")]
     [SerializeField] private Light switchSpotLight;
 
+    [Header("ShowCaseTop Transform")]
+    [SerializeField] private Transform showcaseTopTransform;
 
     //0==상호작용 X, 1==문과 상호작용, 2==showcase와 상호작용, 3==npc와 상호작용해서 노트 획득, 4==note 오픈중
     public int IsInteractiveNum { get; private set; } = 0;
@@ -30,6 +36,8 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
 
     private int numOfDoorLockAttempsCnt = 0; //도어락 시도횟수
     private string doorLockSuccessCode = "8282"; //도어락 히든 비번
+
+    private CancellationTokenSource tokenSource;
 
     private string themeName = "ThemeSecond";
     protected override void OnAwake()
@@ -56,6 +64,12 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         TimerManager.GetInstance.ThemeTime = 900.0f;
 
         numOfDoorLockAttempsCnt = 0;
+
+        if (tokenSource != null)
+        {
+            tokenSource.Dispose();
+        }
+        tokenSource = new CancellationTokenSource();
     }
 
     public void OpenDoorLockUI()
@@ -133,14 +147,43 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     /// <param name="obj"> 문에 꽂으려는 오브젝트 </param>
     public void PutInTheDoor(GameObject obj)
     {
+        if (tokenSource != null)
+        {
+            tokenSource.Cancel();
+            tokenSource.Dispose();
+        }
+        tokenSource = new CancellationTokenSource();
+
+        CmaInteractiveSet(doorKeyPutInDoorCamPos, true);
         if (obj.CompareTag("DoorKey"))
         {
-            CmaInteractiveSet(doorKeyPutInDoorCamPos, true);
             obj.transform.position = cameraInteractive.transform.position + new Vector3(-2.0f, 0, 0);
-            obj.transform.DOMoveZ(10.0f, 0.7f, false).SetEase(Ease.Linear);
+            obj.transform.DOMoveZ(10.0f, 1.5f, false).SetEase(Ease.Linear);
+            DoorKeyAnimationDone(true).Forget();
+        }
+        else
+        {
+            obj.transform.position = cameraInteractive.transform.position + new Vector3(-2.0f, 0, 0);
+            obj.transform.DOMoveZ(10.0f, 1.5f, false).SetEase(Ease.Linear);
+            DoorKeyAnimationDone(false).Forget();
         }
     }
 
+    private async UniTaskVoid DoorKeyAnimationDone(bool isDoorKey)
+    {
+        await UniTask.Delay(TimeSpan.FromSeconds(1.0f), cancellationToken: tokenSource.Token);
+        CmaInteractiveSet(doorKeyPutInDoorCamPos, false);
+        themeSecondViewer.CloseCanvas();
+        if (isDoorKey)
+        {
+            GameClear(true);
+        }
+        else
+        {
+            GameClear(false);
+        }
+        tokenSource.Cancel();
+    }
 
     public void DoorKeyHoleInteractive(bool active)
     {
@@ -178,12 +221,14 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             GameManager.GetInstance.IsUIOpen = true;
             IsInteractiveNum = 2;
             CmaInteractiveSet(interactiveCamMovePosList[1], true);
+            showcaseTopTransform.DOMove(showcaseTopTransform.position + new Vector3(0, 0, -3.3f), 0.8f, false);
             themeSecondViewer.InteractiveShowcanseCanvasOpen();
         }
         else
         {
             GameManager.GetInstance.IsUIOpen = false;
             IsInteractiveNum = 0;
+            showcaseTopTransform.DOMove(showcaseTopTransform.position + new Vector3(0, 0, 3.3f), 0.8f, false);
             CmaInteractiveSet(interactiveCamMovePosList[1], false);
             themeSecondViewer.CloseCanvas();
         }
