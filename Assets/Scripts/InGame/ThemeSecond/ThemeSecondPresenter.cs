@@ -12,9 +12,8 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
 {
     [SerializeField] private ThemeSecondViewer themeSecondViewer;
 
+    [Header("Camera들")]
     [SerializeField] private Camera cameraMain;
-
-    [Header("Camera와 Interactive Transfomr들 관련")]
     [SerializeField] private Camera cameraInteractive;
 
     [Header("Interactive Camera가 움직일 위치 List")]
@@ -22,11 +21,16 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     [SerializeField] private List<Transform> interactiveCamMovePosList = new List<Transform>();
     [SerializeField] private Transform doorKeyPutInDoorCamPos;
 
+    [SerializeField] private Transform keyPutInPos; //열쇠 넣기 진행시 시작 위치
+
     [Header("Switch SpotLight")]
     [SerializeField] private Light switchSpotLight;
 
     [Header("ShowCaseTop Transform")]
     [SerializeField] private Transform showcaseTopTransform;
+
+    [Header("WristWatches")]
+    [SerializeField] private List<WristWatch> wristWatches = new List<WristWatch>();
 
     //0==상호작용 X, 1==문과 상호작용, 2==showcase와 상호작용, 3==npc와 상호작용해서 노트 획득, 4==note 오픈중
     public int IsInteractiveNum { get; private set; } = 0;
@@ -36,6 +40,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
 
     private int numOfDoorLockAttempsCnt = 0; //도어락 시도횟수
     private string doorLockSuccessCode = "8282"; //도어락 히든 비번
+    private bool isDoorKeyPutIn = false;
 
     private CancellationTokenSource tokenSource;
 
@@ -57,6 +62,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         GameManager.GetInstance.PlayerCameraStack(this.cameraMain);
         //this.cameraMain.cullingMask = 0;
         this.cameraInteractive.cullingMask = 0;
+        this.cameraInteractive.enabled = false;
 
         GameManager.GetInstance.IsUIOpen = false;
         GameManager.GetInstance.IsInputStop = false;
@@ -79,7 +85,9 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
 
     public void DoneDoorLock(string code)
     {
-        if (code == doorLockSuccessCode)
+        themeSecondViewer.CloseCanvas();
+
+        if (code.Equals(doorLockSuccessCode))
         {
             GameClear(true);
         }
@@ -104,6 +112,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         {
             this.cameraInteractive.cullingMask = -1;
             cameraInteractive.depth = 1;
+            this.cameraInteractive.enabled = true;
             GameManager.GetInstance.PlayerCameraControl(false);
         }
         else
@@ -111,6 +120,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             this.cameraInteractive.cullingMask = 0;
             cameraInteractive.depth = 0;
             GameManager.GetInstance.PlayerCameraControl(true);
+            this.cameraInteractive.enabled = false;
         }
     }
 
@@ -157,24 +167,27 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         CmaInteractiveSet(doorKeyPutInDoorCamPos, true);
         if (obj.CompareTag("DoorKey"))
         {
-            obj.transform.position = cameraInteractive.transform.position + new Vector3(-2.0f, 0, 0);
-            obj.transform.DOMoveZ(10.0f, 1.5f, false).SetEase(Ease.Linear);
-            DoorKeyAnimationDone(true).Forget();
+            obj.transform.position = keyPutInPos.position;
+            obj.transform.rotation = keyPutInPos.rotation;
+            obj.transform.DOMove(keyPutInPos.position + new Vector3(0, 0, 0.55f), 3.0f, false).SetEase(Ease.Linear);
+            isDoorKeyPutIn = true;
+            DoorKeyAnimationDone().Forget();
         }
         else
         {
-            obj.transform.position = cameraInteractive.transform.position + new Vector3(-2.0f, 0, 0);
-            obj.transform.DOMoveZ(10.0f, 1.5f, false).SetEase(Ease.Linear);
-            DoorKeyAnimationDone(false).Forget();
+            obj.transform.position = keyPutInPos.position;
+            obj.transform.DOMove(keyPutInPos.position + new Vector3(0, 0, 0.55f), 3.0f, false).SetEase(Ease.Linear);
+            isDoorKeyPutIn = false;
+            DoorKeyAnimationDone().Forget();
         }
     }
 
-    private async UniTaskVoid DoorKeyAnimationDone(bool isDoorKey)
+    private async UniTaskVoid DoorKeyAnimationDone()
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(1.0f), cancellationToken: tokenSource.Token);
+        await UniTask.Delay(TimeSpan.FromSeconds(1.5f), cancellationToken: tokenSource.Token);
         CmaInteractiveSet(doorKeyPutInDoorCamPos, false);
         themeSecondViewer.CloseCanvas();
-        if (isDoorKey)
+        if (isDoorKeyPutIn)
         {
             GameClear(true);
         }
@@ -228,6 +241,10 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         {
             GameManager.GetInstance.IsUIOpen = false;
             IsInteractiveNum = 0;
+            for (int i = 0; i < wristWatches.Count; i++)
+            {
+                wristWatches[i].PutDownWristWatch();
+            }
             showcaseTopTransform.DOMove(showcaseTopTransform.position + new Vector3(0, 0, 3.3f), 0.8f, false);
             CmaInteractiveSet(interactiveCamMovePosList[1], false);
             themeSecondViewer.CloseCanvas();
@@ -302,12 +319,8 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         else
         {
             GameManager.GetInstance.IsGameClear = false;
-            GameResultOpen(false);
         }
-    }
 
-    public void GameResultOpen(bool isClear)
-    {
         themeSecondViewer.OpenResultCanvas(isClear);
     }
 }

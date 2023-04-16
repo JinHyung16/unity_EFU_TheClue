@@ -5,19 +5,24 @@ using UnityEngine;
 
 public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 {
-    [SerializeField] private Camera mainCamera;
+    [SerializeField] private ThemeThirdViewer themeThirdViewer;
+    [SerializeField] private Camera cameraMain;
 
     private string themeName = "ThemeThird";
-    protected override void OnAwake()
-    {
-        //cameraMain.enabled = false;
-        mainCamera.cullingMask = 5;
-    }
 
     private void Start()
     {
+        themeName = "ThemeThird";
         SceneController.GetInstance.CurSceneName = themeName;
 
         GameManager.GetInstance.SpawnPlayer();
+        GameManager.GetInstance.CameraTheme = this.cameraMain;
+        GameManager.GetInstance.PlayerCameraStack(this.cameraMain);
+        //this.cameraMain.cullingMask = 0;
+
+        GameManager.GetInstance.IsUIOpen = false;
+        GameManager.GetInstance.IsInputStop = false;
+
+        TimerManager.GetInstance.ThemeTime = 900.0f;
     }
 }

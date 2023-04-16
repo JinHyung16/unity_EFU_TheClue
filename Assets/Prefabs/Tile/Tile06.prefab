@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6378092760716790879}
   - component: {fileID: 3377065110938899015}
   - component: {fileID: 5487120559044720636}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tile06
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -115,6 +115,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 840d1b7e497dd6e49aec818818c17867, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 840d1b7e497dd6e49aec818818c17867, type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 840d1b7e497dd6e49aec818818c17867, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 840d1b7e497dd6e49aec818818c17867, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -129,6 +141,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 840d1b7e497dd6e49aec818818c17867, type: 3}
       propertyPath: m_Name
       value: Theme01_Foothold_thick
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 840d1b7e497dd6e49aec818818c17867, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 840d1b7e497dd6e49aec818818c17867, type: 3}

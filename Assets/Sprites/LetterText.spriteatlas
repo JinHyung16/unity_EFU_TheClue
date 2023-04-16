@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LetterText
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 1024
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 8
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: c9dddd58731da2a459ea7f4c2790ca77, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 1506371549, guid: 412cec727f0939747b18d8a2226e3bce, type: 3}
+  - {fileID: 1677194131, guid: 708da7b5f023be649b986e122bc3256f, type: 3}
+  - {fileID: -1101795121, guid: 708da7b5f023be649b986e122bc3256f, type: 3}
+  - {fileID: -1791769683, guid: 07393f8797bce414bacfcb1ebbfc5460, type: 3}
+  - {fileID: -465491519, guid: 07393f8797bce414bacfcb1ebbfc5460, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - lettertext3_0
+  - lettertext1_0
+  - lettertext1_1
+  - lettertext2_1
+  - lettertext2_0
+  m_RenderDataMap: {}
+  m_Tag: LetterText
+  m_IsVariant: 0

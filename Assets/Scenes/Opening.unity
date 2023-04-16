@@ -318,6 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8f4393de28a1e84eac53d2c78955a90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameProgressJsonData: {fileID: 4900000, guid: 60a8e7b23bb2d644aa5300031313f94c, type: 3}
 --- !u!4 &223490413
 Transform:
   m_ObjectHideFlags: 0

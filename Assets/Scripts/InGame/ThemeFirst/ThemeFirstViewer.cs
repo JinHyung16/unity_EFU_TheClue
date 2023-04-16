@@ -21,7 +21,10 @@ public class ThemeFirstViewer : MonoBehaviour
 
     private void OnDisable()
     {
-        UIManager.GetInstance.ClearAllCanvas();
+        if (UIManager.GetInstance != null)
+        {
+            UIManager.GetInstance.ClearAllCanvas();
+        }
     }
 
     /// <summary>
@@ -83,7 +86,7 @@ public class ThemeFirstViewer : MonoBehaviour
 
     public void QuitGame()
     {
-        Application.Quit();
+        GameManager.GetInstance.OnApplicationQuit();
     }
     #endregion
 

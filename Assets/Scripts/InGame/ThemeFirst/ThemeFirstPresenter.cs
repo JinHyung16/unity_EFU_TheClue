@@ -31,8 +31,8 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
 
     //Game Clear 또는 Fail이 되는 조건을 저장한 변수
-    private int numOfTileAttemptsCnt; //타일 퍼즐 풀기 시도 횟수
-    private int numOfDoorLockAttempsCnt; //도어락 퍼즐 풀기 시도 횟수
+    private int successDiceSetTile = 0; //타일 올바르게 놓은 주사위 개수
+    private int numOfDoorLockAttempsCnt = 0; //도어락 퍼즐 풀기 시도 횟수
 
     //Game끝낼 때 GameProgress에 넘겨줄 현재 테마 이름 정보로 각 ThemePresenter들이 이 정보를 갖고 있는다.
     private string themeName = "ThemeFirst";
@@ -67,7 +67,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         GameManager.GetInstance.PlayerCameraStack(this.cameraMain);
 
         switchLightIndex = 1;
-        numOfTileAttemptsCnt = 0;
+        successDiceSetTile = 0;
         SetTileRandom();
     }
 
@@ -79,8 +79,11 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         tileObjectList.Clear();
         remainTileSpawnList.Clear();
 
-        GameManager.GetInstance.IsUIOpen = false;
-        GameManager.GetInstance.IsInputStop = false;
+        if (GameManager.GetInstance != null)
+        {
+            GameManager.GetInstance.IsUIOpen = false;
+            GameManager.GetInstance.IsInputStop = false;
+        }
     }
 
     #region DoorLock
@@ -91,11 +94,13 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
     public void DoneDoorLock()
     {
+        themeFirstViewer.CloseCanvas();
+
         numOfDoorLockAttempsCnt++;
         if (3 <= numOfDoorLockAttempsCnt)
         {
             numOfDoorLockAttempsCnt = 0;
-            GameClear(false);
+            themeFirstViewer.OpenResultCanvas(false);
         }
     }
     #endregion
@@ -191,10 +196,11 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
             var tile = Instantiate(tileData.tileObjArray[tileRandomList[i]]);
             tile.SetActive(false);
             tile.name = tileData.tileObjArray[tileRandomList[i]].name;
+            tile.GetComponent<Tile>().IsEscapeKey = false;
             tileObjectList.Add(tile);
         }
 
-        //9개 타일중 6개가 선택됐으니, 나머지 3개에 대해서 랜덤으로 만든다.
+        //9개 타일중 6개의 모든 문양이 1번씩 선택됐으니, 나머지 3개에 대해선 랜덤으로 선택한다.
         for (int i = 0; i < 3; i++)
         {
             int random = UnityEngine.Random.Range(0, 5);
@@ -294,6 +300,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     {
         themeFirstViewer.TilePatternCanvasOpen(tile);
     }
+
     /// <summary>
     /// Tile위 같은 문양 찾기를 진행하여
     /// 최종적으로 문양 넣기를 버튼을 클릭하여 결과를 봤을때
@@ -301,22 +308,15 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     /// <param name="isDone">문양 배치 완료한 상태</param>
     public void DicePutOnTileCheck(bool isDone)
     {
+        themeFirstViewer.CloseCanvas();
         if (isDone)
         {
-            numOfTileAttemptsCnt += 1;
-        }
-        else
-        {
-            numOfTileAttemptsCnt -= 1;
-        }
-
-        if (3 <= numOfTileAttemptsCnt)
-        {
-            GameClear(true);
-        }
-        else if (numOfTileAttemptsCnt <= -3)
-        {
-            GameClear(false);
+            successDiceSetTile ++;
+            if (3 <= successDiceSetTile)
+            {
+                successDiceSetTile = 0;
+                GameManager.GetInstance.IsGameClear = true;
+            }
         }
     }
     #endregion
@@ -338,21 +338,6 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     }
 
     public void GameClear(bool isClear)
-    {
-        themeFirstViewer.CloseCanvas();
-
-        if (isClear)
-        {
-            GameManager.GetInstance.IsGameClear = true;
-        }
-        else
-        {
-            GameManager.GetInstance.IsGameClear = false;
-            GameResultOpen(false);
-        }
-    }
-
-    public void GameResultOpen(bool isClear)
     {
         themeFirstViewer.OpenResultCanvas(isClear);
     }

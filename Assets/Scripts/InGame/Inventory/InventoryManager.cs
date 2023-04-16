@@ -23,7 +23,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private List<InventoryUI> inventoryUIList = new List<InventoryUI>();
     [SerializeField] private GameObject invenIsFullImage;
 
-    private bool isFullInven = false;
+    public int IsFullInvenCnt { get; set; } = 0;
 
     private InventoryUI emptyInventory;
     private GameObject invenObj;

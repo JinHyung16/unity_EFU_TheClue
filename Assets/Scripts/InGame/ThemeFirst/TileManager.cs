@@ -101,7 +101,7 @@ public class TileManager : MonoBehaviour
     {
         if (invenObj == null) { return; }
 
-        if ((diceScript != null) && (!curTileIsSetDice))
+        if ((diceScript != null))
         {
             if (curTileIsEscapeKey && (curTileColor == diceScript.GetDicePatternColor))
             {
@@ -116,20 +116,6 @@ public class TileManager : MonoBehaviour
                 objPatternImage.sprite = null;
                 themeFirstViewer.CloseCanvas();
             }
-            else
-            {
-                ThemeFirstPresenter.GetInstance.DicePutOnTileCheck(false);
-                themeFirstViewer.CloseCanvas();
-            }
-        }
-        else if (cubeScript != null)
-        {
-            ThemeFirstPresenter.GetInstance.DicePutOnTileCheck(false);
-            themeFirstViewer.CloseCanvas();
-        }
-        else
-        {
-            themeFirstViewer.CloseCanvas();
         }
     }
 

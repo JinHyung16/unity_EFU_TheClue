@@ -29,7 +29,10 @@ public class Dice : InteractiveObject
 
     private void OnDisable()
     {
-        GameManager.GetInstance.InvisibleInteractiveCanvas();
+        if (GameManager.GetInstance != null)
+        {
+            GameManager.GetInstance.InvisibleInteractiveCanvas();
+        }
         NotInteractvie();
         this.gameObject.transform.position = diceTransform.position;
     }

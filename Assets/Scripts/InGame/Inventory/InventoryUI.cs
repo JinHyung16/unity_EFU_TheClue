@@ -31,6 +31,8 @@ public class InventoryUI : MonoBehaviour
             this.InventoryObject.name = obj.name;
             this.uiImage.sprite = objSprite;
             this.uiImage.color = objColor;
+
+            InventoryManager.GetInstance.IsFullInvenCnt += 1;
         }
     }
 
@@ -40,5 +42,7 @@ public class InventoryUI : MonoBehaviour
         this.invenObj = null;
         this.uiImage.sprite = null;
         this.uiImage.color = Color.white;
+
+        InventoryManager.GetInstance.IsFullInvenCnt -= 1;
     }
 }

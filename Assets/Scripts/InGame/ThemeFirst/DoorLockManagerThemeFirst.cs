@@ -97,7 +97,7 @@ public class DoorLockManagerThemeFirst : MonoBehaviour
         //다르면 실패처리로 씬 다시 시작
 
         GameManager.GetInstance.IsUIOpen = false;
-        ThemeFirstPresenter.GetInstance.DoneDoorLock();
         ClearDoorLockDisplay();
+        ThemeFirstPresenter.GetInstance.DoneDoorLock();
     }
 }

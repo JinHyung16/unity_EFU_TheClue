@@ -6,14 +6,19 @@ namespace HughGenerics
 {
     public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
+        private static object objlock = new object();
+
         private static T instance;
         public static T GetInstance
         {
             get
             {
-                if (instance == null)
+                lock (objlock)
                 {
-                    return null;
+                    if (instance == null)
+                    {
+                        return null;
+                    }
                 }
                 return instance;
             }
@@ -36,6 +41,11 @@ namespace HughGenerics
             {
                 Destroy(gameObject);
             }
+        }
+
+        public void OnDestroy()
+        {
+            Debug.Log(this.gameObject.name + "destroyed");
         }
     }
 }

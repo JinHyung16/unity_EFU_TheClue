@@ -62,7 +62,7 @@ MonoBehaviour:
   diceTransform: {fileID: 4240862391917485026}
   diceData: {fileID: 11400000, guid: 1a6f9462d8f0992468c2de7cd1d69210, type: 2}
   dicePatternColor: {r: 1, g: 1, b: 0, a: 1}
-  dicePatternSprite: {fileID: -367574959, guid: 1b033e5d57b491740b0b814f72374b01, type: 3}
+  dicePatternSprite: {fileID: 725658679, guid: 3dfb4aa58d7d735409278a034ea2850f, type: 3}
 --- !u!1001 &4240862391335205447
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -115,6 +115,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e0fce65c1db7d5e46998b0c1815abe6a, type: 2}
@@ -124,7 +132,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 126
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}

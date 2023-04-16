@@ -149,11 +149,15 @@ public class PlayerInputController : MonoBehaviour
                                 hit.collider.gameObject.transform.position = GameManager.GetInstance.CameraInteractive.transform.position + new Vector3(0, -1.0f, 0);
                             }
                         }
-                        if (hit.collider.gameObject.CompareTag("Note"))
+                        if (hit.collider.gameObject.CompareTag("Note") && 
+                            ThemeSecondPresenter.GetInstance != null && ThemeSecondPresenter.GetInstance.IsInteractiveNum == 3)
                         {
-                            var note = hit.collider.gameObject.GetComponent<Note>();
-                            note.SelectNote();
-                            InventoryManager.GetInstance.PutInInventory(hit.collider.gameObject, note.GetNoteUISprite, Color.white);
+                            if (InventoryManager.GetInstance.IsFullInvenCnt < 3)
+                            {
+                                var note = hit.collider.gameObject.GetComponent<Note>();
+                                note.SelectNote();
+                                InventoryManager.GetInstance.PutInInventory(hit.collider.gameObject, note.GetNoteUISprite, Color.white);
+                            }
                         }
                     }
                 }

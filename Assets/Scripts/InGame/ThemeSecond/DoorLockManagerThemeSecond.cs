@@ -10,8 +10,7 @@ public class DoorLockManagerThemeSecond : MonoBehaviour
     [SerializeField] private List<Button> buttonList = new List<Button>();
     [SerializeField] private TMP_Text displayText;
 
-    private string input;
-
+    private string password;
     private void Start()
     {
         for (int i = 0; i < buttonList.Count; i++)
@@ -20,30 +19,35 @@ public class DoorLockManagerThemeSecond : MonoBehaviour
         }
 
         displayText.text = null;
-        input = null;
+        password = null;
+    }
+
+    private void OnEnable()
+    {
+        password = null;
+        displayText.text = null;
     }
     /// <summary>
     /// button 클릭시 호출되는 함수
     /// </summary>
     private void InputButton()
     {
-        input = EventSystem.current.currentSelectedGameObject.name;
-        UpdateDoorLockDisplay(input);
+        UpdateDoorLockDisplay(EventSystem.current.currentSelectedGameObject.name);
     }
 
     private void UpdateDoorLockDisplay(string idx)
     {
-        if (4 < displayText.text.Length)
+        password += idx;
+        if (password.Length <= 4)
         {
-            return;
+            displayText.text = password;
         }
-        displayText.text += idx;
     }
 
     public void ClearDisplay()
     {
         displayText.text = null;
-        input = null;
+        password = null;
     }
 
     public void InputDone()
@@ -51,6 +55,8 @@ public class DoorLockManagerThemeSecond : MonoBehaviour
         if (!string.IsNullOrEmpty(displayText.text))
         {
             ThemeSecondPresenter.GetInstance.DoneDoorLock(displayText.text);
+            displayText.text = null;
+            password = null;
         }
     }
 }

@@ -58,7 +58,6 @@ public class ThemeSecondViewer : MonoBehaviour
 
     public void OpenResultCanvas(bool isClear)
     {
-        GameManager.GetInstance.IsUIOpen = true;
         if (isClear)
         {
             resultTimerText.text = TimerManager.GetInstance.CurTimeString.ToString();
@@ -68,6 +67,7 @@ public class ThemeSecondViewer : MonoBehaviour
         {
             UIManager.GetInstance.ShowCanvas("GameFailedResult Canvas");
         }
+        GameManager.GetInstance.IsUIOpen = true;
     }
 
     #region Game Result Canvas하위 Button 기능
@@ -90,7 +90,7 @@ public class ThemeSecondViewer : MonoBehaviour
 
     public void QuitGame()
     {
-        Application.Quit();
+        GameManager.GetInstance.OnApplicationQuit();
     }
     #endregion
 

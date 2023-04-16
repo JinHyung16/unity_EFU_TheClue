@@ -41,8 +41,11 @@ public class Tile : InteractiveObject
     {
         if (other.CompareTag("Player"))
         {
-            InteractiveManager.GetInstance.IsInteractive = true;
-            this.Interacitve();
+            if (!IsSetDice)
+            {
+                InteractiveManager.GetInstance.IsInteractive = true;
+                this.Interacitve();
+            }
         }
     }
 
@@ -50,8 +53,11 @@ public class Tile : InteractiveObject
     {
         if (other.CompareTag("Player"))
         {
-            InteractiveManager.GetInstance.IsInteractive = false;
-            this.NotInteractvie();
+            if (!IsSetDice)
+            {
+                InteractiveManager.GetInstance.IsInteractive = false;
+                this.NotInteractvie();
+            }
         }
     }
 
@@ -96,14 +102,14 @@ public class Tile : InteractiveObject
     {
         if (!IsSetDice)
         {
-            Color finalColor = color * Mathf.LinearToGammaSpace(0.8f);
+            //Color finalColor = color * Mathf.LinearToGammaSpace(0.8f);
             if (!IsEscapeKey)
             {
-                tileRender.material.SetColor("_EmissionColor", finalColor);
+                tileRender.material.SetColor("_EmissionColor", color);
             }
-            else if (IsEscapeKey && this.tileColor != finalColor)
+            else if (IsEscapeKey && this.tileColor != color)
             {
-                tileRender.material.SetColor("_EmissionColor", finalColor);
+                tileRender.material.SetColor("_EmissionColor", color);
             }
             else
             {

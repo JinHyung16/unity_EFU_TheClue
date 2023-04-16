@@ -21,12 +21,20 @@ public class DoorKey : InteractiveObject
     private void Start()
     {
         offset = new Vector3(0, 0.8f, 0);
+        this.gameObject.transform.position = originPosition.transform.position;
+        this.gameObject.transform.rotation = originPosition.transform.rotation;
     }
     private void OnDisable()
     {
-        GameManager.GetInstance.InvisibleInteractiveCanvas();
-        NotInteractvie();
-        this.gameObject.transform.position = originPosition.position;
+        if (GameManager.GetInstance != null)
+        {
+            GameManager.GetInstance.InvisibleInteractiveCanvas();
+            this.NotInteractvie();
+        }
+        if (originPosition != null)
+        {
+            this.gameObject.transform.position = originPosition.position;
+        }
     }
 
     #region InteractiveObject Override

@@ -104,7 +104,7 @@ public class Door : InteractiveObject
         {
             if (ThemeFirstPresenter.GetInstance != null)
             {
-                ThemeFirstPresenter.GetInstance.GameResultOpen(true);
+                ThemeFirstPresenter.GetInstance.GameClear(true);
             }
         }
         else
