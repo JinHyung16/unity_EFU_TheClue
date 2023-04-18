@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: dbbb5395b4bcc1a409a9f734262a2b83
+guid: 9a00a159923e27941ad35f1e09cc8bac
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -31,36 +31,7 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: mixamo.com
-      takeName: mixamo.com
-      internalID: -203655887218126122
-      firstFrame: 50
-      lastFrame: 200
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+    clipAnimations: []
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -224,8 +195,8 @@ ModelImporter:
     - boneName: mixamorig:RightArm
       humanName: RightUpperArm
       limit:
-        min: {x: -90, y: -56.703297, z: -60}
-        max: {x: 90, y: 123.29671, z: 100}
+        min: {x: -90, y: -90, z: -60}
+        max: {x: 90, y: 150, z: 100}
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 1
@@ -861,10 +832,10 @@ ModelImporter:
       position: {x: 0.000000001221245, y: 0.14522023, z: 7.912721e-11}
       rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
-    armTwist: 0.727
-    foreArmTwist: 0.202
-    upperLegTwist: 0.565
-    legTwist: 0.286
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0

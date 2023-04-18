@@ -71,7 +71,6 @@ public class PlayerInputController : MonoBehaviour
         float vertical = UnityEngine.Input.GetAxis("Vertical");
 
         Vector2 moveInput = new Vector2(horizontal * cameraRotateSpeed, vertical * cameraRotateSpeed);
-
         playerAnimator.SetFloat("Horizontal", horizontal);
         playerAnimator.SetFloat("Vertical", vertical);
         //bool isMove = moveInput.magnitude != 0.0f;

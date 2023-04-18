@@ -38,8 +38,11 @@ public class PlayerManager : MonoBehaviour
 
     private void OnDisable()
     {
-        themeCameraTransform.SetParent(null);
-        themeCameraTransform = null;
+        if (themeCameraTransform != null)
+        {
+            themeCameraTransform.SetParent(null);
+            themeCameraTransform = null;
+        }
     }
 
     public Camera PlayerCamera()

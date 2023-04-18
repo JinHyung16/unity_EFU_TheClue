@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using HughEnumData;
 public class ThemeSecondViewer : MonoBehaviour
 {
     [SerializeField] private List<Canvas> canvasList = new List<Canvas>();
@@ -65,6 +65,7 @@ public class ThemeSecondViewer : MonoBehaviour
         }
         else
         {
+            PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_Died);
             UIManager.GetInstance.ShowCanvas("GameFailedResult Canvas");
         }
         GameManager.GetInstance.IsUIOpen = true;

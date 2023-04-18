@@ -1,3 +1,4 @@
+using HughEnumData;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -56,6 +57,7 @@ public class ThemeFirstViewer : MonoBehaviour
         }
         else
         {
+            PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_Died);
             UIManager.GetInstance.ShowCanvas("GameFailedResult Canvas");
         }
     }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6633558958646546996}
   - component: {fileID: 8997615876665404304}
   - component: {fileID: 8452768302874956307}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Tile05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -144,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 840d1b7e497dd6e49aec818818c17867, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 840d1b7e497dd6e49aec818818c17867, type: 3}
