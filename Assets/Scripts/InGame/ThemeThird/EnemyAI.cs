@@ -6,35 +6,34 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    private Rigidbody rigid;
-
-    [SerializeField] private Transform targetTransform;
     [SerializeField] private float moveSpeed;
 
     private Vector3[] path;
     private int targetPathIndex = 0;
 
+    private IEnumerator pathFindIEnum;
     private void Start()
     {
-        rigid = GetComponent<Rigidbody>();
-        PathRequestManager.RequestPath(transform.position, targetTransform.position, OnPathFind);
+        pathFindIEnum = MoveToPath();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            PathRequestManager.RequestPath(transform.position, targetTransform.position, OnPathFind);
+            PathManager.GetInstance.RequestPath(transform.position, PathFindCallBack);
         }
     }
-    public void OnPathFind(Vector3[] newPath, bool success)
+
+    private void PathFindCallBack(Vector3[] newPath, bool success)
     {
         if (success)
         {
             path = newPath;
             targetPathIndex = 0;
-            StopCoroutine("MoveToPath");
-            StartCoroutine("MoveToPath");
+            StopCoroutine(pathFindIEnum);
+            pathFindIEnum = MoveToPath();
+            StartCoroutine(pathFindIEnum);
         }
     }
     private IEnumerator MoveToPath()
@@ -51,7 +50,6 @@ public class EnemyAI : MonoBehaviour
                 }
                 curWayPosition = path[targetPathIndex];
             }
-
             transform.position = Vector3.MoveTowards(transform.position, curWayPosition, moveSpeed * Time.deltaTime);
             yield return null;
         }

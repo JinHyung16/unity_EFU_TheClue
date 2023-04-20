@@ -17,7 +17,7 @@ namespace HughPathFinding
             itemArray = new T[maxHeapSize];
         }
 
-        public void AddHeap(T item)
+        public void Add(T item)
         {
             item.HeapIndex = curItemCount;
             itemArray[curItemCount] = item;
@@ -39,7 +39,7 @@ namespace HughPathFinding
             HeapSortUp(item);
         }
 
-        public bool ContainsHeap(T item)
+        public bool Contains(T item)
         {
             return Equals(itemArray[item.HeapIndex], item);
         }

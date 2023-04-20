@@ -84,24 +84,7 @@ namespace HughPathFinding
                     }
                 }
             }
-
             return neighborhoodNodeList;
-        }
-
-        
-        private void OnDrawGizmos()
-        {
-            Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y)); //그리드 크기에 맞춰 전체 그리드 그려준다
-
-            if (nodeArray != null)
-            {
-                foreach (Node n in nodeArray)
-                {
-                    Gizmos.color = (n.isWalkable) ? Color.white : Color.red;
-                    Gizmos.DrawCube(n.nodePosition, Vector3.one * (nodeDiameter - distanceBetweenNodes)); //현재 노드 위치에 노드를 그린다.
-                }
-            }
-        }
-        
+        }     
     }
 }

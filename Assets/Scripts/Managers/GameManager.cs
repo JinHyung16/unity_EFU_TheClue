@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System;
 using DG.Tweening;
 using UnityEngine.Rendering.Universal;
+using HughPathFinding;
 
 public class GameManager : Singleton<GameManager>, IDisposable
 {
@@ -96,6 +97,11 @@ public class GameManager : Singleton<GameManager>, IDisposable
         player = Instantiate(playerPrefab);
         playerManager = player.GetComponent<PlayerManager>();
         player.SetActive(true);
+
+        if (PathManager.GetInstance != null)
+        {
+            PathManager.GetInstance.SetTargetPosition(player.transform);
+        }
     }
 
     /// <summary>

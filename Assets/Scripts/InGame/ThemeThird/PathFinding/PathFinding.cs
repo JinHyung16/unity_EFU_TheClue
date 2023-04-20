@@ -1,16 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using System.Diagnostics;
 
 namespace HughPathFinding
 {
     public class PathFinding : MonoBehaviour
     {
-        [SerializeField] private PathRequestManager pathRequestManager;
+        //[SerializeField] private PathRequestManager pathRequestManager;
         [SerializeField] private AstarGrid astarGrid;
-
+        [SerializeField] private PathManager pathManager;
         public void StartFindPath(Vector3 start, Vector3 target)
         {
             StartCoroutine(FindPath(start, target));
@@ -18,24 +18,40 @@ namespace HughPathFinding
 
         private IEnumerator FindPath(Vector3 start, Vector3 target)
         {
+            Stopwatch stopWatch = Stopwatch.StartNew();
+            stopWatch.Start();
+
             Vector3[] wayPoints = new Vector3[0];
-            bool findPathSuccess = false;
+            bool findPathDone = false;
 
             Node startNode = astarGrid.NodeFrowmWorldPosition(start);
             Node targetNode = astarGrid.NodeFrowmWorldPosition(target);
 
             if (startNode.isWalkable && targetNode.isWalkable)
             {
-                Heap<Node> openSet = new Heap<Node>(astarGrid.MaxSize); //거리를 계사한해야할 노드 집합
+                List<Node> openSet = new List<Node>(astarGrid.MaxSize); //거리를 계사한해야할 노드 집합
                 HashSet<Node> closedSet = new HashSet<Node>(); //이미 계산이 완료된 노드 집합
-                openSet.AddHeap(startNode);
-                while (0 < openSet.HeapCount)
+                openSet.Add(startNode);
+                while (0 < openSet.Count)
                 {
-                    Node curNode = openSet.RemoveFirst();
+                    Node curNode = openSet[0];
+                    for (int i = 1; i < openSet.Count; i++)
+                    {
+                        if (openSet[i].FCost < curNode.FCost || openSet[i].FCost == curNode.FCost)
+                        {
+                            if (openSet[i].hCost < curNode.hCost)
+                            {
+                                curNode = openSet[i];
+                            }
+                        }
+                    }
+                    openSet.Remove(curNode);
                     closedSet.Add(curNode);
                     if (curNode == targetNode)
                     {
-                        findPathSuccess = true;
+                        findPathDone = true;
+                        stopWatch.Stop();
+                        print("Path Found Time: " + stopWatch.ElapsedMilliseconds + " ms");
                         break;
                     }
 
@@ -46,26 +62,26 @@ namespace HughPathFinding
                         {
                             continue;
                         }
-                        int moveCost = curNode.moveCost + GetManhattenDistance(curNode, neighbor);
-                        if (moveCost < neighbor.moveCost || !openSet.ContainsHeap(neighbor))
+                        int moveCost = curNode.gCost + GetManhattenDistance(curNode, neighbor);
+                        if (moveCost < neighbor.gCost || !openSet.Contains(neighbor))
                         {
-                            neighbor.moveCost = moveCost;
-                            neighbor.disCost = GetManhattenDistance(neighbor, targetNode);
+                            neighbor.gCost = moveCost;
+                            neighbor.hCost = GetManhattenDistance(neighbor, targetNode);
                             neighbor.Parent = curNode;
-                            if (!openSet.ContainsHeap(neighbor))
+                            if (!openSet.Contains(neighbor))
                             {
-                                openSet.AddHeap(neighbor);
+                                openSet.Add(neighbor);
                             }
                         }
                     }
                 }
             }
             yield return null;
-            if (findPathSuccess)
+            if (findPathDone)
             {
                 wayPoints = GetFinalPath(startNode, targetNode);
             }
-            pathRequestManager.FinishedProcessingPath(wayPoints, findPathSuccess);
+            pathManager.DonePathFinding(wayPoints, findPathDone);
         }
 
 
@@ -100,6 +116,7 @@ namespace HughPathFinding
             }
             return wayPointList.ToArray();
         }
+
         private int GetManhattenDistance(Node aNode, Node bNode)
         {
             int distX = Mathf.Abs(aNode.gridX - bNode.gridX);

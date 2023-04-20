@@ -18,7 +18,6 @@ public class PlayerAnimationController : MonoBehaviour
 
     public enum AnimationLayerName
     {
-        Died,
         DoorLock,
         OpenDoor,
         PickUp,
@@ -42,9 +41,6 @@ public class PlayerAnimationController : MonoBehaviour
                 break;
             case AnimationType.P_OpenDoor:
                 animator.SetTrigger("onOpenDoor");
-                break;
-            case AnimationType.P_Died:
-                animator.SetTrigger("onDied");
                 break;
             default:
                 break;
