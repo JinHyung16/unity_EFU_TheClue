@@ -50,6 +50,12 @@ public class EnemyAI : MonoBehaviour
                 }
                 curWayPosition = path[targetPathIndex];
             }
+            
+            Vector3 dir = curWayPosition - transform.position;
+            dir.y = 0;
+            Quaternion look = Quaternion.LookRotation(dir.normalized);
+            transform.rotation = look;
+            
             transform.position = Vector3.MoveTowards(transform.position, curWayPosition, moveSpeed * Time.deltaTime);
             yield return null;
         }

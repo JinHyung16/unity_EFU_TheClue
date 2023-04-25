@@ -18,8 +18,8 @@ namespace HughPathFinding
 
         private IEnumerator FindPath(Vector3 start, Vector3 target)
         {
-            Stopwatch stopWatch = Stopwatch.StartNew();
-            stopWatch.Start();
+            //Stopwatch stopWatch = Stopwatch.StartNew();
+            //stopWatch.Start();
 
             Vector3[] wayPoints = new Vector3[0];
             bool findPathDone = false;
@@ -29,11 +29,15 @@ namespace HughPathFinding
 
             if (startNode.isWalkable && targetNode.isWalkable)
             {
-                List<Node> openSet = new List<Node>(astarGrid.MaxSize); //거리를 계사한해야할 노드 집합
-                HashSet<Node> closedSet = new HashSet<Node>(); //이미 계산이 완료된 노드 집합
+                //List<Node> openSet = new List<Node>(); //거리를 계사한해야할 노드 집합
+                Heap<Node> openSet = new Heap<Node>(astarGrid.MaxSize);
+                HashSet <Node> closedSet = new HashSet<Node>(); //이미 계산이 완료된 노드 집합
                 openSet.Add(startNode);
+                
                 while (0 < openSet.Count)
                 {
+                    Node curNode = openSet.RemoveFirst();
+                    /*
                     Node curNode = openSet[0];
                     for (int i = 1; i < openSet.Count; i++)
                     {
@@ -46,12 +50,14 @@ namespace HughPathFinding
                         }
                     }
                     openSet.Remove(curNode);
+                    */
+
                     closedSet.Add(curNode);
                     if (curNode == targetNode)
                     {
                         findPathDone = true;
-                        stopWatch.Stop();
-                        print("Path Found Time: " + stopWatch.ElapsedMilliseconds + " ms");
+                        //stopWatch.Stop();
+                        //print("Path Found Time: " + stopWatch.ElapsedMilliseconds + " ms");
                         break;
                     }
 

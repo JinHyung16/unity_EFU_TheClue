@@ -51,7 +51,7 @@ public class TimerManager : MonoBehaviour
     {
         if (IsTimerStart && !IsTimeDone)
         {
-            if (curTime > 0.0f)
+            if (0.0f < curTime)
             {
                 curTime -= Time.deltaTime;
                 UpdateTimer(curTime);

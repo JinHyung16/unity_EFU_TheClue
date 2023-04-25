@@ -11,12 +11,9 @@ public class TestPlayer : MonoBehaviour
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
-    }
-
-    private void Start()
-    {
         PathManager.GetInstance.SetTargetPosition(this.transform);
     }
+
     private void Update()
     {
         moveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));

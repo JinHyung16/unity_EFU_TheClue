@@ -30,9 +30,10 @@ namespace HughPathFinding
 
         [SerializeField] private PathFinding pathFinding; //최단 경로를 찾아주는 script
 
-        [SerializeField] private Transform playerTransform; //target position
+        private Transform playerTramsform;
+        public Transform TargetTransform { get { return this.playerTramsform; } } //target position
 
-        private Queue<Path> pathQueue = new Queue<Path>(); //찾은 path data를 넣는 queue
+        private Queue<Path> pathQueue = new Queue<Path>(); //찾은 movePath data를 넣는 queue
         private Path curPath; //현재 경로
 
         private bool isProcessingPathDone; //현재 찾은 경로에 대해 처리가 다 끝났는지 확인
@@ -50,7 +51,7 @@ namespace HughPathFinding
 
         public void RequestPath(Vector3 start, Action<Vector3[], bool> callback)
         {
-            Path newPath = new Path(start, playerTransform.position, callback);
+            Path newPath = new Path(start, playerTramsform.position, callback);
             pathQueue.Enqueue(newPath);
             TryNextPathFind();
         }
@@ -64,7 +65,7 @@ namespace HughPathFinding
 
         public void SetTargetPosition(Transform target)
         {
-            this.playerTransform = target;
+            this.playerTramsform = target;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace HughPathFinding
     {
         private T[] itemArray;
         private int curItemCount;
-        public int HeapCount { get { return this.curItemCount; } }
+        public int Count { get { return this.curItemCount; } }
         public Heap(int maxHeapSize)
         {
             itemArray = new T[maxHeapSize];

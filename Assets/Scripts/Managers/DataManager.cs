@@ -39,8 +39,8 @@ public class DataManager : Singleton<DataManager>
         if (!File.Exists(checkPath))
         {
             string jsonData = JsonUtility.ToJson(data);
-            string path = Path.Combine(Application.dataPath + jsonFilePath, GameDataFileName);
-            File.WriteAllText(path, jsonData);
+            string movePath = Path.Combine(Application.dataPath + jsonFilePath, GameDataFileName);
+            File.WriteAllText(movePath, jsonData);
         }
         else
         {
@@ -61,11 +61,11 @@ public class DataManager : Singleton<DataManager>
         data = JsonUtility.FromJson<GameProgressData>(json);
         return data;
         /*
-        string path = Path.Combine(Application.dataPath + jsonFilePath, GameDataFileName);
+        string movePath = Path.Combine(Application.dataPath + jsonFilePath, GameDataFileName);
         GameProgressData data = new GameProgressData();
-        if (File.Exists(path))
+        if (File.Exists(movePath))
         {
-            string jsonData = File.ReadAllText(path);
+            string jsonData = File.ReadAllText(movePath);
             data = JsonUtility.FromJson<GameProgressData>(jsonData);
 #if UNITY_EDITOR
             Debug.Log("DataManager: 저장된 게임 데이터 불러오기 완료");
