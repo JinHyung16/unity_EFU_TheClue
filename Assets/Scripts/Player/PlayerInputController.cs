@@ -56,7 +56,6 @@ public class PlayerInputController : MonoBehaviour
         if (!GameManager.GetInstance.IsInputStop && !GameManager.GetInstance.IsUIOpen)
         {
             InputMovementControl();
-            InputJumpControl();
             InputMouseViewControl();
             InputInteractiveKey();
         }
@@ -84,17 +83,6 @@ public class PlayerInputController : MonoBehaviour
         playerTransform.forward = lookForward; //player가 바라보는 방향과 카메라가 바라보는 방향 동일하게 설정
         playerMovementController.MoveDirection(moveDir); //moveDir방향으로 움직이고, 만약 1인칭 시점으로 바뀌면 moveInput 넣는다.
 
-    }
-
-    /// <summary>
-    /// player 점프 입력
-    /// </summary>
-    private void InputJumpControl()
-    {
-        if (Input.GetButtonDown("Jump"))
-        {
-            playerMovementController.JumpDirection(Vector3.up);
-        }
     }
 
     /// <summary>
@@ -165,13 +153,16 @@ public class PlayerInputController : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            if (GameManager.GetInstance.CameraInteractive != null && ThemeSecondPresenter.GetInstance.IsInteractiveNum == 1)
+            if (GameManager.GetInstance.CameraInteractive != null && ThemeSecondPresenter.GetInstance != null)
             {
-                GameObject obj = InventoryManager.GetInstance.GetInvenObject();
-                if (obj != null)
+                if (ThemeSecondPresenter.GetInstance.IsInteractiveNum == 1)
                 {
-                    obj.transform.Rotate(0.0f, -Input.GetAxis("Mouse X") * gameSetUpData.mouseDragSpeed, 0.0f, Space.World);
-                    obj.transform.Rotate(-Input.GetAxis("Mouse Y") * gameSetUpData.mouseDragSpeed, 0.0f, 0.0f);
+                    GameObject obj = InventoryManager.GetInstance.GetInvenObject();
+                    if (obj != null)
+                    {
+                        obj.transform.Rotate(0.0f, -Input.GetAxis("Mouse X") * gameSetUpData.mouseDragSpeed, 0.0f, Space.World);
+                        obj.transform.Rotate(-Input.GetAxis("Mouse Y") * gameSetUpData.mouseDragSpeed, 0.0f, 0.0f);
+                    }
                 }
             }
         }

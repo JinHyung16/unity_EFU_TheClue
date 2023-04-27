@@ -28,6 +28,15 @@ public class Door : InteractiveObject
         }
     }
 
+    protected override void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            InteractiveManager.GetInstance.IsInteractive = true;
+            this.Interacitve();
+        }
+    }
+
     protected override void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -65,7 +74,7 @@ public class Door : InteractiveObject
         tokenSource = new CancellationTokenSource();
 
         doorCanvas.enabled = false;
-        offset = new Vector3(1.0f, 1.5f, -0.3f);
+        offset = new Vector3(0, 0.2f, 0);
 
         if (ThemeSecondPresenter.GetInstance != null)
         {

@@ -27,6 +27,8 @@ namespace HughEnumData
         ThemeSecond_ShowCase,
         ThemeSecond_WristWatch, //손목시계
         ThemeSecond_WallClock, //벽걸이 시계
+
+        ThemeThird_TeleportationBtn,
     }
 
     public enum AnimationType

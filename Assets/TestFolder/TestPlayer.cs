@@ -1,3 +1,4 @@
+using DG.Tweening;
 using HughPathFinding;
 using System.Collections;
 using System.Collections.Generic;

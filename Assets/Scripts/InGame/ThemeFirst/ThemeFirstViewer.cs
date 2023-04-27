@@ -71,19 +71,19 @@ public class ThemeFirstViewer : MonoBehaviour
     #region Game Result Canvas하위 Button 기능
     public void GoToMain()
     {
-        SceneController.GetInstance.LoadScene("Main");
         GameManager.GetInstance.GameClear();
+        SceneController.GetInstance.LoadScene("Main");
     }
 
     public void NextStage()
     {
-        SceneController.GetInstance.LoadScene("ThemeSecond");
         GameManager.GetInstance.GameClear();
+        SceneController.GetInstance.LoadScene("ThemeSecond");
     }
     public void RetryGame()
     {
-        SceneController.GetInstance.LoadScene("ThemeFirst");
         GameManager.GetInstance.GameClear();
+        SceneController.GetInstance.LoadScene("ThemeFirst");
     }
 
     public void QuitGame()

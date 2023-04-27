@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c555dbaeb65153b4986ebe03c08a637e, type: 3}
   m_Name: GameSetUpData
   m_EditorClassIdentifier: 
-  cameraPosZ: -2
-  cameraViewPosY: 4.5
+  cameraPosZ: -0.8
+  cameraViewPosY: 1.5
   characterTransform: {x: 0, y: 0, z: -2}
-  moveSpeed: 3
+  moveSpeed: 1.8
   jumpPower: 20
   cameraRotateSpeed: 1.5
   mouseDragSpeed: 4
@@ -23,7 +23,6 @@ MonoBehaviour:
   interactiveKey: 101
   notInteractiveKey: 102
   throwOutInvenKey: 103
-  missionKey: 109
   firstInvenSelectKey: 49
   secondInvenSelectKey: 50
   thirdInvenSelectKey: 51

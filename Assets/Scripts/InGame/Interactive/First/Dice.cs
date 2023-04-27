@@ -40,10 +40,18 @@ public class Dice : InteractiveObject
     {
         dicePatternSpriteArray = diceData.patternSpriteArray;
         dicePatternNameArray = diceData.patternNameArray;
-        offset = new Vector3(0, 0.8f, 0);
+        offset = new Vector3(0, 0.3f, 0);
     }
     #region InteractiveObject Override
     protected override void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            InteractiveManager.GetInstance.IsInteractive = true;
+            this.Interacitve();
+        }
+    }
+    protected override void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {

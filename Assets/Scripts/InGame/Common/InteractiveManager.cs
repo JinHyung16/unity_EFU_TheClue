@@ -154,6 +154,9 @@ public class InteractiveManager : MonoBehaviour
                     }
                 }
                 break;
+            case InteractiveType.ThemeThird_TeleportationBtn:
+                ThemeThirdPresenter.GetInstance.TeleportationStart();
+                break;
             default:
                 break;
         }

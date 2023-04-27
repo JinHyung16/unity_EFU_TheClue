@@ -25,7 +25,14 @@ public class NPC : InteractiveObject
             Interacitve();
         }
     }
-
+    protected override void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            InteractiveManager.GetInstance.IsInteractive = true;
+            this.Interacitve();
+        }
+    }
     protected override void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))

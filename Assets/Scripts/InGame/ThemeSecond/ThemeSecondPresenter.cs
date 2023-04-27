@@ -60,7 +60,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         GameManager.GetInstance.CameraTheme = this.cameraMain;
         GameManager.GetInstance.CameraInteractive = this.cameraInteractive;
         GameManager.GetInstance.PlayerCameraStack(this.cameraMain);
-        //this.cameraMain.cullingMask = 0;
+
         this.cameraInteractive.cullingMask = 0;
         this.cameraInteractive.enabled = false;
 

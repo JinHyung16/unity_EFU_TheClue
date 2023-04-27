@@ -8,6 +8,12 @@ public class Switch : InteractiveObject
 
     private Vector3 offset;
 
+    private void Start()
+    {
+        switchBtnTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        offset = new Vector3(0, 0.2f, -0.3f);
+    }
+
     #region InteractiveObject Override
     protected override void OnTriggerEnter(Collider other)
     {
@@ -17,7 +23,14 @@ public class Switch : InteractiveObject
             this.Interacitve();
         }
     }
-
+    protected override void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            InteractiveManager.GetInstance.IsInteractive = true;
+            this.Interacitve();
+        }
+    }
     protected override void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -46,12 +59,6 @@ public class Switch : InteractiveObject
     }
 
     #endregion
-
-    private void Start()
-    {
-        switchBtnTransform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
-        offset = new Vector3(0, 1.5f, -0.3f);
-    }
 
     public void SwitchButtonRotate()
     {

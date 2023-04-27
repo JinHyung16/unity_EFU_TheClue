@@ -24,6 +24,9 @@ public class Note : InteractiveObject
     {
     }
 
+    protected override void OnTriggerStay(Collider other)
+    {
+    }
     protected override void OnTriggerExit(Collider other)
     {
     }

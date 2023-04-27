@@ -27,7 +27,7 @@ public class Tile : InteractiveObject
 
     private void Start()
     {
-        offset = new Vector3(0.5f, 1.0f, 0);
+        offset = new Vector3(0.2f, 0.3f, 0);
     }
 
     public void InitialTileSetting(Transform transform, Color color)
@@ -38,6 +38,18 @@ public class Tile : InteractiveObject
 
     #region InteractiveObject Override
     protected override void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (!IsSetDice)
+            {
+                InteractiveManager.GetInstance.IsInteractive = true;
+                this.Interacitve();
+            }
+        }
+    }
+
+    protected override void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {

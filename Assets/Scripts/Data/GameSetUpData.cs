@@ -16,13 +16,12 @@ public class GameSetUpData : ScriptableObject
     public float cameraViewPosY;
 
     //Character 하위에 있는 Player와 CameraView 위치 세팅
-    [Header("CameraView Setting into Character Object")]
+    [Header("Character Object Spawn Position")]
     public Vector3 characterTransform;
 
     //PlayerMovement의 사용되는 데이터
     [Header("Player Movement And Input Data")]
     public float moveSpeed;
-    public float jumpPower;
     public float cameraRotateSpeed;
     public float mouseDragSpeed;
 

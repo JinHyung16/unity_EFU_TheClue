@@ -31,11 +31,19 @@ public class Cube : InteractiveObject
     private void Start()
     {
         cubeSpriteArray = diceData.patternSpriteArray;
-        offset = new Vector3(0, 1.0f, 0);
+        offset = new Vector3(0, 0.5f, 0);
     }
 
     #region InteractiveObject Override
     protected override void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            InteractiveManager.GetInstance.IsInteractive = true;
+            this.Interacitve();
+        }
+    }
+    protected override void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {

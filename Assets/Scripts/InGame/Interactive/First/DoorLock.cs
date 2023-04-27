@@ -9,8 +9,21 @@ public class DoorLock : InteractiveObject
     [SerializeField] Transform doorLockTransform;
     private Vector3 offset;
 
+    private void Start()
+    {
+        offset = new Vector3(0, 0.3f, 0.0f);
+    }
+
     #region InteractiveObject Override
     protected override void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            InteractiveManager.GetInstance.IsInteractive = true;
+            this.Interacitve();
+        }
+    }
+    protected override void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
@@ -48,8 +61,4 @@ public class DoorLock : InteractiveObject
 
     #endregion
 
-    private void Start()
-    {
-        offset = new Vector3(0, 1.0f, -0.3f);
-    }
 }
