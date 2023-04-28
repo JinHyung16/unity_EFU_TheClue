@@ -112,6 +112,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -5448346876705321697, guid: ceb027c7c639bf042bd6018a49e7427e, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5448346876705321697, guid: ceb027c7c639bf042bd6018a49e7427e, type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5448346876705321697, guid: ceb027c7c639bf042bd6018a49e7427e, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5448346876705321697, guid: ceb027c7c639bf042bd6018a49e7427e, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: aaca8c0d13c56c644ae6ef4098b6a7c1, type: 2}

@@ -13,7 +13,8 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     [Header("Camera들")]
     [SerializeField] private Camera cameraMain;
     [SerializeField] private Camera cameraInteractive;
-    [SerializeField] private List<Transform> camInterPosList = new List<Transform>();
+    [SerializeField] private Animator cameraInteractiveAnimator;
+    [SerializeField] private Transform camInterPos;
 
     [SerializeField] private Transform oceanTransform;
     private float risingOceanTime = 0.0f;
@@ -40,7 +41,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
         TimerManager.GetInstance.ThemeTime = 120.0f;
 
-        risingOceanTime = 15.0f;
+        risingOceanTime = 12.0f;
 
         if (tokenSource != null)
         {
@@ -48,6 +49,17 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
             tokenSource.Dispose();
         }
         tokenSource = new CancellationTokenSource();
+    }
+
+    private void OnDisable()
+    {
+        tokenSource.Cancel();
+    }
+
+    private void OnDestroy()
+    {
+        tokenSource.Cancel();
+        tokenSource.Dispose();
     }
 
     private void CmaInteractiveSet(Transform transform, bool isActive)
@@ -80,17 +92,12 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
     private async UniTaskVoid CameraAnimation()
     {
-        CmaInteractiveSet(camInterPosList[0], true);
-        cameraInteractive.transform.DOMove(new Vector3(0, 150.0f, 0), 3.0f);
-        cameraInteractive.DOShakePosition(3.0f, 7.0f);
-        await UniTask.Delay(TimeSpan.FromSeconds(3.0f), cancellationToken: tokenSource.Token);
-        cameraInteractive.transform.position = new Vector3(0, 0, 0);
-        cameraInteractive.transform.rotation = Quaternion.Euler(0, 0, 0);
-        await UniTask.Delay(TimeSpan.FromSeconds(0.2f), cancellationToken: tokenSource.Token);
-        CmaInteractiveSet(camInterPosList[1], true);
-        await UniTask.Delay(TimeSpan.FromSeconds(1.0f), cancellationToken: tokenSource.Token);
-        CmaInteractiveSet(camInterPosList[1], false);
-        oceanTransform.DOMoveY(1.0f, risingOceanTime, false);
+        cameraInteractive.transform.DOShakePosition(1.5f, 7.0f, fadeOut: true);
+        CmaInteractiveSet(camInterPos, true);
+        await UniTask.Delay(TimeSpan.FromSeconds(2.0f), cancellationToken: tokenSource.Token);
+        cameraInteractiveAnimator.SetTrigger("onCamAnim");
+        await UniTask.Delay(TimeSpan.FromSeconds(2.2f), cancellationToken: tokenSource.Token);
+        CmaInteractiveSet(camInterPos, false);
     }
 
     private async UniTaskVoid RisingOcean()
