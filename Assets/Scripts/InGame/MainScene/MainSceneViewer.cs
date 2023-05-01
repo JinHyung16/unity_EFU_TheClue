@@ -39,7 +39,8 @@ public class MainSceneViewer : MonoBehaviour
             UIManager.GetInstance.ClearAllPanel();
         }
     }
-    
+
+    #region Button Functions
     /// <summary>
     /// 게임 시작 버튼을 누르면 호출하여 테마 선택 창을 보여준다.
     /// 호출시 어떤 창을 열건지 이름을 전달해준다.
@@ -66,4 +67,5 @@ public class MainSceneViewer : MonoBehaviour
         string themeName = EventSystem.current.currentSelectedGameObject.GetComponent<ThemeSelectData>().ThemeName;
         MainScenePresenter.GetInstance.ThemeSelectedAndLoadScene(themeName);
     }
+    #endregion
 }

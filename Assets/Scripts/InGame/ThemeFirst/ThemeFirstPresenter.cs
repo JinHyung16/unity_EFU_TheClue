@@ -14,6 +14,9 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
     [SerializeField] private ThemeFirstViewer themeFirstViewer;
 
+    [Header("Global Light")]
+    [SerializeField] private Light globalLight;
+
     [Header("Switch SpotLight")]
     [SerializeField] private Light switchSpotLight;
     [SerializeField] private List<UnityEngine.Color> colorList;
@@ -66,6 +69,8 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         //this.cameraMain.cullingMask = 0; //noting으로 설정
         GameManager.GetInstance.PlayerCameraStack(this.cameraMain);
 
+        globalLight.color = new Color(0.5f, 0.5f, 0.5f);
+
         switchLightIndex = 1;
         successDiceSetTile = 0;
         SetTileRandom();
@@ -110,6 +115,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     {
         if (tokenSource != null)
         {
+            tokenSource.Cancel();
             tokenSource.Dispose();
         }
         tokenSource = new CancellationTokenSource();
@@ -121,13 +127,14 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
                 switchLightIndex = 1;
             }
             switchSpotLight.enabled = false;
+            globalLight.color = new Color(0, 0, 0);
             AutoSwitchChange().Forget();
         }
         else
         {
             AutoTileColorChange(UnityEngine.Color.black);
             switchSpotLight.color = colorList[0];
-
+            globalLight.color = new Color(0.5f, 0.5f, 0.5f);
             switchSpotLight.enabled = true;
             IsSwitchOn = false;
         }

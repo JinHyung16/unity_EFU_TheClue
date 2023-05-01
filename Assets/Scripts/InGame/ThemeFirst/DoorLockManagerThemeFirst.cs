@@ -54,6 +54,7 @@ public class DoorLockManagerThemeFirst : MonoBehaviour
     private void InputDoorLockKeyPad()
     {
         int index = int.Parse(EventSystem.current.currentSelectedGameObject.name);
+        Debug.Log("ThemeFirst DoorLock: " + index);
         UpdateDoorLockDisplay(index);
     }
 
@@ -73,6 +74,7 @@ public class DoorLockManagerThemeFirst : MonoBehaviour
             int temp = index - 7;
             displayImageList[displayIndex].sprite = doorLockImageList[doorLockRandomIndex[temp]];
         }
+
         displayIndex += 1;
     }
 
@@ -85,6 +87,8 @@ public class DoorLockManagerThemeFirst : MonoBehaviour
         {
             displayImageList[i].sprite = null;
         }
+
+        displayIndex = 0;
     }
 
     /// <summary>

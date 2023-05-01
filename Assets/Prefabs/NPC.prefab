@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5985059203687914666}
   - component: {fileID: 5985059203687914664}
   - component: {fileID: 5985059203687914661}
+  - component: {fileID: 7646005031614293507}
   m_Layer: 0
   m_Name: NPC
   m_TagString: Untagged
@@ -58,8 +59,28 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.95534, y: 1.6198268, z: 0.5540149}
-  m_Center: {x: -0.0017676353, y: 0.8919499, z: 0.2461021}
+  m_Size: {x: 1.3713504, y: 1.5934253, z: 1.1039827}
+  m_Center: {x: 0.040258914, y: 0.87874913, z: 0.192173}
+--- !u!95 &7646005031614293507
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5985059203687914665}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c83de732c692f9d4e95f7d68d160c609, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1001 &5985059204009100552
 PrefabInstance:
   m_ObjectHideFlags: 0

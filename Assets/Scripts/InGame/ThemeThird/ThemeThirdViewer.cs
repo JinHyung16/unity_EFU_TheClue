@@ -8,6 +8,9 @@ public class ThemeThirdViewer : MonoBehaviour
 {
     [SerializeField] private List<Canvas> canvasList = new List<Canvas>();
 
+    [Header("BtnInteractive Text")]
+    [SerializeField] private TMP_Text btnInteractiveTxt;
+
     [Header("Timer Text")]
     [SerializeField] private TMP_Text resultTimerText;
     private void Start()
@@ -18,10 +21,10 @@ public class ThemeThirdViewer : MonoBehaviour
         }
     }
 
-    public void GoToChaseMap()
+    public void BtnInteractoveOn(string _text)
     {
-        GameManager.GetInstance.GameClear();
-        SceneController.GetInstance.LoadScene("ThemeThird_Chase");
+        btnInteractiveTxt.text = _text;
+        UIManager.GetInstance.ShowCanvas("BtnInteractive Canvas");
     }
 
     #region Game Result Canvas하위 Button 기능

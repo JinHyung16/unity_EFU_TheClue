@@ -154,8 +154,14 @@ public class InteractiveManager : MonoBehaviour
                     }
                 }
                 break;
-            case InteractiveType.ThemeThird_TeleportationBtn:
-                ThemeThirdPresenter.GetInstance.TeleportationStart();
+            case InteractiveType.ThemeThird_Btn_GetKey:
+                //ThemeThirdPresenter.GetInstance.DropTheKeyByButton();
+                break;
+            case InteractiveType.ThemeThird_Btn_Destroy:
+                //ThemeThirdPresenter.GetInstance.DropTheKeyByButton();
+                break;
+            case InteractiveType.ThemeThird_Btn_CallNPC:
+                //ThemeThirdPresenter.GetInstance.DropTheKeyByButton();
                 break;
             default:
                 break;

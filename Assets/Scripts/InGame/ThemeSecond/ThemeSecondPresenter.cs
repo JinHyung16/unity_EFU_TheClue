@@ -145,7 +145,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         var obj = InventoryManager.GetInstance.GetInvenObject();
         if (obj != null)
         {
-            obj.transform.position = cameraInteractive.transform.position + new Vector3(0, 0, 1.0f);
+            obj.transform.position = cameraInteractive.transform.position + new Vector3(0, 0, 0.6f);
             obj.transform.LookAt(cameraInteractive.transform);
             obj.SetActive(true);
         }
@@ -169,14 +169,14 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         {
             obj.transform.position = keyPutInPos.position;
             obj.transform.rotation = keyPutInPos.rotation;
-            obj.transform.DOMove(keyPutInPos.position + new Vector3(0, 0, 0.55f), 3.0f, false).SetEase(Ease.Linear);
+            obj.transform.DOMove(keyPutInPos.position + new Vector3(0, 0, 0.2f), 3.0f, false).SetEase(Ease.Linear);
             isDoorKeyPutIn = true;
             DoorKeyAnimationDone().Forget();
         }
         else
         {
             obj.transform.position = keyPutInPos.position;
-            obj.transform.DOMove(keyPutInPos.position + new Vector3(0, 0, 0.55f), 3.0f, false).SetEase(Ease.Linear);
+            obj.transform.DOMove(keyPutInPos.position + new Vector3(0, 0, 0.2f), 3.0f, false).SetEase(Ease.Linear);
             isDoorKeyPutIn = false;
             DoorKeyAnimationDone().Forget();
         }

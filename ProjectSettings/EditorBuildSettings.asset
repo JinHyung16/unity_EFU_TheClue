@@ -19,8 +19,5 @@ EditorBuildSettings:
     guid: 6f7cadeb7faa42e4680cd6ca0274ca41
   - enabled: 1
     path: Assets/Scenes/ThemeThird.unity
-    guid: 1482ac5b1d2a9be4eb898e58aa78fda8
-  - enabled: 1
-    path: Assets/Scenes/ThemeThird_Chase.unity
     guid: 36c46ead4911eb943b779c82367eeb74
   m_configObjects: {}

@@ -12,7 +12,7 @@ public class ShowCase : InteractiveObject
     private void Start()
     {
         offset = new Vector3(0, 1.2f, 0.0f);
-        showcaseTopTransform.position = showcaseTransform.position + new Vector3(0, 1.6f, 0);
+        showcaseTopTransform.position = showcaseTransform.position + new Vector3(0, 1.25f, 0);
     }
     #region InteractiveObject Override
     protected override void OnTriggerEnter(Collider other)

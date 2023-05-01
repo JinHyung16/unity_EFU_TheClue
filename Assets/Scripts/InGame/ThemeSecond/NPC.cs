@@ -13,7 +13,7 @@ public class NPC : InteractiveObject
     private void Start()
     {
         anim = GetComponentInChildren<Animator>();
-        offset = new Vector3(0, 4.8f, -0.3f);
+        offset = new Vector3(0, 1.8f, 0);
     }
 
     #region InteractiveObject Override

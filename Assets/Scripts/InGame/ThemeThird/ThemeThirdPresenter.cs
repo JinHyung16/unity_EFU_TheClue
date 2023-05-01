@@ -16,9 +16,6 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     [SerializeField] private Animator cameraInteractiveAnimator;
     [SerializeField] private Transform camInterPos;
 
-    [SerializeField] private Transform oceanTransform;
-    private float risingOceanTime = 0.0f;
-
     private CancellationTokenSource tokenSource;
 
     private string themeName = "ThemeThird";
@@ -41,14 +38,14 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
         TimerManager.GetInstance.ThemeTime = 120.0f;
 
-        risingOceanTime = 12.0f;
-
         if (tokenSource != null)
         {
             tokenSource.Cancel();
             tokenSource.Dispose();
         }
         tokenSource = new CancellationTokenSource();
+
+        CameraAnimation().Forget();
     }
 
     private void OnDisable()
@@ -82,27 +79,31 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
             this.cameraInteractive.enabled = false;
         }
     }
-    
-
-    public void TeleportationStart()
-    {
-        CameraAnimation().Forget();
-        RisingOcean().Forget();
-    }
 
     private async UniTaskVoid CameraAnimation()
     {
-        cameraInteractive.transform.DOShakePosition(1.5f, 7.0f, fadeOut: true);
         CmaInteractiveSet(camInterPos, true);
-        await UniTask.Delay(TimeSpan.FromSeconds(2.0f), cancellationToken: tokenSource.Token);
         cameraInteractiveAnimator.SetTrigger("onCamAnim");
-        await UniTask.Delay(TimeSpan.FromSeconds(2.2f), cancellationToken: tokenSource.Token);
+        await UniTask.Delay(TimeSpan.FromSeconds(10.0f), cancellationToken: tokenSource.Token);
         CmaInteractiveSet(camInterPos, false);
     }
 
-    private async UniTaskVoid RisingOcean()
+
+    public void DropTheKeyByButton()
     {
-        await UniTask.Delay(TimeSpan.FromSeconds(risingOceanTime), cancellationToken: tokenSource.Token);
-        themeThirdViewer.GoToChaseMap();
+        string text = "Something is dropped";
+        themeThirdViewer.BtnInteractoveOn(text);
+    }
+
+    public void DestroyMapByButton()
+    {
+        string text = "Something is destroyed";
+        themeThirdViewer.BtnInteractoveOn(text);
+    }
+
+    public void CallNPCByButton()
+    {
+        string text = "Someone is coming";
+        themeThirdViewer.BtnInteractoveOn(text);
     }
 }

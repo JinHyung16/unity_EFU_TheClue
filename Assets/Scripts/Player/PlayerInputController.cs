@@ -133,7 +133,7 @@ public class PlayerInputController : MonoBehaviour
                             else
                             {
                                 hitObj = hit.collider.gameObject;
-                                hit.collider.gameObject.transform.position = GameManager.GetInstance.CameraInteractive.transform.position + new Vector3(0, -1.0f, 0);
+                                hit.collider.gameObject.transform.position = GameManager.GetInstance.CameraInteractive.transform.position + new Vector3(0, -0.5f, 0);
                             }
                         }
                         if (hit.collider.gameObject.CompareTag("Note") && 
@@ -248,20 +248,4 @@ public class PlayerInputController : MonoBehaviour
             }
         }
     }
-
-/*
-private void InputRay()
-{
-    Ray ray = GameManager.GetInstance.CameraInteractive.ScreenPointToRay(Input.mousePosition);
-    if (Physics.Raycast(ray, out RaycastHit hit))
-    {
-        if (hit.collider.CompareTag("Interactive"))
-        {
-            hit.transform.Rotate(0.0f, -Input.GetAxis("Mouse X") * gameSetUpData.mouseDragSpeed, 0.0f, Space.World);
-            hit.transform.Rotate(-Input.GetAxis("Mouse Y") * gameSetUpData.mouseDragSpeed, 0.0f, 0.0f);
-        }
-    }
-}
-*/
-
 }
