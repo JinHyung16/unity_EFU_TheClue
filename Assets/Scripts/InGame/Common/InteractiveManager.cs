@@ -82,7 +82,7 @@ public class InteractiveManager : MonoBehaviour
                 {
                     ThemeFirstPresenter.GetInstance.OpenDoorLockUI();
                 }
-                if (ThemeSecondPresenter.GetInstance != null)
+                else if (ThemeSecondPresenter.GetInstance != null)
                 {
                     ThemeSecondPresenter.GetInstance.OpenDoorLockUI();
                 }
@@ -104,7 +104,7 @@ public class InteractiveManager : MonoBehaviour
                 {
                     inventoryObj.GetComponent<Door>().DoorOpenToEscape();
                 }
-                if (ThemeSecondPresenter.GetInstance != null)
+                else if (ThemeSecondPresenter.GetInstance != null)
                 {
                     ThemeSecondPresenter.GetInstance.DoorKeyHoleInteractive(true);
                     inventoryObj.GetComponent<Door>().DoorColorChange();
@@ -142,7 +142,7 @@ public class InteractiveManager : MonoBehaviour
                 {
                     ThemeFirstPresenter.GetInstance.NPCInteractiveShowMission();
                 }
-                if (ThemeSecondPresenter.GetInstance != null)
+                else if (ThemeSecondPresenter.GetInstance != null)
                 {
                     if (!ThemeSecondPresenter.GetInstance.IsNPCFirstTalk)
                     {
@@ -155,13 +155,10 @@ public class InteractiveManager : MonoBehaviour
                 }
                 break;
             case InteractiveType.ThemeThird_Btn_GetKey:
-                //ThemeThirdPresenter.GetInstance.DropTheKeyByButton();
-                break;
-            case InteractiveType.ThemeThird_Btn_Destroy:
-                //ThemeThirdPresenter.GetInstance.DropTheKeyByButton();
+                ThemeThirdPresenter.GetInstance.DropTheKeyByButton();
                 break;
             case InteractiveType.ThemeThird_Btn_CallNPC:
-                //ThemeThirdPresenter.GetInstance.DropTheKeyByButton();
+                ThemeThirdPresenter.GetInstance.CallNPCByButton();
                 break;
             default:
                 break;

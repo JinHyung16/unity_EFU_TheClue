@@ -5,7 +5,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
@@ -22,6 +21,9 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     [SerializeField] private Transform doorKeyPutInDoorCamPos;
 
     [SerializeField] private Transform keyPutInPos; //열쇠 넣기 진행시 시작 위치
+
+    [Header("Global Light")]
+    [SerializeField] private Light globalLight;
 
     [Header("Switch SpotLight")]
     [SerializeField] private Light switchSpotLight;
@@ -49,6 +51,8 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     {
         switchSpotLight.color = Color.white;
         switchSpotLight.enabled = true;
+
+        globalLight.color = new Color(1, 1, 1);
     }
 
     private void Start()
@@ -90,9 +94,14 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         if (code.Equals(doorLockSuccessCode))
         {
             GameClear(true);
+            string context = "무언가 열리는 소리가 들렸는데?!";
+            themeSecondViewer.NarrativeCanvase(context);
         }
         else
         {
+            string context = "좋지 않은 예감이 든다...";
+            themeSecondViewer.NarrativeCanvase(context);
+
             numOfDoorLockAttempsCnt++;
             if (3 <= numOfDoorLockAttempsCnt)
             {
@@ -131,10 +140,12 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     {
         if (switchSpotLight.enabled)
         {
+            globalLight.color = new Color(0, 0, 0);
             switchSpotLight.enabled = false;
         }
         else
         {
+            globalLight.color = new Color(1, 1, 1);
             switchSpotLight.enabled = true;
         }
     }
@@ -213,6 +224,9 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
                 obj.SetActive(true);
             }
             themeSecondViewer.InteractiveDoorCanvas();
+
+            string context = "문을 열 만한 물체를 찾아야 하나?";
+            themeSecondViewer.NarrativeCanvase(context);
         }
         else
         {
@@ -236,6 +250,9 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             CmaInteractiveSet(interactiveCamMovePosList[1], true);
             showcaseTopTransform.DOMove(showcaseTopTransform.position + new Vector3(0, 0, -3.3f), 0.8f, false);
             themeSecondViewer.InteractiveShowcanseCanvasOpen();
+
+            string context = "손목시계를 자세히 봐볼까?";
+            themeSecondViewer.NarrativeCanvase(context);
         }
         else
         {

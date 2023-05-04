@@ -1,5 +1,8 @@
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 
@@ -8,23 +11,42 @@ public class ThemeThirdViewer : MonoBehaviour
 {
     [SerializeField] private List<Canvas> canvasList = new List<Canvas>();
 
-    [Header("BtnInteractive Text")]
-    [SerializeField] private TMP_Text btnInteractiveTxt;
+    [Header("Narrative UI들")]
+    [SerializeField] private Canvas narrativeCanvas;
+    [SerializeField] private TMP_Text narrativeText;
 
     [Header("Timer Text")]
     [SerializeField] private TMP_Text resultTimerText;
+
+    private CancellationTokenSource tokenSource;
     private void Start()
     {
         for (int i = 0; i < canvasList.Count; i++)
         {
             UIManager.GetInstance.AddCanvasInDictionary(canvasList[i].name, canvasList[i]);
         }
+
+        narrativeCanvas.enabled = false;
+
+        if (tokenSource != null)
+        {
+            tokenSource.Cancel();
+            tokenSource.Dispose();
+        }
+        tokenSource = new CancellationTokenSource();
     }
 
-    public void BtnInteractoveOn(string _text)
+    public void NarrativeCanvas(string context)
     {
-        btnInteractiveTxt.text = _text;
-        UIManager.GetInstance.ShowCanvas("BtnInteractive Canvas");
+        narrativeText.text = context;
+        NarrativeUI().Forget();
+    }
+
+    private async UniTaskVoid NarrativeUI()
+    {
+        narrativeCanvas.enabled = true;
+        await UniTask.Delay(TimeSpan.FromSeconds(1.5f), cancellationToken: tokenSource.Token);
+        narrativeCanvas.enabled = false;
     }
 
     #region Game Result Canvas하위 Button 기능
@@ -37,7 +59,7 @@ public class ThemeThirdViewer : MonoBehaviour
     public void NextStage()
     {
         GameManager.GetInstance.GameClear();
-        SceneController.GetInstance.LoadScene("ThemeThird");
+        SceneController.GetInstance.LoadScene("Main");
     }
     public void RetryGame()
     {

@@ -10,11 +10,22 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 {
     [SerializeField] private ThemeThirdViewer themeThirdViewer;
 
-    [Header("Camera들")]
+    [Header("Camera 관련 데이터들")]
     [SerializeField] private Camera cameraMain;
     [SerializeField] private Camera cameraInteractive;
     [SerializeField] private Animator cameraInteractiveAnimator;
     [SerializeField] private Transform camInterPos;
+
+    [Header("Region Button 관련 데이터들")]
+    [SerializeField] private GameObject regionKeys;
+    [SerializeField] private GameObject regionCallNpc;
+
+    [Header("Enemies 데이터들")]
+    [SerializeField] private PrisonOfficer enemyPrisonOfficer;
+    [SerializeField] private GradStudent enemyGradStudent;
+
+    public Transform IsCallingPositions { get { return this.regionCallNpc.transform; } }
+    public bool IsCallEnemy { get; set; } = false;
 
     private CancellationTokenSource tokenSource;
 
@@ -91,19 +102,14 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
     public void DropTheKeyByButton()
     {
-        string text = "Something is dropped";
-        themeThirdViewer.BtnInteractoveOn(text);
-    }
-
-    public void DestroyMapByButton()
-    {
-        string text = "Something is destroyed";
-        themeThirdViewer.BtnInteractoveOn(text);
+        string text = "주위에 무언가 떨어진 소리가 들렸다!!!";
+        themeThirdViewer.NarrativeCanvas(text);
     }
 
     public void CallNPCByButton()
     {
-        string text = "Someone is coming";
-        themeThirdViewer.BtnInteractoveOn(text);
+        IsCallEnemy = true;
+        string text = "누가 다가오는거 같다!!!";
+        themeThirdViewer.NarrativeCanvas(text);
     }
 }

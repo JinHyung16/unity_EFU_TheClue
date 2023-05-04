@@ -29,7 +29,6 @@ namespace HughEnumData
         ThemeSecond_WallClock, //벽걸이 시계
 
         ThemeThird_Btn_GetKey,
-        ThemeThird_Btn_Destroy,
         ThemeThird_Btn_CallNPC,
     }
 

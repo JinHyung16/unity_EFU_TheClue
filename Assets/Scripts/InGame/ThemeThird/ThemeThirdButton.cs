@@ -65,10 +65,7 @@ public class ThemeThirdButton : InteractiveObject
                 myType = InteractiveType.ThemeThird_Btn_GetKey;
                 break;
             case 1:
-                myType = InteractiveType.ThemeThird_Btn_Destroy;
-                break;
-            case 2:
-                myType = InteractiveType.ThemeThird_Btn_GetKey;
+                myType = InteractiveType.ThemeThird_Btn_CallNPC;
                 break;
         }
         return myType;

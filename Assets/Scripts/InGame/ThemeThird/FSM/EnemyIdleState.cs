@@ -18,25 +18,26 @@ public class EnemyIdleState : BaseFSM<EnemyFSM>
 
     private float curTime = 0.0f;
     private float secTime = 0.0f;
-    public override void EnterState(EnemyFSM _state)
+    public override void EnterState(EnemyFSM state)
     {
         curTime = 5.0f;
         secTime = 0.0f;
 
-        _state.MovementStop();
-        _state.SetAimation(0);
+        state.MovementStop();
+        state.SetAimation(0);
 
         Debug.Log("EnemyIdleState 진입");
     }
 
-    public override void UpdateState(EnemyFSM _state)
+    public override void UpdateState(EnemyFSM state)
     {
-        if (_state.IsAttackRange)
+        if (state.IsAttackRange)
         {
-            _state.ChangeState(EnemyAttackState.GetInstance);
+            state.ChangeState(EnemyAttackState.GetInstance);
             Debug.Log("EnemyIdle에서 공격임을 받고있다");
         }
-        else {
+        else 
+        {
 
             if (curTime > 0.0f)
             {
@@ -52,21 +53,19 @@ public class EnemyIdleState : BaseFSM<EnemyFSM>
                 }
             }
 
-            Debug.Log("SecTime: " + secTime);
-
             if (secTime == 0.0f)
             {
                 //이 부분에서 멈춰있는데 가깝게 있으면 움직이려하니깐 오류남
-                _state.ChangeState(EnemyMoveState.GetInstance);
+                state.ChangeState(EnemyMoveState.GetInstance);
             }
             else
             {
-                _state.MovementStop();
+                state.MovementStop();
             }
         }
     }
 
-    public override void ExitState(EnemyFSM _state)
+    public override void ExitState(EnemyFSM state)
     {
     }
 }

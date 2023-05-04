@@ -28,7 +28,7 @@ public class EnemyAttackState : BaseFSM<EnemyFSM>
 
         if (_state.IsAttackRange)
         {
-             
+            _state.AttackEnemy();
         }
     }
 

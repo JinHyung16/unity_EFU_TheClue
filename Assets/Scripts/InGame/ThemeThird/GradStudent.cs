@@ -7,6 +7,8 @@ using UnityEngine;
 public class GradStudent : EnemyFSM
 {
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float rayMaxDistance;
+    [SerializeField] private Transform enemyHead;
 
     private Animator enemyAnimator;
     private StateMachine<EnemyFSM> enemyState;
@@ -19,6 +21,8 @@ public class GradStudent : EnemyFSM
     private Transform targetTransform; //충돌시 target의 위치
     private Vector3 targetLookDir; //target을 바라보는 방향 담을 변수
 
+    private bool onChaseTarget = false;
+
     //Attack Range
     public override bool IsAttackRange
     {
@@ -27,6 +31,8 @@ public class GradStudent : EnemyFSM
             return base.IsAttackRange;
         }
     }
+
+    public override bool IsCallEnemy { get => base.IsCallEnemy; set => base.IsCallEnemy = value; }
 
     private void Start()
     {
@@ -42,6 +48,21 @@ public class GradStudent : EnemyFSM
     protected override void Update()
     {
         enemyState.UpdateFSM();
+
+        if (Physics.Raycast(enemyHead.position, transform.forward, out RaycastHit hit, rayMaxDistance))
+        {
+            if (hit.collider.CompareTag("Player"))
+            {
+                onChaseTarget = true;
+                Debug.Log("전방에 Player 출현: " + onChaseTarget);
+            }
+            else
+            {
+                onChaseTarget = false;
+            }
+            Debug.DrawRay(enemyHead.position, transform.forward * 10.0f, Color.red);
+            Debug.Log("전방에 Player없음: " + onChaseTarget);
+        }
     }
 
     protected override void OnTriggerEnter(Collider other)
@@ -91,7 +112,7 @@ public class GradStudent : EnemyFSM
 
     public override void MovementStart()
     {
-        PathManager.GetInstance.RequestPath(transform.position, PathFindCallBack);
+        PathManager.GetInstance.RequestPath(transform.position, PathFindCallBack, onChaseTarget);
     }
 
     public override void MovementStop()

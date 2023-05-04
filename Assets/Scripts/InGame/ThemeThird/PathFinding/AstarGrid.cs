@@ -7,7 +7,7 @@ namespace HughPathFinding
     public class AstarGrid : MonoBehaviour
     {
         [SerializeField] private LayerMask obstacleLayerMask;
-        [SerializeField] private Vector2 gridWorldSize;
+        [SerializeField] private Vector2 gridWorldSize; //2차원이라 평면처럼 그림
         [SerializeField] private float nodeRadius; //0.5f 추천
         [SerializeField] private float distanceBetweenNodes; //0.1f 추천
 

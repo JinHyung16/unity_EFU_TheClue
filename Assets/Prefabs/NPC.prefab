@@ -138,7 +138,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5448346876705321697, guid: ceb027c7c639bf042bd6018a49e7427e, type: 3}
       propertyPath: m_DynamicOccludee
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5448346876705321697, guid: ceb027c7c639bf042bd6018a49e7427e, type: 3}
       propertyPath: m_LightProbeUsage

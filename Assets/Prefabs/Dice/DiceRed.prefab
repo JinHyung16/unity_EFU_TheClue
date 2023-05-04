@@ -62,7 +62,7 @@ MonoBehaviour:
   diceTransform: {fileID: 8105845121767516018}
   diceData: {fileID: 11400000, guid: 1a6f9462d8f0992468c2de7cd1d69210, type: 2}
   dicePatternColor: {r: 1, g: 0, b: 0, a: 1}
-  dicePatternSprite: {fileID: -1109644401, guid: 3d1ec20d895e68144b90861605711e14, type: 3}
+  dicePatternSprite: {fileID: 985749485, guid: a28d6bbe695d78442bf69e3da5796ff5, type: 3}
 --- !u!1001 &8105845122459478716
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120,7 +120,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
       propertyPath: m_DynamicOccludee
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
       propertyPath: m_LightProbeUsage

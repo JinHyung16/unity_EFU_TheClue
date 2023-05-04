@@ -19,6 +19,7 @@ public class PrisonOfficer : EnemyFSM
     private Transform targetTransform; //충돌시 target의 위치
     private Vector3 targetLookDir; //target을 바라보는 방향 담을 변수
 
+    public override bool IsCallEnemy { get => base.IsCallEnemy; set => base.IsCallEnemy = value; }
     //Attack Range
     public override bool IsAttackRange
     {
@@ -34,9 +35,11 @@ public class PrisonOfficer : EnemyFSM
 
         enemyState = new StateMachine<EnemyFSM>();
 
+        /*
         enemyState.InitialSetting(this, EnemyIdleState.GetInstance);
 
         pathFindIEnum = MoveToPath();
+        */
     }
 
     protected override void Update()
@@ -90,7 +93,7 @@ public class PrisonOfficer : EnemyFSM
 
     public override void MovementStart()
     {
-        PathManager.GetInstance.RequestPath(transform.position, PathFindCallBack);
+        PathManager.GetInstance.RequestPath(transform.position, PathFindCallBack, true);
     }
 
     public override void MovementStop()

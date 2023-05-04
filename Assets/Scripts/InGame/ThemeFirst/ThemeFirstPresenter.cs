@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using HughGenerics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
@@ -69,7 +70,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         //this.cameraMain.cullingMask = 0; //noting으로 설정
         GameManager.GetInstance.PlayerCameraStack(this.cameraMain);
 
-        globalLight.color = new Color(0.5f, 0.5f, 0.5f);
+        globalLight.color = new Color(1, 1, 1);
 
         switchLightIndex = 1;
         successDiceSetTile = 0;
@@ -107,6 +108,9 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
             numOfDoorLockAttempsCnt = 0;
             themeFirstViewer.OpenResultCanvas(false);
         }
+
+        string context = "좋지 않은 예감이 든다...";
+        themeFirstViewer.NarrativeCanvase(context);
     }
     #endregion
 
@@ -127,14 +131,14 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
                 switchLightIndex = 1;
             }
             switchSpotLight.enabled = false;
-            globalLight.color = new Color(0, 0, 0);
+            globalLight.color = new Color(0.3f, 0.3f, 0.3f);
             AutoSwitchChange().Forget();
         }
         else
         {
             AutoTileColorChange(UnityEngine.Color.black);
             switchSpotLight.color = colorList[0];
-            globalLight.color = new Color(0.5f, 0.5f, 0.5f);
+            globalLight.color = new Color(1, 1, 1);
             switchSpotLight.enabled = true;
             IsSwitchOn = false;
         }
@@ -316,14 +320,22 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     public void DicePutOnTileCheck(bool isDone)
     {
         themeFirstViewer.CloseCanvas();
-        if (isDone)
+        if (isDone == true)
         {
-            successDiceSetTile ++;
+            successDiceSetTile++;
             if (3 <= successDiceSetTile)
             {
                 successDiceSetTile = 0;
                 GameManager.GetInstance.IsGameClear = true;
             }
+
+            string context = "타일에 배치됐다. 무언가 열리는 소리가 들렸다.";
+            themeFirstViewer.NarrativeCanvase(context);
+        }
+        else
+        {
+            string context = "타일에 배치가 잘못된 거 같다... 무슨 소리지?";
+            themeFirstViewer.NarrativeCanvase(context);
         }
     }
     #endregion

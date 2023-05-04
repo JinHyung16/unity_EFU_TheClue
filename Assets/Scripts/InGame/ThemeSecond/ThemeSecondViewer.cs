@@ -1,20 +1,51 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using HughEnumData;
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
-using HughEnumData;
+
+
 public class ThemeSecondViewer : MonoBehaviour
 {
     [SerializeField] private List<Canvas> canvasList = new List<Canvas>();
 
+    [Header("Narrative UI들")]
+    [SerializeField] private Canvas narrativeCanvas;
+    [SerializeField] private TMP_Text narrativeText;
+
     [Header("Timer Text")]
     [SerializeField] private TMP_Text resultTimerText;
+
+    private CancellationTokenSource tokenSource;
     private void Start()
     {
         for (int i = 0; i < canvasList.Count; i++)
         {
             UIManager.GetInstance.AddCanvasInDictionary(canvasList[i].name, canvasList[i]);
         }
+
+        narrativeCanvas.enabled = false;
+
+        if (tokenSource != null)
+        {
+            tokenSource.Cancel();
+            tokenSource.Dispose();
+        }
+        tokenSource = new CancellationTokenSource();
+    }
+
+    public void NarrativeCanvase(string context)
+    {
+        narrativeText.text = context;
+        NarrativeUI().Forget();
+    }
+    private async UniTaskVoid NarrativeUI()
+    {
+        narrativeCanvas.enabled = true;
+        await UniTask.Delay(TimeSpan.FromSeconds(1.5f), cancellationToken: tokenSource.Token);
+        narrativeCanvas.enabled = false;
     }
 
     public void DoorLockCanvasOpen()

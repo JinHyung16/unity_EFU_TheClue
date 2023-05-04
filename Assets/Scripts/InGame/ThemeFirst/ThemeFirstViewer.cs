@@ -1,6 +1,8 @@
+using Cysharp.Threading.Tasks;
 using HughEnumData;
-using System.Collections;
+using System;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 
@@ -9,8 +11,14 @@ public class ThemeFirstViewer : MonoBehaviour
     [Header("하위의 있는 Canvas 담을 List")]
     [SerializeField] private List<Canvas> canvasList = new List<Canvas>();
 
+    [Header("Narrative UI들")]
+    [SerializeField] private Canvas narrativeCanvas;
+    [SerializeField] private TMP_Text narrativeText;
+
     [Header("Timer Text")]
     [SerializeField] private TMP_Text resultTimerText;
+
+    private CancellationTokenSource tokenSource;
 
     private void Start()
     {
@@ -18,14 +26,15 @@ public class ThemeFirstViewer : MonoBehaviour
         {
             UIManager.GetInstance.AddCanvasInDictionary(canvas.name, canvas);
         }
-    }
 
-    private void OnDisable()
-    {
-        if (UIManager.GetInstance != null)
+        narrativeCanvas.enabled = false;
+
+        if (tokenSource != null)
         {
-            UIManager.GetInstance.ClearAllCanvas();
+            tokenSource.Cancel();
+            tokenSource.Dispose();
         }
+        tokenSource = new CancellationTokenSource();
     }
 
     /// <summary>
@@ -60,6 +69,19 @@ public class ThemeFirstViewer : MonoBehaviour
             PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_Died);
             UIManager.GetInstance.ShowCanvas("GameFailedResult Canvas");
         }
+    }
+
+    public void NarrativeCanvase(string context)
+    {
+        narrativeText.text = context;
+        NarrativeUI().Forget();
+    }
+
+    private async UniTaskVoid NarrativeUI()
+    {
+        narrativeCanvas.enabled = true;
+        await UniTask.Delay(TimeSpan.FromSeconds(1.5f), cancellationToken: tokenSource.Token);
+        narrativeCanvas.enabled = false;
     }
 
     public void NPCMissionCanvasOpen()

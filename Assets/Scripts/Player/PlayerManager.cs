@@ -8,7 +8,7 @@ public class PlayerManager : MonoBehaviour
 {
     [Header("Player Camera")]
     [SerializeField] private Camera playerCamera;
-
+    
     [Header("GameSetUpData")]
     [SerializeField] private GameSetUpData gameSetUpData;
 
@@ -25,7 +25,19 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-        playerTransform.position = gameSetUpData.characterTransform;
+        if (ThemeFirstPresenter.GetInstance != null)
+        {
+            playerTransform.position = gameSetUpData.themeFirstSpawnPos;
+        }
+        else if (ThemeSecondPresenter.GetInstance != null)
+        {
+            playerTransform.position = gameSetUpData.themeSecondSpawnPos;
+        }
+        else if (ThemeThirdPresenter.GetInstance != null)
+        {
+            playerTransform.position = gameSetUpData.themeThirdSpawnPos;
+        }
+        //playerTransform.position = gameSetUpData.themeFirstSpawnPos;
         playerCameraTrans.position = playerTransform.position + new Vector3(0, 0, gameSetUpData.cameraPosZ);
         cameraViewTrans.position = playerTransform.position + new Vector3(0, gameSetUpData.cameraViewPosY, 0);
 

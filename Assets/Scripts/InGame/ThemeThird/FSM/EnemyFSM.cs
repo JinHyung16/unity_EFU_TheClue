@@ -21,7 +21,7 @@ public class EnemyFSM : MonoBehaviour
 
     //Attack Range
     public virtual bool IsAttackRange { get; protected set; } = false;
-
+    public virtual bool IsCallEnemy { get; set; } = false;
     private void Start()
     {
         //enemyAnimator = GetComponent<Animator>();

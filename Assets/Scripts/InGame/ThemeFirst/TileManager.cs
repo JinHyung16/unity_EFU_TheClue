@@ -24,6 +24,7 @@ public class TileManager : MonoBehaviour
     private Color curTileColor;
     private bool curTileIsEscapeKey = false;
     private bool curTileIsSetDice = false;
+    private string curTilePatternName = "";
 
     private GameObject invenObj = null;
     private GameObject patternObject = null; //해당 pattern의 object
@@ -39,6 +40,7 @@ public class TileManager : MonoBehaviour
 
         var tile = patternObject.GetComponent<Tile>();
         tilePatternImg.sprite = tile.TilePatternSprite;
+        curTilePatternName = tilePatternImg.sprite.name.ToString().Substring(0, 9);
         curTileIsEscapeKey = tile.IsEscapeKey;
         curTileIsSetDice = tile.IsSetDice;
 
@@ -103,7 +105,7 @@ public class TileManager : MonoBehaviour
 
         if ((diceScript != null))
         {
-            if (curTileIsEscapeKey && (curTileColor == diceScript.GetDicePatternColor))
+            if (curTileIsEscapeKey && curTileColor == diceScript.GetDicePatternColor && curTilePatternName == diceScript.DicePatternName)
             {
                 patternObject.GetComponent<Tile>().IsSetDice = true;
                 patternObject.GetComponent<Tile>().SetDiceDone();
@@ -114,9 +116,18 @@ public class TileManager : MonoBehaviour
                 patternObject = null;
                 diceScript = null;
                 objPatternImage.sprite = null;
-                themeFirstViewer.CloseCanvas();
+            }
+            else
+            {
+                ThemeFirstPresenter.GetInstance.DicePutOnTileCheck(false);
             }
         }
+        else
+        {
+            ThemeFirstPresenter.GetInstance.DicePutOnTileCheck(false);
+        }
+
+        themeFirstViewer.CloseCanvas();
     }
 
 

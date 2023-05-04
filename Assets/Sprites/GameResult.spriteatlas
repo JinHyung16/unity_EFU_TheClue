@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GameResult
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 1024
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 1024
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 50
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 8
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: c1ba419f884281a4d91b61d5df434f8a, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: -496245915, guid: 70da6c7098b7fc94f825c8988967f645, type: 3}
+  - {fileID: -1718992222, guid: 70da6c7098b7fc94f825c8988967f645, type: 3}
+  - {fileID: 1762867671, guid: c3dc1aa1bc65a74428182b5a330ebfd5, type: 3}
+  - {fileID: -1593925234, guid: c3dc1aa1bc65a74428182b5a330ebfd5, type: 3}
+  - {fileID: 1997941823, guid: c3dc1aa1bc65a74428182b5a330ebfd5, type: 3}
+  - {fileID: -788134662, guid: 98aeee07a68af944691ecb647eca1a0b, type: 3}
+  - {fileID: 623573138, guid: 1099f74750d24c6499e0591014ad0aed, type: 3}
+  - {fileID: -743254091, guid: c22d51b805c86064f86f8b1c792f5cca, type: 3}
+  - {fileID: 743947278, guid: 443d0d29e55aa244f80f83544488d98e, type: 3}
+  - {fileID: 1345182796, guid: d21bea9960a140e47984c2975726a308, type: 3}
+  - {fileID: 2015421975, guid: 4d89c47a6877ca349b4da69ed36fa9f7, type: 3}
+  - {fileID: 1291965871, guid: 9647bc3b117f9bb478e0d9520c7cd10a, type: 3}
+  - {fileID: 1981922089, guid: 8021dfae0b2cb4b4d8b8f49c793daae9, type: 3}
+  - {fileID: -424015259, guid: 8021dfae0b2cb4b4d8b8f49c793daae9, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - icon_0
+  - icon_2
+  - theme_text_1
+  - theme_text_0
+  - theme_text_2
+  - fail_0
+  - next_0
+  - timer_1
+  - retry_highlight_0
+  - next_highlight_0
+  - retry_0
+  - clear_0
+  - icon_highlight_0
+  - icon_highlight_1
+  m_RenderDataMap: {}
+  m_Tag: GameResult
+  m_IsVariant: 0

@@ -21,7 +21,7 @@ public class EnemyAI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            PathManager.GetInstance.RequestPath(transform.position, PathFindCallBack);
+            PathManager.GetInstance.RequestPath(transform.position, PathFindCallBack, true);
         }
     }
 

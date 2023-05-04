@@ -20,7 +20,7 @@ public class DoorKey : InteractiveObject
 
     private void Start()
     {
-        offset = new Vector3(0, 0.8f, 0);
+        offset = new Vector3(0, 0.3f, 0);
         this.gameObject.transform.position = originPosition.transform.position;
         this.gameObject.transform.rotation = originPosition.transform.rotation;
     }

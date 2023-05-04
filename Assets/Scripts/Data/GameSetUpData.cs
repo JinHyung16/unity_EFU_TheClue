@@ -17,7 +17,9 @@ public class GameSetUpData : ScriptableObject
 
     //Character 하위에 있는 Player와 CameraView 위치 세팅
     [Header("Character Object Spawn Position")]
-    public Vector3 characterTransform;
+    public Vector3 themeFirstSpawnPos;
+    public Vector3 themeSecondSpawnPos;
+    public Vector3 themeThirdSpawnPos;
 
     //PlayerMovement의 사용되는 데이터
     [Header("Player Movement And Input Data")]

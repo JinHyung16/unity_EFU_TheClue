@@ -49,9 +49,26 @@ namespace HughPathFinding
             }
         }
 
-        public void RequestPath(Vector3 start, Action<Vector3[], bool> callback)
+        public void RequestPath(Vector3 start, Action<Vector3[], bool> callback, bool onChase)
         {
-            Path newPath = new Path(start, playerTramsform.position, callback);
+            Path newPath;
+            if (onChase)
+            {
+                newPath = new Path(start, playerTramsform.position, callback);
+            }
+            else
+            {
+                if (ThemeThirdPresenter.GetInstance != null && ThemeThirdPresenter.GetInstance.IsCallEnemy)
+                {
+                    newPath = new Path(ThemeThirdPresenter.GetInstance.IsCallingPositions.position, playerTramsform.position, callback);
+                }
+                else
+                {
+                    float x = UnityEngine.Random.Range(-45.0f, 45.0f);
+                    float z = UnityEngine.Random.Range(-45.0f, 45.0f);
+                    newPath = new Path(new Vector3(x, start.y, z), playerTramsform.position, callback);
+                }
+            }
             pathQueue.Enqueue(newPath);
             TryNextPathFind();
         }

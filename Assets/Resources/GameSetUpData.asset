@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraPosZ: -0.8
   cameraViewPosY: 1.5
-  characterTransform: {x: 0, y: 0, z: -2}
+  themeFirstSpawnPos: {x: 4, y: 0.5, z: 0}
+  themeSecondSpawnPos: {x: 0, y: 0.5, z: -3}
+  themeThirdSpawnPos: {x: 0, y: 0.5, z: -12}
   moveSpeed: 1.8
-  jumpPower: 20
   cameraRotateSpeed: 1.5
   mouseDragSpeed: 4
   optionKey: 27
