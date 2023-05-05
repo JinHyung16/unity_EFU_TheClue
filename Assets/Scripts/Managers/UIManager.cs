@@ -25,10 +25,16 @@ public class UIManager : Singleton<UIManager>
 
     public void AddPanelInDictionary(string panelName, GameObject panel)
     {
+        if (panelDictionary == null)
+        {
+            panelDictionary = new Dictionary<string, GameObject>();
+        }
+
+        panelQueue.Clear();
+
         if (panelDictionary.TryGetValue(panelName, out GameObject temp))
         {
             panelDictionary.Clear();
-            panelQueue.Clear();
             return;
         }
         else
@@ -44,13 +50,12 @@ public class UIManager : Singleton<UIManager>
         {
             if (panelQueue.Contains(obj))
             {
-                var removeObj = panelQueue.Peek();
-                removeObj.SetActive(false);
+                obj.SetActive(false);
                 panelQueue.Clear();
             }
             else
             {
-                if (panelQueue.Count > 0)
+                if (0 < panelQueue.Count)
                 {
                     var removeObj = panelQueue.Peek();
                     removeObj.SetActive(false);

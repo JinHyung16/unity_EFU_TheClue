@@ -47,8 +47,6 @@ public class GradStudent : EnemyFSM
 
     protected override void Update()
     {
-        enemyState.UpdateFSM();
-
         if (Physics.Raycast(enemyHead.position, transform.forward, out RaycastHit hit, rayMaxDistance))
         {
             if (hit.collider.CompareTag("Player"))
@@ -60,9 +58,11 @@ public class GradStudent : EnemyFSM
             {
                 onChaseTarget = false;
             }
-            Debug.DrawRay(enemyHead.position, transform.forward * 10.0f, Color.red);
+            Debug.DrawRay(enemyHead.position, transform.forward * rayMaxDistance, Color.red);
             Debug.Log("전방에 Player없음: " + onChaseTarget);
         }
+
+        enemyState.UpdateFSM();
     }
 
     protected override void OnTriggerEnter(Collider other)

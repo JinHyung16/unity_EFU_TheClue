@@ -45,9 +45,14 @@ public class MainSceneViewer : MonoBehaviour
     /// 게임 시작 버튼을 누르면 호출하여 테마 선택 창을 보여준다.
     /// 호출시 어떤 창을 열건지 이름을 전달해준다.
     /// </summary>
-    public void StartGame()
+    public void ThemeSelectButton()
     {
         UIManager.GetInstance.ShowPanel("ThemeSelect Panel");
+    }
+
+    public void SettingButton()
+    {
+        UIManager.GetInstance.ShowPanel("Setting Panel");
     }
 
     /// <summary>

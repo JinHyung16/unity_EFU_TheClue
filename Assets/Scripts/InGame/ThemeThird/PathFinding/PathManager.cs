@@ -66,7 +66,7 @@ namespace HughPathFinding
                 {
                     float x = UnityEngine.Random.Range(-45.0f, 45.0f);
                     float z = UnityEngine.Random.Range(-45.0f, 45.0f);
-                    newPath = new Path(new Vector3(x, start.y, z), playerTramsform.position, callback);
+                    newPath = new Path(start, new Vector3(x, start.y, z), callback);
                 }
             }
             pathQueue.Enqueue(newPath);

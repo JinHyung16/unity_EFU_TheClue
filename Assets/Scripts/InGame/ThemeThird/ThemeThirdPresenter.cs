@@ -95,7 +95,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     {
         CmaInteractiveSet(camInterPos, true);
         cameraInteractiveAnimator.SetTrigger("onCamAnim");
-        await UniTask.Delay(TimeSpan.FromSeconds(10.0f), cancellationToken: tokenSource.Token);
+        await UniTask.Delay(TimeSpan.FromSeconds(8.0f), cancellationToken: tokenSource.Token);
         CmaInteractiveSet(camInterPos, false);
     }
 
