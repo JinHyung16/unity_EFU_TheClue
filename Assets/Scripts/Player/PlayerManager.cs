@@ -21,6 +21,9 @@ public class PlayerManager : MonoBehaviour
     [Header("Player Camera Transform")]
     [SerializeField] private Transform playerCameraTrans; //player cameraMain 그 자체
 
+    [Header("Player Camera Sub Transform")]
+    [SerializeField] private Transform playerCameraSubTrans; //player cameraMain 그 자체
+
     private Transform themeCameraTransform;
 
     private void Start()
@@ -39,6 +42,7 @@ public class PlayerManager : MonoBehaviour
         }
         //playerTransform.position = gameSetUpData.themeFirstSpawnPos;
         playerCameraTrans.position = playerTransform.position + new Vector3(0, 0, gameSetUpData.cameraPosZ);
+        playerCameraSubTrans.position = playerCameraTrans.position;
         cameraViewTrans.position = playerTransform.position + new Vector3(0, gameSetUpData.cameraViewPosY, 0);
 
         if (Time.timeScale == 0)

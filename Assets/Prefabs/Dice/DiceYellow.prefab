@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4240862391917485026}
   - component: {fileID: 4240862391917485024}
   - component: {fileID: 4240862391917485025}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DiceYellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,12 +123,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: e0fce65c1db7d5e46998b0c1815abe6a, type: 2}
     - target: {fileID: 919132149155446097, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
       propertyPath: m_Name
       value: Theme01_Dice
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
       propertyPath: m_StaticEditorFlags

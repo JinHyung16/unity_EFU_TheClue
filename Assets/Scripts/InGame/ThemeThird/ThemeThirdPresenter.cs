@@ -21,7 +21,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     [SerializeField] private GameObject regionCallNpc;
 
     [Header("Enemies 데이터들")]
-    [SerializeField] private PrisonOfficer enemyPrisonOfficer;
+    [SerializeField] private Professor enemyPrisonOfficer;
     [SerializeField] private GradStudent enemyGradStudent;
 
     public Transform IsCallingPositions { get { return this.regionCallNpc.transform; } }
@@ -56,7 +56,11 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         }
         tokenSource = new CancellationTokenSource();
 
-        CameraAnimation().Forget();
+
+        CamInteractiveSet(cameraInteractive.transform, true);
+        themeThirdViewer.DialogueStart();
+
+        //CameraAnimation().Forget();
     }
 
     private void OnDisable()
@@ -70,7 +74,11 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         tokenSource.Dispose();
     }
 
-    private void CmaInteractiveSet(Transform transform, bool isActive)
+    public void DoneDialogue()
+    {
+        CamInteractiveSet(cameraInteractive.transform, false);
+    }
+    private void CamInteractiveSet(Transform transform, bool isActive)
     {
         this.cameraInteractive.transform.position = transform.position;
         this.cameraInteractive.transform.rotation = transform.rotation;
@@ -93,10 +101,10 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
     private async UniTaskVoid CameraAnimation()
     {
-        CmaInteractiveSet(camInterPos, true);
+        CamInteractiveSet(camInterPos, true);
         cameraInteractiveAnimator.SetTrigger("onCamAnim");
         await UniTask.Delay(TimeSpan.FromSeconds(8.0f), cancellationToken: tokenSource.Token);
-        CmaInteractiveSet(camInterPos, false);
+        CamInteractiveSet(camInterPos, false);
     }
 
 

@@ -5,13 +5,19 @@ using System.Collections.Generic;
 using System.Threading;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ThemeFirstViewer : MonoBehaviour
 {
     [Header("하위의 있는 Canvas 담을 List")]
     [SerializeField] private List<Canvas> canvasList = new List<Canvas>();
 
+    [Header("Dialogue UI들")]
+    [SerializeField] private Button nextDialogueBtn;
+    [SerializeField] private TMP_Text dialgoueText;
+
     [Header("Narrative UI들")]
+    private int dialgoueIndex = 0;
     [SerializeField] private Canvas narrativeCanvas;
     [SerializeField] private TMP_Text narrativeText;
 
@@ -27,6 +33,8 @@ public class ThemeFirstViewer : MonoBehaviour
             UIManager.GetInstance.AddCanvasInDictionary(canvas.name, canvas);
         }
 
+        nextDialogueBtn.onClick.AddListener(NextDialogueBtn);
+
         narrativeCanvas.enabled = false;
 
         if (tokenSource != null)
@@ -35,6 +43,27 @@ public class ThemeFirstViewer : MonoBehaviour
             tokenSource.Dispose();
         }
         tokenSource = new CancellationTokenSource();
+    }
+
+    public void DialogueStart()
+    {
+        Time.timeScale = 0;
+        dialgoueIndex = 0;
+        dialgoueText.text = DataManager.GetInstance.ThemeFirstContent[0];
+        UIManager.GetInstance.ShowCanvas("Dialogue Canvas");
+    }
+
+    private void NextDialogueBtn()
+    {
+        dialgoueIndex += 1;
+        if (DataManager.GetInstance.ThemeFirstContent.Count <= dialgoueIndex)
+        {
+            UIManager.GetInstance.HideCanvas();
+            Time.timeScale = 1;
+            ThemeFirstPresenter.GetInstance.DoneDialogue();
+            return;
+        }
+        dialgoueText.text = DataManager.GetInstance.ThemeFirstContent[dialgoueIndex];
     }
 
     /// <summary>

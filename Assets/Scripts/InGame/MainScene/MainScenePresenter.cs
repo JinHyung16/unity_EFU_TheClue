@@ -19,6 +19,8 @@ public class MainScenePresenter : PresenterSingleton<MainScenePresenter>
         {
             ThemeSelectIndex = gameProgressData.themeClearIndex;
         }
+
+        DataManager.GetInstance.ReadDialogueCSV();
     }
 
     public void ThemeSelectedAndLoadScene(string theme)

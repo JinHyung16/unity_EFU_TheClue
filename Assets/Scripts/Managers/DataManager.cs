@@ -107,4 +107,34 @@ public class DataManager : Singleton<DataManager>
         }
         return false;
     }
+
+    #region CSV Data
+
+    public List<string> ThemeFirstContent = new List<string>();
+    public List<string> ThemeSecondContent = new List<string>();
+    public List<string> ThemeThirdContent = new List<string>();
+
+    public void ReadDialogueCSV()
+    {
+        string shopFile = "Dialogue";
+        List<Dictionary<string, string>> csvDataList = CSVReader.ReadFile(shopFile);
+
+        for (int i = 0; i < csvDataList.Count; i++)
+        {
+            string theme = csvDataList[i]["Theme"].ToString();
+            if (theme == "1")
+            {
+                ThemeFirstContent.Add(csvDataList[i]["Content"].ToString());
+            }
+            else if (theme == "2")
+            {
+                ThemeSecondContent.Add(csvDataList[i]["Content"].ToString());
+            }
+            else if (theme == "3")
+            {
+                ThemeThirdContent.Add(csvDataList[i]["Content"].ToString());
+            }
+        }
+    }
+    #endregion
 }

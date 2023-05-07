@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6210331609368018727}
   - component: {fileID: 6210331609368018729}
   - component: {fileID: 6210331609368018728}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DiceBlue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,6 +133,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
       propertyPath: m_Name
       value: Theme01_Dice
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b66908ffcdd53ce419ec89f33215e1e4, type: 3}
       propertyPath: m_StaticEditorFlags

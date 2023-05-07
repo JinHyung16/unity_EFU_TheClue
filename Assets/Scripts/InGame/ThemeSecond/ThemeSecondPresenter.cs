@@ -80,6 +80,14 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             tokenSource.Dispose();
         }
         tokenSource = new CancellationTokenSource();
+
+        CamInteractiveSet(interactiveCamMovePosList[3], true);
+        themeSecondViewer.DialogueStart();
+    }
+
+    public void DoneDialogue()
+    {
+        CamInteractiveSet(interactiveCamMovePosList[3], false);
     }
 
     public void OpenDoorLockUI()
@@ -112,7 +120,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     }
 
     #region Interactive Camera Functions
-    private void CmaInteractiveSet(Transform transform, bool isActive)
+    private void CamInteractiveSet(Transform transform, bool isActive)
     {
         cameraInteractive.transform.position = transform.position;
         cameraInteractive.transform.rotation = transform.rotation;
@@ -175,7 +183,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         }
         tokenSource = new CancellationTokenSource();
 
-        CmaInteractiveSet(doorKeyPutInDoorCamPos, true);
+        CamInteractiveSet(doorKeyPutInDoorCamPos, true);
         if (obj.CompareTag("DoorKey"))
         {
             obj.transform.position = keyPutInPos.position;
@@ -196,7 +204,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     private async UniTaskVoid DoorKeyAnimationDone()
     {
         await UniTask.Delay(TimeSpan.FromSeconds(1.5f), cancellationToken: tokenSource.Token);
-        CmaInteractiveSet(doorKeyPutInDoorCamPos, false);
+        CamInteractiveSet(doorKeyPutInDoorCamPos, false);
         themeSecondViewer.CloseCanvas();
         if (isDoorKeyPutIn)
         {
@@ -211,7 +219,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
 
     public void DoorKeyHoleInteractive(bool active)
     {
-        CmaInteractiveSet(interactiveCamMovePosList[0], true);
+        CamInteractiveSet(interactiveCamMovePosList[0], true);
         GameObject obj = InventoryManager.GetInstance.GetInvenObject();
         if (active)
         {
@@ -235,7 +243,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             {
                 obj.SetActive(false);
             }
-            CmaInteractiveSet(interactiveCamMovePosList[0], false);
+            CamInteractiveSet(interactiveCamMovePosList[0], false);
             themeSecondViewer.CloseCanvas();
         }
     }
@@ -247,7 +255,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             GameManager.GetInstance.Player.transform.position += new Vector3(-1.0f, 0, 0);
             GameManager.GetInstance.IsUIOpen = true;
             IsInteractiveNum = 2;
-            CmaInteractiveSet(interactiveCamMovePosList[1], true);
+            CamInteractiveSet(interactiveCamMovePosList[1], true);
             showcaseTopTransform.DOMove(showcaseTopTransform.position + new Vector3(0, 0, -3.3f), 0.8f, false);
             themeSecondViewer.InteractiveShowcanseCanvasOpen();
 
@@ -263,7 +271,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
                 wristWatches[i].PutDownWristWatch();
             }
             showcaseTopTransform.DOMove(showcaseTopTransform.position + new Vector3(0, 0, 3.3f), 0.8f, false);
-            CmaInteractiveSet(interactiveCamMovePosList[1], false);
+            CamInteractiveSet(interactiveCamMovePosList[1], false);
             themeSecondViewer.CloseCanvas();
         }
     }
@@ -279,7 +287,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             GameManager.GetInstance.Player.transform.position += new Vector3(0, 0, -1.0f);
             GameManager.GetInstance.IsUIOpen = true;
             IsInteractiveNum = 3;
-            CmaInteractiveSet(interactiveCamMovePosList[2], true);
+            CamInteractiveSet(interactiveCamMovePosList[2], true);
             NPCNoteSelectManager.GetInstance.NoteVisibleToSelect();
             themeSecondViewer.NPCSelectNoteCanvasOpen();
         }
@@ -287,7 +295,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         {
             GameManager.GetInstance.IsUIOpen = false;
             IsInteractiveNum = 0;
-            CmaInteractiveSet(interactiveCamMovePosList[2], false);
+            CamInteractiveSet(interactiveCamMovePosList[2], false);
             NPCNoteSelectManager.GetInstance.NoteInvisible();
             themeSecondViewer.CloseCanvas();
         }

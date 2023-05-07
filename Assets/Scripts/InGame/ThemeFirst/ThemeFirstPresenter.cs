@@ -9,11 +9,11 @@ using UnityEngine.UI;
 
 public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 {
-    [Header("Theme Frist의 있는 카메라")]
-    [SerializeField] private Camera cameraMain;
-    public Camera GetMainCamera { get { return cameraMain; } }
-
     [SerializeField] private ThemeFirstViewer themeFirstViewer;
+
+    [Header("Camera Data 바인딩")]
+    [SerializeField] private Camera cameraMain;
+    [SerializeField] private Camera cameraInteractive;
 
     [Header("Global Light")]
     [SerializeField] private Light globalLight;
@@ -24,12 +24,14 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
     [Header("서로 다른 6가지 문양의 Tile")]
     [SerializeField] private TileData tileData;
-    private List<GameObject> tileObjectList; //생성한 9개 타일 오브젝트 담아두기.
 
     [Header("타일 배치할 위치 9곳 list")]
     [SerializeField] private List<Transform> tileSpawnPosList;
-    List<int> remainTileSpawnList; //탈출 키인 3가지 타일 배치한 위치를 제외한 나머지 구역
 
+    private List<GameObject> tileObjectList; //생성한 9개 타일 오브젝트 담아두기.
+    private List<int> remainTileSpawnList; //탈출 키인 3가지 타일 배치한 위치를 제외한 나머지 구역
+
+    public Camera GetMainCamera { get { return cameraMain; } }
 
     private int switchLightIndex; //switch의 불빛을 가져올 배열의 index값
 
@@ -75,6 +77,9 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         switchLightIndex = 1;
         successDiceSetTile = 0;
         SetTileRandom();
+        
+        CamInteractiveSet(cameraInteractive.transform, true);
+        themeFirstViewer.DialogueStart();
     }
 
     private void OnDisable()
@@ -90,6 +95,31 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
             GameManager.GetInstance.IsUIOpen = false;
             GameManager.GetInstance.IsInputStop = false;
         }
+    }
+    private void CamInteractiveSet(Transform transform, bool isActive)
+    {
+        cameraInteractive.transform.position = transform.position;
+        cameraInteractive.transform.rotation = transform.rotation;
+
+        if (isActive)
+        {
+            this.cameraInteractive.cullingMask = -1;
+            cameraInteractive.depth = 1;
+            this.cameraInteractive.enabled = true;
+            GameManager.GetInstance.PlayerCameraControl(false);
+        }
+        else
+        {
+            this.cameraInteractive.cullingMask = 0;
+            cameraInteractive.depth = 0;
+            GameManager.GetInstance.PlayerCameraControl(true);
+            this.cameraInteractive.enabled = false;
+        }
+    }
+
+    public void DoneDialogue()
+    {
+        CamInteractiveSet(cameraInteractive.transform, false);
     }
 
     #region DoorLock
