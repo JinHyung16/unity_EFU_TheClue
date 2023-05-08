@@ -15,6 +15,11 @@ public class DataManager : Singleton<DataManager>
     //Game Session 관련
     private string userSession = "EFU_login";
 
+    private void Start()
+    {
+        ReadDialogueCSV();
+        Debug.Log("DataManager Start");
+    }
     /// <summary>
     /// 현재 게임의 진행 상황을 Josn으로 저장합니다.
     /// 테마 단위로 저장합니다.
@@ -114,7 +119,7 @@ public class DataManager : Singleton<DataManager>
     public List<string> ThemeSecondContent = new List<string>();
     public List<string> ThemeThirdContent = new List<string>();
 
-    public void ReadDialogueCSV()
+    private void ReadDialogueCSV()
     {
         string shopFile = "Dialogue";
         List<Dictionary<string, string>> csvDataList = CSVReader.ReadFile(shopFile);

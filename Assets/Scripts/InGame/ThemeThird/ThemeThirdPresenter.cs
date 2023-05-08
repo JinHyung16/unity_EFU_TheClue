@@ -13,8 +13,8 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     [Header("Camera 관련 데이터들")]
     [SerializeField] private Camera cameraMain;
     [SerializeField] private Camera cameraInteractive;
-    [SerializeField] private Animator cameraInteractiveAnimator;
     [SerializeField] private Transform camInterPos;
+    [SerializeField] private List<Transform> camAnimPosList = new List<Transform>();
 
     [Header("Region Button 관련 데이터들")]
     [SerializeField] private GameObject regionKeys;
@@ -57,10 +57,8 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         tokenSource = new CancellationTokenSource();
 
 
-        CamInteractiveSet(cameraInteractive.transform, true);
+        CamInteractiveSet(camAnimPosList[0].transform, true);
         themeThirdViewer.DialogueStart();
-
-        //CameraAnimation().Forget();
     }
 
     private void OnDisable()
@@ -76,8 +74,9 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
     public void DoneDialogue()
     {
-        CamInteractiveSet(cameraInteractive.transform, false);
+        CamInteractiveSet(camAnimPosList[0].transform, false);
     }
+
     private void CamInteractiveSet(Transform transform, bool isActive)
     {
         this.cameraInteractive.transform.position = transform.position;
@@ -102,7 +101,6 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     private async UniTaskVoid CameraAnimation()
     {
         CamInteractiveSet(camInterPos, true);
-        cameraInteractiveAnimator.SetTrigger("onCamAnim");
         await UniTask.Delay(TimeSpan.FromSeconds(8.0f), cancellationToken: tokenSource.Token);
         CamInteractiveSet(camInterPos, false);
     }

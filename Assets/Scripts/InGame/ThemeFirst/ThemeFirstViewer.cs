@@ -13,11 +13,12 @@ public class ThemeFirstViewer : MonoBehaviour
     [SerializeField] private List<Canvas> canvasList = new List<Canvas>();
 
     [Header("Dialogue UI들")]
+    [SerializeField] private Canvas dialogueCanvas;
     [SerializeField] private Button nextDialogueBtn;
-    [SerializeField] private TMP_Text dialgoueText;
+    [SerializeField] private TMP_Text dialogueText;
+    private int dialgoueIndex = 0;
 
     [Header("Narrative UI들")]
-    private int dialgoueIndex = 0;
     [SerializeField] private Canvas narrativeCanvas;
     [SerializeField] private TMP_Text narrativeText;
 
@@ -26,16 +27,18 @@ public class ThemeFirstViewer : MonoBehaviour
 
     private CancellationTokenSource tokenSource;
 
+    private void Awake()
+    {
+        nextDialogueBtn.onClick.AddListener(NextDialogueBtn);
+        dialogueCanvas.enabled = false;
+        narrativeCanvas.enabled = false;
+    }
     private void Start()
     {
         foreach (var canvas in canvasList)
         {
             UIManager.GetInstance.AddCanvasInDictionary(canvas.name, canvas);
         }
-
-        nextDialogueBtn.onClick.AddListener(NextDialogueBtn);
-
-        narrativeCanvas.enabled = false;
 
         if (tokenSource != null)
         {
@@ -47,10 +50,10 @@ public class ThemeFirstViewer : MonoBehaviour
 
     public void DialogueStart()
     {
-        Time.timeScale = 0;
         dialgoueIndex = 0;
-        dialgoueText.text = DataManager.GetInstance.ThemeFirstContent[0];
-        UIManager.GetInstance.ShowCanvas("Dialogue Canvas");
+        dialogueText.text = DataManager.GetInstance.ThemeFirstContent[0];
+        dialogueCanvas.enabled = true;
+        Time.timeScale = 0;
     }
 
     private void NextDialogueBtn()
@@ -58,12 +61,12 @@ public class ThemeFirstViewer : MonoBehaviour
         dialgoueIndex += 1;
         if (DataManager.GetInstance.ThemeFirstContent.Count <= dialgoueIndex)
         {
-            UIManager.GetInstance.HideCanvas();
+            dialogueCanvas.enabled = false;
             Time.timeScale = 1;
             ThemeFirstPresenter.GetInstance.DoneDialogue();
             return;
         }
-        dialgoueText.text = DataManager.GetInstance.ThemeFirstContent[dialgoueIndex];
+        dialogueText.text = DataManager.GetInstance.ThemeFirstContent[dialgoueIndex];
     }
 
     /// <summary>

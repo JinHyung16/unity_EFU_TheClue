@@ -98,6 +98,11 @@ public class GameManager : Singleton<GameManager>, IDisposable
         playerManager = player.GetComponent<PlayerManager>();
         player.SetActive(true);
 
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+        }
+
         if (PathManager.GetInstance != null)
         {
             PathManager.GetInstance.SetTargetPosition(player.transform);

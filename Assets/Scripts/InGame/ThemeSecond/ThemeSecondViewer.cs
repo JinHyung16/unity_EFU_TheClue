@@ -12,9 +12,10 @@ public class ThemeSecondViewer : MonoBehaviour
     [SerializeField] private List<Canvas> canvasList = new List<Canvas>();
 
     [Header("Dialogue UI들")]
-    private int dialgoueIndex = 0;
+    [SerializeField] private Canvas dialogueCanvas;
     [SerializeField] private Button nextDialogueBtn;
-    [SerializeField] private TMP_Text dialgoueText;
+    [SerializeField] private TMP_Text dialogueText;
+    private int dialgoueIndex = 0;
 
     [Header("Narrative UI들")]
     [SerializeField] private Canvas narrativeCanvas;
@@ -24,14 +25,18 @@ public class ThemeSecondViewer : MonoBehaviour
     [SerializeField] private TMP_Text resultTimerText;
 
     private CancellationTokenSource tokenSource;
+
+    private void Awake()
+    {
+        nextDialogueBtn.onClick.AddListener(NextDialogueBtn);
+        dialogueCanvas.enabled = false;
+    }
     private void Start()
     {
-        for (int i = 0; i < canvasList.Count; i++)
+        foreach (var canvas in canvasList)
         {
-            UIManager.GetInstance.AddCanvasInDictionary(canvasList[i].name, canvasList[i]);
+            UIManager.GetInstance.AddCanvasInDictionary(canvas.name, canvas);
         }
-
-        nextDialogueBtn.onClick.AddListener(NextDialogueBtn);
 
         narrativeCanvas.enabled = false;
 
@@ -45,10 +50,10 @@ public class ThemeSecondViewer : MonoBehaviour
 
     public void DialogueStart()
     {
-        Time.timeScale = 0;
         dialgoueIndex = 0;
-        dialgoueText.text = DataManager.GetInstance.ThemeSecondContent[0];
-        UIManager.GetInstance.ShowCanvas("Dialogue Canvas");
+        dialogueText.text = DataManager.GetInstance.ThemeSecondContent[0];
+        dialogueCanvas.enabled = true;
+        Time.timeScale = 0;
     }
 
     private void NextDialogueBtn()
@@ -56,12 +61,12 @@ public class ThemeSecondViewer : MonoBehaviour
         dialgoueIndex += 1;
         if (DataManager.GetInstance.ThemeSecondContent.Count <= dialgoueIndex)
         {
-            UIManager.GetInstance.HideCanvas();
+            dialogueCanvas.enabled = false;
             Time.timeScale = 1;
             ThemeSecondPresenter.GetInstance.DoneDialogue();
             return;
         }
-        dialgoueText.text = DataManager.GetInstance.ThemeSecondContent[dialgoueIndex];
+        dialogueText.text = DataManager.GetInstance.ThemeSecondContent[dialgoueIndex];
     }
 
     public void NarrativeCanvase(string context)

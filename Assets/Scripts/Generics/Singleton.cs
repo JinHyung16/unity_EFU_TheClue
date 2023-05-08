@@ -45,7 +45,7 @@ namespace HughGenerics
 
         public void OnDestroy()
         {
-            Debug.Log(this.gameObject.name + "destroyed");
+            //Debug.Log(this.gameObject.name + " Destroyed");
         }
     }
 }

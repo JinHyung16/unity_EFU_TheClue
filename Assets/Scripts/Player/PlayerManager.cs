@@ -44,12 +44,6 @@ public class PlayerManager : MonoBehaviour
         playerCameraTrans.position = playerTransform.position + new Vector3(0, 0, gameSetUpData.cameraPosZ);
         playerCameraSubTrans.position = playerCameraTrans.position;
         cameraViewTrans.position = playerTransform.position + new Vector3(0, gameSetUpData.cameraViewPosY, 0);
-
-        if (Time.timeScale == 0)
-        {
-            Debug.Log("PlayerManager에서 Time.timeScale 측정: " + Time.timeScale);
-            Time.timeScale = 1;
-        }
     }
 
     private void OnDisable()

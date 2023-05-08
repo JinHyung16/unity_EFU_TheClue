@@ -53,6 +53,12 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         switchSpotLight.enabled = true;
 
         globalLight.color = new Color(1, 1, 1);
+
+        if (tokenSource != null)
+        {
+            tokenSource.Dispose();
+        }
+        tokenSource = new CancellationTokenSource();
     }
 
     private void Start()
@@ -74,12 +80,6 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         TimerManager.GetInstance.ThemeTime = 900.0f;
 
         numOfDoorLockAttempsCnt = 0;
-
-        if (tokenSource != null)
-        {
-            tokenSource.Dispose();
-        }
-        tokenSource = new CancellationTokenSource();
 
         CamInteractiveSet(interactiveCamMovePosList[3], true);
         themeSecondViewer.DialogueStart();

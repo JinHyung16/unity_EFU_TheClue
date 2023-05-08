@@ -13,10 +13,10 @@ public class ThemeThirdViewer : MonoBehaviour
     [SerializeField] private List<Canvas> canvasList = new List<Canvas>();
 
     [Header("Dialogue UI들")]
-    private int dialgoueIndex = 0;
+    [SerializeField] private Canvas dialogueCanvas;
     [SerializeField] private Button nextDialogueBtn;
     [SerializeField] private TMP_Text dialgoueText;
-
+    private int dialgoueIndex = 0;
 
     [Header("Narrative UI들")]
     [SerializeField] private Canvas narrativeCanvas;
@@ -26,16 +26,19 @@ public class ThemeThirdViewer : MonoBehaviour
     [SerializeField] private TMP_Text resultTimerText;
 
     private CancellationTokenSource tokenSource;
+
+    private void Awake()
+    {
+        nextDialogueBtn.onClick.AddListener(NextDialogueBtn);
+        dialogueCanvas.enabled = false;
+        narrativeCanvas.enabled = false;
+    }
     private void Start()
     {
         for (int i = 0; i < canvasList.Count; i++)
         {
             UIManager.GetInstance.AddCanvasInDictionary(canvasList[i].name, canvasList[i]);
         }
-
-        nextDialogueBtn.onClick.AddListener(NextDialogueBtn);
-
-        narrativeCanvas.enabled = false;
 
         if (tokenSource != null)
         {
@@ -47,10 +50,10 @@ public class ThemeThirdViewer : MonoBehaviour
 
     public void DialogueStart()
     {
-        Time.timeScale = 0;
         dialgoueIndex = 0;
         dialgoueText.text = DataManager.GetInstance.ThemeSecondContent[0];
-        UIManager.GetInstance.ShowCanvas("Dialogue Canvas");
+        dialogueCanvas.enabled = true;
+        Time.timeScale = 0;
     }
 
     private void NextDialogueBtn()
@@ -58,7 +61,7 @@ public class ThemeThirdViewer : MonoBehaviour
         dialgoueIndex += 1;
         if (DataManager.GetInstance.ThemeThirdContent.Count <= dialgoueIndex)
         {
-            UIManager.GetInstance.HideCanvas();
+            dialogueCanvas.enabled = false;
             Time.timeScale = 1;
             ThemeThirdPresenter.GetInstance.DoneDialogue();
             return;

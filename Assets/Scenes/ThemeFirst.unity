@@ -795,7 +795,7 @@ RectTransform:
   m_Children:
   - {fileID: 1933938600}
   m_Father: {fileID: 367681346}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1519,12 +1519,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 396134324}
   - {fileID: 1122112092}
   - {fileID: 707052508}
   - {fileID: 1745430209}
   - {fileID: 189619199}
   - {fileID: 1671818730}
+  - {fileID: 396134324}
   - {fileID: 1241986879}
   - {fileID: 1693540791}
   m_Father: {fileID: 0}
@@ -1543,14 +1543,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasList:
-  - {fileID: 396134327}
   - {fileID: 707052511}
   - {fileID: 1745430206}
   - {fileID: 189619203}
   - {fileID: 1241986876}
   - {fileID: 1693540788}
+  dialogueCanvas: {fileID: 396134327}
   nextDialogueBtn: {fileID: 2038407731}
-  dialgoueText: {fileID: 1872662167}
+  dialogueText: {fileID: 1872662167}
   narrativeCanvas: {fileID: 1671818734}
   narrativeText: {fileID: 465677413}
   resultTimerText: {fileID: 361282331}
@@ -1726,7 +1726,7 @@ RectTransform:
   m_Children:
   - {fileID: 1492830404}
   m_Father: {fileID: 367681346}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1792,7 +1792,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 20
   m_TargetDisplay: 0
 --- !u!114 &396134328
 MonoBehaviour:
@@ -3323,7 +3323,7 @@ RectTransform:
   m_Children:
   - {fileID: 1496645564}
   m_Father: {fileID: 367681346}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5376,7 +5376,7 @@ RectTransform:
   - {fileID: 1865153016}
   - {fileID: 521138514}
   m_Father: {fileID: 367681346}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -8403,7 +8403,7 @@ RectTransform:
   m_Children:
   - {fileID: 667603666}
   m_Father: {fileID: 367681346}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -9000,7 +9000,7 @@ RectTransform:
   m_Children:
   - {fileID: 2077024238}
   m_Father: {fileID: 367681346}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -9901,7 +9901,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B\u314B"
+  m_text: "\uD14C\uB9C81"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c557bedb7648da94aa45b3899171b42e, type: 2}
   m_sharedMaterial: {fileID: -4647074472183254193, guid: c557bedb7648da94aa45b3899171b42e, type: 2}
@@ -9928,8 +9928,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 42
+  m_fontSizeBase: 42
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
