@@ -75,7 +75,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         this.cameraInteractive.cullingMask = 0;
         this.cameraInteractive.enabled = false;
 
-        globalLight.color = new Color(1, 1, 1);
+        globalLight.color = new Color(0.7f, 0.7f, 0.7f);
 
         switchLightIndex = 1;
         successDiceSetTile = 0;
@@ -164,14 +164,14 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
                 switchLightIndex = 1;
             }
             switchSpotLight.enabled = false;
-            globalLight.color = new Color(0.3f, 0.3f, 0.3f);
+            globalLight.color = new Color(0, 0, 0);
             AutoSwitchChange().Forget();
         }
         else
         {
             AutoTileColorChange(UnityEngine.Color.black);
             switchSpotLight.color = colorList[0];
-            globalLight.color = new Color(1, 1, 1);
+            globalLight.color = new Color(0.7f, 0.7f, 0.7f);
             switchSpotLight.enabled = true;
             IsSwitchOn = false;
         }
