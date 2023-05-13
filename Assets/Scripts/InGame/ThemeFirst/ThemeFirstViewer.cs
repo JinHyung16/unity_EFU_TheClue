@@ -22,6 +22,10 @@ public class ThemeFirstViewer : MonoBehaviour
     [SerializeField] private Canvas narrativeCanvas;
     [SerializeField] private TMP_Text narrativeText;
 
+    [Header("NPC Mission UI들")]
+    [SerializeField] private List<GameObject> missionList;
+    private int missionIndex = 0;
+
     [Header("Timer Text")]
     [SerializeField] private TMP_Text resultTimerText;
 
@@ -38,6 +42,11 @@ public class ThemeFirstViewer : MonoBehaviour
         foreach (var canvas in canvasList)
         {
             UIManager.GetInstance.AddCanvasInDictionary(canvas.name, canvas);
+        }
+
+        foreach (var mission in missionList)
+        {
+            mission.SetActive(false);
         }
 
         if (tokenSource != null)
@@ -119,6 +128,12 @@ public class ThemeFirstViewer : MonoBehaviour
     public void NPCMissionCanvasOpen()
     {
         GameManager.GetInstance.IsUIOpen = true;
+        if (missionList.Count <= missionIndex)
+        {
+            missionIndex = 0;
+        }
+        missionList[missionIndex].SetActive(true);
+        missionIndex += 1;
         UIManager.GetInstance.ShowCanvas("NPCMission Canvas");
     }
 

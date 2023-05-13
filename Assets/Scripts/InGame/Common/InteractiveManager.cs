@@ -102,12 +102,11 @@ public class InteractiveManager : MonoBehaviour
                 PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_OpenDoor);
                 if (ThemeFirstPresenter.GetInstance != null)
                 {
-                    inventoryObj.GetComponent<Door>().DoorOpenToEscape();
+                    ThemeFirstPresenter.GetInstance.DoorOpen();
                 }
                 else if (ThemeSecondPresenter.GetInstance != null)
                 {
                     ThemeSecondPresenter.GetInstance.DoorKeyHoleInteractive(true);
-                    inventoryObj.GetComponent<Door>().DoorColorChange();
                 }
                 break;
             case InteractiveType.ThemeFirst_Dice:
@@ -150,7 +149,7 @@ public class InteractiveManager : MonoBehaviour
                     }
                     else
                     {
-                        ThemeSecondPresenter.GetInstance.NPCInteractiveShowMission();
+                        //ThemeSecondPresenter.GetInstance.NPCInteractiveShowMission();
                     }
                 }
                 break;

@@ -2,10 +2,8 @@ using Cysharp.Threading.Tasks;
 using HughGenerics;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 {
@@ -37,20 +35,29 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
 
     //Game Clear 또는 Fail이 되는 조건을 저장한 변수
+    private int failedDiceSetTile = 0;
     private int successDiceSetTile = 0; //타일 올바르게 놓은 주사위 개수
     private int numOfDoorLockAttempsCnt = 0; //도어락 퍼즐 풀기 시도 횟수
 
-    //Game끝낼 때 GameProgress에 넘겨줄 현재 테마 이름 정보로 각 ThemePresenter들이 이 정보를 갖고 있는다.
-    private string themeName = "ThemeFirst";
+    // 현재 상호작용 한 오브젝트 타입에 따라 door와 상호작용시 문구 다르게 보이게 하기
+    // 0=상호작용 클리어 못함, 1=탈출조건 클리어함
+    public int InteractiveTypeToDoor { get; private set; } = 0;
 
     //UniTask 관련
     private CancellationTokenSource tokenSource;
 
     private bool IsSwitchOn = false;
 
+    //Game끝낼 때 GameProgress에 넘겨줄 현재 테마 이름 정보로 각 ThemePresenter들이 이 정보를 갖고 있는다.
+    private string themeName = "ThemeFirst";
+
     protected override void OnAwake()
     {
         switchSpotLight.enabled = true;
+        switchLightIndex = 1;
+        successDiceSetTile = 0;
+        failedDiceSetTile = 2;
+
         if (tokenSource != null)
         {
             tokenSource.Dispose();
@@ -68,7 +75,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         GameManager.GetInstance.CameraInteractive = this.cameraInteractive;
         GameManager.GetInstance.PlayerCameraStack(this.cameraMain);
 
-        TimerManager.GetInstance.ThemeTime = 600.0f;
+        TimerManager.GetInstance.ThemeClearTime = 600.0f;
         GameManager.GetInstance.IsUIOpen = false;
         GameManager.GetInstance.IsInputStop = false;
 
@@ -77,8 +84,6 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
         globalLight.color = new Color(0.7f, 0.7f, 0.7f);
 
-        switchLightIndex = 1;
-        successDiceSetTile = 0;
         SetTileRandom();
         
         CamInteractiveSet(cameraInteractive.transform, true);
@@ -145,6 +150,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         string context = "좋지 않은 예감이 든다...";
         themeFirstViewer.NarrativeCanvase(context);
     }
+
     #endregion
 
     #region Switch
@@ -182,12 +188,13 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         IsSwitchOn = true;
         while (true)
         {
+            await UniTask.Delay(TimeSpan.FromSeconds(5.0f), cancellationToken: tokenSource.Token);
             switchSpotLight.color = colorList[switchLightIndex];
             switchSpotLight.enabled = true;
             AutoTileColorChange(colorList[switchLightIndex]);
             switchLightIndex++;
             //5초 뒤 빛 R -> Y -> B 순서로
-            await UniTask.Delay(TimeSpan.FromSeconds(5.0f), cancellationToken: tokenSource.Token);
+            await UniTask.Delay(TimeSpan.FromSeconds(7.0f), cancellationToken: tokenSource.Token);
             AutoTilePosChange();
             switchSpotLight.enabled = false;
             AutoTileColorChange(UnityEngine.Color.black);
@@ -358,18 +365,35 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
             successDiceSetTile++;
             if (3 <= successDiceSetTile)
             {
+                InteractiveTypeToDoor = 1;
                 successDiceSetTile = 0;
                 GameManager.GetInstance.IsGameClear = true;
             }
-
             string context = "타일에 배치됐다. 무언가 열리는 소리가 들렸다.";
             themeFirstViewer.NarrativeCanvase(context);
         }
         else
         {
-            string context = "타일에 배치가 잘못된 거 같다... 무슨 소리지?";
+            string context = " ";
+            failedDiceSetTile--;
+            if (failedDiceSetTile <= 0)
+            {
+                context = "맵이 흔들린다... 타일 배치 실패로 균형이 무너졌다.";
+                GameClear(false);
+            }
+            else
+            {
+                context = "타일에 배치가 잘못된 거 같다... 무슨 소리지?";
+            }
             themeFirstViewer.NarrativeCanvase(context);
         }
+    }
+
+    public void DiceSuccessionSet()
+    {
+        string context = "연속으로 배치를 잘못하여 맵이 무너진다!!";
+        themeFirstViewer.NarrativeCanvase(context);
+        GameClear(false);
     }
     #endregion
 
@@ -380,6 +404,20 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         InventoryManager.GetInstance.PutInInventory(obj, cube.GetCubeUISprite, UnityEngine.Color.white); ;
     }
 
+    public void DoorOpen()
+    {
+        string context = " ";
+        if (GameManager.GetInstance.IsGameClear)
+        {
+            context = "문을 열었습니다! 어서 탈출하세요.";
+            themeFirstViewer.NarrativeCanvase(context);
+        }
+        else
+        {
+            context = "문을 닫혀있습니다. 빨리 문을 여세요.";
+            themeFirstViewer.NarrativeCanvase(context);
+        }
+    }
     /// <summary>
     /// NPC와 상호작용시 현재 미션을 볼 수 있다.
     /// </summary>
@@ -391,6 +429,14 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
     public void GameClear(bool isClear)
     {
+        if (isClear)
+        {
+            GameManager.GetInstance.IsGameClear = true;
+        }
+        else
+        {
+            GameManager.GetInstance.IsGameClear = false;
+        }
         themeFirstViewer.OpenResultCanvas(isClear);
     }
 }

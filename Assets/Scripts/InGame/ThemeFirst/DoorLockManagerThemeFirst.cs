@@ -54,7 +54,6 @@ public class DoorLockManagerThemeFirst : MonoBehaviour
     private void InputDoorLockKeyPad()
     {
         int index = int.Parse(EventSystem.current.currentSelectedGameObject.name);
-        Debug.Log("ThemeFirst DoorLock: " + index);
         UpdateDoorLockDisplay(index);
     }
 

@@ -55,6 +55,11 @@ public class MainSceneViewer : MonoBehaviour
         UIManager.GetInstance.ShowPanel("Setting Panel");
     }
 
+    public void HelpButton()
+    {
+        UIManager.GetInstance.ShowPanel("Help Panel");
+    }
+
     /// <summary>
     /// 패널에 붙어있는 닫기 버튼의 연결되는 함수다.
     /// 해당 씬의 모든 닫기 버튼은 이 함수와 연결되어야한다.

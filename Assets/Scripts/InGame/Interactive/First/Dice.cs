@@ -91,7 +91,7 @@ public class Dice : InteractiveObject
     /// <summary>
     /// Tile Pattern Canvas에서 현재 위로 올라온 주사위 문양
     /// </summary>
-    /// <param name="index"> 현재 맨 위로 올라온 index </param>
+    /// <param name="index"> 현재 맨 위로 올라온 tileSetIndex </param>
     /// <returns> 주사위 문양 전달 </returns>
     public Sprite GetDicePattern(int index)
     {
@@ -101,7 +101,7 @@ public class Dice : InteractiveObject
     /// <summary>
     /// Tile Pattern Canvas에서 현재 위로 올라온 주사위 문양의 이름
     /// </summary>
-    /// <param name="index"> 현재 맨 위로 올라온 index</param>
+    /// <param name="index"> 현재 맨 위로 올라온 tileSetIndex</param>
 
     public void SetCurDicePatternName(int index)
     {

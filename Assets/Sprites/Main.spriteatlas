@@ -60,6 +60,7 @@ SpriteAtlas:
   - {fileID: -1405917933, guid: 595fef71ab5a6e94a8cb2859c2b634b2, type: 3}
   - {fileID: 1064124896, guid: fcb2071526de10741b31e8215ad3e4f0, type: 3}
   - {fileID: -249034979, guid: fcb2071526de10741b31e8215ad3e4f0, type: 3}
+  - {fileID: 1837120535, guid: 4b7ff9a8bb25a0545a76bd34845c039d, type: 3}
   - {fileID: -1458783314, guid: 7ffbb97d0ea8b3340a31764d70cbb9bd, type: 3}
   m_PackedSpriteNamesToIndex:
   - main_text_2
@@ -72,6 +73,7 @@ SpriteAtlas:
   - main_text_noshadow_6
   - main_setting_help_0
   - main_setting_help_1
+  - help_0
   - main_background_0
   m_RenderDataMap: {}
   m_Tag: Main

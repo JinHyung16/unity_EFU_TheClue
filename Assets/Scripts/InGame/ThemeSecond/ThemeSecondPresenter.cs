@@ -4,6 +4,7 @@ using HughGenerics;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Threading;
 using UnityEngine;
 
@@ -29,16 +30,28 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     [SerializeField] private Light switchSpotLight;
 
     [Header("ShowCaseTop Transform")]
-    [SerializeField] private Transform showcaseTopTransform;
+    [SerializeField] private Transform showcaseTopTrans;
+    [SerializeField] private Transform showcasTopOpenTargetTrans;
+    [SerializeField] private Transform showcaseCloseTargetTrans;
 
     [Header("WristWatches")]
     [SerializeField] private List<WristWatch> wristWatches = new List<WristWatch>();
+
+    [Header("NPC Object")]
+    [SerializeField] private GameObject npcObject;
 
     //0==상호작용 X, 1==문과 상호작용, 2==showcase와 상호작용, 3==npc와 상호작용해서 노트 획득, 4==note 오픈중
     public int IsInteractiveNum { get; private set; } = 0;
 
     //NPC와 대화한게 처음인지 아닌지
     public bool IsNPCFirstTalk { get; set; } = false;
+
+    //10분을 넘겨서 오버시간인지 체크
+    public bool IsOverTime { get; set; } = false;
+
+    // 현재 상호작용 한 오브젝트 타입에 따라 door와 상호작용시 문구 다르게 보이게 하기
+    // 0=상호작용 클리어 못함, 1=탈출조건 클리어함, 2=스위치 켜짐
+    public int InteractiveTypeToDoor { get; private set; } = 0;
 
     private int numOfDoorLockAttempsCnt = 0; //도어락 시도횟수
     private string doorLockSuccessCode = "8282"; //도어락 히든 비번
@@ -59,6 +72,8 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             tokenSource.Dispose();
         }
         tokenSource = new CancellationTokenSource();
+
+        npcObject.SetActive(true);
     }
 
     private void Start()
@@ -77,7 +92,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         GameManager.GetInstance.IsUIOpen = false;
         GameManager.GetInstance.IsInputStop = false;
 
-        TimerManager.GetInstance.ThemeTime = 900.0f;
+        TimerManager.GetInstance.ThemeClearTime = 900.0f;
 
         numOfDoorLockAttempsCnt = 0;
 
@@ -150,11 +165,13 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         {
             globalLight.color = new Color(0, 0, 0);
             switchSpotLight.enabled = false;
+            InteractiveTypeToDoor = 2;
         }
         else
         {
             globalLight.color = new Color(1, 1, 1);
             switchSpotLight.enabled = true;
+            InteractiveTypeToDoor = 2;
         }
     }
 
@@ -184,20 +201,27 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         tokenSource = new CancellationTokenSource();
 
         CamInteractiveSet(doorKeyPutInDoorCamPos, true);
-        if (obj.CompareTag("DoorKey"))
+        if (!IsOverTime)
         {
-            obj.transform.position = keyPutInPos.position;
-            obj.transform.rotation = keyPutInPos.rotation;
-            obj.transform.DOMove(keyPutInPos.position + new Vector3(0, 0, 0.2f), 3.0f, false).SetEase(Ease.Linear);
-            isDoorKeyPutIn = true;
-            DoorKeyAnimationDone().Forget();
+            if (obj.CompareTag("DoorKey"))
+            {
+                obj.transform.position = keyPutInPos.position;
+                obj.transform.rotation = keyPutInPos.rotation;
+                obj.transform.DOMove(keyPutInPos.position + new Vector3(0, 0, 0.2f), 3.0f, false).SetEase(Ease.Linear);
+                isDoorKeyPutIn = true;
+                DoorKeyAnimationDone().Forget();
+            }
+            else
+            {
+                obj.transform.position = keyPutInPos.position;
+                obj.transform.DOMove(keyPutInPos.position + new Vector3(0, 0, 0.2f), 3.0f, false).SetEase(Ease.Linear);
+                isDoorKeyPutIn = false;
+                DoorKeyAnimationDone().Forget();
+            }
         }
         else
         {
-            obj.transform.position = keyPutInPos.position;
-            obj.transform.DOMove(keyPutInPos.position + new Vector3(0, 0, 0.2f), 3.0f, false).SetEase(Ease.Linear);
-            isDoorKeyPutIn = false;
-            DoorKeyAnimationDone().Forget();
+            GameClear(false);
         }
     }
 
@@ -256,7 +280,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             GameManager.GetInstance.IsUIOpen = true;
             IsInteractiveNum = 2;
             CamInteractiveSet(interactiveCamMovePosList[1], true);
-            showcaseTopTransform.DOMove(showcaseTopTransform.position + new Vector3(0, 0, -3.3f), 0.8f, false);
+            showcaseTopTrans.position = Vector3.MoveTowards(showcaseTopTrans.position, showcasTopOpenTargetTrans.position, 0.8f);
             themeSecondViewer.InteractiveShowcanseCanvasOpen();
 
             string context = "손목시계를 자세히 봐볼까?";
@@ -270,7 +294,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             {
                 wristWatches[i].PutDownWristWatch();
             }
-            showcaseTopTransform.DOMove(showcaseTopTransform.position + new Vector3(0, 0, 3.3f), 0.8f, false);
+            showcaseTopTrans.position = Vector3.MoveTowards(showcaseTopTrans.position, showcaseCloseTargetTrans.position, 0.8f);
             CamInteractiveSet(interactiveCamMovePosList[1], false);
             themeSecondViewer.CloseCanvas();
         }
@@ -298,6 +322,9 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             CamInteractiveSet(interactiveCamMovePosList[2], false);
             NPCNoteSelectManager.GetInstance.NoteInvisible();
             themeSecondViewer.CloseCanvas();
+
+            //쪽지를 선택했으니 npc를 삭제한다.
+            npcObject.SetActive(false);
         }
     }
     #endregion

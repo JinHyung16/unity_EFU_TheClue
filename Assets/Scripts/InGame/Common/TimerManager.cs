@@ -21,19 +21,10 @@ public class TimerManager : MonoBehaviour
 
     private float minTime = 0;
     private float secTime = 0.0f;
+
     public bool IsTimeDone { get; private set; } = false;
 
-    public float ThemeTime 
-    {
-        get
-        {
-            return this.minTime;
-        }
-        set
-        { 
-            this.curTime = value; 
-        } 
-    }
+    public float ThemeClearTime { get; set; }
     public string CurTimeString { get; private set; }
     public int CurMinTime { get; private set; }
     public bool IsTimerStart { get; set; } = false;
@@ -51,18 +42,10 @@ public class TimerManager : MonoBehaviour
     {
         if (IsTimerStart && !IsTimeDone)
         {
-            if (0.0f < curTime)
+            if (curTime <= ThemeClearTime)
             {
-                curTime -= Time.deltaTime;
+                curTime += Time.deltaTime;
                 UpdateTimer(curTime);
-            }
-            else
-            {
-                if (curTime != 0.0f)
-                {
-                    curTime = 0.0f;
-                    UpdateTimer(curTime);
-                }
             }
         }
     }
@@ -82,7 +65,7 @@ public class TimerManager : MonoBehaviour
 
     private void ThemeClearInTime()
     {
-        if (minTime < 0)
+        if (ThemeClearTime <= minTime)
         {
             if (ThemeFirstPresenter.GetInstance != null)
             {
@@ -93,6 +76,14 @@ public class TimerManager : MonoBehaviour
             {
                 IsTimeDone = true;
                 ThemeSecondPresenter.GetInstance.GameClear(false);
+            }
+        }
+
+        if (10.0f <= minTime)
+        {
+            if (ThemeSecondPresenter.GetInstance != null)
+            {
+                ThemeSecondPresenter.GetInstance.IsOverTime = true;
             }
         }
     }

@@ -7,7 +7,7 @@ namespace HughEnumData
     public class EnumData { }
 
     /// <summary>
-    /// InteractiveType 형식은 (사용될 테마, 사용될 오브젝트 이름) 형식을 따른다.
+    /// InteractiveTypeToDoor 형식은 (사용될 테마, 사용될 오브젝트 이름) 형식을 따른다.
     /// </summary>
     public enum InteractiveType
     {

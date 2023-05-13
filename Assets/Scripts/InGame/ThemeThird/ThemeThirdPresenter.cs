@@ -13,12 +13,13 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     [Header("Camera 관련 데이터들")]
     [SerializeField] private Camera cameraMain;
     [SerializeField] private Camera cameraInteractive;
-    [SerializeField] private Transform camInterPos;
-    [SerializeField] private List<Transform> camAnimPosList = new List<Transform>();
+    [SerializeField] private List<Transform> camInterPosLost = new List<Transform>();
 
-    [Header("Region Button 관련 데이터들")]
+    [Header("Enemy Chase Positions 관련 데이터들")]
     [SerializeField] private GameObject regionKeys;
     [SerializeField] private GameObject regionCallNpc;
+
+    [SerializeField] private List<Transform> destroyTransList = new List<Transform>();
 
     [Header("Enemies 데이터들")]
     [SerializeField] private Professor enemyPrisonOfficer;
@@ -47,7 +48,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         GameManager.GetInstance.IsUIOpen = false;
         GameManager.GetInstance.IsInputStop = false;
 
-        TimerManager.GetInstance.ThemeTime = 120.0f;
+        TimerManager.GetInstance.ThemeClearTime = 900.0f;
 
         if (tokenSource != null)
         {
@@ -57,7 +58,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         tokenSource = new CancellationTokenSource();
 
 
-        CamInteractiveSet(camAnimPosList[0].transform, true);
+        //CamInteractiveSet(camAnimPosList[0].transform, true);
         themeThirdViewer.DialogueStart();
     }
 
@@ -74,7 +75,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
     public void DoneDialogue()
     {
-        CamInteractiveSet(camAnimPosList[0].transform, false);
+        CamInteractiveSet(camInterPosLost[0].transform, false);
     }
 
     private void CamInteractiveSet(Transform transform, bool isActive)
@@ -96,13 +97,6 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
             GameManager.GetInstance.PlayerCameraControl(true);
             this.cameraInteractive.enabled = false;
         }
-    }
-
-    private async UniTaskVoid CameraAnimation()
-    {
-        CamInteractiveSet(camInterPos, true);
-        await UniTask.Delay(TimeSpan.FromSeconds(8.0f), cancellationToken: tokenSource.Token);
-        CamInteractiveSet(camInterPos, false);
     }
 
 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraPosZ: -0.8
   cameraViewPosY: 1.5
-  themeFirstSpawnPos: {x: 4, y: 0.5, z: 0}
+  themeFirstSpawnPos: {x: 3.5, y: 0.5, z: 0}
   themeSecondSpawnPos: {x: 0, y: 0.5, z: -3}
   themeThirdSpawnPos: {x: 0, y: 0.5, z: -12}
   moveSpeed: 1.8

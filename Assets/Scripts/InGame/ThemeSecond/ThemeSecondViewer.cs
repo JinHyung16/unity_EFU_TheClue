@@ -146,6 +146,7 @@ public class ThemeSecondViewer : MonoBehaviour
     {
         GameManager.GetInstance.GameClear();
         SceneController.GetInstance.LoadScene("ThemeThird");
+        //SceneController.GetInstance.LoadScene("ThemeThird_01");
     }
     public void RetryGame()
     {
