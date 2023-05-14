@@ -24,9 +24,7 @@ public class EnemyIdleState : BaseFSM<EnemyFSM>
         secTime = 0.0f;
 
         state.MovementStop();
-        state.SetAimation(0);
-
-        Debug.Log("EnemyIdleState 진입");
+        state.PlayAnimation(0);
     }
 
     public override void UpdateState(EnemyFSM state)
@@ -57,10 +55,6 @@ public class EnemyIdleState : BaseFSM<EnemyFSM>
             {
                 //이 부분에서 멈춰있는데 가깝게 있으면 움직이려하니깐 오류남
                 state.ChangeState(EnemyMoveState.GetInstance);
-            }
-            else
-            {
-                state.MovementStop();
             }
         }
     }

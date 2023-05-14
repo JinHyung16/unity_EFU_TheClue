@@ -35,14 +35,14 @@ public class TileManager : MonoBehaviour
 
     private int curDicePatternIndex = 0; //현재 dice의 패턴을 보여줄 순서
 
-    //타일은 연속으로 놓고있는지 체크하기 위한 변수
-    private int tileSetIndex = 0;
-    private List<bool> tileSetNumArray = new List<bool>();
-
     public bool IsTileOpen { get; private set; } = false; //Tile Canvas가 Open됐는지 유무를 판별한다.
 
     public void VisibleTilePattern(GameObject obj)
     {
+        objPatternImage.sprite = null;
+        diceScript = null;
+        cubeScript = null;
+
         patternObject = obj;
 
         var tile = patternObject.GetComponent<Tile>();
@@ -56,7 +56,7 @@ public class TileManager : MonoBehaviour
         IsTileOpen = true;
     }
 
-    public void InVisibleTilePattern()
+    public void InvisibleTilePattern()
     {
         IsTileOpen = false;
         themeFirstViewer.CloseCanvas();
@@ -69,7 +69,7 @@ public class TileManager : MonoBehaviour
     /// <param name="obj"></param>
     public void SetDiceOnTileCanvas(GameObject obj)
     {
-        if (obj != null && IsTileOpen)
+        if (obj != null)
         { 
             if (invenObj != null)
             {
@@ -77,22 +77,25 @@ public class TileManager : MonoBehaviour
                 diceScript = null;
                 invenObj = null;
             }
-            
-            invenObj = obj;
-            invenObj.SetActive(false);
-            curDicePatternIndex = 0;
-            var name = invenObj.name.Substring(0, 4);
-            if (name == "Dice")
+
+            if (IsTileOpen)
             {
-                diceScript = invenObj.GetComponent<Dice>();
-                objPatternImage.sprite = diceScript.GetDicePattern(curDicePatternIndex);
-                cubeScript = null;
-            }
-            if (name == "Cube")
-            {
-                cubeScript = invenObj.GetComponent<Cube>();
-                objPatternImage.sprite = cubeScript.GetCubeSprite(curDicePatternIndex);
-                diceScript = null;
+                invenObj = obj;
+                invenObj.SetActive(false);
+                curDicePatternIndex = 0;
+                var name = invenObj.name.Substring(0, 4);
+                if (name == "Dice")
+                {
+                    diceScript = invenObj.GetComponent<Dice>();
+                    objPatternImage.sprite = diceScript.GetDicePattern(curDicePatternIndex);
+                    cubeScript = null;
+                }
+                if (name == "Cube")
+                {
+                    cubeScript = invenObj.GetComponent<Cube>();
+                    objPatternImage.sprite = cubeScript.GetCubeSprite(curDicePatternIndex);
+                    diceScript = null;
+                }
             }
         }
     }
@@ -139,24 +142,6 @@ public class TileManager : MonoBehaviour
         else
         {
             ThemeFirstPresenter.GetInstance.DicePutOnTileCheck(false);
-        }
-        themeFirstViewer.CloseCanvas();
-    }
-
-    private void CheckTileSetNum(bool isSetDone)
-    {
-        tileSetNumArray.Add(isSetDone);
-        tileSetIndex += 1;
-
-        Debug.Log(tileSetNumArray.Count + ", " + isSetDone + " || Count: " + tileSetIndex);
-        if (1 < tileSetNumArray.Count)
-        {
-            //배열의 index는 count보다 1작아야한다.
-            if (tileSetNumArray[tileSetIndex - 1] != tileSetNumArray[tileSetIndex - 2])
-            {
-                Debug.Log("이거 실행됨?");
-                ThemeFirstPresenter.GetInstance.DiceSuccessionSet();
-            }
         }
     }
 

@@ -8,8 +8,9 @@ public class Professor : EnemyFSM
 {
     [SerializeField] private float moveSpeed;
 
-    private Animator enemyAnimator;
-    private StateMachine<EnemyFSM> enemyState;
+    private Rigidbody rigid;
+    private Animator animator;
+    private StateMachine<EnemyFSM> myState;
 
     //A star Path Move
     private Vector3[] movePath;
@@ -31,20 +32,20 @@ public class Professor : EnemyFSM
 
     private void Start()
     {
-        enemyAnimator = GetComponent<Animator>();
+        rigid = GetComponent<Rigidbody>();
+        animator = GetComponentInChildren<Animator>();
 
-        enemyState = new StateMachine<EnemyFSM>();
+        myState = new StateMachine<EnemyFSM>();
 
         /*
-        enemyState.InitialSetting(this, EnemyIdleState.GetInstance);
-
+        myState.InitialSetting(this, EnemyIdleState.GetInstance);
         pathFindIEnum = MoveToPath();
         */
     }
 
     protected override void Update()
     {
-        enemyState.UpdateFSM();
+        myState.UpdateFSM();
     }
 
     protected override void OnTriggerEnter(Collider other)
@@ -60,7 +61,6 @@ public class Professor : EnemyFSM
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("PrisonOfficer 충돌 중");
             targetTransform = other.gameObject.transform;
             IsAttackRange = true;
         }
@@ -69,7 +69,6 @@ public class Professor : EnemyFSM
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("PrisonOfficer 충돌 나감");
             IsAttackRange = false;
             ChangeState(EnemyIdleState.GetInstance);
         }
@@ -77,11 +76,31 @@ public class Professor : EnemyFSM
 
     public override void ChangeState(BaseFSM<EnemyFSM> state)
     {
-        enemyState.ChangeState(state);
-        Debug.Log("PrisonOfficer ChangeState");
+        myState.ChangeState(state);
     }
-    public override void SetAimation(int index)
+
+    /// <summary>
+    /// index에 맞춰 animation을 바꾼다.
+    /// 0 = idle, 1 = walk, 2 = attack
+    /// </summary>
+    /// <param name="index"> 현재 state에 따라 바꿀 애니메이션 index </param>
+    public override void PlayAnimation(int index)
     {
+        /*
+        switch (index)
+        {
+            case 0:
+                animator.SetBool("IsWalk", false);
+                animator.SetBool("IsAttack", false);
+                break;
+            case 1:
+                animator.SetBool("IsWalk", true);
+                break;
+            case 2:
+                animator.SetBool("IsAttack", true);
+                break;
+        }
+        */
     }
     public override void AttackEnemy()
     {
@@ -153,6 +172,7 @@ public class Professor : EnemyFSM
         }
     }
 
+    /*
     public void OnDrawGizmos()
     {
         if (movePath != null)
@@ -173,5 +193,6 @@ public class Professor : EnemyFSM
             }
         }
     }
+    */
     #endregion
 }

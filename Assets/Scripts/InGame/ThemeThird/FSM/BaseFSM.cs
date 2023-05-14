@@ -6,8 +6,8 @@ namespace HughFSM
 {
     public abstract class BaseFSM<T>
     {
-        public abstract void EnterState(T _state);
-        public abstract void UpdateState(T _state);
-        public abstract void ExitState(T _state);
+        public abstract void EnterState(T state);
+        public abstract void UpdateState(T state);
+        public abstract void ExitState(T state);
     }
 }

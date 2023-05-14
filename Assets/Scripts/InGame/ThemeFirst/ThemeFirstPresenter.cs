@@ -188,13 +188,12 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         IsSwitchOn = true;
         while (true)
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(5.0f), cancellationToken: tokenSource.Token);
             switchSpotLight.color = colorList[switchLightIndex];
             switchSpotLight.enabled = true;
             AutoTileColorChange(colorList[switchLightIndex]);
             switchLightIndex++;
             //5초 뒤 빛 R -> Y -> B 순서로
-            await UniTask.Delay(TimeSpan.FromSeconds(7.0f), cancellationToken: tokenSource.Token);
+            await UniTask.Delay(TimeSpan.FromSeconds(5.0f), cancellationToken: tokenSource.Token);
             AutoTilePosChange();
             switchSpotLight.enabled = false;
             AutoTileColorChange(UnityEngine.Color.black);
@@ -360,6 +359,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     public void DicePutOnTileCheck(bool isDone)
     {
         themeFirstViewer.CloseCanvas();
+
         if (isDone == true)
         {
             successDiceSetTile++;
@@ -372,28 +372,16 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
             string context = "타일에 배치됐다. 무언가 열리는 소리가 들렸다.";
             themeFirstViewer.NarrativeCanvase(context);
         }
-        else
+        if(isDone == false)
         {
-            string context = " ";
             failedDiceSetTile--;
+            string context = "타일에 배치가 잘못된 거 같다... 무슨 소리지?";
+            themeFirstViewer.NarrativeCanvase(context);
             if (failedDiceSetTile <= 0)
             {
-                context = "맵이 흔들린다... 타일 배치 실패로 균형이 무너졌다.";
-                GameClear(false);
+                themeFirstViewer.OpenResultCanvas(false);
             }
-            else
-            {
-                context = "타일에 배치가 잘못된 거 같다... 무슨 소리지?";
-            }
-            themeFirstViewer.NarrativeCanvase(context);
         }
-    }
-
-    public void DiceSuccessionSet()
-    {
-        string context = "연속으로 배치를 잘못하여 맵이 무너진다!!";
-        themeFirstViewer.NarrativeCanvase(context);
-        GameClear(false);
     }
     #endregion
 

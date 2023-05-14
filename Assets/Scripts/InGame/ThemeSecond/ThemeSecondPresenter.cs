@@ -280,7 +280,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             GameManager.GetInstance.IsUIOpen = true;
             IsInteractiveNum = 2;
             CamInteractiveSet(interactiveCamMovePosList[1], true);
-            showcaseTopTrans.position = Vector3.MoveTowards(showcaseTopTrans.position, showcasTopOpenTargetTrans.position, 0.8f);
+            showcaseTopTrans.DOMove(showcasTopOpenTargetTrans.position, 0.8f);
             themeSecondViewer.InteractiveShowcanseCanvasOpen();
 
             string context = "손목시계를 자세히 봐볼까?";
@@ -294,7 +294,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             {
                 wristWatches[i].PutDownWristWatch();
             }
-            showcaseTopTrans.position = Vector3.MoveTowards(showcaseTopTrans.position, showcaseCloseTargetTrans.position, 0.8f);
+            showcaseTopTrans.DOMove(showcaseCloseTargetTrans.position, 0.8f);
             CamInteractiveSet(interactiveCamMovePosList[1], false);
             themeSecondViewer.CloseCanvas();
         }

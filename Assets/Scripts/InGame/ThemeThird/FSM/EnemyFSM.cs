@@ -9,8 +9,8 @@ public class EnemyFSM : MonoBehaviour
     /*
     [SerializeField] private float moveSpeed;
 
-    private Animator enemyAnimator;
-    private StateMachine<EnemyFSM> enemyState;
+    private Animator animator;
+    private StateMachine<EnemyFSM> myState;
 
     //A star Path Move
     private Vector3[] movePath;
@@ -24,11 +24,11 @@ public class EnemyFSM : MonoBehaviour
     public virtual bool IsCallEnemy { get; set; } = false;
     private void Start()
     {
-        //enemyAnimator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
 
-        //enemyState = new StateMachine<EnemyFSM>();
+        //myState = new StateMachine<EnemyFSM>();
 
-        //enemyState.InitialSetting(this, EnemyIdleState.GetInstance);
+        //myState.InitialSetting(this, EnemyIdleState.GetInstance);
 
         //pathFindIEnum = MoveToPath();
     }
@@ -76,7 +76,7 @@ public class EnemyFSM : MonoBehaviour
     {
         //Debug.Log("EnemyFSM ChangeState");
     }
-    public virtual void SetAimation(int index)
+    public virtual void PlayAnimation(int index)
     {
         //Debug.Log("EnemyFSM SetAnimation");
     }

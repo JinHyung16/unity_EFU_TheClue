@@ -5,12 +5,19 @@ using System;
 using DG.Tweening;
 using UnityEngine.Rendering.Universal;
 using HughPathFinding;
+using System.Collections.Generic;
 
 public class GameManager : Singleton<GameManager>, IDisposable
 {
-    [Header("Game Option Canvas")]
+    [Header("GameOption Canvas")]
     [SerializeField] private Canvas gameOptionCanvas;
     [SerializeField] private Button gameExitBtn;
+    [SerializeField] private Button mainBtn;
+    [SerializeField] private Button settingBtn;
+    [SerializeField] private Button helpBtn;
+
+    [Header("Panel Under the GameOption Canvas")]
+    [SerializeField] private GameObject helpPanel;
 
     [Header("Interactive Canvas")]
     [SerializeField] private Canvas interactiveCanvs;
@@ -41,46 +48,10 @@ public class GameManager : Singleton<GameManager>, IDisposable
         IsInputStop = false;
 
         gameExitBtn.onClick.AddListener(QuitGameAndSaveData);
-    }
+        mainBtn.onClick.AddListener(GoToMain);
+        helpBtn.onClick.AddListener(HelpPanelOpen);
 
-
-    /// <summary>
-    /// 게임을 진행하다 그만하려고 나가고자 Exit Button을 누르면 호출
-    /// 자동으로 게임 진행상황을 저장해준다.
-    /// </summary>
-    private void QuitGameAndSaveData()
-    {
-        int saveIndex = 0;
-        switch (SceneController.GetInstance.CurSceneName)
-        {
-            case "ThemeFirst":
-                saveIndex = 1;
-                break;
-            case "ThemeSecond":
-                saveIndex = 2;
-                break;
-            case "ThemeThird":
-                saveIndex = 3;
-                break;
-            default:
-                saveIndex = 0;
-                break;
-        }
-
-        Debug.Log("SceneController.GetInstance.CurSceneName: " + SceneController.GetInstance.CurSceneName);
-
-        //테스트 버전에선 무조건 3개다 열어두기
-        DataManager.GetInstance.SaveData(3);
-
-        gameOptionCanvas.enabled = false;
-        interactiveCanvs.enabled = false;
-
-        isOptionKeyDown = false;
-        IsInputStop = false;
-        IsUIOpen = false;
-
-        Dispose();
-        SceneController.GetInstance.LoadScene("Main");
+        helpPanel.SetActive(false);
     }
 
     /// <summary>
@@ -157,6 +128,57 @@ public class GameManager : Singleton<GameManager>, IDisposable
         }
     }
 
+
+    /// <summary>
+    /// 게임을 진행하다 그만하려고 나가고자 Exit Button을 누르면 호출
+    /// 자동으로 게임 진행상황을 저장해준다.
+    /// </summary>
+    private void QuitGameAndSaveData()
+    {
+        int saveIndex = 0;
+        switch (SceneController.GetInstance.CurSceneName)
+        {
+            case "ThemeFirst":
+                saveIndex = 1;
+                break;
+            case "ThemeSecond":
+                saveIndex = 2;
+                break;
+            case "ThemeThird":
+                saveIndex = 3;
+                break;
+            default:
+                saveIndex = 0;
+                break;
+        }
+        //테스트 버전에선 무조건 3개다 열어두기
+        DataManager.GetInstance.SaveData(3);
+
+        gameOptionCanvas.enabled = false;
+        interactiveCanvs.enabled = false;
+
+        isOptionKeyDown = false;
+        IsInputStop = false;
+        IsUIOpen = false;
+
+        Dispose();
+        Application.Quit();
+    }
+
+    public void GoToMain()
+    {
+        SceneController.GetInstance.LoadScene("Main");
+    }
+
+    public void HelpPanelOpen()
+    {
+        helpPanel.SetActive(true);
+    }
+
+    public void ClosePanel()
+    {
+        helpPanel.SetActive(false);
+    }
 
     public void VisibleInteractiveCanvas(Transform target, Vector3 offset, bool isGround = false)
     {

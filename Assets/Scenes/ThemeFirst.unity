@@ -2293,9 +2293,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 367681347}
-        m_TargetAssemblyTypeName: ThemeFirstViewer, Assembly-CSharp
-        m_MethodName: CloseCanvas
+      - m_Target: {fileID: 1745430210}
+        m_TargetAssemblyTypeName: TileManager, Assembly-CSharp
+        m_MethodName: InvisibleTilePattern
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5062,7 +5062,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1063644672}
   m_Layer: 6
-  m_Name: FloorAndWall
+  m_Name: Theme01 Background
   m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

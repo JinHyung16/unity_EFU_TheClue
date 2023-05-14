@@ -28,7 +28,6 @@ public class EnemyMoveState : BaseFSM<EnemyFSM>
         secTime = 0.0f;
 
         state.MovementStart();
-        Debug.Log("EnemyMoveState 진입");
     }
 
     public override void UpdateState(EnemyFSM state)
@@ -62,6 +61,7 @@ public class EnemyMoveState : BaseFSM<EnemyFSM>
 
     public override void ExitState(EnemyFSM state)
     {
+        state.PlayAnimation(0);
     }
 
 }

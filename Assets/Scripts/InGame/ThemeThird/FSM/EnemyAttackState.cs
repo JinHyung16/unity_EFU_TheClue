@@ -15,24 +15,25 @@ public class EnemyAttackState : BaseFSM<EnemyFSM>
         }
     }
     #endregion
-    public override void EnterState(EnemyFSM _state)
+    public override void EnterState(EnemyFSM state)
     {
-        _state.MovementStop();
-        Debug.Log("Enemy Attack State 진입");
+        state.MovementStop();
+        state.PlayAnimation(2);
     }
 
-    public override void UpdateState(EnemyFSM _state)
+    public override void UpdateState(EnemyFSM state)
     {
         //만약 Enemy 공격 범위에 적이 있다면
-        //아니라면 -> _state.ChangeState(EnemyMoveState.GetInstance);
+        //아니라면 -> state.ChangeState(EnemyMoveState.GetInstance);
 
-        if (_state.IsAttackRange)
+        if (state.IsAttackRange)
         {
-            _state.AttackEnemy();
+            state.AttackEnemy();
         }
     }
 
-    public override void ExitState(EnemyFSM _state)
+    public override void ExitState(EnemyFSM state)
     {
+        state.PlayAnimation(0);
     }
 }
