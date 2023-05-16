@@ -86,6 +86,7 @@ namespace HughPathFinding
             }
             return neighborhoodNodeList;
         }
+        /*
         private void OnDrawGizmos()
         {
             Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y)); //그리드 크기에 맞춰 전체 그리드 그려준다
@@ -99,5 +100,6 @@ namespace HughPathFinding
                 }
             }
         }
+        */
     }
 }

@@ -13,21 +13,27 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     [Header("Camera 관련 데이터들")]
     [SerializeField] private Camera cameraMain;
     [SerializeField] private Camera cameraInteractive;
-    [SerializeField] private List<Transform> camInterPosLost = new List<Transform>();
+    [SerializeField] private Animator cameraInterAnim;
+    [SerializeField] private Transform camInterPos;
 
-    [Header("Enemy Chase Positions 관련 데이터들")]
+    [Header("Enemy Positions 관련 데이터들")]
     [SerializeField] private GameObject regionKeys;
-    [SerializeField] private GameObject regionCallNpc;
-
-    [SerializeField] private List<Transform> destroyTransList = new List<Transform>();
+    [SerializeField] private List<Transform> regionTransList = new List<Transform>();
+    [SerializeField] private List<Transform> enemyAnimTransList = new List<Transform>();
 
     [Header("Enemies 데이터들")]
-    [SerializeField] private Professor enemyPrisonOfficer;
+    [SerializeField] private GameObject enemyProfessorObj;
+    [SerializeField] private GameObject enemyGradStudentObj;
+    [SerializeField] private Professor enemyProfessor;
     [SerializeField] private GradStudent enemyGradStudent;
 
-    public Transform IsCallingPositions { get { return this.regionCallNpc.transform; } }
-    public bool IsCallEnemy { get; set; } = false;
+    [Header("Prision Escape Keys")]
+    [SerializeField] private List<GameObject> escapeKeyList = new List<GameObject>();
+    public List<Transform> RegionTargetTransList { get { return this.regionTransList; } }
 
+    public bool IsCallEnemyAnimation { get; private set; } = false;
+
+    private bool isCallRegion02Anim = false;
     private CancellationTokenSource tokenSource;
 
     private string themeName = "ThemeThird";
@@ -75,7 +81,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
     public void DoneDialogue()
     {
-        CamInteractiveSet(camInterPosLost[0].transform, false);
+        CamInteractiveSet(camInterPos.transform, false);
     }
 
     private void CamInteractiveSet(Transform transform, bool isActive)
@@ -106,10 +112,101 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         themeThirdViewer.NarrativeCanvas(text);
     }
 
-    public void CallNPCByButton()
+    /// <summary>
+    /// Region Second에서 교수 캐릭터 먼저 옮겨서 
+    /// </summary>
+    public void DropTheKeyByNPC()
     {
-        IsCallEnemy = true;
+        if (isCallRegion02Anim)
+        {
+            string text = "잠잠하다...";
+            themeThirdViewer.NarrativeCanvas(text);
+        }
+        else
+        {
+            if (tokenSource != null)
+            {
+                tokenSource.Cancel();
+                tokenSource.Dispose();
+            }
+            tokenSource = new CancellationTokenSource();
+
+            isCallRegion02Anim = true;
+            IsCallEnemyAnimation = true;
+
+            enemyGradStudent.ChangeState(EnemyIdleState.GetInstance);
+
+            string text = "누가 다가오는거 같다!!!";
+            themeThirdViewer.NarrativeCanvas(text);
+
+            CamInteractiveSet(camInterPos, true);
+            //조교 캐릭터의 state를 idle로 바꾸고 시작
+            enemyProfessorObj.transform.position = new Vector3(enemyAnimTransList[0].position.x, enemyProfessor.transform.position.y, enemyAnimTransList[0].position.z);
+            enemyProfessorObj.transform.rotation = enemyAnimTransList[0].rotation;
+            enemyProfessorObj.SetActive(true);
+
+            cameraInterAnim.SetInteger("IsCamAnim", 1);
+            DropTheKeyByNPCAnimation().Forget();
+        }
+    }
+
+    private async UniTaskVoid DropTheKeyByNPCAnimation()
+    {
+        while (true)
+        {
+            if (1.0f <= cameraInterAnim.GetCurrentAnimatorStateInfo(0).normalizedTime)
+            {
+                //귀신 캐릭터를 교수님 뒤로 이동시킨다.
+                enemyGradStudentObj.transform.position = new Vector3(enemyAnimTransList[2].position.x, enemyGradStudentObj.transform.position.y, enemyAnimTransList[2].position.z);
+                enemyGradStudentObj.transform.rotation = enemyAnimTransList[2].rotation;
+                enemyGradStudentObj.SetActive(true);
+
+                //교수님이 뒤를 돌아보고 놀란다.
+                enemyProfessor.PlayAnimation(0);
+                await enemyProfessorObj.transform.DORotate(new Vector3(0, 90, 0), 1.5f).WithCancellation(tokenSource.Token);
+                enemyProfessor.PlayAnimation(2);
+
+                Debug.Log("애니메이션 시간 지남");
+            }
+
+            //교수님이 도망간다.
+            enemyProfessor.PlayAnimation(1);
+            await enemyProfessorObj.transform.DOMoveZ(-4.0f, 3.0f).WithCancellation(tokenSource.Token);
+
+            await UniTask.Delay(TimeSpan.FromSeconds(1.0f), cancellationToken: tokenSource.Token);
+            cameraInterAnim.SetInteger("IsCamAnim", 0);
+            CamInteractiveSet(camInterPos, false);
+            enemyProfessorObj.transform.position = new Vector3(enemyAnimTransList[1].position.x, enemyProfessor.transform.position.y, enemyAnimTransList[1].position.z);
+            enemyProfessorObj.transform.rotation = enemyAnimTransList[1].rotation;
+
+            await UniTask.Delay(TimeSpan.FromSeconds(5.0f), cancellationToken: tokenSource.Token);
+            CamInteractiveSet(camInterPos, true);
+            enemyProfessor.PlayAnimation(3);
+            /*
+            if (1.0f <= enemyProfessorObj.GetComponentInChildren<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime)
+            {
+                tokenSource.Cancel();
+                IsCallEnemyAnimation = false;
+            }
+            */
+            await UniTask.Delay(TimeSpan.FromSeconds(8.0f), cancellationToken: tokenSource.Token);
+            IsCallEnemyAnimation = false;
+            enemyGradStudent.ChangeState(EnemyMoveState.GetInstance);
+            CamInteractiveSet(camInterPos, false);
+            tokenSource.Cancel();
+            await UniTask.Yield();
+        }
+    }
+
+    public void CallNPCByButton(int regionNum)
+    {
+        enemyGradStudent.ChangeState(EnemyIdleState.GetInstance);
         string text = "누가 다가오는거 같다!!!";
         themeThirdViewer.NarrativeCanvas(text);
+
+        enemyGradStudent.OnChaseTarget = regionNum;
+        enemyGradStudent.ChangeState(EnemyMoveState.GetInstance);
     }
+
+
 }

@@ -19,6 +19,7 @@ public class EnemyAttackState : BaseFSM<EnemyFSM>
     {
         state.MovementStop();
         state.PlayAnimation(2);
+        Debug.Log("EnemyAttack 진입");
     }
 
     public override void UpdateState(EnemyFSM state)
@@ -26,14 +27,10 @@ public class EnemyAttackState : BaseFSM<EnemyFSM>
         //만약 Enemy 공격 범위에 적이 있다면
         //아니라면 -> state.ChangeState(EnemyMoveState.GetInstance);
 
-        if (state.IsAttackRange)
-        {
-            state.AttackEnemy();
-        }
+        state.AttackEnemy();
     }
 
     public override void ExitState(EnemyFSM state)
     {
-        state.PlayAnimation(0);
     }
 }

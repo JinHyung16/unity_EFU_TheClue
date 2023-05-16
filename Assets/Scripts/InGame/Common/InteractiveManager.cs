@@ -156,8 +156,17 @@ public class InteractiveManager : MonoBehaviour
             case InteractiveType.ThemeThird_Btn_GetKey:
                 ThemeThirdPresenter.GetInstance.DropTheKeyByButton();
                 break;
-            case InteractiveType.ThemeThird_Btn_CallNPC:
-                ThemeThirdPresenter.GetInstance.CallNPCByButton();
+            case InteractiveType.ThemeThird_Btn_CallEnemiesRegion02:
+                if (!ThemeThirdPresenter.GetInstance.IsCallEnemyAnimation)
+                {
+                    ThemeThirdPresenter.GetInstance.DropTheKeyByNPC();
+                }
+                break;
+            case InteractiveType.ThemeThird_Btn_CallNPCRegion03:
+                ThemeThirdPresenter.GetInstance.CallNPCByButton(3);
+                break;
+            case InteractiveType.ThemeThird_Btn_CallNPCRegion04:
+                ThemeThirdPresenter.GetInstance.CallNPCByButton(4);
                 break;
             default:
                 break;

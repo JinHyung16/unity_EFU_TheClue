@@ -1,17 +1,22 @@
+using Cysharp.Threading.Tasks;
 using HughFSM;
 using HughPathFinding;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security;
+using System.Threading;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
 
 public class GradStudent : EnemyFSM
 {
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rayMaxDistance;
-    [SerializeField] private Transform enemyHead;
+    [SerializeField] private Transform ememyRayPos;
 
     private Animator enemyAnimator;
-    private StateMachine<EnemyFSM> enemyState;
+    private StateMachine<EnemyFSM> myState;
 
     //A star Path Move
     private Vector3[] movePath;
@@ -19,48 +24,57 @@ public class GradStudent : EnemyFSM
     private IEnumerator pathFindIEnum;
 
     private Transform targetTransform; //충돌시 target의 위치
-    private Vector3 targetLookDir; //target을 바라보는 방향 담을 변수
+    //private Vector3 targetLookDir; //target을 바라보는 방향 담을 변수
+    private RaycastHit hit;
 
-    private bool onChaseTarget = false;
+    //1=player 쫓기, 2=랜덤 이동, 3=region 03 호출, 4=region 04호출
+    public int OnChaseTarget { get; set; } = 2;
+
+    private bool isAttackTime = false;
+
+    private CancellationTokenSource tokenSource;
 
     //Attack Range
-    public override bool IsAttackRange
+    public override bool CanMove
     {
         get
         {
-            return base.IsAttackRange;
+            return base.CanMove;
         }
     }
-
-    public override bool IsCallEnemy { get => base.IsCallEnemy; set => base.IsCallEnemy = value; }
 
     private void Start()
     {
         enemyAnimator = GetComponentInChildren<Animator>();
 
-        enemyState = new StateMachine<EnemyFSM>();
+        myState = new StateMachine<EnemyFSM>();
 
-        enemyState.InitialSetting(this, EnemyIdleState.GetInstance);
+        myState.InitialSetting(this, EnemyIdleState.GetInstance);
 
         pathFindIEnum = MoveToPath();
+
+        if (tokenSource != null)
+        {
+            tokenSource.Cancel();
+            tokenSource.Dispose();
+        }
+        tokenSource = new CancellationTokenSource();
     }
 
     protected override void Update()
     {
-        if (Physics.Raycast(enemyHead.position, transform.forward, out RaycastHit hit, rayMaxDistance))
+        if (Physics.Raycast(ememyRayPos.position, transform.forward, out hit, rayMaxDistance) || 
+            Physics.Raycast(ememyRayPos.position, -transform.forward, out hit, rayMaxDistance))
         {
-            if (hit.collider.CompareTag("Player"))
+            if (!ThemeThirdPresenter.GetInstance.IsCallEnemyAnimation && !isAttackTime && (hit.collider.CompareTag("Player") || hit.collider.CompareTag("Player")))
             {
-                onChaseTarget = true;
+                OnChaseTarget = 1;
+                MovementStart();
             }
-            else
-            {
-                onChaseTarget = false;
-            }
-            Debug.DrawRay(enemyHead.position, transform.forward * rayMaxDistance, Color.red);
+            Debug.DrawRay(ememyRayPos.position, transform.forward * rayMaxDistance, Color.red);
+            Debug.DrawRay(ememyRayPos.position, -transform.forward * rayMaxDistance, Color.red);
         }
-
-        enemyState.UpdateFSM();
+        myState.UpdateFSM();
     }
 
     protected override void OnTriggerEnter(Collider other)
@@ -68,32 +82,20 @@ public class GradStudent : EnemyFSM
         if (other.CompareTag("Player"))
         {
             targetTransform = other.gameObject.transform;
-            IsAttackRange = true;
             ChangeState(EnemyAttackState.GetInstance);
-        }
-    }
-    protected override void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            targetTransform = other.gameObject.transform;
-            IsAttackRange = true;
         }
     }
     protected override void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            IsAttackRange = false;
-            ChangeState(EnemyIdleState.GetInstance);
         }
     }
 
     public override void ChangeState(BaseFSM<EnemyFSM> state)
     {
-        enemyState.ChangeState(state);
+        myState.ChangeState(state);
     }
-
 
     /// <summary>
     /// index에 맞춰 animation을 바꾼다.
@@ -119,25 +121,32 @@ public class GradStudent : EnemyFSM
 
     public override void AttackEnemy()
     {
-        targetLookDir = targetTransform.position - transform.position;
-        targetLookDir.y = 0;
-        Quaternion look = Quaternion.LookRotation(targetLookDir.normalized);
-        transform.rotation = look;
+        isAttackTime = true;
+        Vector3 attackTargetLookDir = targetTransform.position - this.transform.position;
+        attackTargetLookDir.y = 0;
+        Quaternion look = Quaternion.LookRotation(attackTargetLookDir.normalized);
+        this.transform.rotation = look;
 
-        this.PlayAnimation(2);
+        if (enemyAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && 1.0f <= enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime)
+        {
+            Debug.Log("공격 애니메이션 끝나습니다.");
+            ChangeState(EnemyIdleState.GetInstance);
+            isAttackTime = false;
+        }
     }
 
     public override void MovementStart()
     {
-        PathManager.GetInstance.RequestPath(transform.position, PathFindCallBack, onChaseTarget);
         this.PlayAnimation(1);
+        PathManager.GetInstance.RequestPath(this.transform.position, PathFindCallBack, OnChaseTarget);
     }
 
     public override void MovementStop()
     {
+        CanMove = true;
+        OnChaseTarget = 2;
         if (pathFindIEnum != null)
         {
-            Debug.Log("GradStudent Movement Stop");
             StopCoroutine(pathFindIEnum);
             pathFindIEnum = MoveToPath();
         }
@@ -164,35 +173,30 @@ public class GradStudent : EnemyFSM
         {
             curWayPosition = movePath[0];
         }
-        Vector3 lastWayPosition = movePath[movePath.Length - 1];
         while (true)
         {
-            if (Vector3.Distance(this.transform.position, lastWayPosition) <= 1.0f)
-            {
-                yield break;
-            }
-
             if (this.transform.position == curWayPosition)
             {
                 targetPathIndex++;
                 if (movePath.Length <= targetPathIndex)
                 {
+                    CanMove = false;
+                    Debug.Log("이동을 다했습니다");
                     yield break;
                 }
                 curWayPosition = movePath[targetPathIndex];
             }
 
-            targetLookDir = curWayPosition - this.transform.position;
+            Vector3 targetLookDir = curWayPosition - this.transform.position;
             targetLookDir.y = 0;
             Quaternion look = Quaternion.LookRotation(targetLookDir.normalized);
             this.transform.rotation = look;
-            this.transform.position = Vector3.MoveTowards(this.transform.position, new Vector3(curWayPosition.x, transform.position.y, curWayPosition.z), 
-                moveSpeed * Time.deltaTime);
+            //Vector3 finalMovePosition = new Vector3(curWayPosition.x, this.transform.position.y + 0.1f, curWayPosition.z);
+            this.transform.position = Vector3.MoveTowards(this.transform.position, curWayPosition, moveSpeed * Time.deltaTime);
             yield return null;
         }
     }
 
-    /*
     public void OnDrawGizmos()
     {
         if (movePath != null)
@@ -213,6 +217,5 @@ public class GradStudent : EnemyFSM
             }
         }
     }
-    */
     #endregion
 }

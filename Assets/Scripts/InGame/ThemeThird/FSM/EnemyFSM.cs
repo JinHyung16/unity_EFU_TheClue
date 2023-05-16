@@ -20,8 +20,7 @@ public class EnemyFSM : MonoBehaviour
 
 
     //Attack Range
-    public virtual bool IsAttackRange { get; protected set; } = false;
-    public virtual bool IsCallEnemy { get; set; } = false;
+    public virtual bool CanMove { get; protected set; } = false;
     private void Start()
     {
         //animator = GetComponent<Animator>();
@@ -44,7 +43,7 @@ public class EnemyFSM : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("EnemyFSM 충돌 진입");
-            IsAttackRange = true;
+            CanMove = true;
             ChangeState(EnemyAttackState.GetInstance);
         }
         */
@@ -55,7 +54,7 @@ public class EnemyFSM : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("EnemyFSM 충돌 중");
-            IsAttackRange = true;
+            CanMove = true;
             ChangeState(EnemyAttackState.GetInstance);
         }
         */
@@ -66,7 +65,7 @@ public class EnemyFSM : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Debug.Log("EnemyFSM 충돌 나감");
-            IsAttackRange = false;
+            CanMove = false;
             ChangeState(EnemyIdleState.GetInstance);
         }
         */

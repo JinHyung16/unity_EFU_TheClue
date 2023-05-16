@@ -31,13 +31,11 @@ namespace HughPathFinding
         [SerializeField] private PathFinding pathFinding; //최단 경로를 찾아주는 script
 
         private Transform playerTramsform;
-        public Transform TargetTransform { get { return this.playerTramsform; } } //target position
 
         private Queue<Path> pathQueue = new Queue<Path>(); //찾은 movePath data를 넣는 queue
         private Path curPath; //현재 경로
 
         private bool isProcessingPathDone; //현재 찾은 경로에 대해 처리가 다 끝났는지 확인
-        public Vector3[] FinalPath { get; private set; }
 
         private void TryNextPathFind()
         {
@@ -49,27 +47,39 @@ namespace HughPathFinding
             }
         }
 
-        public void RequestPath(Vector3 start, Action<Vector3[], bool> callback, bool onChase)
+        /// <summary>
+        /// moveType에 맞춰 Path 요청을 다르게 진행한다
+        /// </summary>
+        /// <param name="start">시작 지점</param>
+        /// <param name="callback">action function</param>
+        /// <param name="moveType">0=player, 1=random, 2=순서에 맞춰</param>
+        public void RequestPath(Vector3 start, Action<Vector3[], bool> callback, int moveType)
         {
             Path newPath;
-            if (onChase)
+            if (moveType == 1)
             {
                 newPath = new Path(start, playerTramsform.position, callback);
+                Debug.Log("Player 출격중");
+                pathQueue.Enqueue(newPath);
             }
-            else
+            else if (moveType == 2)
             {
-                if (ThemeThirdPresenter.GetInstance != null && ThemeThirdPresenter.GetInstance.IsCallEnemy)
-                {
-                    newPath = new Path(ThemeThirdPresenter.GetInstance.IsCallingPositions.position, playerTramsform.position, callback);
-                }
-                else
-                {
-                    float x = UnityEngine.Random.Range(-45.0f, 45.0f);
-                    float z = UnityEngine.Random.Range(-45.0f, 45.0f);
-                    newPath = new Path(start, new Vector3(x, start.y, z), callback);
-                }
+                int moveX = UnityEngine.Random.Range(-9, 9);
+                int moveZ = UnityEngine.Random.Range(-16, 16);
+                Vector3 randomTargetVec = new Vector3(moveX, start.y, moveZ);
+                newPath = new Path(start, randomTargetVec, callback);
+                pathQueue.Enqueue(newPath);
             }
-            pathQueue.Enqueue(newPath);
+            else if (moveType == 3)
+            {
+                newPath = new Path(start, ThemeThirdPresenter.GetInstance.RegionTargetTransList[0].position, callback);
+                pathQueue.Enqueue(newPath);
+            }
+            else if (moveType == 4)
+            {
+                newPath = new Path(start, ThemeThirdPresenter.GetInstance.RegionTargetTransList[1].position, callback);
+                pathQueue.Enqueue(newPath);
+            }
             TryNextPathFind();
         }
 

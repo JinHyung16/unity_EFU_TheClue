@@ -19,14 +19,12 @@ public class Professor : EnemyFSM
 
     private Transform targetTransform; //충돌시 target의 위치
     private Vector3 targetLookDir; //target을 바라보는 방향 담을 변수
-
-    public override bool IsCallEnemy { get => base.IsCallEnemy; set => base.IsCallEnemy = value; }
     //Attack Range
-    public override bool IsAttackRange
+    public override bool CanMove
     {
         get
         {
-            return base.IsAttackRange;
+            return base.CanMove;
         }
     }
 
@@ -35,7 +33,7 @@ public class Professor : EnemyFSM
         rigid = GetComponent<Rigidbody>();
         animator = GetComponentInChildren<Animator>();
 
-        myState = new StateMachine<EnemyFSM>();
+        //myState = new StateMachine<EnemyFSM>();
 
         /*
         myState.InitialSetting(this, EnemyIdleState.GetInstance);
@@ -45,32 +43,24 @@ public class Professor : EnemyFSM
 
     protected override void Update()
     {
-        myState.UpdateFSM();
+        //myState.UpdateFSM();
     }
 
     protected override void OnTriggerEnter(Collider other)
     {
+        /*
         if (other.CompareTag("Player"))
         {
             targetTransform = other.gameObject.transform;
-            IsAttackRange = true;
             ChangeState(EnemyAttackState.GetInstance);
         }
+        */
     }
-    protected override void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            targetTransform = other.gameObject.transform;
-            IsAttackRange = true;
-        }
-    }
+
     protected override void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            IsAttackRange = false;
-            ChangeState(EnemyIdleState.GetInstance);
         }
     }
 
@@ -86,42 +76,49 @@ public class Professor : EnemyFSM
     /// <param name="index"> 현재 state에 따라 바꿀 애니메이션 index </param>
     public override void PlayAnimation(int index)
     {
-        /*
         switch (index)
         {
             case 0:
-                animator.SetBool("IsWalk", false);
-                animator.SetBool("IsAttack", false);
+                //animator.SetBool("IsRun", false);
+                //animator.SetBool("IsSurprised", false);
+                //animator.SetBool("IsLock", false);
                 break;
             case 1:
-                animator.SetBool("IsWalk", true);
+                //animator.SetBool("IsRun", true);
                 break;
             case 2:
-                animator.SetBool("IsAttack", true);
+                //animator.SetBool("IsSurprised", true);
+                break;
+            case 3:
+                //animator.SetBool("IsLock", true);
                 break;
         }
-        */
     }
+
     public override void AttackEnemy()
     {
+        /*
         targetLookDir = targetTransform.position - transform.position;
         targetLookDir.y = 0;
         Quaternion look = Quaternion.LookRotation(targetLookDir.normalized);
         transform.rotation = look;
+        */
     }
 
     public override void MovementStart()
     {
-        PathManager.GetInstance.RequestPath(transform.position, PathFindCallBack, true);
+        //PathManager.GetInstance.RequestPath(transform.position, PathFindCallBack, 0);
     }
 
     public override void MovementStop()
     {
+        /*
         if (pathFindIEnum != null)
         {
             StopCoroutine(pathFindIEnum);
             pathFindIEnum = MoveToPath();
         }
+        */
     }
 
     #region Enemy PathFind Move
@@ -157,7 +154,12 @@ public class Professor : EnemyFSM
                 targetPathIndex++;
                 if (movePath.Length <= targetPathIndex)
                 {
+                    CanMove = false;
                     yield break;
+                }
+                else
+                {
+                    CanMove = true;
                 }
                 curWayPosition = movePath[targetPathIndex];
             }
@@ -171,28 +173,5 @@ public class Professor : EnemyFSM
             yield return null;
         }
     }
-
-    /*
-    public void OnDrawGizmos()
-    {
-        if (movePath != null)
-        {
-            for (int i = targetPathIndex; i < movePath.Length; i++)
-            {
-                Gizmos.color = Color.green;
-                Gizmos.DrawCube(movePath[i], Vector3.one);
-
-                if (i == targetPathIndex)
-                {
-                    Gizmos.DrawLine(transform.position, movePath[i]);
-                }
-                else
-                {
-                    Gizmos.DrawLine(movePath[i - 1], movePath[i]);
-                }
-            }
-        }
-    }
-    */
     #endregion
 }

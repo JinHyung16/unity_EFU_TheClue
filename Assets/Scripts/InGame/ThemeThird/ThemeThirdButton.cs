@@ -61,11 +61,17 @@ public class ThemeThirdButton : InteractiveObject
 
         switch (btnTagNum)
         {
-            case 0:
+            case 1:
                 myType = InteractiveType.ThemeThird_Btn_GetKey;
                 break;
-            case 1:
-                myType = InteractiveType.ThemeThird_Btn_CallNPC;
+            case 2:
+                myType = InteractiveType.ThemeThird_Btn_CallEnemiesRegion02;
+                break;
+            case 3:
+                myType = InteractiveType.ThemeThird_Btn_CallNPCRegion04;
+                break;
+            case 4:
+                myType = InteractiveType.ThemeThird_Btn_CallNPCRegion03;
                 break;
         }
         return myType;

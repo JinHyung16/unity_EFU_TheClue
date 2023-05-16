@@ -25,18 +25,14 @@ public class EnemyIdleState : BaseFSM<EnemyFSM>
 
         state.MovementStop();
         state.PlayAnimation(0);
+
+        Debug.Log("EnemyIdle진입");
     }
 
     public override void UpdateState(EnemyFSM state)
     {
-        if (state.IsAttackRange)
+        if (!ThemeThirdPresenter.GetInstance.IsCallEnemyAnimation)
         {
-            state.ChangeState(EnemyAttackState.GetInstance);
-            Debug.Log("EnemyIdle에서 공격임을 받고있다");
-        }
-        else 
-        {
-
             if (curTime > 0.0f)
             {
                 curTime -= Time.deltaTime;
@@ -53,9 +49,12 @@ public class EnemyIdleState : BaseFSM<EnemyFSM>
 
             if (secTime == 0.0f)
             {
-                //이 부분에서 멈춰있는데 가깝게 있으면 움직이려하니깐 오류남
                 state.ChangeState(EnemyMoveState.GetInstance);
             }
+        }
+        else
+        {
+            return;
         }
     }
 

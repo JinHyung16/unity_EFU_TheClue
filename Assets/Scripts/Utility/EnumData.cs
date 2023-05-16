@@ -29,7 +29,9 @@ namespace HughEnumData
         ThemeSecond_WallClock, //벽걸이 시계
 
         ThemeThird_Btn_GetKey,
-        ThemeThird_Btn_CallNPC,
+        ThemeThird_Btn_CallEnemiesRegion02,
+        ThemeThird_Btn_CallNPCRegion03,
+        ThemeThird_Btn_CallNPCRegion04,
     }
 
     public enum AnimationType

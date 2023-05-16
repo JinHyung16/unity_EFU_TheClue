@@ -167,6 +167,15 @@ public class GameManager : Singleton<GameManager>, IDisposable
 
     public void GoToMain()
     {
+        gameOptionCanvas.enabled = false;
+        interactiveCanvs.enabled = false;
+
+        isOptionKeyDown = false;
+        IsInputStop = false;
+        IsUIOpen = false;
+
+        Dispose();
+
         SceneController.GetInstance.LoadScene("Main");
     }
 
