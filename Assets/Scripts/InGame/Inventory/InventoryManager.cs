@@ -143,6 +143,10 @@ public class InventoryManager : MonoBehaviour
                     ThemeSecondPresenter.GetInstance.NoteSelectInInven(emptyInventory.InventoryObject, true);
                 }
             }
+            if (ThemeThirdPresenter.GetInstance != null)
+            {
+                ThemeThirdPresenter.GetInstance.EscapeKeySelect();
+            }
         }
     }
 
@@ -180,7 +184,7 @@ public class InventoryManager : MonoBehaviour
     /// <summary>
     /// 테마1에서 inven의 object를 Tile에 최종적으로 배치 완료할 때 호출하는 함수
     /// </summary>
-    public void InvenObjectPutOnTile()
+    public void InvenObjectUse()
     {
         emptyInventory.GetObject();
         emptyInventory = null;

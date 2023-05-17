@@ -35,7 +35,6 @@ public class ThemeFirstViewer : MonoBehaviour
     {
         nextDialogueBtn.onClick.AddListener(NextDialogueBtn);
         dialogueCanvas.enabled = false;
-        narrativeCanvas.enabled = false;
     }
     private void Start()
     {
@@ -48,6 +47,7 @@ public class ThemeFirstViewer : MonoBehaviour
         {
             mission.SetActive(false);
         }
+        narrativeCanvas.enabled = false;
 
         if (tokenSource != null)
         {
@@ -55,6 +55,12 @@ public class ThemeFirstViewer : MonoBehaviour
             tokenSource.Dispose();
         }
         tokenSource = new CancellationTokenSource();
+    }
+
+    private void OnDisable()
+    {
+        nextDialogueBtn.onClick.RemoveAllListeners();
+        UIManager.GetInstance.ClearAllCanvas();
     }
 
     public void DialogueStart()

@@ -1,9 +1,4 @@
-using Cysharp.Threading.Tasks;
 using HughEnumData;
-using System;
-using System.Collections;
-using System.Threading;
-using TMPro;
 using UnityEngine;
 
 public class Door : InteractiveObject
@@ -12,8 +7,10 @@ public class Door : InteractiveObject
 
     private Vector3 offset;
 
-    //UniTask 토큰
-    private CancellationTokenSource tokenSource;
+    private void Start()
+    {
+        offset = new Vector3(0, 0.2f, 0);
+    }
 
     #region InteractiveObject Override
     protected override void OnTriggerEnter(Collider other)
@@ -62,14 +59,4 @@ public class Door : InteractiveObject
     }
 
     #endregion
-    private void Start()
-    {
-        if (tokenSource != null)
-        {
-            tokenSource.Dispose();
-        }
-        tokenSource = new CancellationTokenSource();
-
-        offset = new Vector3(0, 0.2f, 0);
-    }
 }

@@ -34,15 +34,7 @@ public class GradStudent : EnemyFSM
 
     private CancellationTokenSource tokenSource;
 
-    //Attack Range
-    public override bool CanMove
-    {
-        get
-        {
-            return base.CanMove;
-        }
-    }
-
+    public override bool IsMoveDone { get => base.IsMoveDone; protected set => base.IsMoveDone = value; }
     private void Start()
     {
         enemyAnimator = GetComponentInChildren<Animator>();
@@ -143,7 +135,7 @@ public class GradStudent : EnemyFSM
 
     public override void MovementStop()
     {
-        CanMove = true;
+        IsMoveDone = false;
         OnChaseTarget = 2;
         if (pathFindIEnum != null)
         {
@@ -180,8 +172,7 @@ public class GradStudent : EnemyFSM
                 targetPathIndex++;
                 if (movePath.Length <= targetPathIndex)
                 {
-                    CanMove = false;
-                    Debug.Log("이동을 다했습니다");
+                    IsMoveDone = true;
                     yield break;
                 }
                 curWayPosition = movePath[targetPathIndex];

@@ -68,10 +68,10 @@ public class ThemeThirdButton : InteractiveObject
                 myType = InteractiveType.ThemeThird_Btn_CallEnemiesRegion02;
                 break;
             case 3:
-                myType = InteractiveType.ThemeThird_Btn_CallNPCRegion04;
+                myType = InteractiveType.ThemeThird_Btn_CallNPCRegion03;
                 break;
             case 4:
-                myType = InteractiveType.ThemeThird_Btn_CallNPCRegion03;
+                myType = InteractiveType.ThemeThird_Btn_CallNPCRegion04;
                 break;
         }
         return myType;

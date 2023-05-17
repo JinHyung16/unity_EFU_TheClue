@@ -28,9 +28,10 @@ public class ThemeSecondViewer : MonoBehaviour
 
     private void Awake()
     {
-        nextDialogueBtn.onClick.AddListener(NextDialogueBtn);
         dialogueCanvas.enabled = false;
+        nextDialogueBtn.onClick.AddListener(NextDialogueBtn);
     }
+
     private void Start()
     {
         foreach (var canvas in canvasList)
@@ -46,6 +47,11 @@ public class ThemeSecondViewer : MonoBehaviour
             tokenSource.Dispose();
         }
         tokenSource = new CancellationTokenSource();
+    }
+    private void OnDisable()
+    {
+        nextDialogueBtn.onClick.RemoveAllListeners();
+        UIManager.GetInstance.ClearAllCanvas();
     }
 
     public void DialogueStart()

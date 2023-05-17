@@ -19,25 +19,50 @@ public class EnemyMoveState : BaseFSM<EnemyFSM>
     }
     #endregion
 
+    private float curTime = 0.0f;
+    private float secTime = 0.0f;
+
+    private bool IsMoveState = false;
     public override void EnterState(EnemyFSM state)
     {
+        curTime = 6.0f;
+        secTime = 0.0f;
+
         state.MovementStart();
         state.PlayAnimation(1);
-
+        IsMoveState = true;
         Debug.Log("EnemyMove 진입");
     }
 
     public override void UpdateState(EnemyFSM state)
     {
-        if (!state.CanMove)
+        if (!ThemeThirdPresenter.GetInstance.IsCallEnemyAnimation)
         {
-            state.ChangeState(EnemyIdleState.GetInstance);
-            Debug.Log("Enemy Move 그만");
+            if (curTime > 0.0f)
+            {
+                curTime -= Time.deltaTime;
+                secTime = Mathf.FloorToInt(curTime % 60);
+            }
+            else
+            {
+                if (curTime != 0.0f)
+                {
+                    curTime = 0.0f;
+                    secTime = Mathf.FloorToInt(curTime % 60);
+                }
+            }
+
+            if (secTime == 0.0f || state.IsMoveDone)
+            {
+                state.ChangeState(EnemyIdleState.GetInstance);
+            }
         }
     }
 
     public override void ExitState(EnemyFSM state)
     {
+        IsMoveState = false;
+        Debug.Log("EnemyMove 나감");
     }
 
 }

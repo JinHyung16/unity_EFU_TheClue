@@ -28,6 +28,8 @@ namespace HughEnumData
         ThemeSecond_WristWatch, //손목시계
         ThemeSecond_WallClock, //벽걸이 시계
 
+        ThemeThird_EscapeKey,
+        ThemeThird_MiddleDoor,
         ThemeThird_Btn_GetKey,
         ThemeThird_Btn_CallEnemiesRegion02,
         ThemeThird_Btn_CallNPCRegion03,

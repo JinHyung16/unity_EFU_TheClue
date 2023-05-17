@@ -108,6 +108,10 @@ public class InteractiveManager : MonoBehaviour
                 {
                     ThemeSecondPresenter.GetInstance.DoorKeyHoleInteractive(true);
                 }
+                else if (ThemeThirdPresenter.GetInstance != null)
+                {
+                    ThemeThirdPresenter.GetInstance.DoorOpen();
+                }
                 break;
             case InteractiveType.ThemeFirst_Dice:
                 PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_PickUp);
@@ -149,8 +153,15 @@ public class InteractiveManager : MonoBehaviour
                     }
                     else
                     {
-                        //ThemeSecondPresenter.GetInstance.NPCInteractiveShowMission();
+                        ThemeSecondPresenter.GetInstance.NPCInteractiveShowMission();
                     }
+                }
+                break;
+            case InteractiveType.ThemeThird_EscapeKey:
+                PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_PickUp);
+                if (inventoryObj != null)
+                {
+                    ThemeThirdPresenter.GetInstance.EscapeKeyPutInInventory(inventoryObj);
                 }
                 break;
             case InteractiveType.ThemeThird_Btn_GetKey:
@@ -167,6 +178,9 @@ public class InteractiveManager : MonoBehaviour
                 break;
             case InteractiveType.ThemeThird_Btn_CallNPCRegion04:
                 ThemeThirdPresenter.GetInstance.CallNPCByButton(4);
+                break;
+            case InteractiveType.ThemeThird_MiddleDoor:
+                ThemeThirdPresenter.GetInstance.MiddleDoorOpen();
                 break;
             default:
                 break;

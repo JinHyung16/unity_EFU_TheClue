@@ -19,15 +19,8 @@ public class Professor : EnemyFSM
 
     private Transform targetTransform; //충돌시 target의 위치
     private Vector3 targetLookDir; //target을 바라보는 방향 담을 변수
-    //Attack Range
-    public override bool CanMove
-    {
-        get
-        {
-            return base.CanMove;
-        }
-    }
 
+    public Animator ProfessorAnim { get { return this.animator; } }
     private void Start()
     {
         rigid = GetComponent<Rigidbody>();
@@ -154,12 +147,7 @@ public class Professor : EnemyFSM
                 targetPathIndex++;
                 if (movePath.Length <= targetPathIndex)
                 {
-                    CanMove = false;
                     yield break;
-                }
-                else
-                {
-                    CanMove = true;
                 }
                 curWayPosition = movePath[targetPathIndex];
             }

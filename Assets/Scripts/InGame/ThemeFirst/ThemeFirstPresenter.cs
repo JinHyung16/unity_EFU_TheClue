@@ -399,10 +399,11 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         {
             context = "문을 열었습니다! 어서 탈출하세요.";
             themeFirstViewer.NarrativeCanvase(context);
+            GameClear(true);
         }
         else
         {
-            context = "문을 닫혀있습니다. 빨리 문을 여세요.";
+            context = "문이 닫혀있습니다. 빨리 문을 여세요.";
             themeFirstViewer.NarrativeCanvase(context);
         }
     }

@@ -126,7 +126,7 @@ public class TileManager : MonoBehaviour
             {
                 patternObject.GetComponent<Tile>().IsSetDice = true;
                 patternObject.GetComponent<Tile>().SetDiceDone();
-                InventoryManager.GetInstance.InvenObjectPutOnTile();
+                InventoryManager.GetInstance.InvenObjectUse();
                 ThemeFirstPresenter.GetInstance.DicePutOnTileCheck(true);
 
                 invenObj = null;

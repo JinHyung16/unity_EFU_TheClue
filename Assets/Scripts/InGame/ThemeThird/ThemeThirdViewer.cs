@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using HughEnumData;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,16 +30,17 @@ public class ThemeThirdViewer : MonoBehaviour
 
     private void Awake()
     {
-        nextDialogueBtn.onClick.AddListener(NextDialogueBtn);
         dialogueCanvas.enabled = false;
-        narrativeCanvas.enabled = false;
+        nextDialogueBtn.onClick.AddListener(NextDialogueBtn);
     }
     private void Start()
     {
-        for (int i = 0; i < canvasList.Count; i++)
+        foreach (var canvas in canvasList)
         {
-            UIManager.GetInstance.AddCanvasInDictionary(canvasList[i].name, canvasList[i]);
+            UIManager.GetInstance.AddCanvasInDictionary(canvas.name, canvas);
         }
+
+        narrativeCanvas.enabled = false;
 
         if (tokenSource != null)
         {
@@ -46,6 +48,26 @@ public class ThemeThirdViewer : MonoBehaviour
             tokenSource.Dispose();
         }
         tokenSource = new CancellationTokenSource();
+    }
+    private void OnDisable()
+    {
+        nextDialogueBtn.onClick.RemoveAllListeners();
+        UIManager.GetInstance.ClearAllCanvas();
+    }
+
+    public void OpenResultCanvas(bool isClear)
+    {
+        if (isClear)
+        {
+            resultTimerText.text = TimerManager.GetInstance.CurTimeString.ToString();
+            UIManager.GetInstance.ShowCanvas("GameClearResult Canvas");
+        }
+        else
+        {
+            PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_Died);
+            UIManager.GetInstance.ShowCanvas("GameFailedResult Canvas");
+        }
+        GameManager.GetInstance.IsUIOpen = true;
     }
 
     public void DialogueStart()

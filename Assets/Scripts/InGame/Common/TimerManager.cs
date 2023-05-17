@@ -77,6 +77,11 @@ public class TimerManager : MonoBehaviour
                 IsTimeDone = true;
                 ThemeSecondPresenter.GetInstance.GameClear(false);
             }
+            if (ThemeThirdPresenter.GetInstance != null)
+            {
+                IsTimeDone = true;
+                ThemeThirdPresenter.GetInstance.GameClear(false);
+            }
         }
 
         if (10.0f <= minTime)

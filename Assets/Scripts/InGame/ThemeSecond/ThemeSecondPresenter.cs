@@ -322,9 +322,6 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             CamInteractiveSet(interactiveCamMovePosList[2], false);
             NPCNoteSelectManager.GetInstance.NoteInvisible();
             themeSecondViewer.CloseCanvas();
-
-            //쪽지를 선택했으니 npc를 삭제한다.
-            npcObject.SetActive(false);
         }
     }
     #endregion
