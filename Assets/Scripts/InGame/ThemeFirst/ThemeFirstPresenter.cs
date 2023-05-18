@@ -139,7 +139,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     public void DoneDoorLock()
     {
         themeFirstViewer.CloseCanvas();
-
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.DoorLock_Fail);
         numOfDoorLockAttempsCnt++;
         if (3 <= numOfDoorLockAttempsCnt)
         {
@@ -162,7 +162,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
             tokenSource.Dispose();
         }
         tokenSource = new CancellationTokenSource();
-
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.LightSwitch);
         if (!IsSwitchOn)
         {
             if (colorList.Count <= switchLightIndex)
@@ -362,6 +362,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
         if (isDone == true)
         {
+            AudioManager.GetInstance.PlaySFX(AudioManager.SFX.TileMatch_Succes);
             successDiceSetTile++;
             if (3 <= successDiceSetTile)
             {

@@ -74,6 +74,7 @@ public class ThemeFirstViewer : MonoBehaviour
     private void NextDialogueBtn()
     {
         dialgoueIndex += 1;
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.DialogueBtn);
         if (DataManager.GetInstance.ThemeFirstContent.Count <= dialgoueIndex)
         {
             dialogueCanvas.enabled = false;
@@ -109,11 +110,13 @@ public class ThemeFirstViewer : MonoBehaviour
         if (isClear)
         {
             resultTimerText.text = TimerManager.GetInstance.CurTimeString.ToString();
+            AudioManager.GetInstance.PlaySFX(AudioManager.SFX.GameResult_Celar);
             UIManager.GetInstance.ShowCanvas("GameClearResult Canvas");
         }
         else
         {
             PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_Died);
+            AudioManager.GetInstance.PlaySFX(AudioManager.SFX.GAmeResult_Fail);
             UIManager.GetInstance.ShowCanvas("GameFailedResult Canvas");
         }
     }
@@ -146,18 +149,18 @@ public class ThemeFirstViewer : MonoBehaviour
     #region Game Result Canvas하위 Button 기능
     public void GoToMain()
     {
-        GameManager.GetInstance.GameClear();
+        GameManager.GetInstance.GameDataClear();
         SceneController.GetInstance.LoadScene("Main");
     }
 
     public void NextStage()
     {
-        GameManager.GetInstance.GameClear();
+        GameManager.GetInstance.GameDataClear();
         SceneController.GetInstance.LoadScene("ThemeSecond");
     }
     public void RetryGame()
     {
-        GameManager.GetInstance.GameClear();
+        GameManager.GetInstance.GameDataClear();
         SceneController.GetInstance.LoadScene("ThemeFirst");
     }
 
@@ -172,6 +175,7 @@ public class ThemeFirstViewer : MonoBehaviour
     /// </summary>
     public void CloseCanvas()
     {
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         GameManager.GetInstance.IsUIOpen = false;
         UIManager.GetInstance.HideCanvas();
     }

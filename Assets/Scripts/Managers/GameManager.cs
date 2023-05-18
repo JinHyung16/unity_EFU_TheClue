@@ -135,6 +135,8 @@ public class GameManager : Singleton<GameManager>, IDisposable
     /// </summary>
     private void QuitGameAndSaveData()
     {
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
+
         int saveIndex = 0;
         switch (SceneController.GetInstance.CurSceneName)
         {
@@ -167,6 +169,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
 
     public void GoToMain()
     {
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         gameOptionCanvas.enabled = false;
         interactiveCanvs.enabled = false;
 
@@ -181,11 +184,13 @@ public class GameManager : Singleton<GameManager>, IDisposable
 
     public void HelpPanelOpen()
     {
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         helpPanel.SetActive(true);
     }
 
     public void ClosePanel()
     {
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         helpPanel.SetActive(false);
     }
 
@@ -223,7 +228,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
     /// <summary>
     /// 게임 클리어 후 메인화면으로 갈 떄 호출
     /// </summary>
-    public void GameClear()
+    public void GameDataClear()
     {
         Dispose();
     }

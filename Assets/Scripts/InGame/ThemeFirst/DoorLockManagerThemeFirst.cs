@@ -54,6 +54,7 @@ public class DoorLockManagerThemeFirst : MonoBehaviour
     private void InputDoorLockKeyPad()
     {
         int index = int.Parse(EventSystem.current.currentSelectedGameObject.name);
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.DoorLock_PushButton);
         UpdateDoorLockDisplay(index);
     }
 

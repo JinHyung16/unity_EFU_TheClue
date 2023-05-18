@@ -47,16 +47,19 @@ public class MainSceneViewer : MonoBehaviour
     /// </summary>
     public void ThemeSelectButton()
     {
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         UIManager.GetInstance.ShowPanel("ThemeSelect Panel");
     }
 
     public void SettingButton()
     {
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         UIManager.GetInstance.ShowPanel("Setting Panel");
     }
 
     public void HelpButton()
     {
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         UIManager.GetInstance.ShowPanel("Help Panel");
     }
 
@@ -66,6 +69,7 @@ public class MainSceneViewer : MonoBehaviour
     /// </summary>
     public void ClosePanelButton()
     {
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         UIManager.GetInstance.HidePanel();
     }
 
@@ -75,6 +79,7 @@ public class MainSceneViewer : MonoBehaviour
     public void ThemeSelect()
     {
         string themeName = EventSystem.current.currentSelectedGameObject.GetComponent<ThemeSelectData>().ThemeName;
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         MainScenePresenter.GetInstance.ThemeSelectedAndLoadScene(themeName);
     }
     #endregion

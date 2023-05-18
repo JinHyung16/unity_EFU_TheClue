@@ -2,9 +2,7 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using HughGenerics;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Threading;
 using UnityEngine;
 
@@ -119,12 +117,13 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             GameClear(true);
             string context = "무언가 열리는 소리가 들렸는데?!";
             themeSecondViewer.NarrativeCanvase(context);
+            AudioManager.GetInstance.PlaySFX(AudioManager.SFX.DoorLock_Success);
         }
         else
         {
             string context = "좋지 않은 예감이 든다...";
             themeSecondViewer.NarrativeCanvase(context);
-
+            AudioManager.GetInstance.PlaySFX(AudioManager.SFX.DoorLock_Fail);
             numOfDoorLockAttempsCnt++;
             if (3 <= numOfDoorLockAttempsCnt)
             {
@@ -161,6 +160,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     /// </summary>
     public void SwitchOnOff()
     {
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.LightSwitch);
         if (switchSpotLight.enabled)
         {
             globalLight.color = new Color(0, 0, 0);

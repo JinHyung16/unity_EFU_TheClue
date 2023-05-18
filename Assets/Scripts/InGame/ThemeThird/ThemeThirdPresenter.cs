@@ -185,7 +185,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     {
         string text = "주위에 무언가 떨어진 소리가 들렸다!!";
         themeThirdViewer.NarrativeCanvas(text);
-
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.ThemeThird_DropKey);
         for (int i = 0; i < escapeKeyRegion01List.Count; i++)
         {
             escapeKeyRegion01List[i].SetActive(true);
@@ -197,6 +197,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     /// </summary>
     public void DropTheKeyByNPC()
     {
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.ThemeThird_RegionButton);
         if (isCallRegion02Anim)
         {
             string text = "탁자 위에 뭔가 놓고 간 거 같다. 확인해보자!!";
@@ -242,7 +243,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
                 enemyGradStudentObj.transform.position = new Vector3(enemyAnimTransList[2].position.x, enemyGradStudentObj.transform.position.y, enemyAnimTransList[2].position.z);
                 enemyGradStudentObj.transform.rotation = enemyAnimTransList[2].rotation;
                 enemyGradStudentObj.SetActive(true);
-
+                AudioManager.GetInstance.PlaySFX(AudioManager.SFX.ThemeThird_GradStudent_Tired);
                 //교수님이 뒤를 돌아보고 놀란다.
                 enemyProfessor.PlayAnimation(0);
                 await enemyProfessorObj.transform.DORotate(new Vector3(0, 90, 0), 1.5f).WithCancellation(tokenSource.Token);
@@ -259,7 +260,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
             }
             */
 
-            await UniTask.Delay(TimeSpan.FromSeconds(3.0f), cancellationToken: tokenSource.Token);
+            await UniTask.Delay(TimeSpan.FromSeconds(5.0f), cancellationToken: tokenSource.Token);
             //교수님의 놀라는 애니메이션이 끝나면 교수님이 도망간다.
             enemyProfessor.PlayAnimation(0);
             CamInteractiveSet(camAnimPosList[1], true);
@@ -274,7 +275,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
             */
 
             //중간 철창 닫는 위치로 이동시키고 철창 닫는 애니메이션 재생
-            await UniTask.Delay(TimeSpan.FromSeconds(5.0f), cancellationToken: tokenSource.Token);
+            await UniTask.Delay(TimeSpan.FromSeconds(7.0f), cancellationToken: tokenSource.Token);
             enemyProfessor.PlayAnimation(0);
             middleDoorObj.transform.position = middleDoorCloseTrans.position;
             enemyProfessorObj.transform.position = new Vector3(enemyAnimTransList[1].position.x, enemyProfessor.transform.position.y, enemyAnimTransList[1].position.z);
@@ -289,8 +290,9 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
             }
             */
             //철창 닫는 애니메이션이 끝났다면, 교수님이 맵에서 나가는 듯하게 사라진다.
-            await UniTask.Delay(TimeSpan.FromSeconds(7.0f), cancellationToken: tokenSource.Token);
+            await UniTask.Delay(TimeSpan.FromSeconds(9.0f), cancellationToken: tokenSource.Token);
             enemyProfessor.PlayAnimation(1);
+            await enemyProfessorObj.transform.DORotate(new Vector3(0, 90, 0), 0.3f);
             await enemyProfessorObj.transform.DOMoveX(4.0f, 3.0f);
             enemyProfessor.PlayAnimation(0);
             enemyProfessorObj.SetActive(false);
@@ -304,9 +306,9 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
     public void CallNPCByButton(int regionNum)
     {
-        string text = "누가 다가오는거 같다!!!";
+        string text = "누군가 다가오는거 같다!!!";
         themeThirdViewer.NarrativeCanvas(text);
-
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.ThemeThird_RegionButton);
         enemyGradStudent.OnChaseTarget = regionNum;
         enemyGradStudent.ChangeState(EnemyMoveState.GetInstance);
     }

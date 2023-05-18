@@ -33,6 +33,7 @@ public class DoorLockManagerThemeSecond : MonoBehaviour
     private void InputButton()
     {
         UpdateDoorLockDisplay(EventSystem.current.currentSelectedGameObject.name);
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.DoorLock_PushButton);
     }
 
     private void UpdateDoorLockDisplay(string idx)

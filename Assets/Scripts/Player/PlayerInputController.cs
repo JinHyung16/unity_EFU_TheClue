@@ -69,6 +69,10 @@ public class PlayerInputController : MonoBehaviour
         float horizontal = UnityEngine.Input.GetAxis("Horizontal");
         float vertical = UnityEngine.Input.GetAxis("Vertical");
 
+        if (horizontal != 0 || vertical != 0)
+        {
+            AudioManager.GetInstance.PlaySFX(AudioManager.SFX.PlayerMove);
+        }
         Vector2 moveInput = new Vector2(horizontal * cameraRotateSpeed, vertical * cameraRotateSpeed);
         playerAnimator.SetFloat("Horizontal", horizontal);
         playerAnimator.SetFloat("Vertical", vertical);
@@ -82,7 +86,6 @@ public class PlayerInputController : MonoBehaviour
 
         playerTransform.forward = lookForward; //player가 바라보는 방향과 카메라가 바라보는 방향 동일하게 설정
         playerMovementController.MoveDirection(moveDir); //moveDir방향으로 움직이고, 만약 1인칭 시점으로 바뀌면 moveInput 넣는다.
-
     }
 
     /// <summary>

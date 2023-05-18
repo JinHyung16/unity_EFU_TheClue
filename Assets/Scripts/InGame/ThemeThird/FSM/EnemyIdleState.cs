@@ -52,7 +52,14 @@ public class EnemyIdleState : BaseFSM<EnemyFSM>
 
             if (secTime == 0.0f)
             {
-                state.ChangeState(EnemyMoveState.GetInstance);
+                if (!state.IsAttackTime)
+                {
+                    state.ChangeState(EnemyMoveState.GetInstance);
+                }
+                else
+                {
+                    state.ChangeState(EnemyAttackState.GetInstance);
+                }
             }
         }
     }
