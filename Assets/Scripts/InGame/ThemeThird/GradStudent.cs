@@ -51,6 +51,7 @@ public class GradStudent : EnemyFSM
 
     protected override void Update()
     {
+        /*
         if (Physics.Raycast(ememyRayPos.position, transform.forward, out hit, rayMaxDistance) || 
             Physics.Raycast(ememyRayPos.position, -transform.forward, out hit, rayMaxDistance))
         {
@@ -62,6 +63,7 @@ public class GradStudent : EnemyFSM
             Debug.DrawRay(ememyRayPos.position, transform.forward * rayMaxDistance, Color.red);
             Debug.DrawRay(ememyRayPos.position, -transform.forward * rayMaxDistance, Color.red);
         }
+        */
         myState.UpdateFSM();
     }
 

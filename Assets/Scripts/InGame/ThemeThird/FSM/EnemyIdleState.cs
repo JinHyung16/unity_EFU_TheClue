@@ -18,8 +18,6 @@ public class EnemyIdleState : BaseFSM<EnemyFSM>
 
     private float curTime = 0.0f;
     private float secTime = 0.0f;
-
-    private bool IsIdleState = false;
     public override void EnterState(EnemyFSM state)
     {
         curTime = 5.0f;
@@ -27,9 +25,6 @@ public class EnemyIdleState : BaseFSM<EnemyFSM>
 
         state.MovementStop();
         state.PlayAnimation(0);
-
-        IsIdleState = true;
-        Debug.Log("EnemyIdle 진입");
     }
 
     public override void UpdateState(EnemyFSM state)
@@ -66,7 +61,6 @@ public class EnemyIdleState : BaseFSM<EnemyFSM>
 
     public override void ExitState(EnemyFSM state)
     {
-        IsIdleState = false;
         Debug.Log("EnemyIdle 나감");
     }
 }

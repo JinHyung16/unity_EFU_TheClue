@@ -22,7 +22,6 @@ public class EnemyMoveState : BaseFSM<EnemyFSM>
     private float curTime = 0.0f;
     private float secTime = 0.0f;
 
-    private bool IsMoveState = false;
     public override void EnterState(EnemyFSM state)
     {
         curTime = 6.0f;
@@ -30,8 +29,6 @@ public class EnemyMoveState : BaseFSM<EnemyFSM>
 
         state.MovementStart();
         state.PlayAnimation(1);
-        IsMoveState = true;
-        Debug.Log("EnemyMove 진입");
     }
 
     public override void UpdateState(EnemyFSM state)
@@ -61,7 +58,6 @@ public class EnemyMoveState : BaseFSM<EnemyFSM>
 
     public override void ExitState(EnemyFSM state)
     {
-        IsMoveState = false;
         Debug.Log("EnemyMove 나감");
     }
 

@@ -56,21 +56,7 @@ namespace HughPathFinding
         public void RequestPath(Vector3 start, Action<Vector3[], bool> callback, int moveType)
         {
             Path newPath;
-            if (moveType == 1)
-            {
-                newPath = new Path(start, playerTramsform.position, callback);
-                Debug.Log("Player 출격중");
-                pathQueue.Enqueue(newPath);
-            }
-            else if (moveType == 2)
-            {
-                int moveX = UnityEngine.Random.Range(-9, 9);
-                int moveZ = UnityEngine.Random.Range(-16, 16);
-                Vector3 randomTargetVec = new Vector3(moveX, start.y, moveZ);
-                newPath = new Path(start, randomTargetVec, callback);
-                pathQueue.Enqueue(newPath);
-            }
-            else if (moveType == 3)
+            if (moveType == 3)
             {
                 newPath = new Path(start, ThemeThirdPresenter.GetInstance.RegionTargetTransList[0].position, callback);
                 pathQueue.Enqueue(newPath);
@@ -78,6 +64,12 @@ namespace HughPathFinding
             else if (moveType == 4)
             {
                 newPath = new Path(start, ThemeThirdPresenter.GetInstance.RegionTargetTransList[1].position, callback);
+                pathQueue.Enqueue(newPath);
+            }
+            else
+            {
+                newPath = new Path(start, playerTramsform.position, callback);
+                Debug.Log("Player 출격중");
                 pathQueue.Enqueue(newPath);
             }
             TryNextPathFind();

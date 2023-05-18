@@ -11,6 +11,7 @@ TagManager:
   - DoorKey
   - Enemy_GradStudent
   - Enemy_PrisionOfficer
+  - WeaponBook
   layers:
   - Default
   - TransparentFX

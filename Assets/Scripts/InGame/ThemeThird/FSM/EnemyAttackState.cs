@@ -19,7 +19,6 @@ public class EnemyAttackState : BaseFSM<EnemyFSM>
     {
         state.MovementStop();
         state.PlayAnimation(2);
-        Debug.Log("EnemyAttack 진입");
     }
 
     public override void UpdateState(EnemyFSM state)
@@ -31,5 +30,6 @@ public class EnemyAttackState : BaseFSM<EnemyFSM>
 
     public override void ExitState(EnemyFSM state)
     {
+        Debug.Log("EnemyAttack 나감");
     }
 }
