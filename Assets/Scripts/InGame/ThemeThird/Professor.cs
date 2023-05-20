@@ -72,18 +72,18 @@ public class Professor : EnemyFSM
         switch (index)
         {
             case 0:
-                //animator.SetBool("IsRun", false);
-                //animator.SetBool("IsSurprised", false);
-                //animator.SetBool("IsLock", false);
+                animator.SetBool("IsRun", false);
+                animator.SetBool("IsSurprised", false);
+                animator.SetBool("IsLock", false);
                 break;
             case 1:
-                //animator.SetBool("IsRun", true);
+                animator.SetBool("IsRun", true);
                 break;
             case 2:
-                //animator.SetBool("IsSurprised", true);
+                animator.SetBool("IsSurprised", true);
                 break;
             case 3:
-                //animator.SetBool("IsLock", true);
+                animator.SetBool("IsLock", true);
                 break;
         }
     }

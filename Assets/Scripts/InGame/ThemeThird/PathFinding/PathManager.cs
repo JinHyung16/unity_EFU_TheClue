@@ -69,7 +69,6 @@ namespace HughPathFinding
             else
             {
                 newPath = new Path(start, playerTramsform.position, callback);
-                Debug.Log("Player 출격중");
                 pathQueue.Enqueue(newPath);
             }
             TryNextPathFind();

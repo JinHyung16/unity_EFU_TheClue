@@ -49,6 +49,7 @@ public class DoorLockManagerThemeSecond : MonoBehaviour
     {
         displayText.text = null;
         password = null;
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
     }
 
     public void InputDone()
@@ -59,5 +60,6 @@ public class DoorLockManagerThemeSecond : MonoBehaviour
             displayText.text = null;
             password = null;
         }
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
     }
 }

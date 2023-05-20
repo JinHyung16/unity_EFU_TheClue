@@ -72,6 +72,10 @@ public class GradStudent : EnemyFSM
         if (other.CompareTag("Player"))
         {
             targetTransform = other.gameObject.transform;
+            Vector3 attackTargetLookDir = targetTransform.position - this.transform.position;
+            attackTargetLookDir.y = 0;
+            Quaternion look = Quaternion.LookRotation(attackTargetLookDir.normalized);
+            this.transform.rotation = look;
             IsAttackTime = true;
             ChangeState(EnemyAttackState.GetInstance);
         }
@@ -123,16 +127,11 @@ public class GradStudent : EnemyFSM
     public override void AttackEnemy()
     {
         IsAttackTime = true;
-        Vector3 attackTargetLookDir = targetTransform.position - this.transform.position;
-        attackTargetLookDir.y = 0;
-        Quaternion look = Quaternion.LookRotation(attackTargetLookDir.normalized);
-        this.transform.rotation = look;
         if (enemyAnimator.GetCurrentAnimatorStateInfo(0).IsName("Attack") && 1.0f <= enemyAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime)
         {
             Debug.Log("공격 애니메이션 끝나습니다.");
-            ChangeState(EnemyIdleState.GetInstance);
-            AudioManager.GetInstance.PlaySFX(AudioManager.SFX.ThemeThird_EnemyAttack);
             IsAttackTime = false;
+            ChangeState(EnemyIdleState.GetInstance);
         }
     }
 

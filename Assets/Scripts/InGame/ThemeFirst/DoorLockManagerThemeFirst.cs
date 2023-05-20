@@ -83,6 +83,7 @@ public class DoorLockManagerThemeFirst : MonoBehaviour
     /// </summary>
     public void ClearDoorLockDisplay()
     {
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         for (int i = 0; i < displayImageList.Count; i++)
         {
             displayImageList[i].sprite = null;
@@ -99,7 +100,7 @@ public class DoorLockManagerThemeFirst : MonoBehaviour
         //원래 비번이랑 비교해서
         //같으면 탈출
         //다르면 실패처리로 씬 다시 시작
-
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         GameManager.GetInstance.IsUIOpen = false;
         ClearDoorLockDisplay();
         ThemeFirstPresenter.GetInstance.DoneDoorLock();

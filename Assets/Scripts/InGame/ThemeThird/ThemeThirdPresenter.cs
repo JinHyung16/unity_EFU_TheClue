@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks.CompilerServices;
 using DG.Tweening;
 using HughGenerics;
 using System;
@@ -227,78 +228,49 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
             enemyProfessorObj.transform.position = new Vector3(enemyAnimTransList[0].position.x, enemyProfessor.transform.position.y, enemyAnimTransList[0].position.z);
             enemyProfessorObj.transform.rotation = enemyAnimTransList[0].rotation;
             enemyProfessorObj.SetActive(true);
-
-            //cameraInterAnim.SetInteger("IsCamAnim", 1);
-            DropTheKeyByNPCAnimation().Forget();
-            //cameraInterAnim.SetInteger("IsCamAnim", 0);
+            DropKeyByProfessor().Forget();
         }
     }
 
-    private async UniTaskVoid DropTheKeyByNPCAnimation()
+    private async UniTaskVoid DropKeyByProfessor()
     {
-        while (true)
-        {
-            //귀신 캐릭터를 교수님 뒤로 이동시킨다.
-            enemyGradStudentObj.transform.position = new Vector3(enemyAnimTransList[2].position.x, enemyGradStudentObj.transform.position.y, enemyAnimTransList[2].position.z);
-            enemyGradStudentObj.transform.rotation = enemyAnimTransList[2].rotation;
-            enemyGradStudentObj.SetActive(true);
-            AudioManager.GetInstance.PlaySFX(AudioManager.SFX.ThemeThird_GradStudent_Tired);
-            //교수님이 뒤를 돌아보고 놀란다.
-            enemyProfessor.PlayAnimation(0);
-            await enemyProfessorObj.transform.DORotate(new Vector3(0, 90, 0), 1.5f).WithCancellation(tokenSource.Token);
-            escapeKeyRegion02.SetActive(true);
-            enemyProfessor.PlayAnimation(2);
-            await enemyProfessorObj.transform.DORotate(new Vector3(0, -180, 0), 1.5f).WithCancellation(tokenSource.Token);
+        //귀신 캐릭터를 교수님 뒤로 이동시킨다.
+        enemyGradStudentObj.transform.position = new Vector3(enemyAnimTransList[2].position.x, enemyGradStudentObj.transform.position.y, enemyAnimTransList[2].position.z);
+        enemyGradStudentObj.transform.rotation = enemyAnimTransList[2].rotation;
+        enemyGradStudentObj.SetActive(true);
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.ThemeThird_GradStudent_Tired);
+        string text = "조교: 교수님~~~~~";
+        themeThirdViewer.NarrativeCanvas(text);
+        //교수님이 뒤를 돌아보고 놀란다.
+        await enemyProfessorObj.transform.DORotate(new Vector3(0, 90, 0), 0.5f).WithCancellation(tokenSource.Token);
+        escapeKeyRegion02.SetActive(true);
+        enemyProfessor.PlayAnimation(2);
+        await enemyProfessorObj.transform.DORotate(new Vector3(0, -180, 0), 0.8f).WithCancellation(tokenSource.Token);
+        CamInteractiveSet(camAnimPosList[1], true);
+        //await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: tokenSource.Token);
 
-            /*
-            if (enemyProfessor.ProfessorAnim.GetCurrentAnimatorStateInfo(0).IsName("IsSurprised") &&
-                1.0f <= enemyProfessor.ProfessorAnim.GetCurrentAnimatorStateInfo(0).normalizedTime)
-            {
-            }
-            */
+        //교수님의 놀라는 애니메이션이 끝나면 교수님이 도망간다.
+        enemyProfessor.PlayAnimation(1);
+        await enemyProfessorObj.transform.DOMoveZ(-4.0f, 1.5f).WithCancellation(tokenSource.Token);
 
-            await UniTask.Delay(TimeSpan.FromSeconds(3.0f), cancellationToken: tokenSource.Token);
-            //교수님의 놀라는 애니메이션이 끝나면 교수님이 도망간다.
-            enemyProfessor.PlayAnimation(0);
-            CamInteractiveSet(camAnimPosList[1], true);
-            Debug.Log("1");
-            enemyProfessor.PlayAnimation(1);
-            await enemyProfessorObj.transform.DOMoveZ(-4.0f, 3.0f).WithCancellation(tokenSource.Token);
-            /*
-            if (enemyProfessor.ProfessorAnim.GetCurrentAnimatorStateInfo(0).IsName("IsRun") &&
-                1.0f <= enemyProfessor.ProfessorAnim.GetCurrentAnimatorStateInfo(0).normalizedTime)
-            {
-            }
-            */
+        Debug.Log("1");
+        //중간 철창 닫는 위치로 이동시키고 철창 닫는 애니메이션 재생
+        middleDoorObj.transform.position = middleDoorCloseTrans.position;
+        enemyProfessorObj.transform.position = new Vector3(enemyAnimTransList[1].position.x, enemyProfessor.transform.position.y, enemyAnimTransList[1].position.z);
+        enemyProfessorObj.transform.rotation = enemyAnimTransList[1].rotation;
+        enemyProfessor.PlayAnimation(3);
+        //철창 닫는 애니메이션이 끝났다면, 교수님이 맵에서 나가는 듯하게 사라진다.
+        CamInteractiveSet(camAnimPosList[2], true);
+        await enemyProfessorObj.transform.DORotate(new Vector3(0, 90, 0), 0.3f);
+        Debug.Log("2");
 
-            //중간 철창 닫는 위치로 이동시키고 철창 닫는 애니메이션 재생
-            await UniTask.Delay(TimeSpan.FromSeconds(5.0f), cancellationToken: tokenSource.Token);
-            enemyProfessor.PlayAnimation(0);
-            middleDoorObj.transform.position = middleDoorCloseTrans.position;
-            enemyProfessorObj.transform.position = new Vector3(enemyAnimTransList[1].position.x, enemyProfessor.transform.position.y, enemyAnimTransList[1].position.z);
-            enemyProfessorObj.transform.rotation = enemyAnimTransList[1].rotation;
-            CamInteractiveSet(camAnimPosList[2], true);
-            enemyProfessor.PlayAnimation(3);
-
-            /*
-            if (enemyProfessor.ProfessorAnim.GetCurrentAnimatorStateInfo(0).IsName("IsLock") &&
-                1.0f <= enemyProfessor.ProfessorAnim.GetCurrentAnimatorStateInfo(0).normalizedTime)
-            {
-            }
-            */
-            //철창 닫는 애니메이션이 끝났다면, 교수님이 맵에서 나가는 듯하게 사라진다.
-            await UniTask.Delay(TimeSpan.FromSeconds(7.0f), cancellationToken: tokenSource.Token);
-            enemyProfessor.PlayAnimation(1);
-            await enemyProfessorObj.transform.DORotate(new Vector3(0, 90, 0), 0.3f);
-            await enemyProfessorObj.transform.DOMoveX(4.0f, 3.0f);
-            enemyProfessor.PlayAnimation(0);
-            enemyProfessorObj.SetActive(false);
-            IsCallEnemyAnimation = false;
-            CamInteractiveSet(camAnimPosList[2], false);
-            enemyGradStudent.ChangeState(EnemyMoveState.GetInstance);
-            tokenSource.Cancel();
-            await UniTask.Yield();
-        }
+        await enemyProfessorObj.transform.DOMoveX(4.0f, 1.5f);
+        enemyProfessorObj.SetActive(false);
+        IsCallEnemyAnimation = false;
+        CamInteractiveSet(camAnimPosList[2], false);
+        enemyGradStudent.ChangeState(EnemyIdleState.GetInstance);
+        Debug.Log("3");
+        tokenSource.Cancel();
     }
 
     public void CallNPCByButton(int regionNum)
