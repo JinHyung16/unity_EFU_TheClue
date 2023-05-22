@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace HughPathFinding
 {
-    public class Node : IHeapItem<Node>
+    public class Node : IHeapNode<Node>
     {
         public int gridX;
         public int gridY;

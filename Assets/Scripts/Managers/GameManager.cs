@@ -233,7 +233,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
         Dispose();
     }
 
-    public void OnApplicationQuit()
+    public void ProgramQuit()
     {
         //테스트 버전에선 무조건 3개다 열어두기
         DataManager.GetInstance.SaveData(3);

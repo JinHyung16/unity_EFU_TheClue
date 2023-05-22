@@ -84,7 +84,7 @@ public class ThemeSecondViewer : MonoBehaviour
     private async UniTaskVoid NarrativeUI()
     {
         narrativeCanvas.enabled = true;
-        await UniTask.Delay(TimeSpan.FromSeconds(1.5f), cancellationToken: tokenSource.Token);
+        await UniTask.Delay(TimeSpan.FromSeconds(1.5f), cancellationToken: this.GetCancellationTokenOnDestroy());
         narrativeCanvas.enabled = false;
     }
 
@@ -165,7 +165,7 @@ public class ThemeSecondViewer : MonoBehaviour
 
     public void QuitGame()
     {
-        GameManager.GetInstance.OnApplicationQuit();
+        GameManager.GetInstance.ProgramQuit();
     }
     #endregion
 

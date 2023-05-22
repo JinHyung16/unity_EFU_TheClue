@@ -50,7 +50,7 @@ SpriteAtlas:
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 1602797238, guid: 6fb8711531ff7514a8274569c272b871, type: 3}
+  - {fileID: 231693257, guid: 6fb8711531ff7514a8274569c272b871, type: 3}
   - {fileID: 265252648, guid: aeda0568a87d3ea43b41f4dc048dd779, type: 3}
   - {fileID: 94016000, guid: 69a7b82c2a710894d8666807ae721943, type: 3}
   m_PackedSpriteNamesToIndex:

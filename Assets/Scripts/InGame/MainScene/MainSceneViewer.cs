@@ -82,5 +82,10 @@ public class MainSceneViewer : MonoBehaviour
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         MainScenePresenter.GetInstance.ThemeSelectedAndLoadScene(themeName);
     }
+
+    public void QuitGame()
+    {
+        GameManager.GetInstance.ProgramQuit();
+    }
     #endregion
 }

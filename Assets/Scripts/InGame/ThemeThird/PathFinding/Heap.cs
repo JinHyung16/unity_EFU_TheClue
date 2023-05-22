@@ -1,13 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.UIElements;
-using UnityEngine;
 
 namespace HughPathFinding
 {
-    public class Heap<T> where T : IHeapItem<T>
+    public class Heap<T> where T : IHeapNode<T>
     {
         private T[] itemArray;
         private int curItemCount;
@@ -107,7 +102,7 @@ namespace HughPathFinding
         }
     }
 
-    public interface IHeapItem<T> : IComparable<T>
+    public interface IHeapNode<T> : IComparable<T>
     {
         int HeapIndex { get; set; }
     }

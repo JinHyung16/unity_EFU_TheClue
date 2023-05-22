@@ -125,6 +125,13 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     {
         invenObj = InventoryManager.GetInstance.GetInvenObject();
     }
+
+    public void HeadStoneNarrative()
+    {
+        string text = "대학생이라는 죄로\n 캠퍼스라는 교도소에서\n 강의실이라는 감옥에 갇혀...";
+        themeThirdViewer.NarrativeCanvas(text);
+    }
+
     /// <summary>
     /// 최종 나가는 문을 열 때 호출
     /// </summary>
@@ -253,7 +260,6 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         enemyProfessor.PlayAnimation(1);
         await enemyProfessorObj.transform.DOMoveZ(-4.0f, 1.5f).WithCancellation(tokenSource.Token);
 
-        Debug.Log("1");
         //중간 철창 닫는 위치로 이동시키고 철창 닫는 애니메이션 재생
         middleDoorObj.transform.position = middleDoorCloseTrans.position;
         enemyProfessorObj.transform.position = new Vector3(enemyAnimTransList[1].position.x, enemyProfessor.transform.position.y, enemyAnimTransList[1].position.z);
@@ -262,14 +268,13 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         //철창 닫는 애니메이션이 끝났다면, 교수님이 맵에서 나가는 듯하게 사라진다.
         CamInteractiveSet(camAnimPosList[2], true);
         await enemyProfessorObj.transform.DORotate(new Vector3(0, 90, 0), 0.3f);
-        Debug.Log("2");
 
+        enemyProfessor.PlayAnimation(1);
         await enemyProfessorObj.transform.DOMoveX(4.0f, 1.5f);
         enemyProfessorObj.SetActive(false);
         IsCallEnemyAnimation = false;
         CamInteractiveSet(camAnimPosList[2], false);
         enemyGradStudent.ChangeState(EnemyIdleState.GetInstance);
-        Debug.Log("3");
         tokenSource.Cancel();
     }
 
