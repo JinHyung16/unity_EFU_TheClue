@@ -132,6 +132,11 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         themeThirdViewer.NarrativeCanvas(text);
     }
 
+    public void EnemyHitToPlayer()
+    {
+        string text = "헉!! 너무 아프다... 정신이 몽롱해지는 것 같다.";
+        themeThirdViewer.NarrativeCanvas(text);
+    }
     /// <summary>
     /// 최종 나가는 문을 열 때 호출
     /// </summary>
@@ -232,6 +237,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
             CamInteractiveSet(camAnimPosList[0], true);
 
             //조교 캐릭터의 state를 idle로 바꾸고 시작
+            enemyProfessor.PlayAnimation(0);
             enemyProfessorObj.transform.position = new Vector3(enemyAnimTransList[0].position.x, enemyProfessor.transform.position.y, enemyAnimTransList[0].position.z);
             enemyProfessorObj.transform.rotation = enemyAnimTransList[0].rotation;
             enemyProfessorObj.SetActive(true);
@@ -248,10 +254,11 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.ThemeThird_GradStudent_Tired);
         string text = "조교: 교수님~~~~~";
         themeThirdViewer.NarrativeCanvas(text);
+        enemyProfessor.PlayAnimation(2);
         //교수님이 뒤를 돌아보고 놀란다.
         await enemyProfessorObj.transform.DORotate(new Vector3(0, 90, 0), 0.5f).WithCancellation(tokenSource.Token);
+        enemyProfessor.PlayAnimation(0);
         escapeKeyRegion02.SetActive(true);
-        enemyProfessor.PlayAnimation(2);
         await enemyProfessorObj.transform.DORotate(new Vector3(0, -180, 0), 0.8f).WithCancellation(tokenSource.Token);
         CamInteractiveSet(camAnimPosList[1], true);
         //await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: tokenSource.Token);
@@ -259,6 +266,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         //교수님의 놀라는 애니메이션이 끝나면 교수님이 도망간다.
         enemyProfessor.PlayAnimation(1);
         await enemyProfessorObj.transform.DOMoveZ(-4.0f, 1.5f).WithCancellation(tokenSource.Token);
+        enemyProfessor.PlayAnimation(0);
 
         //중간 철창 닫는 위치로 이동시키고 철창 닫는 애니메이션 재생
         middleDoorObj.transform.position = middleDoorCloseTrans.position;
@@ -267,10 +275,12 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         enemyProfessor.PlayAnimation(3);
         //철창 닫는 애니메이션이 끝났다면, 교수님이 맵에서 나가는 듯하게 사라진다.
         CamInteractiveSet(camAnimPosList[2], true);
+        enemyProfessor.PlayAnimation(0);
         await enemyProfessorObj.transform.DORotate(new Vector3(0, 90, 0), 0.3f);
 
         enemyProfessor.PlayAnimation(1);
         await enemyProfessorObj.transform.DOMoveX(4.0f, 1.5f);
+        enemyProfessor.PlayAnimation(0);
         enemyProfessorObj.SetActive(false);
         IsCallEnemyAnimation = false;
         CamInteractiveSet(camAnimPosList[2], false);

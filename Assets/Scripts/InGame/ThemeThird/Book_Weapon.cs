@@ -14,6 +14,8 @@ public class Book_Weapon : MonoBehaviour
 
     private CancellationTokenSource tokenSource;
 
+    private int hitCount = 0;
+
     private void Start()
     {
         if (tokenSource != null)
@@ -21,6 +23,13 @@ public class Book_Weapon : MonoBehaviour
             tokenSource.Dispose();
         }
         tokenSource = new CancellationTokenSource();
+
+        hitCount += 1;
+        ThemeThirdPresenter.GetInstance.EnemyHitToPlayer();
+        if (3 <= hitCount)
+        {
+            ThemeThirdPresenter.GetInstance.GameClear(false);
+        }
 
         volume.profile.TryGet(out this.chromaticAberration);
         chromaticAberration.intensity.Override(0.0f);

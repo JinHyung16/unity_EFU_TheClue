@@ -2,10 +2,8 @@ using HughGenerics;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using DG.Tweening;
 using UnityEngine.Rendering.Universal;
 using HughPathFinding;
-using System.Collections.Generic;
 
 public class GameManager : Singleton<GameManager>, IDisposable
 {
@@ -164,7 +162,9 @@ public class GameManager : Singleton<GameManager>, IDisposable
         IsUIOpen = false;
 
         Dispose();
+#if UNITY_STANDALONE
         Application.Quit();
+#endif
     }
 
     public void GoToMain()
@@ -236,7 +236,10 @@ public class GameManager : Singleton<GameManager>, IDisposable
     public void ProgramQuit()
     {
         //테스트 버전에선 무조건 3개다 열어두기
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         DataManager.GetInstance.SaveData(3);
+#if UNITY_STANDALONE
         Application.Quit();
+#endif
     }
 }

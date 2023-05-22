@@ -308,7 +308,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     {
         if (active)
         {
-            GameManager.GetInstance.Player.transform.position += new Vector3(0, 0, -1.0f);
+            //GameManager.GetInstance.Player.transform.position += new Vector3(0, 0, -1.0f);
             GameManager.GetInstance.IsUIOpen = true;
             IsInteractiveNum = 3;
             CamInteractiveSet(interactiveCamMovePosList[2], true);
