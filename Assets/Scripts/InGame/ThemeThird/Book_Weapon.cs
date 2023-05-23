@@ -24,13 +24,6 @@ public class Book_Weapon : MonoBehaviour
         }
         tokenSource = new CancellationTokenSource();
 
-        hitCount += 1;
-        ThemeThirdPresenter.GetInstance.EnemyHitToPlayer();
-        if (3 <= hitCount)
-        {
-            ThemeThirdPresenter.GetInstance.GameClear(false);
-        }
-
         volume.profile.TryGet(out this.chromaticAberration);
         chromaticAberration.intensity.Override(0.0f);
 
@@ -45,6 +38,13 @@ public class Book_Weapon : MonoBehaviour
                 tokenSource.Dispose();
             }
             tokenSource = new CancellationTokenSource();
+
+            hitCount += 1;
+            ThemeThirdPresenter.GetInstance.EnemyHitToPlayer();
+            if (3 < hitCount)
+            {
+                ThemeThirdPresenter.GetInstance.GameClear(false);
+            }
 
             Debug.Log("책과 player충돌");
             volume.profile.TryGet(out this.chromaticAberration);

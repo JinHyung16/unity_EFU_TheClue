@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System;
 using UnityEngine.Rendering.Universal;
 using HughPathFinding;
+using UnityEditor;
 
 public class GameManager : Singleton<GameManager>, IDisposable
 {
@@ -238,8 +239,17 @@ public class GameManager : Singleton<GameManager>, IDisposable
         //테스트 버전에선 무조건 3개다 열어두기
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         DataManager.GetInstance.SaveData(3);
-#if UNITY_STANDALONE
-        Application.Quit();
+#if UNITY_EDITOR
+        EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
+#endif
+    }
+
+    private void OnApplicationQuit()
+    {
+#if !UNITY_EDITOR
+        System.Diagnostics.Process.GetCurrentProcess().Kill();
 #endif
     }
 }

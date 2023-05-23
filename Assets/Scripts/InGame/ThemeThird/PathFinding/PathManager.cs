@@ -56,20 +56,20 @@ namespace HughPathFinding
         public void RequestPath(Vector3 start, Action<Vector3[], bool> callback, int moveType)
         {
             Path newPath;
-            if (moveType == 3)
+            switch (moveType)
             {
-                newPath = new Path(start, ThemeThirdPresenter.GetInstance.RegionTargetTransList[0].position, callback);
-                pathQueue.Enqueue(newPath);
-            }
-            else if (moveType == 4)
-            {
-                newPath = new Path(start, ThemeThirdPresenter.GetInstance.RegionTargetTransList[1].position, callback);
-                pathQueue.Enqueue(newPath);
-            }
-            else
-            {
-                newPath = new Path(start, playerTramsform.position, callback);
-                pathQueue.Enqueue(newPath);
+                case 3:
+                    newPath = new Path(start, ThemeThirdPresenter.GetInstance.RegionTargetTransList[0].position, callback);
+                    pathQueue.Enqueue(newPath);
+                    break;
+                case 4:
+                    newPath = new Path(start, ThemeThirdPresenter.GetInstance.RegionTargetTransList[1].position, callback);
+                    pathQueue.Enqueue(newPath);
+                    break;
+                default:
+                    newPath = new Path(start, playerTramsform.position, callback);
+                    pathQueue.Enqueue(newPath);
+                    break;
             }
             TryNextPathFind();
         }

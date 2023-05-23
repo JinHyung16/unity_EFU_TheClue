@@ -17,7 +17,6 @@ public class EnemyAttackState : BaseFSM<EnemyFSM>
     #endregion
     public override void EnterState(EnemyFSM state)
     {
-        state.MovementStop();
         state.PlayAnimation(2);
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.ThemeThird_EnemyAttack);
     }

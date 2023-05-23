@@ -23,7 +23,6 @@ public class EnemyIdleState : BaseFSM<EnemyFSM>
         curTime = 5.0f;
         secTime = 0.0f;
 
-        state.MovementStop();
         state.PlayAnimation(0);
     }
 

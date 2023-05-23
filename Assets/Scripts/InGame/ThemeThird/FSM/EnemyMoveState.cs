@@ -24,7 +24,7 @@ public class EnemyMoveState : BaseFSM<EnemyFSM>
 
     public override void EnterState(EnemyFSM state)
     {
-        curTime = 6.0f;
+        curTime = 9.0f;
         secTime = 0.0f;
 
         state.MovementStart();
@@ -59,6 +59,7 @@ public class EnemyMoveState : BaseFSM<EnemyFSM>
     public override void ExitState(EnemyFSM state)
     {
         Debug.Log("EnemyMove 나감");
+        state.MovementStop();
     }
 
 }

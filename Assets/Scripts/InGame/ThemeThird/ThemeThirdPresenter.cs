@@ -256,7 +256,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         themeThirdViewer.NarrativeCanvas(text);
         enemyProfessor.PlayAnimation(2);
         //교수님이 뒤를 돌아보고 놀란다.
-        await enemyProfessorObj.transform.DORotate(new Vector3(0, 90, 0), 0.5f).WithCancellation(tokenSource.Token);
+        await enemyProfessorObj.transform.DORotate(new Vector3(0, 90, 0), 0.8f).WithCancellation(tokenSource.Token);
         enemyProfessor.PlayAnimation(0);
         escapeKeyRegion02.SetActive(true);
         await enemyProfessorObj.transform.DORotate(new Vector3(0, -180, 0), 0.8f).WithCancellation(tokenSource.Token);
@@ -265,7 +265,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
         //교수님의 놀라는 애니메이션이 끝나면 교수님이 도망간다.
         enemyProfessor.PlayAnimation(1);
-        await enemyProfessorObj.transform.DOMoveZ(-4.0f, 1.5f).WithCancellation(tokenSource.Token);
+        await enemyProfessorObj.transform.DOMoveZ(-4.0f, 2.0f).WithCancellation(tokenSource.Token);
         enemyProfessor.PlayAnimation(0);
 
         //중간 철창 닫는 위치로 이동시키고 철창 닫는 애니메이션 재생
@@ -276,10 +276,12 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         //철창 닫는 애니메이션이 끝났다면, 교수님이 맵에서 나가는 듯하게 사라진다.
         CamInteractiveSet(camAnimPosList[2], true);
         enemyProfessor.PlayAnimation(0);
-        await enemyProfessorObj.transform.DORotate(new Vector3(0, 90, 0), 0.3f);
+        await enemyProfessorObj.transform.DORotate(new Vector3(0, 90, 0), 0.8f);
 
+        await UniTask.Delay(TimeSpan.FromSeconds(1.3f), cancellationToken: tokenSource.Token);
         enemyProfessor.PlayAnimation(1);
-        await enemyProfessorObj.transform.DOMoveX(4.0f, 1.5f);
+
+        await enemyProfessorObj.transform.DOMoveX(4.0f, 2.0f);
         enemyProfessor.PlayAnimation(0);
         enemyProfessorObj.SetActive(false);
         IsCallEnemyAnimation = false;
