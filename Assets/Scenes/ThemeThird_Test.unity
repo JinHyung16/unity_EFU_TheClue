@@ -17944,9 +17944,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee8dae5f8cff1fe4d9fe1abe8c6565ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2.8
+  moveSpeed: 1.2
   rayMaxDistance: 10
-  enemyHead: {fileID: 179950683}
+  ememyRayPos: {fileID: 0}
 --- !u!135 &1213253536
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -23971,12 +23971,18 @@ MonoBehaviour:
   themeThirdViewer: {fileID: 6936771}
   cameraMain: {fileID: 2033895344}
   cameraInteractive: {fileID: 1909141329}
-  camInterPosLost: []
-  regionKeys: {fileID: 0}
-  regionCallNpc: {fileID: 1348382288}
-  destroyTransList: []
-  enemyPrisonOfficer: {fileID: 907222528}
+  camAnimPosList: []
+  regionTransList: []
+  enemyAnimTransList: []
+  enemyProfessorObj: {fileID: 0}
+  enemyGradStudentObj: {fileID: 0}
+  enemyProfessor: {fileID: 0}
   enemyGradStudent: {fileID: 1213253535}
+  escapeKeyRegion01List: []
+  escapeKeyRegion02: {fileID: 0}
+  middleDoorObj: {fileID: 0}
+  middleDoorOpenTrans: {fileID: 0}
+  middleDoorCloseTrans: {fileID: 0}
 --- !u!1001 &1723632776
 PrefabInstance:
   m_ObjectHideFlags: 0

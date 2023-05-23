@@ -39,7 +39,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     [SerializeField] private GameObject npcObject;
 
     //0==상호작용 X, 1==문과 상호작용, 2==showcase와 상호작용, 3==npc와 상호작용해서 노트 획득, 4==note 오픈중
-    public int IsInteractiveNum { get; private set; } = 0;
+    public int InteractiveTypeNum { get; private set; } = 0;
 
     //NPC와 대화한게 처음인지 아닌지
     public bool IsNPCFirstTalk { get; set; } = false;
@@ -89,6 +89,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
 
         GameManager.GetInstance.IsUIOpen = false;
         GameManager.GetInstance.IsInputStop = false;
+        GameManager.GetInstance.IsGameClear = false;
 
         TimerManager.GetInstance.ThemeClearTime = 900.0f;
 
@@ -105,6 +106,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
 
     public void OpenDoorLockUI()
     {
+        InteractiveTypeNum = 5;
         themeSecondViewer.DoorLockCanvasOpen();
     }
 
@@ -248,7 +250,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         if (active)
         {
             GameManager.GetInstance.Player.transform.position += new Vector3(0, 0, -2.0f);
-            IsInteractiveNum = 1;
+            InteractiveTypeNum = 1;
             if (obj != null)
             {
                 obj.transform.position = cameraInteractive.transform.position + new Vector3(0, 0, 1.0f);
@@ -262,7 +264,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         }
         else
         {
-            IsInteractiveNum = 0;
+            InteractiveTypeNum = 0;
             if (obj != null)
             {
                 obj.SetActive(false);
@@ -278,7 +280,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         {
             GameManager.GetInstance.Player.transform.position += new Vector3(-1.0f, 0, 0);
             GameManager.GetInstance.IsUIOpen = true;
-            IsInteractiveNum = 2;
+            InteractiveTypeNum = 2;
             CamInteractiveSet(interactiveCamMovePosList[1], true);
             showcaseTopTrans.DOMove(showcasTopOpenTargetTrans.position, 0.8f);
             themeSecondViewer.InteractiveShowcanseCanvasOpen();
@@ -289,7 +291,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         else
         {
             GameManager.GetInstance.IsUIOpen = false;
-            IsInteractiveNum = 0;
+            InteractiveTypeNum = 0;
             for (int i = 0; i < wristWatches.Count; i++)
             {
                 wristWatches[i].PutDownWristWatch();
@@ -310,7 +312,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         {
             //GameManager.GetInstance.Player.transform.position += new Vector3(0, 0, -1.0f);
             GameManager.GetInstance.IsUIOpen = true;
-            IsInteractiveNum = 3;
+            InteractiveTypeNum = 3;
             CamInteractiveSet(interactiveCamMovePosList[2], true);
             NPCNoteSelectManager.GetInstance.NoteVisibleToSelect();
             themeSecondViewer.NPCSelectNoteCanvasOpen();
@@ -318,7 +320,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         else
         {
             GameManager.GetInstance.IsUIOpen = false;
-            IsInteractiveNum = 0;
+            InteractiveTypeNum = 0;
             CamInteractiveSet(interactiveCamMovePosList[2], false);
             NPCNoteSelectManager.GetInstance.NoteInvisible();
             themeSecondViewer.CloseCanvas();
@@ -332,6 +334,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     public void NPCInteractiveShowMission()
     {
         GameManager.GetInstance.IsUIOpen = false;
+        InteractiveTypeNum = 5;
         themeSecondViewer.NPCMissionCanvasOpen();
     }
 
@@ -342,12 +345,12 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             var note = obj.GetComponent<Note>();
             themeSecondViewer.NoteCanvaseOpen();
             NoteManager.GetInstance.NotePanelOpen(note.noteIndex);
-            IsInteractiveNum = 4;
+            InteractiveTypeNum = 4;
         }
         else
         {
             NoteManager.GetInstance.NotePanelClose();
-            IsInteractiveNum = 0;
+            InteractiveTypeNum = 0;
             themeSecondViewer.CloseCanvas();
         }
     }
@@ -357,6 +360,11 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         InventoryManager.GetInstance.PutInInventory(obj, doorKey.GetDoorKeyUISprite, UnityEngine.Color.white); ;
     }
 
+    public void CloseCanvas()
+    {
+        InteractiveTypeNum = 0;
+        themeSecondViewer.CloseCanvas();
+    }
     public void GameClear(bool isClear)
     {
         themeSecondViewer.CloseCanvas();

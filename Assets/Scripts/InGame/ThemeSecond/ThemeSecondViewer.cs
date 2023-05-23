@@ -144,6 +144,17 @@ public class ThemeSecondViewer : MonoBehaviour
         GameManager.GetInstance.IsUIOpen = true;
     }
 
+
+    /// <summary>
+    /// ThemeFirst Scene에서 Canvas들에게 붙어있는 Close버튼을 누르면 사용하는 공용함수
+    /// </summary>
+    public void CloseCanvas()
+    {
+        GameManager.GetInstance.IsUIOpen = false;
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
+        UIManager.GetInstance.HideCanvas();
+    }
+
     #region Game Result Canvas하위 Button 기능
     public void GoToMain()
     {
@@ -168,14 +179,4 @@ public class ThemeSecondViewer : MonoBehaviour
         GameManager.GetInstance.ProgramQuit();
     }
     #endregion
-
-    /// <summary>
-    /// ThemeFirst Scene에서 Canvas들에게 붙어있는 Close버튼을 누르면 사용하는 공용함수
-    /// </summary>
-    public void CloseCanvas()
-    {
-        GameManager.GetInstance.IsUIOpen = false;
-        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
-        UIManager.GetInstance.HideCanvas();
-    }
 }

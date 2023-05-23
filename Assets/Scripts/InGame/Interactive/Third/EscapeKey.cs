@@ -35,7 +35,7 @@ public class EscapeKey : InteractiveObject
     {
         if (other.CompareTag("Player"))
         {
-            if (ThemeSecondPresenter.GetInstance != null && ThemeSecondPresenter.GetInstance.IsInteractiveNum != 1)
+            if (ThemeSecondPresenter.GetInstance != null && ThemeSecondPresenter.GetInstance.InteractiveTypeNum != 1)
             {
                 InteractiveManager.GetInstance.IsInteractive = true;
                 this.Interacitve();

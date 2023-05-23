@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngineInternal;
 
 public class PlayerInputController : MonoBehaviour
 {
@@ -48,7 +46,7 @@ public class PlayerInputController : MonoBehaviour
 
     private void Update()
     {
-        InputOpenOption();
+        //InputOpenOption();
         InputSelectInventory();
         InputCancelInteractiveKey();
         InputMouseRay();
@@ -140,7 +138,7 @@ public class PlayerInputController : MonoBehaviour
                             }
                         }
                         if (hit.collider.gameObject.CompareTag("Note") && 
-                            ThemeSecondPresenter.GetInstance != null && ThemeSecondPresenter.GetInstance.IsInteractiveNum == 3)
+                            ThemeSecondPresenter.GetInstance != null && ThemeSecondPresenter.GetInstance.InteractiveTypeNum == 3)
                         {
                             if (InventoryManager.GetInstance.IsFullInvenCnt < 3)
                             {
@@ -158,7 +156,7 @@ public class PlayerInputController : MonoBehaviour
         {
             if (GameManager.GetInstance.CameraInteractive != null && ThemeSecondPresenter.GetInstance != null)
             {
-                if (ThemeSecondPresenter.GetInstance.IsInteractiveNum == 1)
+                if (ThemeSecondPresenter.GetInstance.InteractiveTypeNum == 1)
                 {
                     GameObject obj = InventoryManager.GetInstance.GetInvenObject();
                     if (obj != null)
@@ -172,7 +170,7 @@ public class PlayerInputController : MonoBehaviour
     }
     private void InputOpenOption()
     {
-        if (Input.GetKeyDown(gameSetUpData.optionKey))
+        if (Input.GetKeyDown(gameSetUpData.escKey))
         {
             GameManager.GetInstance.OptionCanvasOpen(true);
         }
@@ -201,7 +199,7 @@ public class PlayerInputController : MonoBehaviour
             {
                 if (GameManager.GetInstance.IsUIOpen)
                 {
-                    if (ThemeSecondPresenter.GetInstance != null && ThemeSecondPresenter.GetInstance.IsInteractiveNum == 1)
+                    if (ThemeSecondPresenter.GetInstance != null && ThemeSecondPresenter.GetInstance.InteractiveTypeNum == 1)
                     {
                         ThemeSecondPresenter.GetInstance.PutInTheDoor(InventoryManager.GetInstance.GetInvenObject());
                     }
@@ -227,11 +225,16 @@ public class PlayerInputController : MonoBehaviour
 
     private void InputCancelInteractiveKey()
     {
-        if (Input.GetKeyDown(gameSetUpData.notInteractiveKey))
+        //if (Input.GetKeyDown(gameSetUpData.notInteractiveKey))
+        if (Input.GetKeyDown(gameSetUpData.escKey))
         {
-            if (ThemeSecondPresenter.GetInstance != null)
+            if (ThemeFirstPresenter.GetInstance != null && ThemeFirstPresenter.GetInstance.InteractiveUIOpen)
             {
-                switch (ThemeSecondPresenter.GetInstance.IsInteractiveNum)
+                ThemeFirstPresenter.GetInstance.CloseCanvase();
+            }
+            else if (ThemeSecondPresenter.GetInstance != null)
+            {
+                switch (ThemeSecondPresenter.GetInstance.InteractiveTypeNum)
                 {
                     case 1:
                         ThemeSecondPresenter.GetInstance.DoorKeyHoleInteractive(false);
@@ -245,9 +248,17 @@ public class PlayerInputController : MonoBehaviour
                     case 4:
                         ThemeSecondPresenter.GetInstance.NoteSelectInInven(null, false);
                         break;
+                    case 5:
+                        ThemeSecondPresenter.GetInstance.CloseCanvas();
+                        break;
                     default:
+                        GameManager.GetInstance.OptionCanvasOpen(true);
                         break;
                 }
+            }
+            else
+            {
+                GameManager.GetInstance.OptionCanvasOpen(true);
             }
         }
     }

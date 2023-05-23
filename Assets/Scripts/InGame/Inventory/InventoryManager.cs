@@ -108,8 +108,7 @@ public class InventoryManager : MonoBehaviour
     private async UniTaskVoid WaningInventoryIsPull()
     {
         invenIsFullImage.SetActive(true);
-        invenIsFullImage.transform.DOShakePosition(1.8f, 3.5f);
-        await UniTask.Delay(TimeSpan.FromSeconds(1.0f), cancellationToken: tokenSource.Token);
+        await invenIsFullImage.transform.DOShakePosition(1.8f, 3.5f);
         invenIsFullImage.SetActive(false);
         await UniTask.Delay(TimeSpan.FromSeconds(0.5f), cancellationToken: tokenSource.Token);
     }
@@ -132,13 +131,13 @@ public class InventoryManager : MonoBehaviour
             }
             if (ThemeSecondPresenter.GetInstance != null)
             {
-                if (ThemeSecondPresenter.GetInstance.IsInteractiveNum == 1)
+                if (ThemeSecondPresenter.GetInstance.InteractiveTypeNum == 1)
                 {
                     invenObj.SetActive(false);
                     ThemeSecondPresenter.GetInstance.ObjectSyncToDoorKeyHole();
                 }
                 if (emptyInventory.InventoryObject.GetComponent<Note>() != null
-                    && ThemeSecondPresenter.GetInstance.IsInteractiveNum == 0)
+                    && ThemeSecondPresenter.GetInstance.InteractiveTypeNum == 0)
                 {
                     ThemeSecondPresenter.GetInstance.NoteSelectInInven(emptyInventory.InventoryObject, true);
                 }

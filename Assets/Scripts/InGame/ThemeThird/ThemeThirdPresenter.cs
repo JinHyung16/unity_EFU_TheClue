@@ -62,6 +62,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
         GameManager.GetInstance.IsUIOpen = false;
         GameManager.GetInstance.IsInputStop = false;
+        GameManager.GetInstance.IsGameClear = false;
 
         TimerManager.GetInstance.ThemeClearTime = 900.0f;
 

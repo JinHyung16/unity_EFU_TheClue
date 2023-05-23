@@ -30,18 +30,19 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     private List<int> remainTileSpawnList; //탈출 키인 3가지 타일 배치한 위치를 제외한 나머지 구역
 
     public Camera GetMainCamera { get { return cameraMain; } }
+    public bool InteractiveUIOpen { get; private set; } = false;
 
     private int switchLightIndex; //switch의 불빛을 가져올 배열의 index값
 
+    // 현재 상호작용 한 오브젝트 타입에 따라 door와 상호작용시 문구 다르게 보이게 하기
+    // 0=상호작용 클리어 못함, 1=탈출조건 클리어함
+    public int InteractiveTypeToDoor { get; private set; } = 0;
 
     //Game Clear 또는 Fail이 되는 조건을 저장한 변수
     private int failedDiceSetTile = 0;
     private int successDiceSetTile = 0; //타일 올바르게 놓은 주사위 개수
     private int numOfDoorLockAttempsCnt = 0; //도어락 퍼즐 풀기 시도 횟수
 
-    // 현재 상호작용 한 오브젝트 타입에 따라 door와 상호작용시 문구 다르게 보이게 하기
-    // 0=상호작용 클리어 못함, 1=탈출조건 클리어함
-    public int InteractiveTypeToDoor { get; private set; } = 0;
 
     //UniTask 관련
     private CancellationTokenSource tokenSource;
@@ -78,6 +79,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         TimerManager.GetInstance.ThemeClearTime = 600.0f;
         GameManager.GetInstance.IsUIOpen = false;
         GameManager.GetInstance.IsInputStop = false;
+        GameManager.GetInstance.IsGameClear = false;
 
         this.cameraInteractive.cullingMask = 0;
         this.cameraInteractive.enabled = false;
@@ -133,6 +135,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     #region DoorLock
     public void OpenDoorLockUI()
     {
+        InteractiveUIOpen = true;
         themeFirstViewer.OpenDoorLock();
     }
 
@@ -165,10 +168,13 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.LightSwitch);
         if (!IsSwitchOn)
         {
+            /*
             if (colorList.Count <= switchLightIndex)
             {
                 switchLightIndex = 1;
             }
+            */
+            switchLightIndex = 1;
             switchSpotLight.enabled = false;
             globalLight.color = new Color(0, 0, 0);
             AutoSwitchChange().Forget();
@@ -200,8 +206,11 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
             await UniTask.Delay(TimeSpan.FromSeconds(2.0f), cancellationToken: tokenSource.Token);
             if (colorList.Count == switchLightIndex)
             {
+                switchLightIndex = 1;
+                /*
                 tokenSource.Cancel();
-                break; 
+                break;
+                */
             }
         }
     }
@@ -348,6 +357,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
     public void TileInteractiveOpen(GameObject tile)
     {
+        InteractiveUIOpen = true;
         themeFirstViewer.TilePatternCanvasOpen(tile);
     }
 
@@ -381,6 +391,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
             if (failedDiceSetTile <= 0)
             {
                 themeFirstViewer.OpenResultCanvas(false);
+                GameManager.GetInstance.IsGameClear = false;
             }
         }
     }
@@ -413,10 +424,16 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     /// </summary>
     public void NPCInteractiveShowMission()
     {
+        InteractiveUIOpen = true;
         GameManager.GetInstance.IsUIOpen = false;
         themeFirstViewer.NPCMissionCanvasOpen();
     }
 
+    public void CloseCanvase()
+    {
+        InteractiveUIOpen = false;
+        themeFirstViewer.CloseCanvas();
+    }
     public void GameClear(bool isClear)
     {
         if (isClear)

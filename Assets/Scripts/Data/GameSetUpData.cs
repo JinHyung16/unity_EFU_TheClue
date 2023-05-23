@@ -28,7 +28,7 @@ public class GameSetUpData : ScriptableObject
     public float mouseDragSpeed;
 
     [Header("Player Input Keyboard")]
-    public KeyCode optionKey = KeyCode.Escape;
+    public KeyCode escKey = KeyCode.Escape;
     public KeyCode interactiveKey = KeyCode.E;
     public KeyCode notInteractiveKey = KeyCode.F;
     public KeyCode throwOutInvenKey = KeyCode.G;

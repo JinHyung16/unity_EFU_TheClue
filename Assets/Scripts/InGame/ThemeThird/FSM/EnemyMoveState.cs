@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cysharp.Threading.Tasks;
-using System.Threading;
-using System;
 using HughFSM;
 
 public class EnemyMoveState : BaseFSM<EnemyFSM>
@@ -28,7 +25,6 @@ public class EnemyMoveState : BaseFSM<EnemyFSM>
         secTime = 0.0f;
 
         state.MovementStart();
-        state.PlayAnimation(1);
     }
 
     public override void UpdateState(EnemyFSM state)
@@ -48,6 +44,8 @@ public class EnemyMoveState : BaseFSM<EnemyFSM>
                     secTime = Mathf.FloorToInt(curTime % 60);
                 }
             }
+
+            state.MovementStart();
 
             if (secTime == 0.0f || state.IsMoveDone)
             {

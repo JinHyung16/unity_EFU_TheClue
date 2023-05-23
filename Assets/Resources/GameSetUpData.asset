@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c555dbaeb65153b4986ebe03c08a637e, type: 3}
   m_Name: GameSetUpData
   m_EditorClassIdentifier: 
-  cameraPosZ: -0.8
+  cameraPosZ: -1.3
   cameraViewPosY: 1.5
-  themeFirstSpawnPos: {x: 3.5, y: 0.5, z: 0}
-  themeSecondSpawnPos: {x: 0, y: 0.5, z: -3}
-  themeThirdSpawnPos: {x: 0, y: 0.5, z: -12}
+  themeFirstSpawnPos: {x: 3.5, y: 0.1, z: 0}
+  themeSecondSpawnPos: {x: 0, y: 0.1, z: -3}
+  themeThirdSpawnPos: {x: 0, y: 0.1, z: -4}
   moveSpeed: 1.8
   cameraRotateSpeed: 1.5
   mouseDragSpeed: 4

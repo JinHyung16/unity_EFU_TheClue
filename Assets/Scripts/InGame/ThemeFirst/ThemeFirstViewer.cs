@@ -145,6 +145,15 @@ public class ThemeFirstViewer : MonoBehaviour
         missionIndex += 1;
         UIManager.GetInstance.ShowCanvas("NPCMission Canvas");
     }
+    /// <summary>
+    /// ThemeFirst Scene에서 Canvas들에게 붙어있는 Close버튼을 누르면 사용하는 공용함수
+    /// </summary>
+    public void CloseCanvas()
+    {
+        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
+        GameManager.GetInstance.IsUIOpen = false;
+        UIManager.GetInstance.HideCanvas();
+    }
 
     #region Game Result Canvas하위 Button 기능
     public void GoToMain()
@@ -169,14 +178,4 @@ public class ThemeFirstViewer : MonoBehaviour
         GameManager.GetInstance.ProgramQuit();
     }
     #endregion
-
-    /// <summary>
-    /// ThemeFirst Scene에서 Canvas들에게 붙어있는 Close버튼을 누르면 사용하는 공용함수
-    /// </summary>
-    public void CloseCanvas()
-    {
-        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
-        GameManager.GetInstance.IsUIOpen = false;
-        UIManager.GetInstance.HideCanvas();
-    }
 }
