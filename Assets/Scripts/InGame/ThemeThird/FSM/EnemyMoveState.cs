@@ -21,10 +21,10 @@ public class EnemyMoveState : BaseFSM<EnemyFSM>
 
     public override void EnterState(EnemyFSM state)
     {
+        state.PlayAnimation(1);
+
         curTime = 9.0f;
         secTime = 0.0f;
-
-        state.MovementStart();
     }
 
     public override void UpdateState(EnemyFSM state)
@@ -45,11 +45,13 @@ public class EnemyMoveState : BaseFSM<EnemyFSM>
                 }
             }
 
-            state.MovementStart();
-
             if (secTime == 0.0f || state.IsMoveDone)
             {
                 state.ChangeState(EnemyIdleState.GetInstance);
+            }
+            else
+            {
+                state.MovementStart();
             }
         }
     }

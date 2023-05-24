@@ -41,6 +41,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     public bool IsCallEnemyAnimation { get; private set; } = false;
     public bool IsOpenMiddleDoor { get; private set; } = false;
     private bool isCallRegion02Anim = false;
+    private bool isDropKeyRegion01 = false;
     private GameObject invenObj;
 
     private CancellationTokenSource tokenSource;
@@ -65,6 +66,10 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         GameManager.GetInstance.IsGameClear = false;
 
         TimerManager.GetInstance.ThemeClearTime = 900.0f;
+        IsCallEnemyAnimation = false;
+        IsOpenMiddleDoor  = false;
+        isCallRegion02Anim = false;
+        isDropKeyRegion01 = false;
 
         if (tokenSource != null)
         {
@@ -197,12 +202,21 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
     public void DropTheKeyByButton()
     {
-        string text = "주위에 무언가 떨어진 소리가 들렸다!!";
-        themeThirdViewer.NarrativeCanvas(text);
-        AudioManager.GetInstance.PlaySFX(AudioManager.SFX.ThemeThird_DropKey);
-        for (int i = 0; i < escapeKeyRegion01List.Count; i++)
+        if (!isDropKeyRegion01)
         {
-            escapeKeyRegion01List[i].SetActive(true);
+            string text = "주위에 무언가 떨어진 소리가 들렸다!!";
+            themeThirdViewer.NarrativeCanvas(text);
+            AudioManager.GetInstance.PlaySFX(AudioManager.SFX.ThemeThird_DropKey);
+            for (int i = 0; i < escapeKeyRegion01List.Count; i++)
+            {
+                escapeKeyRegion01List[i].SetActive(true);
+            }
+            isDropKeyRegion01 = true;
+        }
+        else
+        {
+            string text = "...?";
+            themeThirdViewer.NarrativeCanvas(text);
         }
     }
 

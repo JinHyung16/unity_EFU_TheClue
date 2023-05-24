@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraPosZ: -1.3
   cameraViewPosY: 1.5
-  themeFirstSpawnPos: {x: 3.5, y: 0.1, z: 0}
+  themeFirstSpawnPos: {x: -4.5, y: 0.1, z: -4.5}
   themeSecondSpawnPos: {x: 0, y: 0.1, z: -3}
   themeThirdSpawnPos: {x: 0, y: 0.1, z: -4}
   moveSpeed: 1.8
   cameraRotateSpeed: 1.5
   mouseDragSpeed: 4
-  optionKey: 27
+  escKey: 27
   interactiveKey: 101
   notInteractiveKey: 102
   throwOutInvenKey: 103

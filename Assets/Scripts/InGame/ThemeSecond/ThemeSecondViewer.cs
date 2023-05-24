@@ -56,6 +56,7 @@ public class ThemeSecondViewer : MonoBehaviour
 
     public void DialogueStart()
     {
+        GameManager.GetInstance.IsUIOpen = true;
         dialgoueIndex = 0;
         dialogueText.text = DataManager.GetInstance.ThemeSecondContent[0];
         dialogueCanvas.enabled = true;
@@ -68,6 +69,7 @@ public class ThemeSecondViewer : MonoBehaviour
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.DialogueBtn);
         if (DataManager.GetInstance.ThemeSecondContent.Count <= dialgoueIndex)
         {
+            GameManager.GetInstance.IsUIOpen = false;
             dialogueCanvas.enabled = false;
             Time.timeScale = 1;
             ThemeSecondPresenter.GetInstance.DoneDialogue();

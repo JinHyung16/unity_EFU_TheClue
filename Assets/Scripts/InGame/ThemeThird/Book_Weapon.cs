@@ -9,6 +9,8 @@ using System.Threading;
 
 public class Book_Weapon : MonoBehaviour
 {
+    [SerializeField] private GradStudent gradStudent;
+
     [SerializeField] private Volume volume;
     private ChromaticAberration chromaticAberration;
 
@@ -30,7 +32,7 @@ public class Book_Weapon : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && gradStudent.IsAttackTime)
         {
             if (tokenSource != null)
             {

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class HeadStone : MonoBehaviour
 {
-    /*
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -12,8 +11,8 @@ public class HeadStone : MonoBehaviour
             ThemeThirdPresenter.GetInstance.HeadStoneNarrative();
         }
     }
-    */
 
+    /*  
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.CompareTag("Player"))
@@ -21,4 +20,5 @@ public class HeadStone : MonoBehaviour
             ThemeThirdPresenter.GetInstance.HeadStoneNarrative();
         }
     }
+    */
 }

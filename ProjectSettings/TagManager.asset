@@ -12,6 +12,7 @@ TagManager:
   - Enemy_GradStudent
   - Enemy_PrisionOfficer
   - WeaponBook
+  - NonCollider
   layers:
   - Default
   - TransparentFX

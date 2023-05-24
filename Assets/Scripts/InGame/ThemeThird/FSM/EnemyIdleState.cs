@@ -50,10 +50,6 @@ public class EnemyIdleState : BaseFSM<EnemyFSM>
                 {
                     state.ChangeState(EnemyMoveState.GetInstance);
                 }
-                else
-                {
-                    state.ChangeState(EnemyAttackState.GetInstance);
-                }
             }
         }
     }

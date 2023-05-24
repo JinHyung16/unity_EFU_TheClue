@@ -225,8 +225,30 @@ public class PlayerInputController : MonoBehaviour
 
     private void InputCancelInteractiveKey()
     {
-        //if (Input.GetKeyDown(gameSetUpData.notInteractiveKey))
-        if (Input.GetKeyDown(gameSetUpData.escKey))
+        if (Input.GetKeyDown(gameSetUpData.notInteractiveKey))
+        {
+            if (ThemeSecondPresenter.GetInstance != null)
+            {
+                switch (ThemeSecondPresenter.GetInstance.InteractiveTypeNum)
+                {
+                    case 1:
+                        ThemeSecondPresenter.GetInstance.DoorKeyHoleInteractive(false);
+                        break;
+                    case 2:
+                        ThemeSecondPresenter.GetInstance.ShowCaseInteractive(false);
+                        break;
+                    case 3:
+                        ThemeSecondPresenter.GetInstance.NPCInteractiveSelectNote(false);
+                        break;
+                    case 4:
+                        ThemeSecondPresenter.GetInstance.NoteSelectInInven(null, false);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        else if (Input.GetKeyDown(gameSetUpData.escKey))
         {
             if (ThemeFirstPresenter.GetInstance != null && ThemeFirstPresenter.GetInstance.InteractiveUIOpen)
             {

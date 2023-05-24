@@ -4,13 +4,14 @@ using HughPathFinding;
 using System;
 using System.Collections;
 using System.Threading;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GradStudent : EnemyFSM
 {
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float rayMaxDistance;
-    [SerializeField] private Transform ememyRayPos;
+    //[SerializeField] private float rayMaxDistance;
+    //[SerializeField] private Transform ememyRayPos;
 
     private Animator enemyAnimator;
     private StateMachine<EnemyFSM> myState;
@@ -21,7 +22,7 @@ public class GradStudent : EnemyFSM
 
     private Transform targetTransform; //충돌시 target의 위치
     //private Vector3 targetLookDir; //target을 바라보는 방향 담을 변수
-    private RaycastHit hit;
+    //private RaycastHit hit;
 
     //1=player 쫓기, 2=랜덤 이동, 3=region 03 호출, 4=region 04호출
     public int OnChaseTarget { get; set; } = 2;
@@ -134,16 +135,17 @@ public class GradStudent : EnemyFSM
 
     public override void MovementStart()
     {
-        this.PlayAnimation(1);
         PathManager.GetInstance.RequestPath(this.transform.position, PathFindCallBack, OnChaseTarget);
     }
 
     public override void MovementStop()
     {
-        IsMoveDone = false;
-        OnChaseTarget = 2;
         StopCoroutine("MoveToPath");
         this.PlayAnimation(0);
+
+        IsMoveDone = false;
+        OnChaseTarget = 2;
+        movePath = null;
     }
 
     #region Enemy PathFind Move
@@ -173,6 +175,7 @@ public class GradStudent : EnemyFSM
                 }
                 curWayPosition = movePath[targetPathIndex];
             }
+            //this.PlayAnimation(1);
             Vector3 targetLookDir = curWayPosition - this.transform.position;
             targetLookDir.y = 0;
             Quaternion look = Quaternion.LookRotation(targetLookDir.normalized);

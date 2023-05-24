@@ -57,6 +57,8 @@ public class ThemeThirdViewer : MonoBehaviour
 
     public void OpenResultCanvas(bool isClear)
     {
+        Time.timeScale = 0;
+        GameManager.GetInstance.IsUIOpen = true;
         if (isClear)
         {
             resultTimerText.text = TimerManager.GetInstance.CurTimeString.ToString();
@@ -69,11 +71,11 @@ public class ThemeThirdViewer : MonoBehaviour
             AudioManager.GetInstance.PlaySFX(AudioManager.SFX.GAmeResult_Fail);
             UIManager.GetInstance.ShowCanvas("GameFailedResult Canvas");
         }
-        GameManager.GetInstance.IsUIOpen = true;
     }
 
     public void DialogueStart()
     {
+        GameManager.GetInstance.IsUIOpen = true;
         dialgoueIndex = 0;
         dialgoueText.text = DataManager.GetInstance.ThemeSecondContent[0];
         dialogueCanvas.enabled = true;
@@ -86,6 +88,7 @@ public class ThemeThirdViewer : MonoBehaviour
         dialgoueIndex += 1;
         if (DataManager.GetInstance.ThemeThirdContent.Count <= dialgoueIndex)
         {
+            GameManager.GetInstance.IsUIOpen = false;
             dialogueCanvas.enabled = false;
             Time.timeScale = 1;
             ThemeThirdPresenter.GetInstance.DoneDialogue();
@@ -122,7 +125,7 @@ public class ThemeThirdViewer : MonoBehaviour
     public void RetryGame()
     {
         GameManager.GetInstance.GameDataClear();
-        SceneController.GetInstance.LoadScene("ThemeSecond");
+        SceneController.GetInstance.LoadScene("ThemeThird");
     }
 
     public void QuitGame()

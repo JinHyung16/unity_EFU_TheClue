@@ -65,6 +65,7 @@ public class ThemeFirstViewer : MonoBehaviour
 
     public void DialogueStart()
     {
+        GameManager.GetInstance.IsUIOpen = true;
         dialgoueIndex = 0;
         dialogueText.text = DataManager.GetInstance.ThemeFirstContent[0];
         dialogueCanvas.enabled = true;
@@ -77,6 +78,7 @@ public class ThemeFirstViewer : MonoBehaviour
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.DialogueBtn);
         if (DataManager.GetInstance.ThemeFirstContent.Count <= dialgoueIndex)
         {
+            GameManager.GetInstance.IsUIOpen = false;
             dialogueCanvas.enabled = false;
             Time.timeScale = 1;
             ThemeFirstPresenter.GetInstance.DoneDialogue();
