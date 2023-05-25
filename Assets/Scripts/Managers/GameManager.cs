@@ -152,8 +152,6 @@ public class GameManager : Singleton<GameManager>, IDisposable
                 saveIndex = 0;
                 break;
         }
-        //테스트 버전에선 무조건 3개다 열어두기
-        DataManager.GetInstance.SaveData(3);
 
         gameOptionCanvas.enabled = false;
         interactiveCanvs.enabled = false;
@@ -162,10 +160,10 @@ public class GameManager : Singleton<GameManager>, IDisposable
         IsInputStop = false;
         IsUIOpen = false;
 
+
         Dispose();
-#if UNITY_STANDALONE
-        Application.Quit();
-#endif
+
+        ProgramQuit();
     }
 
     public void GoToMain()
@@ -247,6 +245,9 @@ public class GameManager : Singleton<GameManager>, IDisposable
 
     private void OnApplicationQuit()
     {
+        //테스트 버전에선 무조건 3개다 열어두기
+        DataManager.GetInstance.SaveData(3);
+
         if (!Application.isEditor)
         {
             System.Diagnostics.Process.GetCurrentProcess().Kill();

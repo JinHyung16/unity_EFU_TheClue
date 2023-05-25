@@ -10,13 +10,16 @@ public class EnemyCollider : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log("1");
         if (other.CompareTag("NonCollider"))
         {
-            Debug.Log("Enemy Stuck Some Object");
-            Vector3 stuckDir = other.transform.position - this.gameObject.transform.position;
-            enemyObject.transform.position = (-stuckDir + enemyObject.transform.forward);
-            Debug.Log(-stuckDir);
+            if (gradStudent.IsAttackTime)
+            {
+                Debug.Log("Enemy Stuck Some Object");
+                Vector3 stuckDir = other.transform.position - this.gameObject.transform.position;
+                stuckDir.y = 0.0f;
+                enemyObject.transform.position -= (stuckDir / 2);
+            }
+
         }
     }
 

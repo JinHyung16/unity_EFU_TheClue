@@ -145,7 +145,6 @@ public class GradStudent : EnemyFSM
 
         IsMoveDone = false;
         OnChaseTarget = 2;
-        movePath = null;
     }
 
     #region Enemy PathFind Move
