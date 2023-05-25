@@ -30,6 +30,5 @@ public class EnemyAttackState : BaseFSM<EnemyFSM>
 
     public override void ExitState(EnemyFSM state)
     {
-        Debug.Log("EnemyAttack 나감");
     }
 }

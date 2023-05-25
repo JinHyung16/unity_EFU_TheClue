@@ -56,6 +56,5 @@ public class EnemyIdleState : BaseFSM<EnemyFSM>
 
     public override void ExitState(EnemyFSM state)
     {
-        Debug.Log("EnemyIdle 나감");
     }
 }

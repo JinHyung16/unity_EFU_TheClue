@@ -58,7 +58,6 @@ public class EnemyMoveState : BaseFSM<EnemyFSM>
 
     public override void ExitState(EnemyFSM state)
     {
-        Debug.Log("EnemyMove 나감");
         state.MovementStop();
     }
 

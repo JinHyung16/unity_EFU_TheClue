@@ -48,7 +48,6 @@ public class Book_Weapon : MonoBehaviour
                 ThemeThirdPresenter.GetInstance.GameClear(false);
             }
 
-            Debug.Log("책과 player충돌");
             volume.profile.TryGet(out this.chromaticAberration);
             chromaticAberration.intensity.Override(1.0f);
 

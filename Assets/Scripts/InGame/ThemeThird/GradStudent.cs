@@ -19,6 +19,7 @@ public class GradStudent : EnemyFSM
     //A star Path Move
     private Vector3[] movePath;
     private int targetPathIndex = 0;
+    private Vector3 curWayPosition;
 
     private Transform targetTransform; //충돌시 target의 위치
     //private Vector3 targetLookDir; //target을 바라보는 방향 담을 변수
@@ -161,9 +162,13 @@ public class GradStudent : EnemyFSM
 
     private IEnumerator MoveToPath()
     {
-        Vector3 curWayPosition = movePath[0];
+        if (movePath != null)
+        {
+            curWayPosition = movePath[0];
+        }
         while (true)
         {
+
             if (this.transform.position == curWayPosition)
             {
                 targetPathIndex++;
