@@ -23,7 +23,7 @@ SpriteAtlas:
     platformSettings:
     - serializedVersion: 3
       m_BuildTarget: DefaultTexturePlatform
-      m_MaxTextureSize: 1024
+      m_MaxTextureSize: 2048
       m_ResizeAlgorithm: 0
       m_TextureFormat: -1
       m_TextureCompression: 1
@@ -59,6 +59,8 @@ SpriteAtlas:
   - {fileID: 2000418784, guid: 595fef71ab5a6e94a8cb2859c2b634b2, type: 3}
   - {fileID: -1405917933, guid: 595fef71ab5a6e94a8cb2859c2b634b2, type: 3}
   - {fileID: 1422361945, guid: 56e55094a3dbf9f488046f2d788802eb, type: 3}
+  - {fileID: -1908992478, guid: ce7c5994191b6eb489cdf0bc5321ac4c, type: 3}
+  - {fileID: 1811604279, guid: ce7c5994191b6eb489cdf0bc5321ac4c, type: 3}
   - {fileID: 1064124896, guid: fcb2071526de10741b31e8215ad3e4f0, type: 3}
   - {fileID: -249034979, guid: fcb2071526de10741b31e8215ad3e4f0, type: 3}
   - {fileID: -1458783314, guid: 7ffbb97d0ea8b3340a31764d70cbb9bd, type: 3}
@@ -72,6 +74,8 @@ SpriteAtlas:
   - main_text_noshadow_7
   - main_text_noshadow_6
   - helpbord_0
+  - main_exit_0
+  - main_exit_1
   - main_setting_help_0
   - main_setting_help_1
   - main_background_0

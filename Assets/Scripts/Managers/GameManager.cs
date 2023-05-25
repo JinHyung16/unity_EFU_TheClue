@@ -40,6 +40,12 @@ public class GameManager : Singleton<GameManager>, IDisposable
     public GameObject Player { get { return this.player; } }
     private void Start()
     {
+
+#if !UNITY_EDITOR
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
+#endif
+
         gameOptionCanvas.enabled = false;
         interactiveCanvs.enabled = false;
 

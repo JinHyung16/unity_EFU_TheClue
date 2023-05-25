@@ -31,8 +31,6 @@ public class PlayerInputController : MonoBehaviour
         playerMovementController = GetComponent<PlayerMovementController>();
         playerAnimator = GetComponentInChildren<Animator>();
 
-        Cursor.visible = true;
-
         cameraRotateSpeed = gameSetUpData.cameraRotateSpeed;
 
         invenSelectKeyList = new List<KeyCode>

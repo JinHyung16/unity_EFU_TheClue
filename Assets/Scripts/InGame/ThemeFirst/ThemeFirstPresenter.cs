@@ -376,12 +376,13 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
             successDiceSetTile++;
             if (3 <= successDiceSetTile)
             {
+                string context = "타일에 배치됐다. 무언가 열리는 소리가 들렸다.";
+                themeFirstViewer.NarrativeCanvase(context);
+
                 InteractiveTypeToDoor = 1;
                 successDiceSetTile = 0;
                 GameManager.GetInstance.IsGameClear = true;
             }
-            string context = "타일에 배치됐다. 무언가 열리는 소리가 들렸다.";
-            themeFirstViewer.NarrativeCanvase(context);
         }
         if(isDone == false)
         {

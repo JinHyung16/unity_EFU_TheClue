@@ -39,6 +39,7 @@ public class TileManager : MonoBehaviour
 
     public void VisibleTilePattern(GameObject obj)
     {
+        curDicePatternIndex = 0;
         objPatternImage.sprite = null;
         diceScript = null;
         cubeScript = null;
@@ -59,6 +60,8 @@ public class TileManager : MonoBehaviour
     public void InvisibleTilePattern()
     {
         IsTileOpen = false;
+        objPatternImage.sprite = null;
+        curDicePatternIndex = 0;
         themeFirstViewer.CloseCanvas();
     }
 
@@ -70,13 +73,15 @@ public class TileManager : MonoBehaviour
     public void SetDiceOnTileCanvas(GameObject obj)
     {
         if (obj != null)
-        { 
+        {
+            /*
             if (invenObj != null)
             {
                 cubeScript = null;
                 diceScript = null;
                 invenObj = null;
             }
+            */
 
             if (IsTileOpen)
             {
@@ -88,6 +93,7 @@ public class TileManager : MonoBehaviour
                 {
                     diceScript = invenObj.GetComponent<Dice>();
                     objPatternImage.sprite = diceScript.GetDicePattern(curDicePatternIndex);
+                    diceScript.SetCurDicePatternName(curDicePatternIndex);
                     cubeScript = null;
                 }
                 if (name == "Cube")
@@ -152,12 +158,6 @@ public class TileManager : MonoBehaviour
     /// </summary>
     public void RotationDice()
     {
-        curDicePatternIndex++;
-        if (5 < curDicePatternIndex)
-        {
-            curDicePatternIndex = 0;
-        }
-
         if (diceScript != null)
         {
             objPatternImage.sprite = diceScript.GetDicePattern(curDicePatternIndex);
@@ -166,6 +166,12 @@ public class TileManager : MonoBehaviour
         else if (cubeScript != null)
         {
             objPatternImage.sprite = cubeScript.GetCubeSprite(curDicePatternIndex);
+        }
+
+        curDicePatternIndex++;
+        if (5 < curDicePatternIndex)
+        {
+            curDicePatternIndex = 0;
         }
     }
 }
