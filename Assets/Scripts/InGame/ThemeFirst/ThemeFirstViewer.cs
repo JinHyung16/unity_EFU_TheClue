@@ -65,11 +65,12 @@ public class ThemeFirstViewer : MonoBehaviour
 
     public void DialogueStart()
     {
-        GameManager.GetInstance.IsUIOpen = true;
+        GameManager.GetInstance.IsDialogueStart = true;
         dialgoueIndex = 0;
         dialogueText.text = DataManager.GetInstance.ThemeFirstContent[0];
         dialogueCanvas.enabled = true;
         Time.timeScale = 0;
+        GameManager.GetInstance.CursorSet(true);
     }
 
     private void NextDialogueBtn()
@@ -78,7 +79,7 @@ public class ThemeFirstViewer : MonoBehaviour
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.DialogueBtn);
         if (DataManager.GetInstance.ThemeFirstContent.Count <= dialgoueIndex)
         {
-            GameManager.GetInstance.IsUIOpen = false;
+            GameManager.GetInstance.IsDialogueStart = false;
             dialogueCanvas.enabled = false;
             Time.timeScale = 1;
             ThemeFirstPresenter.GetInstance.DoneDialogue();
@@ -92,6 +93,7 @@ public class ThemeFirstViewer : MonoBehaviour
     /// </summary>
     public void OpenDoorLock()
     {
+        GameManager.GetInstance.CursorSet(true);
         GameManager.GetInstance.IsUIOpen = true;
         UIManager.GetInstance.ShowCanvas("DoorLock Canvas");
     }
@@ -101,6 +103,7 @@ public class ThemeFirstViewer : MonoBehaviour
     /// </summary>
     public void TilePatternCanvasOpen(GameObject patternObj)
     {
+        GameManager.GetInstance.CursorSet(true);
         GameManager.GetInstance.IsUIOpen = true;
         TileManager.GetInstance.VisibleTilePattern(patternObj);
         UIManager.GetInstance.ShowCanvas("TilePattern Canvas");
@@ -109,6 +112,7 @@ public class ThemeFirstViewer : MonoBehaviour
     public void OpenResultCanvas(bool isClear)
     {
         GameManager.GetInstance.IsUIOpen = true;
+        GameManager.GetInstance.CursorSet(true);
         if (isClear)
         {
             resultTimerText.text = TimerManager.GetInstance.CurTimeString.ToString();
@@ -138,6 +142,7 @@ public class ThemeFirstViewer : MonoBehaviour
 
     public void NPCMissionCanvasOpen()
     {
+        GameManager.GetInstance.CursorSet(true);
         GameManager.GetInstance.IsUIOpen = true;
         if (missionList.Count <= missionIndex)
         {
@@ -155,6 +160,7 @@ public class ThemeFirstViewer : MonoBehaviour
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         GameManager.GetInstance.IsUIOpen = false;
         UIManager.GetInstance.HideCanvas();
+        GameManager.GetInstance.CursorSet(false);
     }
 
     #region Game Result Canvas하위 Button 기능

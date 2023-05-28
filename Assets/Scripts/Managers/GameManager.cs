@@ -27,9 +27,12 @@ public class GameManager : Singleton<GameManager>, IDisposable
     private GameObject player;
     private PlayerManager playerManager;
 
+    [SerializeField] private Texture2D cursorSprite;
+
     private bool isOptionKeyDown;
 
-    public bool IsUIOpen { get; set; } //게임에서 퍼즐을 풀기위한 UI가 열려있을 경우 true
+    public bool IsDialogueStart { get; set; } = false; //대화 시스템이 실행중인지 확인한다.
+    public bool IsUIOpen { get; set; } = false; //게임에서 퍼즐을 풀기위한 UI가 열려있을 경우 true
     public bool IsInputStop { get; set; } = false; //게임중 esc키를 눌러 option을 누를경우 true
     public bool IsEndTheme { private get; set; } = false; //현재 테마가 마지막 테마이면 true
     public bool IsGameClear { get; set; } = false; //테마별로 현재 테마를 클리어했으면 true
@@ -40,12 +43,6 @@ public class GameManager : Singleton<GameManager>, IDisposable
     public GameObject Player { get { return this.player; } }
     private void Start()
     {
-
-#if !UNITY_EDITOR
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Confined;
-#endif
-
         gameOptionCanvas.enabled = false;
         interactiveCanvs.enabled = false;
 
@@ -57,6 +54,27 @@ public class GameManager : Singleton<GameManager>, IDisposable
         helpBtn.onClick.AddListener(HelpPanelOpen);
 
         helpPanel.SetActive(false);
+        CursorSet(true);
+    }
+
+    /// <summary>
+    /// UI창을 열었을 때 마우스 커서를 보여준다.
+    /// </summary>
+    /// <param name="isCursorVisible"> 마우스 커서를 보여줄지 말지 결정할 파라메터 </param>
+    public void CursorSet(bool isCursorVisible)
+    {
+        if (isCursorVisible)
+        {
+            Cursor.SetCursor(cursorSprite, Vector2.zero, CursorMode.Auto);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else
+        {
+            Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
     /// <summary>
@@ -121,6 +139,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
                 IsInputStop = true;
 
                 Time.timeScale = 0;
+                CursorSet(true);
             }
             else
             {
@@ -129,6 +148,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
                 IsInputStop = false;
 
                 Time.timeScale = 1;
+               CursorSet(false);
             }
         }
     }

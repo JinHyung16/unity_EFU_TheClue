@@ -24,8 +24,8 @@ public class GameSetUpData : ScriptableObject
     //PlayerMovement의 사용되는 데이터
     [Header("Player Movement And Input Data")]
     public float moveSpeed;
-    public float cameraRotateSpeed;
-    public float mouseDragSpeed;
+    public float moveToCamRotateSpeed; //player 움직일 때 카메라 회전 속도
+    public float moseDragSpeed; //마우스 드래그 후 이동할 때 스피드
 
     [Header("Player Input Keyboard")]
     public KeyCode escKey = KeyCode.Escape;

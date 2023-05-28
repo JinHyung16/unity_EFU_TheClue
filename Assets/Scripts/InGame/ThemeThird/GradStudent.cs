@@ -6,10 +6,12 @@ using System.Collections;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class GradStudent : EnemyFSM
 {
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float turnSpeed;
     //[SerializeField] private float rayMaxDistance;
     //[SerializeField] private Transform ememyRayPos;
 
@@ -19,9 +21,8 @@ public class GradStudent : EnemyFSM
     //A star Path Move
     private Vector3[] movePath;
     private int targetPathIndex = 0;
-    private Vector3 curWayPosition;
 
-    private Transform targetTransform; //충돌시 target의 위치
+    //private Transform targetTransform; //충돌시 target의 위치
     //private Vector3 targetLookDir; //target을 바라보는 방향 담을 변수
     //private RaycastHit hit;
 
@@ -30,8 +31,7 @@ public class GradStudent : EnemyFSM
 
     private CancellationTokenSource tokenSource;
 
-    public override bool IsMoveDone { get => base.IsMoveDone; protected set => base.IsMoveDone = value; }
-    public override bool IsAttackTime { get => base.IsAttackTime; protected set => base.IsAttackTime = value; }
+    public override bool IsAttackTime { get => base.IsAttackTime; set => base.IsAttackTime = value; }
     private void Start()
     {
         enemyAnimator = GetComponentInChildren<Animator>();
@@ -68,6 +68,7 @@ public class GradStudent : EnemyFSM
 
     protected override void OnTriggerEnter(Collider other)
     {
+        /*
         if (other.CompareTag("Player"))
         {
             targetTransform = other.gameObject.transform;
@@ -78,14 +79,17 @@ public class GradStudent : EnemyFSM
             IsAttackTime = true;
             ChangeState(EnemyAttackState.GetInstance);
         }
+        */
     }
     protected override void OnTriggerStay(Collider other)
     {
+        /*
         if (other.CompareTag("Player"))
         {
             targetTransform = other.gameObject.transform;
             IsAttackTime = true;
         }
+        */
     }
 
     protected override void OnTriggerExit(Collider other)
@@ -144,7 +148,6 @@ public class GradStudent : EnemyFSM
         StopCoroutine("MoveToPath");
         this.PlayAnimation(0);
 
-        IsMoveDone = false;
         OnChaseTarget = 2;
     }
 
@@ -154,7 +157,8 @@ public class GradStudent : EnemyFSM
         if (success)
         {
             movePath = newPath;
-            targetPathIndex = 0;
+            //targetPathIndex = 0;
+            
             StopCoroutine("MoveToPath");
             StartCoroutine("MoveToPath");
         }
@@ -162,30 +166,32 @@ public class GradStudent : EnemyFSM
 
     private IEnumerator MoveToPath()
     {
-        if (movePath != null)
-        {
-            curWayPosition = movePath[0];
-        }
+        Vector3 curWayPosition = movePath[0];
+
         while (true)
         {
 
-            if (this.transform.position == curWayPosition)
+            if (transform.position == curWayPosition)
             {
-                targetPathIndex++;
+                PathManager.GetInstance.RequestPath(transform.position, PathFindCallBack, OnChaseTarget);
+                targetPathIndex = 0;
+
+                targetPathIndex ++;
                 if (movePath.Length <= targetPathIndex)
                 {
-                    IsMoveDone = true;
-                    yield break;
+                    targetPathIndex = 0;
+                    movePath = new Vector3[0];
+                    //yield break;
                 }
                 curWayPosition = movePath[targetPathIndex];
             }
-            //this.PlayAnimation(1);
-            Vector3 targetLookDir = curWayPosition - this.transform.position;
-            targetLookDir.y = 0;
-            Quaternion look = Quaternion.LookRotation(targetLookDir.normalized);
-            this.transform.rotation = look;
 
-            this.transform.position = Vector3.MoveTowards(this.transform.position, curWayPosition, moveSpeed * Time.deltaTime);
+            Vector3 targetLookDir = curWayPosition - transform.position;
+            targetLookDir.y = 0;
+            Quaternion look = Quaternion.LookRotation(targetLookDir);
+            transform.rotation = Quaternion.Lerp(transform.rotation, look, turnSpeed * Time.deltaTime);
+
+            transform.position = Vector3.MoveTowards(transform.position, curWayPosition, moveSpeed * Time.deltaTime);
             yield return null;
         }
     }

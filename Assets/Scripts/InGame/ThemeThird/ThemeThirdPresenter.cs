@@ -97,6 +97,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     public void DoneDialogue()
     {
         CamInteractiveSet(camAnimPosList[0].transform, false);
+        GameManager.GetInstance.CursorSet(false);
     }
 
     private void CamInteractiveSet(Transform transform, bool isActive)

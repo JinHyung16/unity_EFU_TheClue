@@ -130,6 +130,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     public void DoneDialogue()
     {
         CamInteractiveSet(cameraInteractive.transform, false);
+        GameManager.GetInstance.CursorSet(false);
     }
 
     #region DoorLock

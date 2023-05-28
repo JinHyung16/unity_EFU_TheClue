@@ -102,6 +102,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     public void DoneDialogue()
     {
         CamInteractiveSet(interactiveCamMovePosList[3], false);
+        GameManager.GetInstance.CursorSet(false);
     }
 
     public void OpenDoorLockUI()

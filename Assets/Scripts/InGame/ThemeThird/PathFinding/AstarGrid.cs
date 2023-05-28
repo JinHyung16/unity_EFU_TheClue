@@ -86,6 +86,7 @@ namespace HughPathFinding
             }
             return neighborhoodNodeList;
         }
+        
         /*
         private void OnDrawGizmos()
         {
@@ -101,5 +102,6 @@ namespace HughPathFinding
             }
         }
         */
+        
     }
 }

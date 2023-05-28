@@ -56,7 +56,8 @@ public class ThemeSecondViewer : MonoBehaviour
 
     public void DialogueStart()
     {
-        GameManager.GetInstance.IsUIOpen = true;
+        GameManager.GetInstance.CursorSet(true);
+        GameManager.GetInstance.IsDialogueStart = true;
         dialgoueIndex = 0;
         dialogueText.text = DataManager.GetInstance.ThemeSecondContent[0];
         dialogueCanvas.enabled = true;
@@ -69,7 +70,7 @@ public class ThemeSecondViewer : MonoBehaviour
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.DialogueBtn);
         if (DataManager.GetInstance.ThemeSecondContent.Count <= dialgoueIndex)
         {
-            GameManager.GetInstance.IsUIOpen = false;
+            GameManager.GetInstance.IsDialogueStart = false;
             dialogueCanvas.enabled = false;
             Time.timeScale = 1;
             ThemeSecondPresenter.GetInstance.DoneDialogue();
@@ -92,23 +93,27 @@ public class ThemeSecondViewer : MonoBehaviour
 
     public void DoorLockCanvasOpen()
     {
+        GameManager.GetInstance.CursorSet(true);
         GameManager.GetInstance.IsUIOpen = true;
         UIManager.GetInstance.ShowCanvas("DoorLock Canvas");
     }
 
     public void InteractiveDoorCanvas()
     {
+        GameManager.GetInstance.CursorSet(true);
         GameManager.GetInstance.IsUIOpen = true;
         UIManager.GetInstance.ShowCanvas("IDoor Canvas");
     }
     public void InteractiveShowcanseCanvasOpen()
     {
+        GameManager.GetInstance.CursorSet(true);
         GameManager.GetInstance.IsUIOpen = true;
         UIManager.GetInstance.ShowCanvas("IShowcase Canvas");
     }
 
     public void NoteCanvaseOpen()
     {
+        GameManager.GetInstance.CursorSet(true);
         GameManager.GetInstance.IsUIOpen = true;
         UIManager.GetInstance.ShowCanvas("Note Canvas");
     }
@@ -118,12 +123,14 @@ public class ThemeSecondViewer : MonoBehaviour
     /// </summary>
     public void NPCSelectNoteCanvasOpen()
     {
+        GameManager.GetInstance.CursorSet(true);
         GameManager.GetInstance.IsUIOpen = true;
         UIManager.GetInstance.ShowCanvas("NPCNoteSelect Canvas");
     }
 
     public void NPCMissionCanvasOpen()
     {
+        GameManager.GetInstance.CursorSet(true);
         GameManager.GetInstance.IsUIOpen = true;
         UIManager.GetInstance.ShowCanvas("NPCMission Canvas");
     }
@@ -131,6 +138,7 @@ public class ThemeSecondViewer : MonoBehaviour
 
     public void OpenResultCanvas(bool isClear)
     {
+        GameManager.GetInstance.CursorSet(true);
         if (isClear)
         {
             resultTimerText.text = TimerManager.GetInstance.CurTimeString.ToString();
@@ -155,6 +163,7 @@ public class ThemeSecondViewer : MonoBehaviour
         GameManager.GetInstance.IsUIOpen = false;
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         UIManager.GetInstance.HideCanvas();
+        GameManager.GetInstance.CursorSet(false);
     }
 
     #region Game Result Canvas하위 Button 기능

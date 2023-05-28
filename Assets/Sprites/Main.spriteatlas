@@ -50,32 +50,30 @@ SpriteAtlas:
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: -2025656392, guid: c8f662305eecadd40bc76d7155e0edc2, type: 3}
-  - {fileID: -1328158571, guid: c8f662305eecadd40bc76d7155e0edc2, type: 3}
-  - {fileID: 930595096, guid: c8f662305eecadd40bc76d7155e0edc2, type: 3}
-  - {fileID: 1060920269, guid: c8f662305eecadd40bc76d7155e0edc2, type: 3}
-  - {fileID: -1190234585, guid: 595fef71ab5a6e94a8cb2859c2b634b2, type: 3}
-  - {fileID: 1692475048, guid: 595fef71ab5a6e94a8cb2859c2b634b2, type: 3}
-  - {fileID: 2000418784, guid: 595fef71ab5a6e94a8cb2859c2b634b2, type: 3}
-  - {fileID: -1405917933, guid: 595fef71ab5a6e94a8cb2859c2b634b2, type: 3}
+  - {fileID: -1708942899, guid: c8f662305eecadd40bc76d7155e0edc2, type: 3}
+  - {fileID: -925178365, guid: c8f662305eecadd40bc76d7155e0edc2, type: 3}
+  - {fileID: 1610402027, guid: c8f662305eecadd40bc76d7155e0edc2, type: 3}
+  - {fileID: 954885587, guid: c8f662305eecadd40bc76d7155e0edc2, type: 3}
+  - {fileID: -630967234, guid: c8f662305eecadd40bc76d7155e0edc2, type: 3}
+  - {fileID: -74995563, guid: c8f662305eecadd40bc76d7155e0edc2, type: 3}
+  - {fileID: -1513339091, guid: c8f662305eecadd40bc76d7155e0edc2, type: 3}
+  - {fileID: 1665939420, guid: c8f662305eecadd40bc76d7155e0edc2, type: 3}
+  - {fileID: 677349573, guid: c8f662305eecadd40bc76d7155e0edc2, type: 3}
   - {fileID: 1422361945, guid: 56e55094a3dbf9f488046f2d788802eb, type: 3}
-  - {fileID: -1908992478, guid: ce7c5994191b6eb489cdf0bc5321ac4c, type: 3}
-  - {fileID: 1811604279, guid: ce7c5994191b6eb489cdf0bc5321ac4c, type: 3}
   - {fileID: 1064124896, guid: fcb2071526de10741b31e8215ad3e4f0, type: 3}
   - {fileID: -249034979, guid: fcb2071526de10741b31e8215ad3e4f0, type: 3}
   - {fileID: -1458783314, guid: 7ffbb97d0ea8b3340a31764d70cbb9bd, type: 3}
   m_PackedSpriteNamesToIndex:
+  - main_text_14
+  - main_text_3
   - main_text_2
+  - main_text_13
   - main_text_1
   - main_text_0
+  - main_text_6
+  - main_text_5
   - main_text_4
-  - main_text_noshadow_0
-  - main_text_noshadow_4
-  - main_text_noshadow_7
-  - main_text_noshadow_6
   - helpbord_0
-  - main_exit_0
-  - main_exit_1
   - main_setting_help_0
   - main_setting_help_1
   - main_background_0

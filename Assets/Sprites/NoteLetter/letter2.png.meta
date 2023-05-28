@@ -132,10 +132,10 @@ TextureImporter:
       name: letter2_0
       rect:
         serializedVersion: 2
-        x: 132
-        y: 34
-        width: 760
-        height: 257
+        x: 114
+        y: 194
+        width: 1828
+        height: 743
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +143,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4590410b56f49d84299eec6d4bbec8d0
-      internalID: -458536569
+      spriteID: cc08f9366af9ec04ea8deddfa5abd651
+      internalID: 265334582
       vertices: []
       indices: 
       edges: []
@@ -152,7 +152,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: ff2f80baad5a865468f7a67cff770917
+    spriteID: 397dcfa98fba99c4e8c50900b90a9f8b
     internalID: 0
     vertices: []
     indices: 
@@ -160,7 +160,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      letter2_0: -458536569
+      letter2_0: 265334582
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

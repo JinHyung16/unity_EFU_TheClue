@@ -21,7 +21,7 @@ public class PlayerInputController : MonoBehaviour
 
 
     //private Vector3 screenCenter;
-    private float cameraRotateSpeed;
+    private float moveToCamRotateSpeed;
     private List<KeyCode> invenSelectKeyList;
 
     private GameObject hitObj;
@@ -31,7 +31,7 @@ public class PlayerInputController : MonoBehaviour
         playerMovementController = GetComponent<PlayerMovementController>();
         playerAnimator = GetComponentInChildren<Animator>();
 
-        cameraRotateSpeed = gameSetUpData.cameraRotateSpeed;
+        moveToCamRotateSpeed = gameSetUpData.moveToCamRotateSpeed;
 
         invenSelectKeyList = new List<KeyCode>
         {
@@ -39,21 +39,30 @@ public class PlayerInputController : MonoBehaviour
             gameSetUpData.secondInvenSelectKey,
             gameSetUpData.thirdInvenSelectKey
         };
+
+        //Mouse Cursor 설정
         //screenCenter = new Vector3(playerCamera.pixelWidth / 2, playerCamera.pixelHeight / 2);
+
+#if !UNITY_EDITOR
+    Cursor.lockState = CursorLockMode.Confined;
+#endif
     }
 
     private void Update()
     {
-        //InputOpenOption();
-        InputSelectInventory();
-        InputCancelInteractiveKey();
-        InputMouseRay();
-        //Option 창이 열림 또는 UI가 열려있는 상태면 나머지 아래 동작들은 작동시키지 못하게 한다.
-        if (!GameManager.GetInstance.IsInputStop && !GameManager.GetInstance.IsUIOpen)
+        if (!GameManager.GetInstance.IsDialogueStart)
         {
-            InputMovementControl();
-            InputMouseViewControl();
-            InputInteractiveKey();
+            //InputOpenOption();
+            InputSelectInventory();
+            InputCancelInteractiveKey();
+            InputMouseRay();
+            //Option 창이 열림 또는 UI가 열려있는 상태면 나머지 아래 동작들은 작동시키지 못하게 한다.
+            if (!GameManager.GetInstance.IsInputStop && !GameManager.GetInstance.IsUIOpen)
+            {
+                InputMovementControl();
+                InputMouseViewControl();
+                InputInteractiveKey();
+            }
         }
     }
 
@@ -69,7 +78,7 @@ public class PlayerInputController : MonoBehaviour
         {
             AudioManager.GetInstance.PlaySFX(AudioManager.SFX.PlayerMove);
         }
-        Vector2 moveInput = new Vector2(horizontal * cameraRotateSpeed, vertical * cameraRotateSpeed);
+        Vector2 moveInput = new Vector2(horizontal, vertical);
         playerAnimator.SetFloat("Horizontal", horizontal);
         playerAnimator.SetFloat("Vertical", vertical);
         //bool isMove = moveInput.magnitude != 0.0f;
@@ -89,6 +98,7 @@ public class PlayerInputController : MonoBehaviour
     /// </summary>
     private void InputMouseViewControl()
     {
+        
         Vector2 mousePos = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         Vector3 cameraAngle = cameraView.rotation.eulerAngles;
         //카메라가 수직으로 너무 회전하면 뒤집히는 문제 해결
@@ -107,7 +117,11 @@ public class PlayerInputController : MonoBehaviour
         }
         //마우스 좌우 움직임으로 카메라 좌우 움직임 제어, 마우스 상하 움직임으로 카메라 상하 움직임 제어
         //cameraMain.x rotate하면 위 아래로 회전하고, cameraMain.y rotate하면 좌우로 회전한다
-        cameraView.rotation = Quaternion.Euler(rotateX, cameraAngle.y + mousePos.x, cameraAngle.z);
+
+        //cameraView.rotation = Quaternion.Euler(rotateX, cameraAngle.y + mousePos.x, cameraAngle.z);
+        Quaternion rotateCam = Quaternion.Euler(rotateX, cameraAngle.y + mousePos.x, cameraAngle.z);
+        cameraView.rotation = Quaternion.Slerp(cameraView.rotation, rotateCam, moveToCamRotateSpeed * Time.deltaTime);
+        
     }
 
     
@@ -159,8 +173,8 @@ public class PlayerInputController : MonoBehaviour
                     GameObject obj = InventoryManager.GetInstance.GetInvenObject();
                     if (obj != null)
                     {
-                        obj.transform.Rotate(0.0f, -Input.GetAxis("Mouse X") * gameSetUpData.mouseDragSpeed, 0.0f, Space.World);
-                        obj.transform.Rotate(-Input.GetAxis("Mouse Y") * gameSetUpData.mouseDragSpeed, 0.0f, 0.0f);
+                        obj.transform.Rotate(0.0f, -Input.GetAxis("Mouse X") * gameSetUpData.moseDragSpeed, 0.0f, Space.World);
+                        obj.transform.Rotate(-Input.GetAxis("Mouse Y") * gameSetUpData.moseDragSpeed, 0.0f, 0.0f);
                     }
                 }
             }

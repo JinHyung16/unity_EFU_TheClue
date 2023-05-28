@@ -9,10 +9,9 @@ TagManager:
   - WristWatch
   - Note
   - DoorKey
-  - Enemy_GradStudent
-  - Enemy_PrisionOfficer
   - WeaponBook
   - NonCollider
+  - Enemy
   layers:
   - Default
   - TransparentFX

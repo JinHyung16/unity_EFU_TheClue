@@ -30,25 +30,32 @@ public class EnemyIdleState : BaseFSM<EnemyFSM>
     {
         if (!ThemeThirdPresenter.GetInstance.IsCallEnemyAnimation)
         {
-            if (curTime > 0.0f)
+            if (state.IsAttackTime)
             {
-                curTime -= Time.deltaTime;
-                secTime = Mathf.FloorToInt(curTime % 60);
+                state.ChangeState(EnemyAttackState.GetInstance);
             }
             else
             {
-                if (curTime != 0.0f)
+                if (curTime > 0.0f)
                 {
-                    curTime = 0.0f;
+                    curTime -= Time.deltaTime;
                     secTime = Mathf.FloorToInt(curTime % 60);
                 }
-            }
-
-            if (secTime == 0.0f)
-            {
-                if (!state.IsAttackTime)
+                else
                 {
-                    state.ChangeState(EnemyMoveState.GetInstance);
+                    if (curTime != 0.0f)
+                    {
+                        curTime = 0.0f;
+                        secTime = Mathf.FloorToInt(curTime % 60);
+                    }
+                }
+
+                if (secTime == 0.0f)
+                {
+                    if (!state.IsAttackTime)
+                    {
+                        state.ChangeState(EnemyMoveState.GetInstance);
+                    }
                 }
             }
         }

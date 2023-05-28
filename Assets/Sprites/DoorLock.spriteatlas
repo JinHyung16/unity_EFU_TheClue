@@ -54,10 +54,10 @@ SpriteAtlas:
   - {fileID: -710866966, guid: e2e4227652d19b2409fc3d55942dcfaa, type: 3}
   - {fileID: -671325169, guid: e2e4227652d19b2409fc3d55942dcfaa, type: 3}
   - {fileID: 1445047305, guid: e2e4227652d19b2409fc3d55942dcfaa, type: 3}
+  - {fileID: -127705916, guid: 73bd1ef6ad8abbc4cbb42912c2ad4ea1, type: 3}
+  - {fileID: 1692050421, guid: 73bd1ef6ad8abbc4cbb42912c2ad4ea1, type: 3}
+  - {fileID: 1975626790, guid: 73bd1ef6ad8abbc4cbb42912c2ad4ea1, type: 3}
   - {fileID: -2136245756, guid: 004aab4ae43bbff498c09f1feb8ba28d, type: 3}
-  - {fileID: -1825552030, guid: 8b33621bf02bdef4fa83cbc96179cc50, type: 3}
-  - {fileID: -2048847646, guid: 8b33621bf02bdef4fa83cbc96179cc50, type: 3}
-  - {fileID: 2027285249, guid: 8b33621bf02bdef4fa83cbc96179cc50, type: 3}
   - {fileID: 490243590, guid: be9b8dcfb7ac0a841bbb677a51e41302, type: 3}
   - {fileID: 181740917, guid: be9b8dcfb7ac0a841bbb677a51e41302, type: 3}
   - {fileID: 1507132563, guid: be9b8dcfb7ac0a841bbb677a51e41302, type: 3}
@@ -72,10 +72,10 @@ SpriteAtlas:
   - doorlock_input_2
   - doorlock_input_0
   - doorlock_input_1
+  - doorlock_button_0
+  - doorlock_button_1
+  - doorlock_button_2
   - doorlock_pad_0
-  - doorlock_underbutton_0
-  - doorlock_underbutton_1
-  - doorlock_underbutton_2
   - doorlock_number_8
   - doorlock_number_7
   - doorlock_number_6
