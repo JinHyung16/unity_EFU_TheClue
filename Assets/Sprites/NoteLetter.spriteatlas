@@ -50,13 +50,21 @@ SpriteAtlas:
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: -188066258, guid: fd77d440a8da2504d837b7ec8949e2f7, type: 3}
-  - {fileID: -1565103203, guid: fd77d440a8da2504d837b7ec8949e2f7, type: 3}
-  - {fileID: -862589711, guid: 8bf38681102cc704fbbefb05013142fa, type: 3}
-  - {fileID: 265334582, guid: 0e286de765a6e9b41a99c3df709681fb, type: 3}
+  - {fileID: -1889111819, guid: bdf8b830ee6395441a2722980305049a, type: 3}
+  - {fileID: 361054447, guid: bdf8b830ee6395441a2722980305049a, type: 3}
+  - {fileID: 444379324, guid: bdf8b830ee6395441a2722980305049a, type: 3}
+  - {fileID: 1622483392, guid: fd77d440a8da2504d837b7ec8949e2f7, type: 3}
+  - {fileID: -1667686822, guid: 8bf38681102cc704fbbefb05013142fa, type: 3}
+  - {fileID: -1041960762, guid: 8bf38681102cc704fbbefb05013142fa, type: 3}
+  - {fileID: 160568456, guid: 8bf38681102cc704fbbefb05013142fa, type: 3}
+  - {fileID: -591992418, guid: 0e286de765a6e9b41a99c3df709681fb, type: 3}
   m_PackedSpriteNamesToIndex:
-  - letter1_1
+  - letter_2
+  - letter_0
+  - letter_1
   - letter1_0
+  - letter3_2
+  - letter3_1
   - letter3_0
   - letter2_0
   m_RenderDataMap: {}

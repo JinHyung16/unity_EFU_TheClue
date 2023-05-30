@@ -50,25 +50,13 @@ SpriteAtlas:
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 1331069195, guid: 4574fae25fdb9b640ad4f90ae2f08a4c, type: 3}
-  - {fileID: 6525293, guid: fc62688623dc76047b93c4b52b8c835d, type: 3}
-  - {fileID: 795063656, guid: 7b31321755b83d84c994871c0bb47e21, type: 3}
-  - {fileID: -505927149, guid: 83105e790fa7c5b4e8c70352245c7a12, type: 3}
-  - {fileID: 1842462592, guid: 34545a4ad90764e4da0ba2c7a5f494e2, type: 3}
-  - {fileID: -695157266, guid: 1ab6947a98ae9a44c9b342e08dabc477, type: 3}
-  - {fileID: 2025991353, guid: 7630bdfe2f3f971428d1063bf5626f22, type: 3}
-  - {fileID: -1660188225, guid: 01fa774fbdb94584cb67409cd6a9b493, type: 3}
-  - {fileID: -1620294257, guid: 800b36ef49b1ce14c83ebbb8887795de, type: 3}
+  - {fileID: 21300000, guid: 162cd0c2b81a8402fbc700da4ca20eb6, type: 3}
+  - {fileID: 21300000, guid: 9aa74305dfda14a07b593bc9a34d3e65, type: 3}
+  - {fileID: 21300000, guid: bfc96b198e99f4685acf50856c177834, type: 3}
   m_PackedSpriteNamesToIndex:
-  - escpaper_0
-  - help_h_0
-  - exit_h_0
-  - home_0
-  - setting_0
-  - setting_h_0
-  - home_h_0
-  - help_0
-  - exit_0
+  - Exit
+  - Home
+  - Help
   m_RenderDataMap: {}
   m_Tag: ESCUI
   m_IsVariant: 0

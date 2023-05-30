@@ -17,7 +17,7 @@ MonoBehaviour:
   themeFirstSpawnPos: {x: -4.5, y: 0.1, z: -4.5}
   themeSecondSpawnPos: {x: 0, y: 0.1, z: -3}
   themeThirdSpawnPos: {x: 0, y: 0.1, z: -4}
-  moveSpeed: 2.1
+  moveSpeed: 2.5
   moveToCamRotateSpeed: 100
   moseDragSpeed: 5
   escKey: 27

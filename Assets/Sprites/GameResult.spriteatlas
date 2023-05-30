@@ -62,35 +62,13 @@ SpriteAtlas:
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: -496245915, guid: 70da6c7098b7fc94f825c8988967f645, type: 3}
-  - {fileID: -1718992222, guid: 70da6c7098b7fc94f825c8988967f645, type: 3}
-  - {fileID: 1762867671, guid: c3dc1aa1bc65a74428182b5a330ebfd5, type: 3}
-  - {fileID: -1593925234, guid: c3dc1aa1bc65a74428182b5a330ebfd5, type: 3}
-  - {fileID: 1997941823, guid: c3dc1aa1bc65a74428182b5a330ebfd5, type: 3}
-  - {fileID: -788134662, guid: 98aeee07a68af944691ecb647eca1a0b, type: 3}
-  - {fileID: 623573138, guid: 1099f74750d24c6499e0591014ad0aed, type: 3}
-  - {fileID: -743254091, guid: c22d51b805c86064f86f8b1c792f5cca, type: 3}
-  - {fileID: 743947278, guid: 443d0d29e55aa244f80f83544488d98e, type: 3}
-  - {fileID: 1345182796, guid: d21bea9960a140e47984c2975726a308, type: 3}
-  - {fileID: 2015421975, guid: 4d89c47a6877ca349b4da69ed36fa9f7, type: 3}
-  - {fileID: 1291965871, guid: 9647bc3b117f9bb478e0d9520c7cd10a, type: 3}
-  - {fileID: 1981922089, guid: 8021dfae0b2cb4b4d8b8f49c793daae9, type: 3}
-  - {fileID: -424015259, guid: 8021dfae0b2cb4b4d8b8f49c793daae9, type: 3}
+  - {fileID: 21300000, guid: d5baa00a329bd4bf282986e46c5fed1e, type: 3}
+  - {fileID: 21300000, guid: 7e8bbd2bf334f49048e97465832d295b, type: 3}
+  - {fileID: 21300000, guid: 1188a4bc9696b46d4982b4d95978f7c7, type: 3}
   m_PackedSpriteNamesToIndex:
-  - icon_0
-  - icon_2
-  - theme_text_1
-  - theme_text_0
-  - theme_text_2
-  - fail_0
-  - next_0
-  - timer_1
-  - retry_highlight_0
-  - next_highlight_0
-  - retry_0
-  - clear_0
-  - icon_highlight_0
-  - icon_highlight_1
+  - Clock Basic - Simple
+  - Next
+  - Redo
   m_RenderDataMap: {}
   m_Tag: GameResult
   m_IsVariant: 0

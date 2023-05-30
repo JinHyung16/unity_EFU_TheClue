@@ -38,7 +38,7 @@ TextureImporter:
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 0
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -132,10 +132,10 @@ TextureImporter:
       name: letter3_0
       rect:
         serializedVersion: 2
-        x: 40
-        y: 205
-        width: 1889
-        height: 704
+        x: 180
+        y: 891
+        width: 11
+        height: 12
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -143,8 +143,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 15eaadb31e44d2d488eba87450c63795
-      internalID: -862589711
+      spriteID: 8b9b24686e32dd145ab7f1b2f281c3fa
+      internalID: 160568456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: letter3_1
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 895
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 756179885cb3b3c459a6a2161aeecb44
+      internalID: -1041960762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: letter3_2
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 215
+        width: 1868
+        height: 680
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e28a83de1a0ff6419f1a31ec184b684
+      internalID: -1667686822
       vertices: []
       indices: 
       edges: []
@@ -152,7 +194,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: fc1e3433ebdd0dd488e3cf6568a5dbdb
+    spriteID: 564001aa171d4c143abf31c68a7cc027
     internalID: 0
     vertices: []
     indices: 
@@ -160,7 +202,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      letter3_0: -862589711
+      letter3_1: -1041960762
+      letter3_0: 160568456
+      letter3_2: -1667686822
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
