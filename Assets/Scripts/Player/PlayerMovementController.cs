@@ -35,6 +35,6 @@ public class PlayerMovementController : MonoBehaviour
         {
             moveDirection *= 0;
         }
-        playerRigidbody.velocity = moveDirection * moveSpeed * Time.fixedDeltaTime;
+        playerRigidbody.velocity = moveDirection * moveSpeed;
     }
 }
