@@ -136,11 +136,6 @@ public class InventoryManager : MonoBehaviour
                     invenObj.SetActive(false);
                     ThemeSecondPresenter.GetInstance.ObjectSyncToDoorKeyHole();
                 }
-                if (emptyInventory.InventoryObject.GetComponent<Note>() != null
-                    && ThemeSecondPresenter.GetInstance.InteractiveTypeNum == 0)
-                {
-                    ThemeSecondPresenter.GetInstance.NoteSelectInInven(emptyInventory.InventoryObject, true);
-                }
             }
             if (ThemeThirdPresenter.GetInstance != null)
             {
@@ -158,7 +153,7 @@ public class InventoryManager : MonoBehaviour
         selectInvenIndex = selectIdx;
         emptyInventory = inventoryUIList[selectInvenIndex];
         selectMarkerObj.transform.position = selectInvenTransforms[selectIdx].transform.position;
-        if (emptyInventory.InventoryObject != null && !emptyInventory.InventoryObject.CompareTag("Note"))
+        if (emptyInventory.InventoryObject != null)
         {
             emptyInventory.InventoryObject.SetActive(true);
             emptyInventory.GetObject();

@@ -83,13 +83,5 @@ public class TimerManager : MonoBehaviour
                 ThemeThirdPresenter.GetInstance.GameClear(false);
             }
         }
-
-        if (10.0f <= minTime)
-        {
-            if (ThemeSecondPresenter.GetInstance != null)
-            {
-                ThemeSecondPresenter.GetInstance.IsOverTime = true;
-            }
-        }
     }
 }

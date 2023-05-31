@@ -140,22 +140,18 @@ public class InteractiveManager : MonoBehaviour
             case InteractiveType.ThemeSecond_ShowCase:
                 ThemeSecondPresenter.GetInstance.ShowCaseInteractive(true);
                 break;
-            case InteractiveType.ThemeSecond_NPC:
+            case InteractiveType.NPC:
                 if (ThemeFirstPresenter.GetInstance != null)
                 {
                     ThemeFirstPresenter.GetInstance.NPCInteractiveShowMission();
                 }
                 else if (ThemeSecondPresenter.GetInstance != null)
                 {
-                    if (!ThemeSecondPresenter.GetInstance.IsNPCFirstTalk)
-                    {
-                        ThemeSecondPresenter.GetInstance.NPCInteractiveSelectNote(true);
-                    }
-                    else
-                    {
-                        ThemeSecondPresenter.GetInstance.NPCInteractiveShowMission();
-                    }
+                    ThemeSecondPresenter.GetInstance.NPCShowMission();
                 }
+                break;
+            case InteractiveType.ThemeSeecond_Note:
+                ThemeSecondPresenter.GetInstance.NoteOpen(inventoryObj, true);
                 break;
             case InteractiveType.ThemeThird_EscapeKey:
                 PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_PickUp);

@@ -17,13 +17,14 @@ namespace HughEnumData
         DoorLock,
         Switch,
         Door,
+        NPC,
 
         ThemeFirst_Dice,
         ThemeFirst_Tile_Pattern,
         ThemeFirst_Cube,
 
         ThemeSecond_Key,
-        ThemeSecond_NPC,
+        ThemeSeecond_Note,
         ThemeSecond_ShowCase,
         ThemeSecond_WristWatch, //손목시계
         ThemeSecond_WallClock, //벽걸이 시계

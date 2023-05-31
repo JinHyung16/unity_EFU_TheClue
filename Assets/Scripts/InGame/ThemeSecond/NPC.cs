@@ -57,7 +57,7 @@ public class NPC : InteractiveObject
 
     public override InteractiveType GetInteractiveType()
     {
-        return InteractiveType.ThemeSecond_NPC;
+        return InteractiveType.NPC;
     }
 
     #endregion

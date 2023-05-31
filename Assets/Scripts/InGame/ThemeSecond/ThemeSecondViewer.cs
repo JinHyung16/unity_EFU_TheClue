@@ -79,7 +79,7 @@ public class ThemeSecondViewer : MonoBehaviour
         dialogueText.text = DataManager.GetInstance.ThemeSecondContent[dialgoueIndex];
     }
 
-    public void NarrativeCanvase(string context)
+    public void NarrativeCanvas(string context)
     {
         narrativeText.text = context;
         NarrativeUI().Forget();
@@ -111,21 +111,12 @@ public class ThemeSecondViewer : MonoBehaviour
         UIManager.GetInstance.ShowCanvas("IShowcase Canvas");
     }
 
-    public void NoteCanvaseOpen()
+    public void NoteCanvaseOpen(int index)
     {
         GameManager.GetInstance.CursorSet(true);
         GameManager.GetInstance.IsUIOpen = true;
         UIManager.GetInstance.ShowCanvas("Note Canvas");
-    }
-
-    /// <summary>
-    /// NPC와 첫 대화시 Note를 선택하는 Canvas를 연다
-    /// </summary>
-    public void NPCSelectNoteCanvasOpen()
-    {
-        GameManager.GetInstance.CursorSet(true);
-        GameManager.GetInstance.IsUIOpen = true;
-        UIManager.GetInstance.ShowCanvas("NPCNoteSelect Canvas");
+        NoteManager.GetInstance.NotePanelOpen(index);
     }
 
     public void NPCMissionCanvasOpen()

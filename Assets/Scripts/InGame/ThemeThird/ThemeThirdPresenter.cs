@@ -135,14 +135,14 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
     public void HeadStoneNarrative()
     {
-        string text = "대학생이라는 죄로\n 캠퍼스라는 교도소에서\n 강의실이라는 감옥에 갇혀...";
-        themeThirdViewer.NarrativeCanvas(text);
+        string context = "대학생이라는 죄로\n 캠퍼스라는 교도소에서\n 강의실이라는 감옥에 갇혀...";
+        NarrativeSet(context);
     }
 
     public void EnemyHitToPlayer()
     {
-        string text = "헉!! 너무 아프다... 정신이 몽롱해지는 것 같다.";
-        themeThirdViewer.NarrativeCanvas(text);
+        string context = "너무 아프다. 정신이 몽롱해지는 것 같다. 이대로 대학원에 끌려가나?";
+        NarrativeSet(context);
     }
     /// <summary>
     /// 최종 나가는 문을 열 때 호출
@@ -153,21 +153,21 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         {
             if (invenObj.GetComponent<EscapeKey>() != null && invenObj.GetComponent<EscapeKey>().escapeKeyName == "key06")
             {
-                string text = "문이 열렸다";
-                themeThirdViewer.NarrativeCanvas(text);
+                string context = "문이 열렸다";
+                NarrativeSet(context);
                 InventoryManager.GetInstance.InvenObjectUse();
                 GameClear(true);
             }
             else
             {
-                string text = "다른 열쇠가 필요하다! 시간이 없어 서둘러!!";
-                themeThirdViewer.NarrativeCanvas(text);
+                string context = "다른 열쇠가 필요하다! 시간이 없어 서둘러!!";
+                NarrativeSet(context);
             }
         }
         else
         {
-            string text = "문을 열 만한걸 찾아보자!! 서둘러!!!";
-            themeThirdViewer.NarrativeCanvas(text);
+            string context = "문을 열 만한걸 찾아보자!! 서둘러!!!";
+            NarrativeSet(context);
         }
     }
 
@@ -180,23 +180,23 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         {
             if (invenObj.GetComponent<EscapeKey>() != null && invenObj.GetComponent<EscapeKey>().escapeKeyName == "key03")
             {
-                string text = "문이 열렸다";
-                themeThirdViewer.NarrativeCanvas(text);
+                string context = "문이 열렸다";
+                NarrativeSet(context);
                 IsOpenMiddleDoor = true;
                 InventoryManager.GetInstance.InvenObjectUse();
                 middleDoorObj.transform.DOMove(middleDoorOpenTrans.position, 0.8f);
             }
             else
             {
-                string text = "열쇠가 잘못된 거 같다.";
-                themeThirdViewer.NarrativeCanvas(text);
+                string context = "열쇠가 잘못된 거 같다.";
+                NarrativeSet(context);
                 IsOpenMiddleDoor = false;
             }
         }
         else
         {
-            string text = "문을 열 만한걸 찾아보자";
-            themeThirdViewer.NarrativeCanvas(text);
+            string context = "문을 열 만한걸 찾아보자";
+            NarrativeSet(context);
             IsOpenMiddleDoor = false;
         }
     }
@@ -205,8 +205,8 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     {
         if (!isDropKeyRegion01)
         {
-            string text = "주위에 무언가 떨어진 소리가 들렸다!!";
-            themeThirdViewer.NarrativeCanvas(text);
+            string context = "주위에 무언가 떨어진 소리가 들렸다!!";
+            NarrativeSet(context);
             AudioManager.GetInstance.PlaySFX(AudioManager.SFX.ThemeThird_DropKey);
             for (int i = 0; i < escapeKeyRegion01List.Count; i++)
             {
@@ -216,8 +216,8 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         }
         else
         {
-            string text = "...?";
-            themeThirdViewer.NarrativeCanvas(text);
+            string context = "...?";
+            NarrativeSet(context);
         }
     }
 
@@ -229,8 +229,8 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.ThemeThird_RegionButton);
         if (isCallRegion02Anim)
         {
-            string text = "탁자 위에 뭔가 놓고 간 거 같다. 확인해보자!!";
-            themeThirdViewer.NarrativeCanvas(text);
+            string context = "탁자 위에 뭔가 놓고 간 거 같다. 확인해보자!!";
+            NarrativeSet(context);
         }
         else
         {
@@ -246,8 +246,8 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
             enemyGradStudent.ChangeState(EnemyIdleState.GetInstance);
 
-            string text = "누가 다가오는 소리가 들린다. 문 앞을 조심하자";
-            themeThirdViewer.NarrativeCanvas(text);
+            string context = "누가 다가오는 소리가 들린다. 문 앞을 조심하자";
+            NarrativeSet(context);
 
             //Interactive Camera로 전환시키고
             CamInteractiveSet(camAnimPosList[0], true);
@@ -268,9 +268,11 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         enemyGradStudentObj.transform.rotation = enemyAnimTransList[2].rotation;
         enemyGradStudentObj.SetActive(true);
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.ThemeThird_GradStudent_Tired);
-        string text = "조교: 교수님~~~~~";
-        themeThirdViewer.NarrativeCanvas(text);
+
+        string context = "조교: 교수님~~~~~";
+        NarrativeSet(context);
         enemyProfessor.PlayAnimation(2);
+
         //교수님이 뒤를 돌아보고 놀란다.
         await enemyProfessorObj.transform.DORotate(new Vector3(0, 90, 0), 0.8f).WithCancellation(tokenSource.Token);
         enemyProfessor.PlayAnimation(0);
@@ -308,11 +310,16 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
     public void CallNPCByButton(int regionNum)
     {
-        string text = "누군가 다가오는거 같다!!!";
-        themeThirdViewer.NarrativeCanvas(text);
+        string context = "누군가 다가오는거 같다!!!";
+        NarrativeSet(context);
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.ThemeThird_RegionButton);
         enemyGradStudent.OnChaseTarget = regionNum;
         enemyGradStudent.ChangeState(EnemyMoveState.GetInstance);
+    }
+
+    public void NarrativeSet(string text)
+    {
+        themeThirdViewer.NarrativeCanvas(text);
     }
 
     public void GameClear(bool isClear)

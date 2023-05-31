@@ -120,7 +120,7 @@ public class PlayerInputController : MonoBehaviour
 
         //cameraView.rotation = Quaternion.Euler(rotateX, cameraAngle.y + mousePos.x, cameraAngle.z);
         Quaternion rotateCam = Quaternion.Euler(rotateX, cameraAngle.y + mousePos.x, cameraAngle.z);
-        cameraView.rotation = Quaternion.Slerp(cameraView.rotation, rotateCam, moveToCamRotateSpeed * Time.deltaTime);
+        cameraView.rotation = Quaternion.Slerp(cameraView.rotation, rotateCam, moveToCamRotateSpeed);
         
     }
 
@@ -147,16 +147,6 @@ public class PlayerInputController : MonoBehaviour
                             {
                                 hitObj = hit.collider.gameObject;
                                 hit.collider.gameObject.transform.position = GameManager.GetInstance.CameraInteractive.transform.position + new Vector3(0, -0.5f, 0);
-                            }
-                        }
-                        if (hit.collider.gameObject.CompareTag("Note") && 
-                            ThemeSecondPresenter.GetInstance != null && ThemeSecondPresenter.GetInstance.InteractiveTypeNum == 3)
-                        {
-                            if (InventoryManager.GetInstance.IsFullInvenCnt < 3)
-                            {
-                                var note = hit.collider.gameObject.GetComponent<Note>();
-                                note.SelectNote();
-                                InventoryManager.GetInstance.PutInInventory(hit.collider.gameObject, note.GetNoteUISprite, Color.white);
                             }
                         }
                     }
@@ -237,30 +227,7 @@ public class PlayerInputController : MonoBehaviour
 
     private void InputCancelInteractiveKey()
     {
-        if (Input.GetKeyDown(gameSetUpData.notInteractiveKey))
-        {
-            if (ThemeSecondPresenter.GetInstance != null)
-            {
-                switch (ThemeSecondPresenter.GetInstance.InteractiveTypeNum)
-                {
-                    case 1:
-                        ThemeSecondPresenter.GetInstance.DoorKeyHoleInteractive(false);
-                        break;
-                    case 2:
-                        ThemeSecondPresenter.GetInstance.ShowCaseInteractive(false);
-                        break;
-                    case 3:
-                        ThemeSecondPresenter.GetInstance.NPCInteractiveSelectNote(false);
-                        break;
-                    case 4:
-                        ThemeSecondPresenter.GetInstance.NoteSelectInInven(null, false);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        }
-        else if (Input.GetKeyDown(gameSetUpData.escKey))
+        if (Input.GetKeyDown(gameSetUpData.escKey))
         {
             if (ThemeFirstPresenter.GetInstance != null && ThemeFirstPresenter.GetInstance.InteractiveUIOpen)
             {
@@ -277,12 +244,9 @@ public class PlayerInputController : MonoBehaviour
                         ThemeSecondPresenter.GetInstance.ShowCaseInteractive(false);
                         break;
                     case 3:
-                        ThemeSecondPresenter.GetInstance.NPCInteractiveSelectNote(false);
+                        ThemeSecondPresenter.GetInstance.NoteOpen(null, false);
                         break;
                     case 4:
-                        ThemeSecondPresenter.GetInstance.NoteSelectInInven(null, false);
-                        break;
-                    case 5:
                         ThemeSecondPresenter.GetInstance.CloseCanvas();
                         break;
                     default:

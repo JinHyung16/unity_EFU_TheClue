@@ -14,10 +14,12 @@ public class DoorKey : InteractiveObject
     [Header("DoorKey UI sprite")]
     [SerializeField] private Sprite doorKeyImage;
 
+    [SerializeField] private int doorKeyNum = 0;
+
     private Vector3 offset;
 
     public Sprite GetDoorKeyUISprite { get { return this.doorKeyImage; } }
-
+    public int GetDoorKeyNum { get { return this.doorKeyNum; } }
     private void Start()
     {
         offset = new Vector3(0, 0.3f, 0);

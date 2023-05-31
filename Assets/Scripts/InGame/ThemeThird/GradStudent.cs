@@ -156,6 +156,11 @@ public class GradStudent : EnemyFSM
     {
         if (success)
         {
+            if (movePath != null || 0 < movePath.Length)
+            {
+                Debug.Log("movePath is not null");
+                movePath = null;
+            }
             movePath = newPath;
             //targetPathIndex = 0;
             
@@ -183,7 +188,19 @@ public class GradStudent : EnemyFSM
                     movePath = new Vector3[0];
                     //yield break;
                 }
-                curWayPosition = movePath[targetPathIndex];
+                try
+                {
+                    curWayPosition = movePath[targetPathIndex];
+                    throw new IndexOutOfRangeException();
+                }
+                catch (System.IndexOutOfRangeException e)
+                {
+                    Debug.Log("IndexOutOfRangeException : " + e);
+                }
+                finally
+                {
+                    curWayPosition = movePath[targetPathIndex];
+                }
             }
 
             Vector3 targetLookDir = curWayPosition - transform.position;

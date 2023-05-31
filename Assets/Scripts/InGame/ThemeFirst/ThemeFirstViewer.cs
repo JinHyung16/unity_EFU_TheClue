@@ -127,7 +127,7 @@ public class ThemeFirstViewer : MonoBehaviour
         }
     }
 
-    public void NarrativeCanvase(string context)
+    public void NarrativeCanvas(string context)
     {
         narrativeText.text = context;
         NarrativeUI().Forget();

@@ -152,7 +152,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         }
 
         string context = "좋지 않은 예감이 든다...";
-        themeFirstViewer.NarrativeCanvase(context);
+        NarrativeSet(context);
     }
 
     #endregion
@@ -378,7 +378,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
             if (3 <= successDiceSetTile)
             {
                 string context = "타일에 배치됐다. 무언가 열리는 소리가 들렸다.";
-                themeFirstViewer.NarrativeCanvase(context);
+                NarrativeSet(context);
 
                 InteractiveTypeToDoor = 1;
                 successDiceSetTile = 0;
@@ -389,7 +389,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         {
             failedDiceSetTile--;
             string context = "타일에 배치가 잘못된 거 같다... 무슨 소리지?";
-            themeFirstViewer.NarrativeCanvase(context);
+            NarrativeSet(context);
             if (failedDiceSetTile <= 0)
             {
                 themeFirstViewer.OpenResultCanvas(false);
@@ -412,13 +412,13 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         if (GameManager.GetInstance.IsGameClear)
         {
             context = "문을 열었습니다! 어서 탈출하세요.";
-            themeFirstViewer.NarrativeCanvase(context);
+            NarrativeSet(context);
             GameClear(true);
         }
         else
         {
             context = "문이 닫혀있습니다. 빨리 문을 여세요.";
-            themeFirstViewer.NarrativeCanvase(context);
+            NarrativeSet(context);
         }
     }
     /// <summary>
@@ -429,6 +429,11 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         InteractiveUIOpen = true;
         GameManager.GetInstance.IsUIOpen = false;
         themeFirstViewer.NPCMissionCanvasOpen();
+    }
+
+    public void NarrativeSet(string text)
+    {
+        themeFirstViewer.NarrativeCanvas(text);
     }
 
     public void CloseCanvase()
