@@ -115,9 +115,17 @@ public class DataManager : Singleton<DataManager>
 
     #region CSV Data
 
-    public List<string> ThemeFirstContent = new List<string>();
-    public List<string> ThemeSecondContent = new List<string>();
-    public List<string> ThemeThirdContent = new List<string>();
+    //테마1 캐릭터, 대사 리스트 담기
+    public List<string> ThemeFirstCharacter = new List<string>();
+    public List<string> ThemeFirstContext = new List<string>();
+
+    //테마2 캐릭터, 대사 리스트 담기
+    public List<string> ThemeSecondCharacter = new List<string>();
+    public List<string> ThemeSecondContext = new List<string>();
+
+    //테마3 캐릭터, 대사 리스트 담기
+    public List<string> ThemeThirdCharacter = new List<string>();
+    public List<string> ThemeThirdContext = new List<string>();
 
     private void ReadDialogueCSV()
     {
@@ -129,15 +137,18 @@ public class DataManager : Singleton<DataManager>
             string theme = csvDataList[i]["Theme"].ToString();
             if (theme == "1")
             {
-                ThemeFirstContent.Add(csvDataList[i]["Content"].ToString());
+                ThemeFirstCharacter.Add(csvDataList[i]["Character"].ToString());
+                ThemeFirstContext.Add(csvDataList[i]["Context"].ToString());
             }
             else if (theme == "2")
             {
-                ThemeSecondContent.Add(csvDataList[i]["Content"].ToString());
+                ThemeSecondCharacter.Add(csvDataList[i]["Character"].ToString());
+                ThemeSecondContext.Add(csvDataList[i]["Context"].ToString());
             }
             else if (theme == "3")
             {
-                ThemeThirdContent.Add(csvDataList[i]["Content"].ToString());
+                ThemeThirdCharacter.Add(csvDataList[i]["Character"].ToString());
+                ThemeThirdContext.Add(csvDataList[i]["Context"].ToString());
             }
         }
     }

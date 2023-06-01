@@ -16,6 +16,7 @@ public class ThemeThirdViewer : MonoBehaviour
     [Header("Dialogue UI들")]
     [SerializeField] private Canvas dialogueCanvas;
     [SerializeField] private Button nextDialogueBtn;
+    [SerializeField] private TMP_Text dialogueCharacterText;
     [SerializeField] private TMP_Text dialgoueText;
     private int dialgoueIndex = 0;
 
@@ -79,7 +80,8 @@ public class ThemeThirdViewer : MonoBehaviour
         GameManager.GetInstance.CursorSet(true);
         GameManager.GetInstance.IsDialogueStart = true;
         dialgoueIndex = 0;
-        dialgoueText.text = DataManager.GetInstance.ThemeSecondContent[0];
+        dialogueCharacterText.text = "[" + DataManager.GetInstance.ThemeThirdCharacter[0] + "] ";
+        dialgoueText.text = DataManager.GetInstance.ThemeSecondContext[0];
         dialogueCanvas.enabled = true;
         Time.timeScale = 0;
     }
@@ -88,7 +90,7 @@ public class ThemeThirdViewer : MonoBehaviour
     {
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.DialogueBtn);
         dialgoueIndex += 1;
-        if (DataManager.GetInstance.ThemeThirdContent.Count <= dialgoueIndex)
+        if (DataManager.GetInstance.ThemeThirdContext.Count <= dialgoueIndex)
         {
             GameManager.GetInstance.IsDialogueStart = false;
             dialogueCanvas.enabled = false;
@@ -96,7 +98,8 @@ public class ThemeThirdViewer : MonoBehaviour
             ThemeThirdPresenter.GetInstance.DoneDialogue();
             return;
         }
-        dialgoueText.text = DataManager.GetInstance.ThemeThirdContent[dialgoueIndex];
+        dialogueCharacterText.text = "[" + DataManager.GetInstance.ThemeThirdCharacter[dialgoueIndex] + "] ";
+        dialgoueText.text = DataManager.GetInstance.ThemeThirdContext[dialgoueIndex];
     }
 
     public void NarrativeCanvas(string context)

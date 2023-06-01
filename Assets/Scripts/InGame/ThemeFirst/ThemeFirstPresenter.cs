@@ -144,14 +144,15 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
     {
         themeFirstViewer.CloseCanvas();
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.DoorLock_Fail);
+        /*
         numOfDoorLockAttempsCnt++;
         if (3 <= numOfDoorLockAttempsCnt)
         {
             numOfDoorLockAttempsCnt = 0;
             themeFirstViewer.OpenResultCanvas(false);
         }
-
-        string context = "좋지 않은 예감이 든다...";
+        */
+        string context = "비밀번호가 잘못된 거 같다.";
         NarrativeSet(context);
     }
 
@@ -389,12 +390,15 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         {
             failedDiceSetTile--;
             string context = "타일에 배치가 잘못된 거 같다... 무슨 소리지?";
+
             NarrativeSet(context);
+            /*
             if (failedDiceSetTile <= 0)
             {
                 themeFirstViewer.OpenResultCanvas(false);
                 GameManager.GetInstance.IsGameClear = false;
             }
+            */
         }
     }
     #endregion
@@ -446,10 +450,6 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         if (isClear)
         {
             GameManager.GetInstance.IsGameClear = true;
-        }
-        else
-        {
-            GameManager.GetInstance.IsGameClear = false;
         }
         themeFirstViewer.OpenResultCanvas(isClear);
     }

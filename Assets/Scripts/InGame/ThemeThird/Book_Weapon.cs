@@ -29,7 +29,9 @@ public class Book_Weapon : MonoBehaviour
         volume.profile.TryGet(out this.chromaticAberration);
         chromaticAberration.intensity.Override(0.0f);
 
+        hitCount = 0;
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player") && gradStudent.IsAttackTime)
@@ -42,7 +44,7 @@ public class Book_Weapon : MonoBehaviour
             tokenSource = new CancellationTokenSource();
 
             hitCount += 1;
-            ThemeThirdPresenter.GetInstance.EnemyHitToPlayer();
+            ThemeThirdPresenter.GetInstance.EnemyHitToPlayer(hitCount);
             if (3 < hitCount)
             {
                 ThemeThirdPresenter.GetInstance.GameClear(false);

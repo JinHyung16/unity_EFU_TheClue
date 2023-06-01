@@ -14,6 +14,7 @@ public class ThemeSecondViewer : MonoBehaviour
     [Header("Dialogue UI들")]
     [SerializeField] private Canvas dialogueCanvas;
     [SerializeField] private Button nextDialogueBtn;
+    [SerializeField] private TMP_Text dialogueCharacterText;
     [SerializeField] private TMP_Text dialogueText;
     private int dialgoueIndex = 0;
 
@@ -59,7 +60,8 @@ public class ThemeSecondViewer : MonoBehaviour
         GameManager.GetInstance.CursorSet(true);
         GameManager.GetInstance.IsDialogueStart = true;
         dialgoueIndex = 0;
-        dialogueText.text = DataManager.GetInstance.ThemeSecondContent[0];
+        dialogueCharacterText.text = "[" + DataManager.GetInstance.ThemeSecondCharacter[0] + "] ";
+        dialogueText.text = DataManager.GetInstance.ThemeSecondContext[0];
         dialogueCanvas.enabled = true;
         Time.timeScale = 0;
     }
@@ -68,7 +70,7 @@ public class ThemeSecondViewer : MonoBehaviour
     {
         dialgoueIndex += 1;
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.DialogueBtn);
-        if (DataManager.GetInstance.ThemeSecondContent.Count <= dialgoueIndex)
+        if (DataManager.GetInstance.ThemeSecondContext.Count <= dialgoueIndex)
         {
             GameManager.GetInstance.IsDialogueStart = false;
             dialogueCanvas.enabled = false;
@@ -76,7 +78,8 @@ public class ThemeSecondViewer : MonoBehaviour
             ThemeSecondPresenter.GetInstance.DoneDialogue();
             return;
         }
-        dialogueText.text = DataManager.GetInstance.ThemeSecondContent[dialgoueIndex];
+        dialogueCharacterText.text = "[" + DataManager.GetInstance.ThemeSecondCharacter[dialgoueIndex] + "] ";
+        dialogueText.text = DataManager.GetInstance.ThemeSecondContext[dialgoueIndex];
     }
 
     public void NarrativeCanvas(string context)
@@ -113,9 +116,9 @@ public class ThemeSecondViewer : MonoBehaviour
 
     public void NoteCanvaseOpen(int index)
     {
+        UIManager.GetInstance.ShowCanvas("Note Canvas");
         GameManager.GetInstance.CursorSet(true);
         GameManager.GetInstance.IsUIOpen = true;
-        UIManager.GetInstance.ShowCanvas("Note Canvas");
         NoteManager.GetInstance.NotePanelOpen(index);
     }
 

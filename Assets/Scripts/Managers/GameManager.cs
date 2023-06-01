@@ -142,6 +142,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
             }
             else
             {
+                helpPanel.SetActive(false);
                 gameOptionCanvas.enabled = false;
                 isOptionKeyDown = false;
                 IsInputStop = false;

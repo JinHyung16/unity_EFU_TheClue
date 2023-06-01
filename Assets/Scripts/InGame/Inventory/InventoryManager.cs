@@ -114,7 +114,8 @@ public class InventoryManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 숫자 1,2,3 버튼을 눌러 Inventory를 선택해 담겨있는 아이템 정보를 가져온다.
+    /// PlayerInputController.cs에서 num 버튼을 누르자 마자 실행하는 함수로
+    /// 숫자 1,2,3 버튼을 눌러 Inventory를 선택해 담겨있는 아이템 정보를 가져오는 중간 매개체 역할
     /// </summary>
     /// <param invenObjName="selectIdx"> 선택한 inventory 순서 </param>
     public void SelectInventory(int selectIdx)
@@ -136,6 +137,7 @@ public class InventoryManager : MonoBehaviour
                     invenObj.SetActive(false);
                     ThemeSecondPresenter.GetInstance.ObjectSyncToDoorKeyHole();
                 }
+                
             }
             if (ThemeThirdPresenter.GetInstance != null)
             {

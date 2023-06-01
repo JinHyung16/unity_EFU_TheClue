@@ -23,8 +23,8 @@ public class DoorKey : InteractiveObject
     private void Start()
     {
         offset = new Vector3(0, 0.3f, 0);
-        this.gameObject.transform.position = originPosition.transform.position;
-        this.gameObject.transform.rotation = originPosition.transform.rotation;
+        this.gameObject.transform.position = doorKeyTransform.transform.position;
+        this.gameObject.transform.rotation = doorKeyTransform.transform.rotation;
     }
     private void OnDisable()
     {
@@ -33,10 +33,8 @@ public class DoorKey : InteractiveObject
             GameManager.GetInstance.InvisibleInteractiveCanvas();
             this.NotInteractvie();
         }
-        if (originPosition != null)
-        {
-            this.gameObject.transform.position = originPosition.position;
-        }
+        this.gameObject.transform.position = originPosition.position;
+        this.gameObject.transform.rotation = originPosition.rotation;
     }
 
     #region InteractiveObject Override

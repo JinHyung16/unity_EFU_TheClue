@@ -1,6 +1,7 @@
 using HughGenerics;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 public class AudioManager : Singleton<AudioManager>
@@ -51,6 +52,7 @@ public class AudioManager : Singleton<AudioManager>
             sfxSources[i].playOnAwake = false;
             sfxSources[i].bypassListenerEffects = true;
             sfxSources[i].volume = sfxVolume;
+            sfxSources[i].mute = true;
             sfxSources[i].loop = false;
         }
     }
@@ -63,6 +65,7 @@ public class AudioManager : Singleton<AudioManager>
             if (!sfxSources[(int)sfx].isPlaying)
             {
                 sfxSources[(int)sfx].volume = sfxVolume;
+                sfxSources[(int)sfx].mute = false;
                 sfxSources[(int)sfx].Play();
             }
         }
@@ -70,6 +73,7 @@ public class AudioManager : Singleton<AudioManager>
         {
             sfxVolume = 0.8f;
             sfxSources[(int)sfx].volume = sfxVolume;
+            sfxSources[(int)sfx].mute = false;
             sfxSources[(int)sfx].Play();
         }
 

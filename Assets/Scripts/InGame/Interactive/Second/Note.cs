@@ -55,11 +55,13 @@ public class Note : InteractiveObject
     {
         GameManager.GetInstance.VisibleInteractiveCanvas(noteTrans, offset);
         InteractiveManager.GetInstance.SetInteractiving(this);
+        InteractiveManager.GetInstance.SetInteractvieObjToInventory(this.gameObject);
     }
 
     protected override void NotInteractvie()
     {
         GameManager.GetInstance.InvisibleInteractiveCanvas();
+        InteractiveManager.GetInstance.SetInteractvieObjToInventory(null);
         InteractiveManager.GetInstance.SetInteractvieObjToInventory(null);
     }
 

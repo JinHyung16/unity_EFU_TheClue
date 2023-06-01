@@ -15,6 +15,7 @@ public class ThemeFirstViewer : MonoBehaviour
     [Header("Dialogue UI들")]
     [SerializeField] private Canvas dialogueCanvas;
     [SerializeField] private Button nextDialogueBtn;
+    [SerializeField] private TMP_Text dialogueCharacterText;
     [SerializeField] private TMP_Text dialogueText;
     private int dialgoueIndex = 0;
 
@@ -67,7 +68,8 @@ public class ThemeFirstViewer : MonoBehaviour
     {
         GameManager.GetInstance.IsDialogueStart = true;
         dialgoueIndex = 0;
-        dialogueText.text = DataManager.GetInstance.ThemeFirstContent[0];
+        dialogueCharacterText.text = "[" + DataManager.GetInstance.ThemeFirstCharacter[0] + "] ";
+        dialogueText.text = DataManager.GetInstance.ThemeFirstContext[0];
         dialogueCanvas.enabled = true;
         Time.timeScale = 0;
         GameManager.GetInstance.CursorSet(true);
@@ -77,7 +79,7 @@ public class ThemeFirstViewer : MonoBehaviour
     {
         dialgoueIndex += 1;
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.DialogueBtn);
-        if (DataManager.GetInstance.ThemeFirstContent.Count <= dialgoueIndex)
+        if (DataManager.GetInstance.ThemeFirstContext.Count <= dialgoueIndex)
         {
             GameManager.GetInstance.IsDialogueStart = false;
             dialogueCanvas.enabled = false;
@@ -85,7 +87,8 @@ public class ThemeFirstViewer : MonoBehaviour
             ThemeFirstPresenter.GetInstance.DoneDialogue();
             return;
         }
-        dialogueText.text = DataManager.GetInstance.ThemeFirstContent[dialgoueIndex];
+        dialogueCharacterText.text = "[" + DataManager.GetInstance.ThemeFirstCharacter[dialgoueIndex] + "] ";
+        dialogueText.text = DataManager.GetInstance.ThemeFirstContext[dialgoueIndex];
     }
 
     /// <summary>

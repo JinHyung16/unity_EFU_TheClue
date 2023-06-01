@@ -139,9 +139,9 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         NarrativeSet(context);
     }
 
-    public void EnemyHitToPlayer()
+    public void EnemyHitToPlayer(int hitCount)
     {
-        string context = "너무 아프다. 정신이 몽롱해지는 것 같다. 이대로 대학원에 끌려가나?";
+        string context = (3- hitCount).ToString() + "대 더 맞으면 정신을 잃을 거 같다.";
         NarrativeSet(context);
     }
     /// <summary>
@@ -325,5 +325,6 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     public void GameClear(bool isClear)
     {
         themeThirdViewer.OpenResultCanvas(isClear);
+        GameManager.GetInstance.IsGameClear = true;
     }
 }

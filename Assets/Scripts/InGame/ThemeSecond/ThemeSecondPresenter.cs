@@ -89,6 +89,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
 
         TimerManager.GetInstance.ThemeClearTime = 900.0f;
 
+        InteractiveTypeNum = 0;
         numOfDoorLockAttempsCnt = 0;
 
         CamInteractiveSet(interactiveCamMovePosList[2], true);
@@ -123,16 +124,17 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             string context = "좋지 않은 예감이 든다...";
             NarrativeSet(context);
             AudioManager.GetInstance.PlaySFX(AudioManager.SFX.DoorLock_Fail);
+            /*
             numOfDoorLockAttempsCnt++;
             if (3 <= numOfDoorLockAttempsCnt)
             {
                 numOfDoorLockAttempsCnt = 0;
                 GameClear(false);
             }
+            */
         }
     }
 
-    #region Interactive Camera Functions
     private void CamInteractiveSet(Transform transform, bool isActive)
     {
         cameraInteractive.transform.position = transform.position;
@@ -202,10 +204,10 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         CamInteractiveSet(interactiveCamMovePosList[3], true);
         if (obj.CompareTag("DoorKey"))
         {
-            obj.transform.position = keyPutInPos.position;
-            obj.transform.rotation = keyPutInPos.rotation;
             if (obj.GetComponent<DoorKey>().GetDoorKeyNum == doorKeySuccessNum)
             {
+                obj.transform.position = keyPutInPos.position;
+                obj.transform.rotation = keyPutInPos.rotation;
                 obj.transform.DOMove(keyPutInPos.position + new Vector3(0, 0, 0.2f), 3.0f, false).SetEase(Ease.Linear);
                 DoorKeyAnimationDone().Forget();
             }
@@ -219,6 +221,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
                 string context = "열쇠를 다시 찾아보자";
                 NarrativeSet(context);
             }
+            InteractiveTypeNum = 0;
         }
         else
         {
@@ -229,6 +232,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
 
             string context = "열쇠가 아닌데?";
             NarrativeSet(context);
+            InteractiveTypeNum = 0;
         }
     }
 
@@ -255,7 +259,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             InteractiveTypeNum = 1;
             if (obj != null)
             {
-                obj.transform.position = cameraInteractive.transform.position + new Vector3(0, 0, 1.0f);
+                obj.transform.position = cameraInteractive.transform.position + new Vector3(0, 0, 0.6f);
                 obj.transform.LookAt(cameraInteractive.transform);
                 obj.SetActive(true);
             }
@@ -302,7 +306,6 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
             CloseCanvas();
         }
     }
-    #endregion
 
     /// <summary>
     /// NPC와 상호작용시 현재 미션을 볼 수 있다.
@@ -351,10 +354,6 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         if (isClear)
         {
             GameManager.GetInstance.IsGameClear = true;
-        }
-        else
-        {
-            GameManager.GetInstance.IsGameClear = false;
         }
 
         themeSecondViewer.OpenResultCanvas(isClear);

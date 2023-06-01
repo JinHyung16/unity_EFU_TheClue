@@ -152,15 +152,10 @@ public class GradStudent : EnemyFSM
     }
 
     #region Enemy PathFind Move
-    private void PathFindCallBack(Vector3[] newPath, bool success)
+    public void PathFindCallBack(Vector3[] newPath, bool success)
     {
         if (success)
         {
-            if (movePath != null || 0 < movePath.Length)
-            {
-                Debug.Log("movePath is not null");
-                movePath = null;
-            }
             movePath = newPath;
             //targetPathIndex = 0;
             
@@ -188,6 +183,7 @@ public class GradStudent : EnemyFSM
                     movePath = new Vector3[0];
                     //yield break;
                 }
+
                 try
                 {
                     curWayPosition = movePath[targetPathIndex];

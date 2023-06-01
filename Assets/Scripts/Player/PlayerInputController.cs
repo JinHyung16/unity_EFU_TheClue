@@ -50,12 +50,13 @@ public class PlayerInputController : MonoBehaviour
 
     private void Update()
     {
-        if (!GameManager.GetInstance.IsDialogueStart)
+        if (!GameManager.GetInstance.IsDialogueStart || !GameManager.GetInstance.IsGameClear)
         {
             //InputOpenOption();
             InputSelectInventory();
             InputCancelInteractiveKey();
             InputMouseRay();
+
             //Option 창이 열림 또는 UI가 열려있는 상태면 나머지 아래 동작들은 작동시키지 못하게 한다.
             if (!GameManager.GetInstance.IsInputStop && !GameManager.GetInstance.IsUIOpen)
             {

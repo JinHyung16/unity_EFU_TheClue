@@ -154,8 +154,6 @@ public class UIManager : Singleton<UIManager>
     {
         canvasDictionary.Clear();
         canvasQueue.Clear();
-
-        Debug.Log("UIManager에서 canvas 초기화함");
     }
     #endregion
 }
