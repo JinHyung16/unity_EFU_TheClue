@@ -81,7 +81,6 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
         GameManager.GetInstance.IsInputStop = false;
         GameManager.GetInstance.IsGameClear = false;
 
-        this.cameraInteractive.cullingMask = 0;
         this.cameraInteractive.enabled = false;
 
         globalLight.color = new Color(0.7f, 0.7f, 0.7f);
@@ -113,15 +112,11 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
         if (isActive)
         {
-            this.cameraInteractive.cullingMask = -1;
-            cameraInteractive.depth = 1;
             this.cameraInteractive.enabled = true;
             GameManager.GetInstance.PlayerCameraControl(false);
         }
         else
         {
-            this.cameraInteractive.cullingMask = 0;
-            cameraInteractive.depth = 0;
             GameManager.GetInstance.PlayerCameraControl(true);
             this.cameraInteractive.enabled = false;
         }

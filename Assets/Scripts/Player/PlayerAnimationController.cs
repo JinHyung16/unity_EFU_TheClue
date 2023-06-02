@@ -36,9 +36,6 @@ public class PlayerAnimationController : MonoBehaviour
             case AnimationType.P_PickUp:
                 animator.SetTrigger("onPickUp");
                 break;
-            case AnimationType.P_EnterCode:
-                animator.SetTrigger("onEnterCode");
-                break;
             case AnimationType.P_OpenDoor:
                 animator.SetTrigger("onOpenDoor");
                 break;

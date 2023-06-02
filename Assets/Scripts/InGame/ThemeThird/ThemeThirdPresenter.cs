@@ -58,7 +58,6 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         GameManager.GetInstance.CameraInteractive = this.cameraInteractive;
         GameManager.GetInstance.PlayerCameraStack(this.cameraMain);
 
-        this.cameraInteractive.cullingMask = 0;
         this.cameraInteractive.enabled = false;
 
         GameManager.GetInstance.IsUIOpen = false;
@@ -107,15 +106,13 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
         if (isActive)
         {
-            this.cameraInteractive.cullingMask = -1;
-            cameraInteractive.depth = 1;
+            this.cameraInteractive.depth = 1;
             this.cameraInteractive.enabled = true;
             GameManager.GetInstance.PlayerCameraControl(false);
         }
         else
         {
-            this.cameraInteractive.cullingMask = 0;
-            cameraInteractive.depth = 0;
+            this.cameraInteractive.depth = 0;
             GameManager.GetInstance.PlayerCameraControl(true);
             this.cameraInteractive.enabled = false;
         }

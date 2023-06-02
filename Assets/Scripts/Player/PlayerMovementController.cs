@@ -4,7 +4,6 @@ public class PlayerMovementController : MonoBehaviour
 {
     [Header("GameSetUpData")]
     [SerializeField] private GameSetUpData gameSetUpData;
-
     private Rigidbody playerRigidbody;
     
     private Vector3 moveDirection;

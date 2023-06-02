@@ -10,6 +10,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class GradStudent : EnemyFSM
 {
+    private Rigidbody enemyRigid;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float turnSpeed;
     //[SerializeField] private float rayMaxDistance;
@@ -29,11 +30,13 @@ public class GradStudent : EnemyFSM
     //1=player 쫓기, 2=랜덤 이동, 3=region 03 호출, 4=region 04호출
     public int OnChaseTarget { get; set; } = 2;
 
+    private Coroutine moveToPathCoroutine;
     private CancellationTokenSource tokenSource;
 
     public override bool IsAttackTime { get => base.IsAttackTime; set => base.IsAttackTime = value; }
     private void Start()
     {
+        enemyRigid = GetComponent<Rigidbody>();
         enemyAnimator = GetComponentInChildren<Animator>();
 
         myState = new StateMachine<EnemyFSM>();
@@ -145,7 +148,10 @@ public class GradStudent : EnemyFSM
 
     public override void MovementStop()
     {
-        StopCoroutine("MoveToPath");
+        if (moveToPathCoroutine != null)
+        {
+            StopCoroutine(moveToPathCoroutine);
+        }
         this.PlayAnimation(0);
 
         OnChaseTarget = 2;
@@ -158,9 +164,12 @@ public class GradStudent : EnemyFSM
         {
             movePath = newPath;
             //targetPathIndex = 0;
-            
-            StopCoroutine("MoveToPath");
-            StartCoroutine("MoveToPath");
+
+            if (moveToPathCoroutine != null)
+            {
+                StopCoroutine(moveToPathCoroutine);
+            }
+            moveToPathCoroutine = StartCoroutine(MoveToPath());
         }
     }
 
@@ -202,9 +211,9 @@ public class GradStudent : EnemyFSM
             Vector3 targetLookDir = curWayPosition - transform.position;
             targetLookDir.y = 0;
             Quaternion look = Quaternion.LookRotation(targetLookDir);
-            transform.rotation = Quaternion.Lerp(transform.rotation, look, turnSpeed * Time.deltaTime);
+            enemyRigid.transform.rotation = Quaternion.Lerp(transform.rotation, look, turnSpeed * Time.deltaTime);
 
-            transform.position = Vector3.MoveTowards(transform.position, curWayPosition, moveSpeed * Time.deltaTime);
+            enemyRigid.transform.position = Vector3.MoveTowards(transform.position, curWayPosition, moveSpeed * Time.deltaTime);
             yield return null;
         }
     }

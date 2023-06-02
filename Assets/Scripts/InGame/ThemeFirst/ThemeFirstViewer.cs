@@ -124,7 +124,6 @@ public class ThemeFirstViewer : MonoBehaviour
         }
         else
         {
-            PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_Died);
             AudioManager.GetInstance.PlaySFX(AudioManager.SFX.GAmeResult_Fail);
             UIManager.GetInstance.ShowCanvas("GameFailedResult Canvas");
         }

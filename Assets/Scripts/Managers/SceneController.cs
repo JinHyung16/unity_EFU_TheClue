@@ -14,11 +14,13 @@ public class SceneController : Singleton<SceneController>
     [SerializeField] private float realLoadTime = 4.0f;
 
     //로딩 시간 중 최솟값을 담을 변수
-    private float minLoadRatio;
+    private float minLoadRatio = 0.0f;
 
     //가짜 로딩시간과 비율
-    private float fakeLoadTime;
-    private float fakeLoadRatio;
+    private float fakeLoadTime = 0.0f;
+    private float fakeLoadRatio = 0.0f;
+
+    public string GetLoadRatio { get; private set; }
 
     /// <summary>
     /// 기본적으로 호출하는 함수
@@ -53,7 +55,7 @@ public class SceneController : Singleton<SceneController>
 
             //Scene 로드 게이지 UI관련
             //loadingGaugeTxt.text = (minLoadRatio * 100).ToString("F0") + "%";
-
+            GetLoadRatio = (minLoadRatio * 100).ToString("F0") + "%";
             if (minLoadRatio >= 1.0f)
             {
                 break;

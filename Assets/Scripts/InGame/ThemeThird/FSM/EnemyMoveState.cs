@@ -45,7 +45,7 @@ public class EnemyMoveState : BaseFSM<EnemyFSM>
                     secTime = Mathf.FloorToInt(curTime % 60);
                 }
             }
-
+            state.MovementStart();
             if (secTime == 0.0f)
             {
                 state.ChangeState(EnemyIdleState.GetInstance);

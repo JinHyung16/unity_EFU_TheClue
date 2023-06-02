@@ -40,10 +40,7 @@ namespace HughEnumData
     public enum AnimationType
     {
         None = 0,
-
         P_PickUp,
-        P_EnterCode,
         P_OpenDoor,
-        P_Died,
     }
 }

@@ -80,7 +80,6 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         GameManager.GetInstance.CameraInteractive = this.cameraInteractive;
         GameManager.GetInstance.PlayerCameraStack(this.cameraMain);
 
-        this.cameraInteractive.cullingMask = 0;
         this.cameraInteractive.enabled = false;
 
         GameManager.GetInstance.IsUIOpen = false;
@@ -142,15 +141,13 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
 
         if (isActive)
         {
-            this.cameraInteractive.cullingMask = -1;
-            cameraInteractive.depth = 1;
+            this.cameraInteractive.depth = 1;
             this.cameraInteractive.enabled = true;
             GameManager.GetInstance.PlayerCameraControl(false);
         }
         else
         {
-            this.cameraInteractive.cullingMask = 0;
-            cameraInteractive.depth = 0;
+            this.cameraInteractive.depth = 0;
             GameManager.GetInstance.PlayerCameraControl(true);
             this.cameraInteractive.enabled = false;
         }
@@ -255,7 +252,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         GameObject obj = InventoryManager.GetInstance.GetInvenObject();
         if (active)
         {
-            GameManager.GetInstance.Player.transform.position += new Vector3(0, 0, -2.0f);
+            //GameManager.GetInstance.Player.transform.position += new Vector3(0, 0, -2.0f);
             InteractiveTypeNum = 1;
             if (obj != null)
             {

@@ -116,16 +116,16 @@ public class DataManager : Singleton<DataManager>
     #region CSV Data
 
     //테마1 캐릭터, 대사 리스트 담기
-    public List<string> ThemeFirstCharacter = new List<string>();
-    public List<string> ThemeFirstContext = new List<string>();
+    [HideInInspector] public List<string> ThemeFirstCharacter = new List<string>();
+    [HideInInspector] public List<string> ThemeFirstContext = new List<string>();
 
     //테마2 캐릭터, 대사 리스트 담기
-    public List<string> ThemeSecondCharacter = new List<string>();
-    public List<string> ThemeSecondContext = new List<string>();
+    [HideInInspector] public List<string> ThemeSecondCharacter = new List<string>();
+    [HideInInspector] public List<string> ThemeSecondContext = new List<string>();
 
     //테마3 캐릭터, 대사 리스트 담기
-    public List<string> ThemeThirdCharacter = new List<string>();
-    public List<string> ThemeThirdContext = new List<string>();
+    [HideInInspector] public List<string> ThemeThirdCharacter = new List<string>();
+    [HideInInspector] public List<string> ThemeThirdContext = new List<string>();
 
     private void ReadDialogueCSV()
     {

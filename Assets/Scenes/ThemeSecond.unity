@@ -2253,7 +2253,7 @@ GameObject:
   m_Component:
   - component: {fileID: 137856062}
   - component: {fileID: 137856063}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ShowCaseBoneCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2712,6 +2712,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3f0eb823a7cc1364483ee56083635328, type: 3}
       propertyPath: m_Name
       value: theme02_watch_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3f0eb823a7cc1364483ee56083635328, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f0eb823a7cc1364483ee56083635328, type: 3}
@@ -3585,7 +3589,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &243643760
 Transform:
@@ -5317,6 +5321,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f8d255b898bce084fa84d0cfc13e0c18, type: 3}
       propertyPath: m_Name
       value: theme02_watch_04
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f8d255b898bce084fa84d0cfc13e0c18, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8d255b898bce084fa84d0cfc13e0c18, type: 3}
@@ -13317,7 +13325,7 @@ GameObject:
   - component: {fileID: 1115377746}
   - component: {fileID: 1115377747}
   - component: {fileID: 1115377748}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ShowCase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14348,6 +14356,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: a87713e6423c55a458944014f3ae24a4, type: 3}
       propertyPath: m_Name
       value: theme02_watch_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a87713e6423c55a458944014f3ae24a4, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a87713e6423c55a458944014f3ae24a4, type: 3}
@@ -20202,10 +20214,10 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: -2
+  m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 247
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -20862,6 +20874,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -2246405169428866722, guid: 7c04ac3819367be4ebc36efa4c91e7cb, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -2246405169428866722, guid: 7c04ac3819367be4ebc36efa4c91e7cb, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 0
       objectReference: {fileID: 0}
@@ -20904,6 +20920,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 7c04ac3819367be4ebc36efa4c91e7cb, type: 3}
       propertyPath: m_Name
       value: showcase_top
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7c04ac3819367be4ebc36efa4c91e7cb, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7c04ac3819367be4ebc36efa4c91e7cb, type: 3}
       propertyPath: m_StaticEditorFlags

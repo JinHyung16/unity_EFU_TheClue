@@ -77,7 +77,6 @@ public class InteractiveManager : MonoBehaviour
             case InteractiveType.None:
                 break;
             case InteractiveType.DoorLock:
-                PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_EnterCode);
                 if (ThemeFirstPresenter.GetInstance != null)
                 {
                     ThemeFirstPresenter.GetInstance.OpenDoorLockUI();
@@ -88,6 +87,7 @@ public class InteractiveManager : MonoBehaviour
                 }
                 break;
             case InteractiveType.Switch:
+                PlayerAnimationController.GetInstance.PlayerAnimationControl(AnimationType.P_PickUp);
                 if (ThemeFirstPresenter.GetInstance != null)
                 {
                     ThemeFirstPresenter.GetInstance.SwitchOffAndAutoOn();
