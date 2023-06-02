@@ -6,10 +6,6 @@ using UnityEngine;
 public class Note : InteractiveObject
 {
     [SerializeField] private Transform noteTrans;
-    [Header("DoorKey UI sprite")]
-    [SerializeField] private Sprite noteImage;
-
-    public Sprite GetNoteUISprite { get { return this.noteImage; } }
 
     private Vector3 offset;
 

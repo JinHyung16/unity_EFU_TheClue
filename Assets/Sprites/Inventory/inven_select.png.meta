@@ -132,12 +132,12 @@ TextureImporter:
       name: inven_select_0
       rect:
         serializedVersion: 2
-        x: 262
-        y: 262
-        width: 502
-        height: 502
+        x: 314
+        y: 314
+        width: 392
+        height: 392
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

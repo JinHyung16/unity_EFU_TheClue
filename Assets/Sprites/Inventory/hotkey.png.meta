@@ -129,27 +129,6 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: hotkey_0
-      rect:
-        serializedVersion: 2
-        x: 46
-        y: 193
-        width: 114
-        height: 111
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 51d28006a5950854581ee4f150e04b7d
-      internalID: -1946660921
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: hotkey_1
       rect:
         serializedVersion: 2
@@ -158,7 +137,7 @@ TextureImporter:
         width: 114
         height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -166,27 +145,6 @@ TextureImporter:
       bones: []
       spriteID: 9b7dbfcabe113684692309e8de4908e7
       internalID: 1793601613
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: hotkey_2
-      rect:
-        serializedVersion: 2
-        x: 352
-        y: 197
-        width: 114
-        height: 111
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: eb7c4c1cd29c7134d92d5021a7ae4691
-      internalID: -582398320
       vertices: []
       indices: 
       edges: []
