@@ -241,7 +241,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
             isCallRegion02Anim = true;
             IsCallEnemyAnimation = true;
 
-            enemyGradStudent.ChangeState(EnemyIdleState.GetInstance);
+            enemyGradStudent.ChangeState(GradStudentIdleState.GetInstance);
 
             string context = "누가 다가오는 소리가 들린다. 문 앞을 조심하자";
             NarrativeSet(context);
@@ -301,7 +301,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         enemyProfessorObj.SetActive(false);
         IsCallEnemyAnimation = false;
         CamInteractiveSet(camAnimPosList[2], false);
-        enemyGradStudent.ChangeState(EnemyIdleState.GetInstance);
+        enemyGradStudent.ChangeState(GradStudentIdleState.GetInstance);
         tokenSource.Cancel();
     }
 
@@ -311,7 +311,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
         NarrativeSet(context);
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.ThemeThird_RegionButton);
         enemyGradStudent.OnChaseTarget = regionNum;
-        enemyGradStudent.ChangeState(EnemyMoveState.GetInstance);
+        enemyGradStudent.ChangeState(GradStudentMoveState.GetInstance);
     }
 
     public void NarrativeSet(string text)

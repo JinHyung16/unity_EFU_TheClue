@@ -10,13 +10,7 @@ namespace HughFSM
         private T stateOwner;
 
         private BaseFSM<T> curState;
-        private BaseFSM<T> previousState;
 
-        public void AwakeFSM()
-        {
-            curState = null;
-            previousState = null;
-        }
         public void UpdateFSM()
         {
             if (curState != null)
@@ -33,13 +27,6 @@ namespace HughFSM
 
         public void ChangeState(BaseFSM<T> state)
         {
-            if (state == curState)
-            {
-                return;
-            }
-
-            previousState = curState;
-
             //현재 상태가 있다면 종료 먼저 하기
             if (curState != null)
             {
@@ -51,14 +38,6 @@ namespace HughFSM
             if (curState != null)
             {
                 curState.EnterState(stateOwner);
-            }
-        }
-
-        public void StateRevert()
-        {
-            if (previousState != null)
-            {
-                ChangeState(previousState);
             }
         }
     }

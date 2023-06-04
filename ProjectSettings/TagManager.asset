@@ -12,6 +12,7 @@ TagManager:
   - WeaponBook
   - NonCollider
   - Enemy
+  - StuckPrevent
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - NonPost
   - Obstacle
   - Player
-  - 
+  - Enemy
   - 
   - 
   - 
