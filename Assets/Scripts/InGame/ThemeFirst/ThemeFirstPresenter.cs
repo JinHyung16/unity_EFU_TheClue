@@ -49,9 +49,6 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
     private bool IsSwitchOn = false;
 
-    //Game끝낼 때 GameProgress에 넘겨줄 현재 테마 이름 정보로 각 ThemePresenter들이 이 정보를 갖고 있는다.
-    private string themeName = "ThemeFirst";
-
     protected override void OnAwake()
     {
         switchSpotLight.enabled = true;
@@ -68,8 +65,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
 
     private void Start()
     {
-        themeName = "ThemeFirst";
-        SceneController.GetInstance.CurSceneName = themeName;
+        DataManager.GetInstance.SaveThemeIndex = 1;
 
         GameManager.GetInstance.SpawnPlayer();
         GameManager.GetInstance.CameraTheme = this.cameraMain;
@@ -105,6 +101,7 @@ public class ThemeFirstPresenter : PresenterSingleton<ThemeFirstPresenter>
             GameManager.GetInstance.IsInputStop = false;
         }
     }
+
     private void CamInteractiveSet(Transform transform, bool isActive)
     {
         cameraInteractive.transform.position = transform.position;

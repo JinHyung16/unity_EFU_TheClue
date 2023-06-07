@@ -8,17 +8,15 @@ using UnityEngine.EventSystems;
 public class MainScenePresenter : PresenterSingleton<MainScenePresenter>
 {
     [SerializeField] private MainSceneViewer mainSceneViewer;
-    private string themeName = "Main";
-    public int ThemeSelectIndex { get; private set; } = 1;
+
     private void Start()
     {
-        SceneController.GetInstance.CurSceneName = themeName;
-
-        var gameProgressData = DataManager.GetInstance.LoadData();
-        if (gameProgressData != null)
+        Debug.Log("MainScene");
+        if (DataManager.GetInstance.SaveThemeIndex <= 0)
         {
-            ThemeSelectIndex = gameProgressData.themeClearIndex;
+            DataManager.GetInstance.SaveThemeIndex = 1;
         }
+        mainSceneViewer.ThemeSelectOpen(DataManager.GetInstance.SaveThemeIndex);
     }
 
     public void ThemeSelectedAndLoadScene(string theme)

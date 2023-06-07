@@ -18,25 +18,27 @@ public class MainSceneViewer : MonoBehaviour
         {
             UIManager.GetInstance.AddPanelInDictionary(panel.name, panel);
         }
-
-        for (int i = 0; i < themeSelectBtnList.Count; i++)
-        {
-            themeSelectBtnList[i].interactable = false;
-        }
-    }
-
-    private void Start()
-    {
-        for (int i = 0; i < MainScenePresenter.GetInstance.ThemeSelectIndex; i++)
-        {
-            themeSelectBtnList[i].interactable = true;
-        }
     }
     private void OnDisable()
     {
         if (UIManager.GetInstance != null)
         {
             UIManager.GetInstance.ClearAllPanel();
+        }
+    }
+
+    public void ThemeSelectOpen(int num)
+    {
+        for (int i = 0; i < themeSelectBtnList.Count; i++)
+        {
+            if (i < num)
+            {
+                themeSelectBtnList[i].interactable = true;
+            }
+            else
+            {
+                themeSelectBtnList[i].interactable = false;
+            }
         }
     }
 
@@ -61,6 +63,15 @@ public class MainSceneViewer : MonoBehaviour
     {
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
         UIManager.GetInstance.ShowPanel("Help Panel");
+    }
+
+    /// <summary>
+    /// 진행했던 게임 내역을 다 지우고 처음부터 시작한다.
+    /// </summary>
+    public void ResetGame()
+    {
+        DataManager.GetInstance.SaveData(1);
+        SceneController.GetInstance.LoadScene("Main");
     }
 
     /// <summary>

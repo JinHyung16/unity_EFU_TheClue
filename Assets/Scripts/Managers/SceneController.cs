@@ -7,7 +7,6 @@ using HughGenerics;
 
 public class SceneController : Singleton<SceneController>
 {
-    public string CurSceneName { get; set; } //현재 내가 머물고있는 Scene이름
     public string LoadSceneName { get; private set; } //내가 이동할 Scene이름
 
     //실제 로딩 시간
@@ -29,7 +28,6 @@ public class SceneController : Singleton<SceneController>
     /// <param name="loadSceneName"> 이동할 씬 이름을 받는다 </param>
     public void LoadScene(string loadSceneName)
     {
-        this.CurSceneName = "Loading";
         this.LoadSceneName = loadSceneName;
 
         SceneManager.LoadScene("Loading");

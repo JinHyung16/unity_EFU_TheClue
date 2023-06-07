@@ -52,8 +52,6 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
     private int doorKeySuccessNum = 8; //door key 옳바른 열쇠
 
     private CancellationTokenSource tokenSource;
-
-    private string themeName = "ThemeSecond";
     protected override void OnAwake()
     {
         switchSpotLight.color = Color.white;
@@ -72,8 +70,7 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
 
     private void Start()
     {
-        themeName = "ThemeSecond";
-        SceneController.GetInstance.CurSceneName = themeName;
+        DataManager.GetInstance.SaveThemeIndex = 2;
 
         GameManager.GetInstance.SpawnPlayer();
         GameManager.GetInstance.CameraTheme = this.cameraMain;
@@ -95,6 +92,11 @@ public class ThemeSecondPresenter : PresenterSingleton<ThemeSecondPresenter>
         themeSecondViewer.DialogueStart();
     }
 
+    private void OnDisable()
+    {
+        tokenSource.Cancel();
+        tokenSource.Dispose();
+    }
     public void DoneDialogue()
     {
         CamInteractiveSet(interactiveCamMovePosList[2], false);

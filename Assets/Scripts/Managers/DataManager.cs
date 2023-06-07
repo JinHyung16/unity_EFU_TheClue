@@ -14,11 +14,10 @@ public class DataManager : Singleton<DataManager>
 
     //Game Session 관련
     private string userSession = "EFU_login";
-
+    public int SaveThemeIndex { get; set; }
     private void Start()
     {
         ReadDialogueCSV();
-        Debug.Log("DataManager Start");
     }
     /// <summary>
     /// 현재 게임의 진행 상황을 Josn으로 저장합니다.

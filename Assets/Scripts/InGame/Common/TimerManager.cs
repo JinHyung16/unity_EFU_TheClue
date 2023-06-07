@@ -12,6 +12,7 @@ public class TimerManager : MonoBehaviour
     private void Awake()
     {
         GetInstance = this;
+        ResetTimer();
     }
     #endregion
 
@@ -29,7 +30,7 @@ public class TimerManager : MonoBehaviour
     public int CurMinTime { get; private set; }
     public bool IsTimerStart { get; set; } = false;
 
-    private void Start()
+    private void ResetTimer()
     {
         IsTimeDone = false;
         IsTimerStart = true;

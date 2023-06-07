@@ -80,7 +80,7 @@ public class ThemeThirdViewer : MonoBehaviour
         GameManager.GetInstance.IsDialogueStart = true;
         dialgoueIndex = 0;
         dialogueCharacterText.text = "[" + DataManager.GetInstance.ThemeThirdCharacter[0] + "] ";
-        dialgoueText.text = DataManager.GetInstance.ThemeSecondContext[0];
+        dialgoueText.text = DataManager.GetInstance.ThemeThirdContext[0];
         dialogueCanvas.enabled = true;
         Time.timeScale = 0;
     }

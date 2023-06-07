@@ -30455,7 +30455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gradStudentTransform: {fileID: 1031012023}
-  moveSpeed: 1.2
+  moveSpeed: 2.4
   turnSpeed: 10
 --- !u!54 &1031012025
 Rigidbody:
@@ -30466,7 +30466,7 @@ Rigidbody:
   m_GameObject: {fileID: 1031012020}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0.01
+  m_Drag: 0.1
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0

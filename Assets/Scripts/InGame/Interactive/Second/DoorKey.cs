@@ -33,8 +33,12 @@ public class DoorKey : InteractiveObject
             GameManager.GetInstance.InvisibleInteractiveCanvas();
             this.NotInteractvie();
         }
-        this.gameObject.transform.position = originPosition.position;
-        this.gameObject.transform.rotation = originPosition.rotation;
+
+        if (originPosition != null)
+        {
+            this.gameObject.transform.position = originPosition.position;
+            this.gameObject.transform.rotation = originPosition.rotation;
+        }
     }
 
     #region InteractiveObject Override

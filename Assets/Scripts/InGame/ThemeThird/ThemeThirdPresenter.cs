@@ -46,12 +46,9 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
     private CancellationTokenSource tokenSource;
 
-    private string themeName = "ThemeThird";
-
     private void Start()
     {
-        themeName = "ThemeThird";
-        SceneController.GetInstance.CurSceneName = themeName;
+        DataManager.GetInstance.SaveThemeIndex = 3;
 
         GameManager.GetInstance.SpawnPlayer();
         GameManager.GetInstance.CameraTheme = this.cameraMain;
@@ -83,11 +80,6 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
     }
 
     private void OnDisable()
-    {
-        tokenSource.Cancel();
-    }
-
-    private void OnDestroy()
     {
         tokenSource.Cancel();
         tokenSource.Dispose();
@@ -138,7 +130,7 @@ public class ThemeThirdPresenter : PresenterSingleton<ThemeThirdPresenter>
 
     public void EnemyHitToPlayer(int hitCount)
     {
-        string context = (3- hitCount).ToString() + "대 더 맞으면 정신을 잃을 거 같다.";
+        string context = (4 - hitCount).ToString() + "대 더 맞으면 정신을 잃을 거 같다.";
         NarrativeSet(context);
     }
     /// <summary>

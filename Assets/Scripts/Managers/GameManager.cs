@@ -29,7 +29,6 @@ public class GameManager : Singleton<GameManager>, IDisposable
     [SerializeField] private Texture2D cursorSprite;
 
     private bool isOptionKeyDown;
-    private int saveJsonDataIndex = 0;
     public bool IsDialogueStart { get; set; } = false; //대화 시스템이 실행중인지 확인한다.
     public bool IsUIOpen { get; set; } = false; //게임에서 퍼즐을 풀기위한 UI가 열려있을 경우 true
     public bool IsInputStop { get; set; } = false; //게임중 esc키를 눌러 option을 누를경우 true
@@ -122,6 +121,7 @@ public class GameManager : Singleton<GameManager>, IDisposable
     {
         playerManager.PlayerCamera().enabled = active;
     }
+    
     #region Option Canvas and Interactive Canvas Control
     /// <summary>
     /// Player가 esc버튼을 누르면 OptionCanvas를 연다
@@ -161,22 +161,6 @@ public class GameManager : Singleton<GameManager>, IDisposable
     private void QuitGameAndSaveData()
     {
         AudioManager.GetInstance.PlaySFX(AudioManager.SFX.UIClick);
-
-        switch (SceneController.GetInstance.CurSceneName)
-        {
-            case "ThemeFirst":
-                saveJsonDataIndex = 1;
-                break;
-            case "ThemeSecond":
-                saveJsonDataIndex = 2;
-                break;
-            case "ThemeThird":
-                saveJsonDataIndex = 3;
-                break;
-            default:
-                saveJsonDataIndex = 1;
-                break;
-        }
 
         gameOptionCanvas.enabled = false;
         interactiveCanvs.enabled = false;
@@ -239,7 +223,6 @@ public class GameManager : Singleton<GameManager>, IDisposable
         }
 
         //interactiveTrans.LookAt(interactiveTrans.position + playerManager.PlayerCamera().transform.rotation * Vector3.back, playerManager.PlayerCamera().transform.rotation * Vector3.up);
-
         interactiveTrans.LookAt(interactiveTrans.position + playerManager.PlayerCamera().transform.rotation * Vector3.forward, playerManager.PlayerCamera().transform.rotation * Vector3.up);
     }
 
@@ -270,12 +253,6 @@ public class GameManager : Singleton<GameManager>, IDisposable
 
     private void OnApplicationQuit()
     {
-        //테스트 버전에선 무조건 3개다 열어두기
-        DataManager.GetInstance.SaveData(3);
-
-        if (!Application.isEditor)
-        {
-            System.Diagnostics.Process.GetCurrentProcess().Kill();
-        }
+        DataManager.GetInstance.SaveData(DataManager.GetInstance.SaveThemeIndex);
     }
 }
