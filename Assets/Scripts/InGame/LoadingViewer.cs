@@ -9,7 +9,6 @@ public class LoadingViewer : MonoBehaviour
 
     private void Awake()
     {
-        DataManager.GetInstance.LoadData();
     }
     private void Start()
     {

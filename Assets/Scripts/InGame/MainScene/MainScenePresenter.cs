@@ -2,21 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using HughGenerics;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class MainScenePresenter : PresenterSingleton<MainScenePresenter>
 {
     [SerializeField] private MainSceneViewer mainSceneViewer;
+    private int LoadThemeIndex = 0;
 
     private void Start()
     {
-        Debug.Log("MainScene");
-        if (DataManager.GetInstance.SaveThemeIndex <= 0)
+        if (GameManager.GetInstance.IsFirstGame)
         {
-            DataManager.GetInstance.SaveThemeIndex = 1;
+            LoadThemeIndex = DataManager.GetInstance.LoadData().themeClearIndex;
         }
-        mainSceneViewer.ThemeSelectOpen(DataManager.GetInstance.SaveThemeIndex);
+        else
+        {
+            if (DataManager.GetInstance.SaveThemeIndex <= 0)
+            {
+                DataManager.GetInstance.SaveThemeIndex = 1;
+                LoadThemeIndex = DataManager.GetInstance.SaveThemeIndex;
+            }
+            LoadThemeIndex = DataManager.GetInstance.SaveThemeIndex;
+        }
+        mainSceneViewer.ThemeSelectOpen(LoadThemeIndex);
     }
 
     public void ThemeSelectedAndLoadScene(string theme)

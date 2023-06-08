@@ -4,17 +4,19 @@ using System.IO;
 using UnityEngine;
 using HughUtility;
 using HughGenerics;
+using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 
 public class DataManager : Singleton<DataManager>
 {
-    [SerializeField] private TextAsset GameProgressJsonData;
+    //[SerializeField] private TextAsset GameProgressJsonData;
     //Json Data 관련
     private string GameDataFileName = "GameProgressData.json";
     private string jsonFilePath = "/Resources/Data/";
 
     //Game Session 관련
     private string userSession = "EFU_login";
-    public int SaveThemeIndex { get; set; }
+    public int SaveThemeIndex { get; set; } = 1;
     private void Start()
     {
         ReadDialogueCSV();
@@ -60,10 +62,10 @@ public class DataManager : Singleton<DataManager>
     /// </summary>
     public GameProgressData LoadData()
     {
-        GameProgressData data = new GameProgressData();
-        string json = GameProgressJsonData.ToString();
-        data = JsonUtility.FromJson<GameProgressData>(json);
+        var json = Resources.Load<TextAsset>("Data/GameProgressData");
+        GameProgressData data = JsonUtility.FromJson<GameProgressData>(json.ToString());
         return data;
+
         /*
         string movePath = Path.Combine(Application.dataPath + jsonFilePath, GameDataFileName);
         GameProgressData data = new GameProgressData();
@@ -85,7 +87,6 @@ public class DataManager : Singleton<DataManager>
         }
         */
     }
-
 
     /// <summary>
     /// 유저가 게임을 진행하고 게임을 끄면, 플레이 했다는 내용을 기록한다.
