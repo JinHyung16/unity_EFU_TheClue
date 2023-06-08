@@ -29,7 +29,6 @@ public class SceneController : Singleton<SceneController>
     public void LoadScene(string loadSceneName)
     {
         this.LoadSceneName = loadSceneName;
-
         SceneManager.LoadScene("Loading");
     }
 

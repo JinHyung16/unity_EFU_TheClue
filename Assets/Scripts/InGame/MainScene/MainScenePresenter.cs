@@ -6,13 +6,15 @@ using HughGenerics;
 public class MainScenePresenter : PresenterSingleton<MainScenePresenter>
 {
     [SerializeField] private MainSceneViewer mainSceneViewer;
-    private int LoadThemeIndex = 0;
+    private int LoadThemeIndex = 1;
 
     private void Start()
     {
         if (GameManager.GetInstance.IsFirstGame)
         {
             LoadThemeIndex = DataManager.GetInstance.LoadData().themeClearIndex;
+            GameManager.GetInstance.IsFirstGame = false;
+            Debug.Log("1");
         }
         else
         {
@@ -22,6 +24,7 @@ public class MainScenePresenter : PresenterSingleton<MainScenePresenter>
                 LoadThemeIndex = DataManager.GetInstance.SaveThemeIndex;
             }
             LoadThemeIndex = DataManager.GetInstance.SaveThemeIndex;
+            Debug.Log("2");
         }
         mainSceneViewer.ThemeSelectOpen(LoadThemeIndex);
     }

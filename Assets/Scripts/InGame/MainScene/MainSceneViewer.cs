@@ -1,4 +1,4 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -70,8 +70,11 @@ public class MainSceneViewer : MonoBehaviour
     /// </summary>
     public void ResetGame()
     {
+        GameManager.GetInstance.IsFirstGame = false;
+        DataManager.GetInstance.SaveThemeIndex = 1;
         DataManager.GetInstance.SaveData(1);
-        SceneController.GetInstance.LoadScene("Main");
+        ClosePanelButton();
+        ThemeSelectOpen(1);
     }
 
     /// <summary>

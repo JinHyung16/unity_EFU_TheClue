@@ -34,16 +34,20 @@ public class GameManager : Singleton<GameManager>, IDisposable
     public bool IsInputStop { get; set; } = false; //게임중 esc키를 눌러 option을 누를경우 true
     public bool IsEndTheme { private get; set; } = false; //현재 테마가 마지막 테마이면 true
     public bool IsGameClear { get; set; } = false; //테마별로 현재 테마를 클리어했으면 true
-    public bool IsFirstGame { get; private set; } = false;
+    public bool IsFirstGame { get; set; } = false;
 
     public Camera CameraTheme { get; set; } = null; //테마별 카메라
     public Camera CameraInteractive { get; set; } = null; //interactive 전용 카메라
 
     public GameObject Player { get { return this.player; } }
-    private void Start()
+
+    protected override void OnAwake()
     {
         IsFirstGame = true;
+    }
 
+    private void Start()
+    {
         gameOptionCanvas.enabled = false;
         interactiveCanvs.enabled = false;
 

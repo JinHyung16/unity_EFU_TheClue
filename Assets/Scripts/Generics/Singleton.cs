@@ -41,11 +41,12 @@ namespace HughGenerics
             {
                 Destroy(gameObject);
             }
+
+            OnAwake();
         }
 
-        public void OnDestroy()
+        protected virtual void OnAwake()
         {
-            //Debug.Log(this.gameObject.name + " Destroyed");
         }
     }
 }
